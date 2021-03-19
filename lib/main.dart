@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import 'ui/counter_screen/counter_screen.dart';
-import 'core/services/service_locator.dart';
+import 'package:informbob_app/app/app.locator.dart';
+import 'package:stacked_services/stacked_services.dart';
+
+import 'app/app.router.dart';
 
 void main() {
-  setupServiceLocator();
+  setupLocator();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: CounterScreen(),
+      title: 'Informbob App',
+      navigatorKey: StackedService.navigatorKey,
+      onGenerateRoute: StackedRouter().onGenerateRoute,
     );
   }
 }

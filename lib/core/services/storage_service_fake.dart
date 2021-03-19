@@ -7,7 +7,5 @@ class StorageServiceFake extends StorageService {
   }
 
   @override
-  Future<void> saveCounterValue(int value) async {
-
-  }
+  Future<void> saveCounterValue(int value) async {}
 }

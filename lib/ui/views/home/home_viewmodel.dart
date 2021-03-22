@@ -5,7 +5,7 @@ import 'package:stacked/stacked.dart';
 class HomeViewModel extends BaseViewModel {
   final _storageService = locator<StorageService>();
 
-  String _title = 'Home View';
+  final _title = 'Home View';
   String get title => _title;
 
   int _counter = 0;

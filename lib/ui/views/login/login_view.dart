@@ -16,11 +16,10 @@ class LoginView extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: model.login,
-          child: Icon(Icons.arrow_forward),
           tooltip: 'Login',
+          child: const Icon(Icons.arrow_forward),
         ),
       ),
     );
-
   }
 }

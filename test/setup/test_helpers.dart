@@ -7,7 +7,7 @@ class StorageServiceMock extends Mock implements StorageService {}
 
 StorageService getAndRegisterStorageServiceMock({int counter = 0}) {
   _removeRegistrationIfExists<StorageService>();
-  var service = StorageServiceMock();
+  final service = StorageServiceMock();
 
   when(service.getCounterValue()).thenAnswer((_) => Future.value(counter));
 

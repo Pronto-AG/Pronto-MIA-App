@@ -7,7 +7,7 @@ import 'package:informbob_app/app/app.locator.dart';
 class LoginViewModel extends BaseViewModel {
   final _navigationService = locator<NavigationService>();
 
-  String _title = 'Login';
+  final _title = 'Login';
   String get title => _title;
 
   void login() {

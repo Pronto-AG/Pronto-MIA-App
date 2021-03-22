@@ -19,22 +19,16 @@ class HomeView extends StatelessWidget {
         ),
         body: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'You have pushed the button this many times:',
-              ),
-              Text(
-                '${model.counter}',
-                style: Theme.of(context).textTheme.display1
-              )
-            ]
-          ),
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text('You have pushed the button this many times:'),
+                Text('${model.counter}')
+              ]),
         ),
         floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
           tooltip: 'Increment',
           onPressed: model.incrementCounter,
+          child: const Icon(Icons.add),
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
@@ -44,19 +38,11 @@ class HomeView extends StatelessWidget {
               label: 'Einsatzpläne',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.beach_access),
-              label: 'Urlaub'
-            ),
+                icon: Icon(Icons.beach_access), label: 'Urlaub'),
             BottomNavigationBarItem(
-              icon: Icon(Icons.school),
-              label: 'Schulung'
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.info),
-              label: 'News'
-            )
+                icon: Icon(Icons.school), label: 'Schulung'),
+            BottomNavigationBarItem(icon: Icon(Icons.info), label: 'News')
           ],
-          currentIndex: 0,
           selectedItemColor: Colors.amber[800],
         ),
       ),

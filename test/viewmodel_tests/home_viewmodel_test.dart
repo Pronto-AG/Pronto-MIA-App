@@ -6,7 +6,7 @@ import '../setup/test_helpers.dart';
 void main() {
   group('HomeViewModelTest', () {
     setUp(() => registerServices());
-    // tearDown(() => unregisterServices());
+    tearDown(() => unregisterServices());
 
     group('loadCounter', () {
       test('When called should load counter', () async {

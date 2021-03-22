@@ -7,7 +7,7 @@ class LoginView extends StatelessWidget {
   const LoginView({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context ) {
+  Widget build(BuildContext context) {
     return ViewModelBuilder<LoginViewModel>.reactive(
       viewModelBuilder: () => LoginViewModel(),
       builder: (context, model, child) => Scaffold(

@@ -21,10 +21,17 @@ jobs:
       - run: flutter analyze
       - run: flutter test --coverage
       - run: flutter build apk
-      - uses: actions/upload-artifact@v1
+      # - uses: actions/upload-artifact@v1
+        # with:
+          # name: code-coverage
+          # path: coverage/lcov.info
+      - uses: zgosalvez/github-actions-report-lcov@v1
         with:
-          name: code-coverage
-          path: coverage/lcov.info
+          artifact-name: code-coverage
+          coverage-files: coverage/lcov.*.info
+          # github-token: ${{ secrets.GITHUB_TOKEN }}
+          # minimum-coverage: 90
+          
       - uses: actions/upload-artifact@v1
         with:
           name: release-apk

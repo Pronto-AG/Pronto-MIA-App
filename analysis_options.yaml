@@ -9,3 +9,6 @@ analyzer:
 linter:
   rules:
     - lines_longer_than_80_chars
+    # - always_use_package_imports
+    # - package_api_docs
+    # - public_member_api_docs

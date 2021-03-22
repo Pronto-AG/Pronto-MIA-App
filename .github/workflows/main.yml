@@ -23,6 +23,8 @@ jobs:
       - run: flutter build apk
       - run: sudo apt-get install lcov -y
       - run: genhtml coverage/lcov.info -o coverage/html
+      - run: dartdoc
+      - run: ls
       - uses: actions/upload-artifact@v1
         with:
           name: code-coverage

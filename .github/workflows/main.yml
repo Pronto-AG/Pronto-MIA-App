@@ -5,8 +5,47 @@ name: App CI
 on: push
 
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      
+    - name: Setup java
+      uses: actions/setup-java@v1
+      with:
+        java-version: '12.x'
+        
+    - name: Setup flutter
+      uses: subosito/flutter-action@v1
+      with:
+        flutter-version: '2.0.3'
+        
+    - name: Cache dependencies
+      uses: actions/cache@v2
+      with:
+        path: ~/.pub-cache/hosted/pub.dartlang.org
+        key: ${{ runner.os }}-pub-${{ hashFiles('pubspeck.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-pub-
+          
+    - name: Cache generated source files
+      uses: actions/cache@v2
+      with:
+        path: lib/app/
+        key: ${{ runner.os }}-stacked-${{ hashFiles('lib/app/app.dart') }}
+        restore-keys: |
+          ${{ runner.os }}-stacked-
+      
+    - name: Install dependencies
+      run: flutter pub get
+      
+    - name: Generate additional source files
+      run: flutter pub run build_runner build --delete-conflicting-outputs
+    
   lint:
     runs-on: ubuntu-latest
+    needs: setup
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -40,18 +79,12 @@ jobs:
     - name: Check code format
       run: flutter format --set-exit-if-changed .
       
-    - name: Install dependencies
-      run: flutter pub get
-      
-    - name: Generate additional source files
-      run: flutter pub run build_runner build --delete-conflicting-outputs
-      
     - name: Check linter rules
       run: flutter analyze
     
   test:
     runs-on: ubuntu-latest
-    needs: lint
+    needs: setup
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -81,12 +114,6 @@ jobs:
         key: ${{ runner.os }}-stacked-${{ hashFiles('lib/app/app.dart') }}
         restore-keys: |
           ${{ runner.os }}-stacked-
-        
-    - name: Install dependencies
-      run: flutter pub get
-      
-    - name: Generate additional source files
-      run: flutter pub run build_runner build --delete-conflicting-outputs
       
     - name: Run tests
       run: flutter test --coverage
@@ -105,7 +132,7 @@ jobs:
         
   build:
     runs-on: ubuntu-latest
-    needs: lint
+    needs: setup
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -135,12 +162,6 @@ jobs:
         key: ${{ runner.os }}-stacked-${{ hashFiles('lib/app/app.dart') }}
         restore-keys: |
           ${{ runner.os }}-stacked-
-        
-    - name: Install dependencies
-      run: flutter pub get
-      
-    - name: Generate additional source files
-      run: flutter pub run build_runner build --delete-conflicting-outputs
       
     - name: Build for android
       run: flutter build apk

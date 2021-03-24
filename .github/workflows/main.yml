@@ -134,7 +134,7 @@ jobs:
       run: flutter build apk
       
     - name: Upload android build
-      if: github.event_name == 'release'
+      # if: github.event_name == 'release'
       uses: softprops/action-gh-release@v1
       with:
         files: build/app/outputs/apk/release/app-release.apk
@@ -142,7 +142,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
   documentation:
-    if: github.event_name == 'release'
+    # if: github.event_name == 'release'
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository

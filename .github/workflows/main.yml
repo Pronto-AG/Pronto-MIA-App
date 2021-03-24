@@ -146,12 +146,15 @@ jobs:
       run: flutter build apk
       
     - name: Upload android build
-      uses: actions/upload-artifact@v1
+      if: startsWith(github.refs, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
       with:
-        name: android-build
-        path: build/app/outputs/apk/release/app-release.apk
+        files: build/app/outputs/apk/release/app-release.apk
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
   documentation:
+    if: startsWith(github.refs, 'refs/tags/')
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
@@ -174,8 +177,9 @@ jobs:
       run: flutter pub global run dartdoc:dartdoc
     
     - name: Upload code documentation
-      uses: actions/upload-artifact@v1
+      uses: softprops/action-gh-release@v1
       with:
-        name: code-documentation
-        path: doc/api/  
+        files: doc/api/
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           

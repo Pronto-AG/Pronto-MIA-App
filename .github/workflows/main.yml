@@ -100,7 +100,7 @@ jobs:
       run: genhtml coverage/lcov.info -o coverage/html
     
     - name: Upload test coverage
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v2
       with:
         name: test-coverage
         path: coverage/
@@ -186,6 +186,9 @@ jobs:
     needs: [test, build, documentation]
     if: startsWith(github.ref, 'refs/tags/')
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      
     - name: Download artifacts
       uses: actions/download-artifact@v2
       with:
@@ -199,9 +202,9 @@ jobs:
       with:
         body_path: CHANGELOG.md
         files: |
-          artifacts/test-coverage.zip
-          artifacts/android-build.apk
-          artifacts/code-documentation.zip
+          artifacts/test-coverage/
+          artifacts/android-build/app-release.apk
+          artifacts/code-documentation/
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           

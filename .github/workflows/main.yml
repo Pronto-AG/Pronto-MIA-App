@@ -188,14 +188,23 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-      
+
     - name: Download artifacts
       uses: actions/download-artifact@v2
       with:
         path: artifacts/
 
-    - name: Check working directory
-      run: ls -R
+    - name: Zip test coverage
+      uses: thedoctor0/zip-release@master
+      with:
+        filename: 'test-coverage.zip'
+        path: artifacts/test-coverage/
+
+    - name: Zip code documentation
+      uses: thedoctor0/zip-release@master
+      with:
+        filename: 'code-documentation.zip'
+        path: artifacts/code-documentation
     
     - name: Upload release files
       uses: softprops/action-gh-release@v1

@@ -211,9 +211,9 @@ jobs:
       with:
         body_path: CHANGELOG.md
         files: |
-          artifacts/test-coverage/
           artifacts/android-build/app-release.apk
-          artifacts/code-documentation/
+          test-coverage.zip
+          code-documentation.zip
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           

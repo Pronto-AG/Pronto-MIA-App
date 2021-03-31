@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-import 'home_viewmodel.dart';
+import 'package:informbob_app/ui/views/home/home_viewmodel.dart';
 
 class HomeView extends StatelessWidget {
   final String name;

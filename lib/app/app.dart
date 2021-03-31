@@ -1,4 +1,3 @@
-import 'package:informbob_app/core/services/file_service.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -11,10 +10,13 @@ import 'package:informbob_app/ui/views/home/home_view.dart';
 import 'package:informbob_app/core/services/storage_service.dart';
 import 'package:informbob_app/core/services/storage_service_fake.dart';
 import 'package:informbob_app/core/services/token_service.dart';
+import 'package:informbob_app/core/services/file_service.dart';
+import 'package:informbob_app/ui/views/download_file/download_file_view.dart';
 
 @StackedApp(routes: [
   MaterialRoute(page: LoginView, initial: true),
   MaterialRoute(page: UploadFileView),
+  MaterialRoute(page: DownloadFileView),
   MaterialRoute(page: HomeView),
   MaterialRoute(page: LaunchesView),
 ], dependencies: [

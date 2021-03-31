@@ -21,24 +21,26 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
-  file_picker: ^3.0.0
+  file_picker:
   flutter:
     sdk: flutter
-  graphql: ^4.0.1
-  http: ^0.13.1
-  http_parser: ^4.0.0
-  image_picker: ^0.7.4
-  shared_preferences: ^2.0.5
-  stacked: ^1.9.8
-  stacked_services: ^0.7.3
+  flutter_cache_manager:
+  flutter_pdfview:
+  graphql:
+  http:
+  http_parser:
+  image_picker:
+  shared_preferences:
+  stacked:
+  stacked_services:
 
 dev_dependencies:
-  build_runner: ^1.11.1
+  build_runner:
   flutter_test:
     sdk: flutter
-  lint: ^1.5.3
-  mockito: ^4.1.4
-  stacked_generator: ^0.2.3
+  lint:
+  mockito:
+  stacked_generator:
 
 flutter:
   uses-material-design: true

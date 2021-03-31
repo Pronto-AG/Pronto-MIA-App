@@ -1,6 +1,8 @@
+import 'package:informbob_app/core/services/file_service.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 
+import 'package:informbob_app/ui/views/upload_file/upload_file_view.dart';
 import 'package:informbob_app/core/services/auth_service.dart';
 import 'package:informbob_app/core/services/gql_service.dart';
 import 'package:informbob_app/ui/views/launches/launches_view.dart';
@@ -12,6 +14,7 @@ import 'package:informbob_app/core/services/token_service.dart';
 
 @StackedApp(routes: [
   MaterialRoute(page: LoginView, initial: true),
+  MaterialRoute(page: UploadFileView),
   MaterialRoute(page: HomeView),
   MaterialRoute(page: LaunchesView),
 ], dependencies: [
@@ -20,5 +23,6 @@ import 'package:informbob_app/core/services/token_service.dart';
   LazySingleton(classType: GqlService),
   LazySingleton(classType: TokenService),
   LazySingleton(classType: AuthService),
+  LazySingleton(classType: FileService)
 ])
 class AppSetup {}

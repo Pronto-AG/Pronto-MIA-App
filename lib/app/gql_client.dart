@@ -11,7 +11,8 @@ class GqlConfig {
   static final AuthLink _authLink = AuthLink(
     getToken: () async {
       try {
-        return await _tokenService.getToken();
+        final token = await _tokenService.getToken();
+        return 'bearer $token';
       } catch (_) {
         return '';
       }

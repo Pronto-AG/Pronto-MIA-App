@@ -3,12 +3,13 @@ include: package:lint/analysis_options.yaml
 analyzer:
   exclude: [
     lib/app/app.locator.dart,
-    lib/app/app.router.dart
+    lib/app/app.router.dart,
+    lib/ui/**.form.dart
   ]
 
 linter:
   rules:
     - lines_longer_than_80_chars
-    # - always_use_package_imports
+    - always_use_package_imports
     # - package_api_docs
     # - public_member_api_docs

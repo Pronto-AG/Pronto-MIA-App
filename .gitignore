@@ -49,3 +49,4 @@ app.*.map.json
 # Stacked generated files
 app.locator.dart
 app.router.dart
+*.form.dart

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:informbob_app/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
 
+import 'package:informbob_app/app/app.locator.dart';
 import 'app/app.router.dart';
 
 void main() {

@@ -10,7 +10,7 @@ class StorageServiceFake extends StorageService {
   /// ```
   @override
   Future<int> getCounterValue() async {
-    return 11;
+    return Future.delayed(const Duration(seconds: 5), () => 11);
   }
 
   /// Saves [value] as new counter.

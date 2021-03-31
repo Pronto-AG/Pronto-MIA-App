@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 
-import 'login_view.form.dart';
-import 'login_viewmodel.dart';
+import 'package:informbob_app/ui/views/login/login_view.form.dart';
+import 'package:informbob_app/ui/views/login/login_viewmodel.dart';
 
 @FormView(fields: [
-  FormTextField(name: 'username'),
+  FormTextField(name: 'userName'),
   FormTextField(name: 'password'),
 ])
 class LoginView extends StatelessWidget with $LoginView {
@@ -36,7 +36,7 @@ class LoginView extends StatelessWidget with $LoginView {
                     right: 16.0
                 ),
                 child: TextField(
-                  controller: usernameController,
+                  controller: userNameController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Benutzername',

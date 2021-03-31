@@ -9,27 +9,29 @@ class AuthService {
   final GraphQLClient _gqlClient = GqlConfig.client;
   final TokenService _tokenService = locator<TokenService>();
 
-  Future<bool> authenticate() async {
-    final token = await _tokenService.getToken();
-    if (token == null) {
+  Future<bool> isAuthenticated() async {
+    try {
+      final token = await _tokenService.getToken();
+      print(token);
+      return true;
+    } catch (_) {
       return false;
     }
-
-    return true;
   }
 
-  Future<QueryResult> login(String username, String password) async {
+  Future<QueryResult> login(String userName, String password) async {
     final QueryOptions options = QueryOptions(
       document: gql(Authenticate.authenticate),
       variables: <String, dynamic>{
-        'userName': username,
+        'userName': userName,
         'password': password,
       },
     );
 
     final result = await _gqlClient.query(options);
+
     if (result.data != null) {
-      _tokenService.setToken(result.data['authenticate'] as String);
+      await _tokenService.setToken(result.data['authenticate'] as String);
     }
 
     return result;

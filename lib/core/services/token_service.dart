@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TokenService {
@@ -5,14 +7,17 @@ class TokenService {
       SharedPreferences.getInstance();
 
   Future<String> getToken() async {
-    return (_preferences as SharedPreferences).getString('token');
+    final preferences = await _preferences;
+    return preferences.getString('token');
   }
 
-  Future<void> setToken(String token) async {
-    await (_preferences as SharedPreferences).setString('token', token);
+  Future<bool> setToken(String token) async {
+    final preferences = await _preferences;
+    return preferences.setString('token', token);
   }
 
-  Future<void> clearToken() async {
-    await (_preferences as SharedPreferences).clear();
+  Future<bool> clearToken() async {
+    final preferences = await _preferences;
+    return preferences.clear();
   }
 }

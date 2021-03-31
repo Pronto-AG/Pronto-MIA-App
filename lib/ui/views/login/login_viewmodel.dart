@@ -14,19 +14,21 @@ class LoginViewModel extends FormViewModel {
   @override
   void setFormStatus() {}
 
-  Future<bool> login() async {
-    print(usernameValue);
-    print(passwordValue);
-
+  Future<void> login() async {
     final result = await runBusyFuture(
-        _authService.login(usernameValue, passwordValue)
+        _authService.login(userNameValue, passwordValue)
     ) as QueryResult;
 
-    if (result.hasException) {
-      print(result);
-      setValidationMessage('Login fehlgeschlagen');
-    } else {
-      _navigationService.replaceWith(Routes.homeView);
+    if (result == null) {
+      setValidationMessage('Keine Verbindung zum Server.');
+      return;
     }
+
+    if (result.hasException) {
+      setValidationMessage('Login fehlgeschlagen.');
+      return;
+    }
+
+    _navigationService.replaceWith(Routes.homeView);
   }
 }

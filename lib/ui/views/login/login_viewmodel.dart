@@ -10,20 +10,20 @@ import 'package:informbob_app/ui/views/login/login_view.form.dart';
 class LoginViewModel extends FormViewModel {
   final _navigationService = locator<NavigationService>();
   final _authService = locator<AuthService>();
-
-  final _title = 'Login';
-  String get title => _title;
   
   @override
   void setFormStatus() {}
 
   Future<bool> login() async {
+    print(usernameValue);
+    print(passwordValue);
+
     final result = await runBusyFuture(
         _authService.login(usernameValue, passwordValue)
     ) as QueryResult;
 
     if (result.hasException) {
-      print(result.exception.linkException.originalException);
+      print(result);
       setValidationMessage('Login fehlgeschlagen');
     } else {
       _navigationService.replaceWith(Routes.homeView);

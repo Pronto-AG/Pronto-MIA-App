@@ -22,7 +22,7 @@ class AuthService {
     final QueryOptions options = QueryOptions(
       document: gql(Authenticate.authenticate),
       variables: <String, dynamic>{
-        'username': username,
+        'userName': username,
         'password': password,
       },
     );

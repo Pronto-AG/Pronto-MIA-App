@@ -4,7 +4,7 @@ import 'package:graphql/client.dart';
 // ignore: avoid_classes_with_only_static_members
 class GqlConfig {
   static final HttpLink _httpLink =
-      HttpLink('https://localhost:5001/');
+      HttpLink('https://localhost:5001');
 
   /*
   static final AuthLink _authLink = AuthLink(

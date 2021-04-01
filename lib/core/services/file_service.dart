@@ -5,6 +5,7 @@ import 'package:http/http.dart';
 
 import 'package:informbob_app/app/gql_client.dart';
 import 'package:informbob_app/core/queries/upload_pdf.dart';
+import 'package:informbob_app/core/queries/pdf.dart';
 
 class FileService {
   final GraphQLClient _gqlClient = GqlConfig.client;
@@ -25,8 +26,13 @@ class FileService {
   }
 
   Future<File> downloadFile() async {
+    final options = QueryOptions(
+      document: gql(Pdf.pdf)
+    );
+
+    final result = await _gqlClient.query(options);
     return _cacheManager.getSingleFile(
-        'http://www.orimi.com/pdf-test.pdf'
+      result.data['pdf']['link'] as String
     );
   }
 }

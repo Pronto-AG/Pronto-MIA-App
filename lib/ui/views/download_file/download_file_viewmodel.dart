@@ -12,7 +12,6 @@ class DownloadFileViewModel extends BaseViewModel {
 
   Future<void> downloadFile() async {
     _file = await _fileService.downloadFile();
-    print(_file);
     notifyListeners();
   }
 }

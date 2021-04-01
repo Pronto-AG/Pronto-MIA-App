@@ -16,7 +16,7 @@ class UploadFileViewModel extends BaseViewModel {
     FilePickerResult result = await FilePicker.platform.pickFiles();
 
     final multiPartFile = MultipartFile.fromBytes(
-      'test',
+      'upload',
       result.files.single.bytes,
       filename: result.names.single,
       contentType: MediaType("application", "pdf"),

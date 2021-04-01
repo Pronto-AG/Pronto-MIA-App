@@ -25,11 +25,11 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_cache_manager:
-  flutter_pdfview:
   graphql:
   http:
   http_parser:
   image_picker:
+  pdf_render:
   shared_preferences:
   stacked:
   stacked_services:
@@ -47,6 +47,7 @@ flutter:
 
   assets:
     - assets/images/pronto_logo.png
+    - assets/test.pdf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

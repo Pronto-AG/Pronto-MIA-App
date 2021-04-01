@@ -1,32 +1,24 @@
+import 'package:informbob_app/ui/views/download_file/download_file_view.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
+import 'package:flutter/material.dart';
 
-import 'package:informbob_app/core/services/storage_service.dart';
-import 'package:informbob_app/app/app.locator.dart';
-import 'package:informbob_app/app/app.router.dart';
+import 'package:informbob_app/ui/views/upload_file/upload_file_view.dart';
 
-class HomeViewModel extends BaseViewModel {
-  final _storageService = locator<StorageService>();
-  final _navigationService = locator<NavigationService>();
+class HomeViewModel extends IndexTrackingViewModel {
+  var _title = 'Datei hochladen';
+  String get title => title;
 
-  final _title = 'Home View';
-  String get title => _title;
-
-  int _counter = 0;
-  int get counter => _counter;
-
-  Future loadCounter() async {
-    _counter = await _storageService.getCounterValue();
-    notifyListeners();
-  }
-
-  void incrementCounter() {
-    _counter++;
-    _storageService.saveCounterValue(_counter);
-    notifyListeners();
-  }
-
-  void getData(int i) {
-    _navigationService.navigateTo(Routes.launchesView);
+  Widget getViewForIndex(int index) {
+    switch (index) {
+      case 0:
+        _title = 'Datei hochladen';
+        return Text('upload');
+      case 1:
+        _title = 'Datei anzeigen';
+        return Text('download');
+      default:
+        _title = 'Datei hochladen';
+        return Text('upload');
+    }
   }
 }

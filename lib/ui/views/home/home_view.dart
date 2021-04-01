@@ -4,47 +4,31 @@ import 'package:stacked/stacked.dart';
 import 'package:informbob_app/ui/views/home/home_viewmodel.dart';
 
 class HomeView extends StatelessWidget {
-  final String name;
-
-  const HomeView({Key key, this.name}) : super(key: key);
+  const HomeView({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<HomeViewModel>.reactive(
       viewModelBuilder: () => HomeViewModel(),
-      onModelReady: (model) => model.loadCounter(),
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
           title: Text(model.title),
         ),
-        body: Center(
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text('You have pushed the button this many times:'),
-                Text('${model.counter}')
-              ]),
-        ),
-        floatingActionButton: FloatingActionButton(
-          tooltip: 'Increment',
-          onPressed: model.incrementCounter,
-          child: const Icon(Icons.add),
-        ),
+        body: model.getViewForIndex(0),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          onTap: model.getData,
+          currentIndex: model.currentIndex,
+          onTap: model.setIndex,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_today),
-              label: 'Einsatzpläne',
+              icon: Icon(Icons.file_upload),
+              label: 'Hochladen',
             ),
             BottomNavigationBarItem(
-                icon: Icon(Icons.beach_access), label: 'Urlaub'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.school), label: 'Schulung'),
-            BottomNavigationBarItem(icon: Icon(Icons.info), label: 'News')
+              icon: Icon(Icons.description),
+              label: 'Anzeigen',
+            )
           ],
-          selectedItemColor: Colors.amber[800],
         ),
       ),
     );

@@ -6,7 +6,7 @@ import 'package:informbob_app/core/services/token_service.dart';
 class GqlConfig {
   static final TokenService _tokenService = locator<TokenService>();
   static final HttpLink _httpLink =
-      HttpLink('https://localhost:5001');
+      HttpLink('https://localhost:5001/graphql/');
 
   static final AuthLink _authLink = AuthLink(
     getToken: () async {

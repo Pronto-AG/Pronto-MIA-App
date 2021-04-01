@@ -12,12 +12,12 @@ class UploadFileView extends StatelessWidget {
       viewModelBuilder: () => UploadFileViewModel(),
       builder: (context, model, child) => Scaffold(
         body: Center(
-          child: ElevatedButton(
-            onPressed: model.uploadFile,
-            child: const Text('Datei hochladen')
-          )
-        )
-      ),
+            child: ElevatedButton(
+                onPressed: model.uploadFile,
+                child: const Text('Datei hochladen')
+            )
+        ),
+      )
     );
   }
 }

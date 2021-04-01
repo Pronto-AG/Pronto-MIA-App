@@ -13,9 +13,4 @@ class TokenService {
     final preferences = await _preferences;
     return preferences.setString('token', token);
   }
-
-  Future<bool> clearToken() async {
-    final preferences = await _preferences;
-    return preferences.clear();
-  }
 }

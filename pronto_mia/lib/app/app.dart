@@ -6,7 +6,7 @@ import 'package:pronto_mia/ui/views/upload_file/upload_file_view.dart';
 import 'package:pronto_mia/core/services/authentication_service.dart';
 import 'package:pronto_mia/ui/views/login/login_view.dart';
 import 'package:pronto_mia/core/services/token_service.dart';
-import 'package:pronto_mia/core/services/file_service.dart';
+import 'package:pronto_mia/core/services/pdf_service.dart';
 import 'package:pronto_mia/ui/views/download_file/download_file_view.dart';
 
 @StackedApp(routes: [
@@ -18,6 +18,6 @@ import 'package:pronto_mia/ui/views/download_file/download_file_view.dart';
   LazySingleton(classType: TokenService),
   LazySingleton(classType: GraphQLService),
   LazySingleton(classType: AuthenticationService),
-  LazySingleton(classType: FileService)
+  LazySingleton(classType: PdfService)
 ])
 class AppSetup {}

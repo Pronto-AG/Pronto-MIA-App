@@ -3,13 +3,14 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:graphql/client.dart';
 import 'package:http/http.dart';
 
-import 'package:pronto_mia/app/gql_client.dart';
+import 'package:pronto_mia/app/app.locator.dart';
+import 'package:pronto_mia/core/services/graphql_service.dart';
 import 'package:pronto_mia/core/queries/upload_pdf.dart';
 import 'package:pronto_mia/core/queries/pdf.dart';
 
 class FileService {
-  final GraphQLClient _gqlClient = GqlConfig.client;
-  final CacheManager _cacheManager = DefaultCacheManager();
+  final _graphQLService = locator<GraphQLService>();
+  final _cacheManager = DefaultCacheManager();
 
   Future<QueryResult> uploadFile(MultipartFile file) async {
     final options = MutationOptions(
@@ -19,7 +20,7 @@ class FileService {
       },
     );
 
-    return _gqlClient.mutate(options);
+    return _graphQLService.mutate(options);
   }
 
   Future<File> downloadFile() async {
@@ -27,7 +28,7 @@ class FileService {
         document: gql(Pdf.pdf)
     );
 
-    final result = await _gqlClient.query(options);
+    final result = await _graphQLService.query(options);
     return _cacheManager.getSingleFile(
         result.data['pdf']['link'] as String
     );

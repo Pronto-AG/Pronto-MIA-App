@@ -1,13 +1,13 @@
 import 'package:graphql/client.dart';
 
 import 'package:pronto_mia/app/app.locator.dart';
-import 'package:pronto_mia/app/gql_client.dart';
+import 'package:pronto_mia/core/services/graphql_service.dart';
 import 'package:pronto_mia/core/queries/authenticate.dart';
 import 'package:pronto_mia/core/services/token_service.dart';
 
-class AuthService {
-  final GraphQLClient _gqlClient = GqlConfig.client;
-  final TokenService _tokenService = locator<TokenService>();
+class AuthenticationService {
+  final _graphQLService = locator<GraphQLService>();
+  final _tokenService = locator<TokenService>();
 
   Future<bool> isAuthenticated() async {
     try {
@@ -27,7 +27,7 @@ class AuthService {
       },
     );
 
-    final result = await _gqlClient.query(options);
+    final result = await _graphQLService.query(options);
 
     if (result.data != null) {
       await _tokenService.setToken(result.data['authenticate'] as String);

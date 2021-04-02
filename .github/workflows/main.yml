@@ -2,6 +2,10 @@ name: App CI
 
 on: push
 
+defaults:
+  run:
+    working-directory: pronto_mia
+
 jobs:
   lint:
     runs-on: ubuntu-latest

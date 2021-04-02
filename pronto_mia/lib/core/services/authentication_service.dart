@@ -10,10 +10,10 @@ class AuthenticationService {
   final _tokenService = locator<TokenService>();
 
   Future<bool> isAuthenticated() async {
-    try {
-      final token = await _tokenService.getToken();
+    final token = await _tokenService.getToken();
+    if (token != null) {
       return true;
-    } catch (_) {
+    } else {
       return false;
     }
   }

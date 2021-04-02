@@ -1,11 +1,11 @@
-/*
 import 'package:mockito/mockito.dart';
 
 import 'package:pronto_mia/app/app.locator.dart';
-import 'package:pronto_mia/core/services/storage_service.dart';
+// import 'package:pronto_mia/core/services/storage_service.dart';
 
-class StorageServiceMock extends Mock implements StorageService {}
+// class StorageServiceMock extends Mock implements StorageService {}
 
+/*
 StorageService getAndRegisterStorageServiceMock({int counter = 0}) {
   _removeRegistrationIfExists<StorageService>();
   final service = StorageServiceMock();
@@ -15,13 +15,14 @@ StorageService getAndRegisterStorageServiceMock({int counter = 0}) {
   locator.registerSingleton<StorageService>(service);
   return service;
 }
+*/
 
 void registerServices() {
-  getAndRegisterStorageServiceMock();
+  // getAndRegisterStorageServiceMock();
 }
 
 void unregisterServices() {
-  locator.unregister<StorageService>();
+  // locator.unregister<StorageService>();
 }
 
 void _removeRegistrationIfExists<T>() {
@@ -29,4 +30,3 @@ void _removeRegistrationIfExists<T>() {
     locator.unregister<T>();
   }
 }
-*/

@@ -28,7 +28,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ~/.pub-cache/hosted/pub.dartlang.org
-        key: ${{ runner.os }}-pub-${{ hashFiles('pubspec.lock') }}
+        key: ${{ runner.os }}-pub-${{ hashFiles('pronto_mia/pubspec.lock') }}
         restore-keys: |
           ${{ runner.os }}-pub-
 
@@ -37,7 +37,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: pronto_mia/lib/app/
-        key: ${{ runner.os }}-stacked-${{ hashFiles('lib/app/app.dart') }}
+        key: ${{ runner.os }}-stacked-${{ hashFiles('pronto_mia/lib/app/app.dart') }}
           
     - name: Install dependencies
       if: steps.cache-dependencies.outputs.cache-hit != 'true'
@@ -75,7 +75,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ~/.pub-cache/hosted/pub.dartlang.org
-        key: ${{ runner.os }}-pub-${{ hashFiles('pubspec.lock') }}
+        key: ${{ runner.os }}-pub-${{ hashFiles('pronto_mia/pubspec.lock') }}
         restore-keys: |
           ${{ runner.os }}-pub-
           
@@ -84,7 +84,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: pronto_mia/lib/app/
-        key: ${{ runner.os }}-stacked-${{ hashFiles('lib/app/app.dart') }}
+        key: ${{ runner.os }}-stacked-${{ hashFiles('pronto_mia/lib/app/app.dart') }}
 
     - name: Install dependencies
       if: steps.cache-dependencies.outputs.cache-hit != 'true'
@@ -131,7 +131,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ~/.pub-cache/hosted/pub.dartlang.org
-        key: ${{ runner.os }}-pub-${{ hashFiles('pubspec.lock') }}
+        key: ${{ runner.os }}-pub-${{ hashFiles('pronto_mia/pubspec.lock') }}
         restore-keys: |
           ${{ runner.os }}-pub-
           
@@ -139,7 +139,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: pronto_mia/lib/app/
-        key: ${{ runner.os }}-stacked-${{ hashFiles('lib/app/app.dart') }}
+        key: ${{ runner.os }}-stacked-${{ hashFiles('pronto_mia/lib/app/app.dart') }}
         restore-keys: |
           ${{ runner.os }}-stacked-
       

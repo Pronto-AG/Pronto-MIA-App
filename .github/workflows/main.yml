@@ -36,7 +36,7 @@ jobs:
       id: cache-generated-source
       uses: actions/cache@v2
       with:
-        path: lib/app/
+        path: pronto_mia/lib/app/
         key: ${{ runner.os }}-stacked-${{ hashFiles('lib/app/app.dart') }}
           
     - name: Install dependencies
@@ -83,7 +83,7 @@ jobs:
       id: cache-generated-source
       uses: actions/cache@v2
       with:
-        path: lib/app/
+        path: pronto_mia/lib/app/
         key: ${{ runner.os }}-stacked-${{ hashFiles('lib/app/app.dart') }}
 
     - name: Install dependencies
@@ -107,7 +107,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: test-coverage
-        path: coverage/
+        path: pronto_mia/coverage/
         retention-days: 2
         
   build:
@@ -138,7 +138,7 @@ jobs:
     - name: Cache generated source files
       uses: actions/cache@v2
       with:
-        path: lib/app/
+        path: pronto_mia/lib/app/
         key: ${{ runner.os }}-stacked-${{ hashFiles('lib/app/app.dart') }}
         restore-keys: |
           ${{ runner.os }}-stacked-
@@ -151,7 +151,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: android-build
-        path: build/app/outputs/apk/release/app-release.apk
+        path: pronto_mia/build/app/outputs/apk/release/app-release.apk
         retention-days: 1
       
   documentation:
@@ -181,7 +181,7 @@ jobs:
     - name: Upload code documentation
       uses: actions/upload-artifact@v2
       with:
-        name: code-documentation
+        name: pronto_mia/code-documentation
         path: doc/api
         retention-days: 1
           
@@ -195,27 +195,25 @@ jobs:
 
     - name: Download artifacts
       uses: actions/download-artifact@v2
-      with:
-        path: artifacts/
 
     - name: Zip test coverage
       uses: thedoctor0/zip-release@master
       with:
         filename: 'test-coverage.zip'
-        path: artifacts/test-coverage/
+        path: test-coverage/
 
     - name: Zip code documentation
       uses: thedoctor0/zip-release@master
       with:
         filename: 'code-documentation.zip'
-        path: artifacts/code-documentation
+        path: code-documentation
     
     - name: Upload release files
       uses: softprops/action-gh-release@v1
       with:
         body_path: CHANGELOG.md
         files: |
-          artifacts/android-build/app-release.apk
+          android-build/app-release.apk
           test-coverage.zip
           code-documentation.zip
       env:

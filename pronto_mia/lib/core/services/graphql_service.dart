@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:graphql/client.dart';
+import 'package:http/io_client.dart';
 
 import 'package:pronto_mia/core/services/token_service.dart';
 import 'package:pronto_mia/app/app.locator.dart';
@@ -8,7 +10,15 @@ class GraphQLService {
   GraphQLClient _graphQLClient;
 
   GraphQLService() {
-    final httpLink = HttpLink('https://localhost:5001/graphql/');
+    HttpClient httpClient = HttpClient();
+    httpClient.badCertificateCallback =
+        (X509Certificate cert, String host, int port) => true;
+    IOClient ioClient = new IOClient(httpClient);
+
+    final httpLink = HttpLink(
+      'https://192.168.1.110:5001/graphql/',
+      httpClient: ioClient,
+    );
     final authLink = AuthLink(getToken: _getToken);
     final link = authLink.concat(httpLink);
 
@@ -24,11 +34,12 @@ class GraphQLService {
     }
   }
 
-  Future<QueryResult> query(QueryOptions options) {
-    return _graphQLClient.query(options);
+  Future<QueryResult> query(QueryOptions options) async {
+    final response = await _graphQLClient.query(options);
+    return response;
   }
 
-  Future<QueryResult> mutate(MutationOptions options) {
+  Future<QueryResult> mutate(MutationOptions options) async {
     return _graphQLClient.mutate(options);
   }
 }

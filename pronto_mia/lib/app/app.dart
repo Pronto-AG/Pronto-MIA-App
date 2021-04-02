@@ -9,8 +9,8 @@ import 'package:pronto_mia/core/services/graphql_service.dart';
 import 'package:pronto_mia/ui/views/home/home_view.dart';
 
 @StackedApp(routes: [
-  MaterialRoute(path: '/login', page: LoginView, initial: true),
-  MaterialRoute(path: '/', page: HomeView),
+  MaterialRoute(path: '/', page: LoginView, initial: true),
+  MaterialRoute(path: '/home', page: HomeView),
 ], dependencies: [
   LazySingleton(classType: NavigationService),
   LazySingleton(classType: TokenService),

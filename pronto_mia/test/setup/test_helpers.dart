@@ -1,6 +1,6 @@
-import 'package:mockito/mockito.dart';
+// import 'package:mockito/mockito.dart';
 
-import 'package:pronto_mia/app/app.locator.dart';
+// import 'package:pronto_mia/app/app.locator.dart';
 // import 'package:pronto_mia/core/services/storage_service.dart';
 
 // class StorageServiceMock extends Mock implements StorageService {}
@@ -25,8 +25,10 @@ void unregisterServices() {
   // locator.unregister<StorageService>();
 }
 
+/*
 void _removeRegistrationIfExists<T>() {
   if (locator.isRegistered<T>()) {
     locator.unregister<T>();
   }
 }
+*/

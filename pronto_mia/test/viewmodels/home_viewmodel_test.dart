@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 // import 'package:pronto_mia/ui/views/home/home_viewmodel.dart';
 
-import '../setup/test_helpers.dart';
+// import '../setup/test_helpers.dart';
 
 void main() {
   group('HomeViewModelTest', () {

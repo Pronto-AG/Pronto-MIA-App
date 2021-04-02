@@ -30,11 +30,8 @@ class LoginView extends StatelessWidget with $LoginView {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                    left: 16.0,
-                    top: 16.0,
-                    right: 16.0
-                ),
+                padding:
+                    const EdgeInsets.only(left: 16.0, top: 16.0, right: 16.0),
                 child: TextField(
                   controller: userNameController,
                   decoration: const InputDecoration(
@@ -45,11 +42,8 @@ class LoginView extends StatelessWidget with $LoginView {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                    left: 16.0,
-                    top: 16.0,
-                    right: 16.0
-                ),
+                padding:
+                    const EdgeInsets.only(left: 16.0, top: 16.0, right: 16.0),
                 child: TextField(
                   controller: passwordController,
                   obscureText: true,
@@ -63,23 +57,19 @@ class LoginView extends StatelessWidget with $LoginView {
               if (model.validationMessage != null)
                 Padding(
                   padding:
-                  const EdgeInsets.only(left: 16.0, top: 8.0, right: 16.0),
+                      const EdgeInsets.only(left: 16.0, top: 8.0, right: 16.0),
                   child: Center(
                     child: Text(model.validationMessage,
-                        style: const TextStyle(color: Colors.red)
-                    ),
+                        style: const TextStyle(color: Colors.red)),
                   ),
                 ),
               Padding(
-                  padding: const EdgeInsets.only(
-                      left: 16.0,
-                      top: 8.0,
-                      right: 16.0
-                  ),
-                  child: ElevatedButton(
-                    onPressed: model.login,
-                    child: const Text('Anmelden'),
-                  )
+                padding:
+                    const EdgeInsets.only(left: 16.0, top: 8.0, right: 16.0),
+                child: ElevatedButton(
+                  onPressed: model.login,
+                  child: const Text('Anmelden'),
+                ),
               ),
             ],
           ),

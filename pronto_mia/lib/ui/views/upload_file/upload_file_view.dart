@@ -9,15 +9,15 @@ class UploadFileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<UploadFileViewModel>.reactive(
-        viewModelBuilder: () => UploadFileViewModel(),
-        builder: (context, model, child) => Scaffold(
-          body: Center(
-              child: ElevatedButton(
-                  onPressed: model.uploadFile,
-                  child: const Text('Datei hochladen')
-              )
+      viewModelBuilder: () => UploadFileViewModel(),
+      builder: (context, model, child) => Scaffold(
+        body: Center(
+          child: ElevatedButton(
+            onPressed: model.uploadFile,
+            child: const Text('Datei hochladen'),
           ),
-        )
+        ),
+      ),
     );
   }
 }

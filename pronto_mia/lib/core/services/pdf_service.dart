@@ -15,10 +15,7 @@ class PdfService {
   final _cacheManager = DefaultCacheManager();
 
   Future<QueryResult> _getPdfPath() async {
-    final options = QueryOptions(
-        document: gql(Pdf.pdf)
-    );
-
+    final options = QueryOptions(document: gql(Pdf.pdf));
     return _graphQLService.query(options);
   }
 

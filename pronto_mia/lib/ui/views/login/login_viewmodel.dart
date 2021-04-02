@@ -16,7 +16,7 @@ class LoginViewModel extends FormViewModel {
 
   Future<void> login() async {
     final result = await runBusyFuture(
-        _authenticationService.login(userNameValue, passwordValue)
+      _authenticationService.login(userNameValue, passwordValue),
     ) as QueryResult;
 
     if (result == null) {

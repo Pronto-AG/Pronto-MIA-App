@@ -5,7 +5,7 @@ import 'package:pdf_render/pdf_render_widgets.dart';
 import 'package:pronto_mia/ui/views/download_file/download_file_viewmodel.dart';
 
 class DownloadFileView extends StatelessWidget {
-  const DownloadFileView({Key key}): super(key: key);
+  const DownloadFileView({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

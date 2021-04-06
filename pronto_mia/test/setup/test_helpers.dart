@@ -7,6 +7,7 @@ import 'package:stacked_services/stacked_services.dart';
 
 // class StorageServiceMock extends Mock implements StorageService {}
 class AuthenticationServiceMock extends Mock implements AuthenticationService {}
+
 class NavigationServiceMock extends Mock implements NavigationService {}
 
 /*
@@ -21,15 +22,15 @@ StorageService getAndRegisterStorageServiceMock({int counter = 0}) {
 }
 */
 
-AuthenticationService getAndRegisterAuthenticationServiceMock({ 
-  String username = 'Username', 
+AuthenticationService getAndRegisterAuthenticationServiceMock({
+  String username = 'Username',
   String password = 'Password',
 }) {
   _removeRegistrationIfExists<AuthenticationService>();
   final service = AuthenticationServiceMock();
 
   when(service.login(username, password))
-    .thenAnswer((realInvocation) => Future.value());
+      .thenAnswer((realInvocation) => Future.value());
 
   locator.registerSingleton<AuthenticationService>(service);
   return service;

@@ -15,8 +15,7 @@ class PushNotificationService {
         if (message.notification != null) {
           // ignore: avoid_print
           print(
-              'Message contained a notification: ${message.notification.body}'
-          );
+              'Message contained a notification: ${message.notification.body}');
         }
       });
     }
@@ -24,8 +23,9 @@ class PushNotificationService {
 
   Future<String> getToken() async {
     return _fcm.getToken(
-      // ignore: lines_longer_than_80_chars
-      vapidKey: 'BPD1n6GbFtXrNJuBmYaW065gUAas_6vPuMtGF2dd3aNwCEryKu53mDiFGLfM0J0lrsoNZnOYgnrEvn-3dKWaqzE',
+      vapidKey:
+          // ignore: lines_longer_than_80_chars
+          'BPD1n6GbFtXrNJuBmYaW065gUAas_6vPuMtGF2dd3aNwCEryKu53mDiFGLfM0J0lrsoNZnOYgnrEvn-3dKWaqzE',
     );
   }
 }

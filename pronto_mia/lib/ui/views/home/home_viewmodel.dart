@@ -6,7 +6,7 @@ import 'package:pronto_mia/app/app.router.dart';
 
 class HomeViewModel extends IndexTrackingViewModel {
   final _navigationService = locator<NavigationService>();
-  
+
   void navigateTo(int index) {
     setIndex(index);
 

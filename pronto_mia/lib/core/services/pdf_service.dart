@@ -16,7 +16,7 @@ class PdfService {
 
   Future<QueryResult> _getPdfPath() async {
     final options =
-      QueryOptions(document: gql(DeploymentPlans.deploymentPlans));
+        QueryOptions(document: gql(DeploymentPlans.deploymentPlans));
     return _graphQLService.query(options);
   }
 

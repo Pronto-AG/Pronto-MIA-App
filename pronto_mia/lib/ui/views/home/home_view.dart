@@ -13,8 +13,8 @@ class HomeView extends StatelessWidget {
     return ViewModelBuilder<HomeViewModel>.reactive(
       builder: (context, model, child) => Scaffold(
         body: ExtendedNavigator(
-            router: HomeViewRouter(),
-            navigatorKey: StackedService.nestedNavigationKey(1)
+          router: HomeViewRouter(),
+          navigatorKey: StackedService.nestedNavigationKey(1),
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,

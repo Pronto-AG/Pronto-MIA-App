@@ -1,6 +1,6 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:pronto_mia/app/app.locator.dart';
@@ -14,11 +14,15 @@ void main() {
 
 Future setUpMessaging() async {
   await Firebase.initializeApp();
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
-  NotificationSettings settings = await messaging.requestPermission();
+  final messaging = FirebaseMessaging.instance;
+
+  final settings = await messaging.requestPermission();
   print('User granted permission: ${settings.authorizationStatus}');
 
-  final token = await messaging.getToken();
+  final token = await messaging.getToken(
+    // ignore: lines_longer_than_80_chars
+    vapidKey: 'BPD1n6GbFtXrNJuBmYaW065gUAas_6vPuMtGF2dd3aNwCEryKu53mDiFGLfM0J0lrsoNZnOYgnrEvn-3dKWaqzE',
+  );
   print(token);
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {

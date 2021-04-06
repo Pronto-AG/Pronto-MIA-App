@@ -18,11 +18,11 @@ import 'package:pronto_mia/ui/views/upload_file/upload_file_view.dart';
     MaterialRoute(path: '/download', page: DownloadFileView),
   ]),
 ], dependencies: [
-  LazySingleton(classType: NavigationService),
-  LazySingleton(classType: JwtTokenService),
-  LazySingleton(classType: GraphQLService),
-  LazySingleton(classType: AuthenticationService),
-  LazySingleton(classType: PdfService),
-  LazySingleton(classType: PushNotificationService),
+  LazySingleton(classType: NavigationService, asType: NavigationService),
+  LazySingleton(classType: JwtTokenService, asType: JwtTokenService),
+  LazySingleton(classType: GraphQLService, asType: GraphQLService),
+  LazySingleton(classType: AuthenticationService, asType: AuthenticationService),
+  LazySingleton(classType: PdfService, asType: PdfService),
+  LazySingleton(classType: PushNotificationService, asType: PushNotificationService),
 ])
 class AppSetup {}

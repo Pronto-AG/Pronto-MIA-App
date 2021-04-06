@@ -18,10 +18,12 @@ import '../core/services/push_notification_service.dart';
 final locator = StackedLocator.instance;
 
 void setupLocator() {
-  locator.registerLazySingleton(() => NavigationService());
-  locator.registerLazySingleton(() => JwtTokenService());
-  locator.registerLazySingleton(() => GraphQLService());
-  locator.registerLazySingleton(() => AuthenticationService());
-  locator.registerLazySingleton(() => PdfService());
-  locator.registerLazySingleton(() => PushNotificationService());
+  locator.registerLazySingleton<NavigationService>(() => NavigationService());
+  locator.registerLazySingleton<JwtTokenService>(() => JwtTokenService());
+  locator.registerLazySingleton<GraphQLService>(() => GraphQLService());
+  locator.registerLazySingleton<AuthenticationService>(
+      () => AuthenticationService());
+  locator.registerLazySingleton<PdfService>(() => PdfService());
+  locator.registerLazySingleton<PushNotificationService>(
+      () => PushNotificationService());
 }

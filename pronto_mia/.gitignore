@@ -45,8 +45,3 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-
-# Stacked generated files
-app.locator.dart
-app.router.dart
-*.form.dart

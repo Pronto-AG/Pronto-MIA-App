@@ -9,10 +9,12 @@ import 'package:pronto_mia/app/app.locator.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
 import 'package:pronto_mia/core/queries/upload_pdf.dart';
 import 'package:pronto_mia/core/queries/deployment_plans.dart';
+import 'package:pronto_mia/core/services/jwt_token_service.dart';
 
 class PdfService {
-  final _graphQLService = locator<GraphQLService>();
   final _cacheManager = DefaultCacheManager();
+  final _graphQLService = locator<GraphQLService>();
+  final _jwtTokenService = locator<JwtTokenService>();
 
   Future<QueryResult> _getPdfPath() async {
     final options =
@@ -46,7 +48,10 @@ class PdfService {
       throw queryResult.exception;
     }
 
+    final token = await _jwtTokenService.getToken();
+    final _httpHeaders = { "Authorization": "Bearer $token" };
+
     final pdfPath = queryResult.data['deploymentPlans'][0]['link'] as String;
-    return _cacheManager.getSingleFile(pdfPath);
+    return _cacheManager.getSingleFile(pdfPath, headers: _httpHeaders);
   }
 }

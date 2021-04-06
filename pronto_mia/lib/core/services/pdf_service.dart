@@ -49,7 +49,7 @@ class PdfService {
     }
 
     final token = await _jwtTokenService.getToken();
-    final _httpHeaders = { "Authorization": "Bearer $token" };
+    final _httpHeaders = {"Authorization": "Bearer $token"};
 
     final pdfPath = queryResult.data['deploymentPlans'][0]['link'] as String;
     return _cacheManager.getSingleFile(pdfPath, headers: _httpHeaders);

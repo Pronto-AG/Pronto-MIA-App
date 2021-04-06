@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-class TokenService {
+class JwtTokenService {
   Future<SharedPreferences> get _preferences async =>
       SharedPreferences.getInstance();
 

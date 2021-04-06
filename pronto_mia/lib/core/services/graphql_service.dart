@@ -3,11 +3,11 @@ import 'package:flutter/foundation.dart';
 import 'package:graphql/client.dart';
 import 'package:http/io_client.dart';
 
-import 'package:pronto_mia/core/services/token_service.dart';
+import 'package:pronto_mia/core/services/jwt_token_service.dart';
 import 'package:pronto_mia/app/app.locator.dart';
 
 class GraphQLService {
-  final _tokenService = locator<TokenService>();
+  final _jwtTokenService = locator<JwtTokenService>();
   GraphQLClient _graphQLClient;
 
   GraphQLService() {
@@ -33,7 +33,7 @@ class GraphQLService {
 
   Future<String> _getToken() async {
     try {
-      final token = await _tokenService.getToken();
+      final token = await _jwtTokenService.getToken();
       return 'bearer $token';
     } catch (_) {
       return '';

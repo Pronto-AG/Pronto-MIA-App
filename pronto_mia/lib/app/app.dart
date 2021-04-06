@@ -3,7 +3,7 @@ import 'package:stacked_services/stacked_services.dart';
 
 import 'package:pronto_mia/core/services/authentication_service.dart';
 import 'package:pronto_mia/ui/views/login/login_view.dart';
-import 'package:pronto_mia/core/services/token_service.dart';
+import 'package:pronto_mia/core/services/jwt_token_service.dart';
 import 'package:pronto_mia/core/services/pdf_service.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
 import 'package:pronto_mia/ui/views/home/home_view.dart';

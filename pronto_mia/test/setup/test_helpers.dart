@@ -5,6 +5,7 @@ import 'package:pronto_mia/core/services/authentication_service.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class AuthenticationServiceMock extends Mock implements AuthenticationService {}
+
 class NavigationServiceMock extends Mock implements NavigationService {}
 
 AuthenticationService getAndRegisterAuthenticationServiceMock({

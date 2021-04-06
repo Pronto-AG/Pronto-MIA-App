@@ -21,8 +21,10 @@ import 'package:pronto_mia/ui/views/upload_file/upload_file_view.dart';
   LazySingleton(classType: NavigationService, asType: NavigationService),
   LazySingleton(classType: JwtTokenService, asType: JwtTokenService),
   LazySingleton(classType: GraphQLService, asType: GraphQLService),
-  LazySingleton(classType: AuthenticationService, asType: AuthenticationService),
+  LazySingleton(
+      classType: AuthenticationService, asType: AuthenticationService),
   LazySingleton(classType: PdfService, asType: PdfService),
-  LazySingleton(classType: PushNotificationService, asType: PushNotificationService),
+  LazySingleton(
+      classType: PushNotificationService, asType: PushNotificationService),
 ])
 class AppSetup {}

@@ -11,10 +11,10 @@ import 'package:pronto_mia/ui/views/home/home_view.dart';
 import 'package:pronto_mia/ui/views/download_file/download_file_view.dart';
 
 @StackedApp(routes: [
-  MaterialRoute(page: LoginView, initial: true),
-  MaterialRoute(page: HomeView, children: [
-    MaterialRoute(page: UploadFileView, initial: true),
-    MaterialRoute(page: DownloadFileView),
+  MaterialRoute(path: '/login', page: LoginView, initial: true),
+  MaterialRoute(path: '/home', page: HomeView, children: [
+    MaterialRoute(path: '/upload', page: UploadFileView, initial: true),
+    MaterialRoute(path: '/download', page: DownloadFileView),
   ]),
 ], dependencies: [
   LazySingleton(classType: NavigationService),

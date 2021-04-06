@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:pronto_mia/app/app.locator.dart';
 import 'package:pronto_mia/app/app.router.dart';
+import 'package:pronto_mia/ui/views/startup/startup_view.dart';
 
 void main() {
   setupLocator();
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
       title: 'Pronto-MIA',
       navigatorKey: StackedService.navigatorKey,
       onGenerateRoute: StackedRouter().onGenerateRoute,
+      home: StartUpView(),
     );
   }
 }

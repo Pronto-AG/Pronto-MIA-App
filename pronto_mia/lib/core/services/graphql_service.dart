@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:graphql/client.dart';
 import 'package:http/io_client.dart';
 
@@ -10,15 +11,20 @@ class GraphQLService {
   GraphQLClient _graphQLClient;
 
   GraphQLService() {
-    HttpClient httpClient = HttpClient();
-    httpClient.badCertificateCallback =
-        (X509Certificate cert, String host, int port) => true;
-    IOClient ioClient = new IOClient(httpClient);
+    HttpLink httpLink;
+    if (kIsWeb) {
+      httpLink = HttpLink('https://localhost:5001/graphql/');
+    } else {
+      final httpClient = HttpClient();
+      httpClient.badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+      final ioClient = IOClient(httpClient);
+      httpLink = HttpLink(
+        'https://192.168.1.110:5001/graphql/',
+        httpClient: ioClient,
+      );
+    }
 
-    final httpLink = HttpLink(
-      'https://192.168.1.110:5001/graphql/',
-      httpClient: ioClient,
-    );
     final authLink = AuthLink(getToken: _getToken);
     final link = authLink.concat(httpLink);
 

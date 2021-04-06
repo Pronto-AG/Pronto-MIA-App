@@ -7,10 +7,10 @@ import 'package:pronto_mia/core/services/jwt_token_service.dart';
 
 class AuthenticationService {
   final _graphQLService = locator<GraphQLService>();
-  final _jwtTokenservice = locator<JwtTokenService>();
+  final _jwtTokenService = locator<JwtTokenService>();
 
   Future<bool> isAuthenticated() async {
-    final token = await _jwtTokenservice.getToken();
+    final token = await _jwtTokenService.getToken();
     if (token != null) {
       return true;
     } else {
@@ -30,7 +30,7 @@ class AuthenticationService {
     final result = await _graphQLService.query(options);
 
     if (result.data != null) {
-      await _jwtTokenservice.setToken(result.data['authenticate'] as String);
+      await _jwtTokenService.setToken(result.data['authenticate'] as String);
     }
 
     return result;

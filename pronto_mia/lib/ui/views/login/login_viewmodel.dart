@@ -29,6 +29,6 @@ class LoginViewModel extends FormViewModel {
       return;
     }
 
-    _navigationService.replaceWith(HomeViewRoutes.uploadFileView, id: 1);
+    _navigationService.replaceWith(Routes.homeView);
   }
 }

@@ -8,14 +8,15 @@ import 'package:http_parser/http_parser.dart';
 import 'package:pronto_mia/app/app.locator.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
 import 'package:pronto_mia/core/queries/upload_pdf.dart';
-import 'package:pronto_mia/core/queries/pdf.dart';
+import 'package:pronto_mia/core/queries/deployment_plans.dart';
 
 class PdfService {
   final _graphQLService = locator<GraphQLService>();
   final _cacheManager = DefaultCacheManager();
 
   Future<QueryResult> _getPdfPath() async {
-    final options = QueryOptions(document: gql(Pdf.pdf));
+    final options =
+      QueryOptions(document: gql(DeploymentPlans.deploymentPlans));
     return _graphQLService.query(options);
   }
 
@@ -30,7 +31,9 @@ class PdfService {
     final options = MutationOptions(
       document: gql(UploadPdf.uploadPdf),
       variables: {
-        "upload": multiPartFile,
+        "file": multiPartFile,
+        "availableFrom": DateTime.now().toIso8601String(),
+        "availableUntil": DateTime.now().toIso8601String(),
       },
     );
 
@@ -43,7 +46,7 @@ class PdfService {
       throw queryResult.exception;
     }
 
-    final pdfPath = queryResult.data['pdf']['link'] as String;
+    final pdfPath = queryResult.data['deploymentPlans'][0]['link'] as String;
     return _cacheManager.getSingleFile(pdfPath);
   }
 }

@@ -12,14 +12,14 @@ import 'package:pronto_mia/core/services/push_notification_service.dart';
 import 'package:pronto_mia/ui/views/upload_file/upload_file_view.dart';
 
 @StackedApp(routes: [
-  MaterialRoute(path: '/login', page: LoginView, initial: true),
+  MaterialRoute(path: '/login', page: LoginView),
   MaterialRoute(path: '/home', page: HomeView, children: [
-    MaterialRoute(path: '/upload', page: UploadFileView, initial: true),
+    MaterialRoute(path: '/', page: UploadFileView, initial: true),
     MaterialRoute(path: '/download', page: DownloadFileView),
   ]),
 ], dependencies: [
   LazySingleton(classType: NavigationService),
-  LazySingleton(classType: TokenService),
+  LazySingleton(classType: JwtTokenService),
   LazySingleton(classType: GraphQLService),
   LazySingleton(classType: AuthenticationService),
   LazySingleton(classType: PdfService),

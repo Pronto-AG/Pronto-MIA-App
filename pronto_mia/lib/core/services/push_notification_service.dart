@@ -9,9 +9,11 @@ class PushNotificationService {
     if (notificationSettings.authorizationStatus ==
         AuthorizationStatus.authorized) {
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+        // ignore: avoid_print
         print('Message was received!');
 
         if (message.notification != null) {
+          // ignore: avoid_print
           print(
               'Message contained a notification: ${message.notification.body}'
           );

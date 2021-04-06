@@ -42,13 +42,11 @@ class GraphQLService {
 
   Future<QueryResult> query(QueryOptions options) async {
     final response = await _graphQLClient.query(options);
-    print(response);
     return response;
   }
 
   Future<QueryResult> mutate(MutationOptions options) async {
     final response = await _graphQLClient.mutate(options);
-    print(response);
     return response;
   }
 }

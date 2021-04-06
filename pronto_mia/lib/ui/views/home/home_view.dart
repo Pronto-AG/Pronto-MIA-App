@@ -3,8 +3,6 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import 'package:pronto_mia/ui/views/home/home_viewmodel.dart';
-import 'package:pronto_mia/ui/views/download_file/download_file_view.dart';
-import 'package:pronto_mia/ui/views/upload_file/upload_file_view.dart';
 import 'package:pronto_mia/app/app.router.dart';
 
 class HomeView extends StatelessWidget {

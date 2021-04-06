@@ -17,6 +17,7 @@ class StartUpViewModel extends BaseViewModel {
     await _pushNotificationService.initialise();
 
     final pushNotificationToken = await _pushNotificationService.getToken();
+    // ignore: avoid_print
     print('FCM Token: $pushNotificationToken');
 
     final isAuthenticated = await _authenticationService.isAuthenticated();

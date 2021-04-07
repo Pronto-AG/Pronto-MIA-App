@@ -1,0 +1,5 @@
+{
+  "apiPathWeb": "<uri>",
+  "apiPathMobile": "<uri>",
+  "enforceValidCertificate": true
+}

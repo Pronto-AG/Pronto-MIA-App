@@ -126,8 +126,8 @@ jobs:
     - name: Upload code documentation
       uses: actions/upload-artifact@v2
       with:
-        name: pronto_mia/code-documentation
-        path: doc/api
+        name: code-documentation
+        path: pronto_mia/doc/api
         retention-days: 1
           
   release:

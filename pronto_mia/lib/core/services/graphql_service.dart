@@ -13,14 +13,17 @@ class GraphQLService {
   GraphQLService() {
     HttpLink httpLink;
     if (kIsWeb) {
+      // TODO: Add to configuration file
       httpLink = HttpLink('https://localhost:5001/graphql/');
     } else {
       final httpClient = HttpClient();
+      // TODO: Add to configuration file
       httpClient.badCertificateCallback =
           (X509Certificate cert, String host, int port) => true;
       final ioClient = IOClient(httpClient);
       httpLink = HttpLink(
-        'https://192.168.1.110:5001/graphql/',
+        // TODO: Add to configuration file
+        'https://<ip-address>:5001/graphql/',
         httpClient: ioClient,
       );
     }

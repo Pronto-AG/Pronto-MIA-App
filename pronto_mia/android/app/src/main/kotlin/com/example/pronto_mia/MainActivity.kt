@@ -1,4 +1,4 @@
-package com.example.pronto_mia
+package ch.prontoag.mia
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,6 +1,7 @@
 importScripts("https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js");
 importScripts("https://www.gstatic.com/firebasejs/7.20.0/firebase-messaging.js");
 
+// TODO: Add to configuration file
 var firebaseConfig = {
   apiKey: "AIzaSyBeN4qYSTSZt1RiixS99jOFDrmeZXux5AE",
   authDomain: "pronto-mia-87b3f.firebaseapp.com",

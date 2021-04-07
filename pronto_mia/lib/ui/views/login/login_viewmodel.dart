@@ -19,11 +19,6 @@ class LoginViewModel extends FormViewModel {
       _authenticationService.login(userNameValue, passwordValue),
     ) as QueryResult;
 
-    if (result == null) {
-      setValidationMessage('Keine Verbindung zum Server.');
-      return;
-    }
-
     if (result.hasException) {
       setValidationMessage('Login fehlgeschlagen.');
       return;

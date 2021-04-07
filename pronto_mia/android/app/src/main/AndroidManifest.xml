@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.pronto_mia">
+    package="ch.prontoag.mia">
    <application
         android:label="pronto_mia"
         android:icon="@mipmap/ic_launcher">

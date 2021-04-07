@@ -17,7 +17,7 @@ void main() {
         final model = LoginViewModel();
         await model.login();
 
-        expect(model.validationMessage, 'Keine Verbindung zum Server.');
+        expect(model.validationMessage, 'Login fehlgeschlagen.');
       });
     });
   });

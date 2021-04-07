@@ -19,7 +19,7 @@ class LoginViewModel extends FormViewModel {
       _authenticationService.login(userNameValue, passwordValue),
     ) as QueryResult;
 
-    if (result.hasException) {
+    if (result == null || result.hasException) {
       setValidationMessage('Login fehlgeschlagen.');
       return;
     }

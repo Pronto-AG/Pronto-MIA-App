@@ -97,12 +97,10 @@ jobs:
         APP_SETTINGS: ${{ secrets.APP_SETTINGS }}
         APP_SETTINGS_PROD: ${{ secrets.APP_SETTINGS_PROD }}
       run: |
-        ls -r
-        'echo "$ANDROID_GOOGLE_SERVICES" > android/app/google-services.json'
-        'echo "$WEB_FIREBASE_CONFIG" > web/firebase-config.js'
-        'echo "$APP_SETTINGS" > config/app_settings.json'
-        'echo "$APP_SETTINGS_PROD" > config/app_settings_prod.json'
-        ls -r
+        echo "$ANDROID_GOOGLE_SERVICES" > android/app/google-services.json
+        echo "$WEB_FIREBASE_CONFIG" > web/firebase-config.js
+        echo "$APP_SETTINGS" > config/app_settings.json
+        echo "$APP_SETTINGS_PROD" > config/app_settings_prod.json
         cat android/app/google-services.json
       
     - name: Build for android
@@ -175,7 +173,6 @@ jobs:
       with:
         body_path: CHANGELOG.md
         files: |
-          ls -r
           android-build/app-release.apk
           test-coverage.zip
           code-documentation.zip

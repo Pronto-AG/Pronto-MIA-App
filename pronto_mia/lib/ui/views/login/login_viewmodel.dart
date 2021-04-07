@@ -19,6 +19,7 @@ class LoginViewModel extends FormViewModel {
       _authenticationService.login(userNameValue, passwordValue),
     ) as QueryResult;
 
+    // TODO: Add specific check if server is unreachable
     if (result == null || result.hasException) {
       setValidationMessage('Login fehlgeschlagen.');
       return;

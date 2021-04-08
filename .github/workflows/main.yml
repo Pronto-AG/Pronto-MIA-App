@@ -99,7 +99,6 @@ jobs:
         echo "$WEB_FIREBASE_CONFIG" > web/firebase-config.js
         echo "$APP_SETTINGS" > config/app_settings.json
         echo "$APP_SETTINGS_PROD" > config/app_settings_prod.json
-        cat android/app/google-services.json
       
     - name: Build for android
       run: flutter build apk

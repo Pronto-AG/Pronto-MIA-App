@@ -9,18 +9,17 @@ All available settings for the application can be defined within three JSON file
 * `app_settings.json`
   * Contains settings relevant for all contexts. Settings which do not depend on the context the application is run in are defined here.
 * `app_settings_dev.json`
-  * Contains settings relevant for the development context.  These settings will not be loaded if the application is run in production mode.
+  * Contains settings relevant for the development context. These settings will not be loaded if the application is run in production mode.
 * `app_settings_prod.json`
   * Contains settings relevant for the production context. These settings will not be loaded if the application is run in development mode.
 
 ### Available Options
 
-| Name                      | Type   | Description                                                                                                                                                                    |
-| ------------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `webPushCertificateKey`   | String | Key used to make an initial handshake with firebase for the web version. [How to generate](https://firebase.google.com/docs/cloud-messaging/js/client#generate_a_new_key_pair) |
-| `apiPathWeb`              | String | Path to the server component used in the web version                                                                                                                           |
-| `apiPathMobile`           | String | Path to the server component used in the mobile version (Android/iOS)                                                                                                          |
-| `enforceValidCertificate` | bool   | If true, enables communication with the server component without a valid TLS certificate                                                                                       |
+| Name | Type | Description |
+| - | - | - |
+| `webPushCertificateKey` | String | Key used to make an initial handshake with firebase for the web version. [How to generate](https://firebase.google.com/docs/cloud-messaging/js/client#generate_a_new_key_pair) |
+| `apiPath` | String | Path to the GraphQL endpoint of the server component |
+| `enforceValidCertificate` | bool | If false, enables communication with the server component without a valid TLS certificate. This option might compromise security, so please use with caution. |
 
 ## Setup
 

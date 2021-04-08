@@ -1,5 +1,4 @@
 {
-  "apiPathWeb": "https://localhost:5001/graphql/",
-  "apiPathMobile": "https://<ip-address>:5001/graphql/",
+  "apiPath": "https://localhost:5001/graphql/",
   "enforceValidCertificate": false
 }

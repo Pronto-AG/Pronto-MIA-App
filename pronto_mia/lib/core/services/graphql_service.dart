@@ -14,27 +14,21 @@ class GraphQLService {
 
   void initialise() {
     IOClient ioClient;
-    HttpLink httpLink;
-    String apiPath;
+    final apiPath = _configuration.getValue<String>('apiPath');
+    final enforceValidCertificate =
+        _configuration.getValue<bool>('enforceValidCertificate');
 
-    if (kIsWeb) {
-      apiPath = _configuration.getValue<String>('apiPathWeb');
-    } else {
-      apiPath = _configuration.getValue<String>('apiPathMobile');
-      final enforceValidCertificate =
-          _configuration.getValue<bool>('enforceValidCertificate');
-
-      if (!enforceValidCertificate) {
-        final httpClient = HttpClient();
-        httpClient.badCertificateCallback =
-            (X509Certificate cert, String host, int port) => true;
-        ioClient = IOClient(httpClient);
-      }
+    if (!kIsWeb && !enforceValidCertificate) {
+      final httpClient = HttpClient();
+      httpClient.badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+      ioClient = IOClient(httpClient);
     }
 
-    httpLink = HttpLink(apiPath, httpClient: ioClient);
+    final httpLink = HttpLink(apiPath, httpClient: ioClient);
     final authLink = AuthLink(getToken: _getToken);
     final link = authLink.concat(httpLink);
+
     _graphQLClient = GraphQLClient(link: link, cache: GraphQLCache());
   }
 

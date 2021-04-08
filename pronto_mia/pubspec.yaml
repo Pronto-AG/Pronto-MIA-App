@@ -27,6 +27,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_cache_manager:
+  global_configuration: ^1.6.0
   graphql:
   http:
   http_parser:

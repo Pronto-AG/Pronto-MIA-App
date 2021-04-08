@@ -9,6 +9,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
+import '../ui/views/deployment_plan/deployment_plan_view.dart';
 import '../ui/views/download_file/download_file_view.dart';
 import '../ui/views/home/home_view.dart';
 import '../ui/views/login/login_view.dart';
@@ -56,9 +57,11 @@ class StackedRouter extends RouterBase {
 }
 
 class HomeViewRoutes {
-  static const String uploadFileView = '/';
+  static const String deploymentPlanView = '/';
+  static const String uploadFileView = '/upload';
   static const String downloadFileView = '/download';
   static const all = <String>{
+    deploymentPlanView,
     uploadFileView,
     downloadFileView,
   };
@@ -68,12 +71,19 @@ class HomeViewRouter extends RouterBase {
   @override
   List<RouteDef> get routes => _routes;
   final _routes = <RouteDef>[
+    RouteDef(HomeViewRoutes.deploymentPlanView, page: DeploymentPlanView),
     RouteDef(HomeViewRoutes.uploadFileView, page: UploadFileView),
     RouteDef(HomeViewRoutes.downloadFileView, page: DownloadFileView),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
   final _pagesMap = <Type, StackedRouteFactory>{
+    DeploymentPlanView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => const DeploymentPlanView(),
+        settings: data,
+      );
+    },
     UploadFileView: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => const UploadFileView(),

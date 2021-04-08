@@ -16,13 +16,7 @@ class PdfService {
   final _graphQLService = locator<GraphQLService>();
   final _jwtTokenService = locator<JwtTokenService>();
 
-  Future<QueryResult> _getPdfPath() async {
-    final options =
-        QueryOptions(document: gql(DeploymentPlans.deploymentPlans));
-    return _graphQLService.query(options);
-  }
-
-  Future<QueryResult> uploadPdf(String fileName, Uint8List bytes) async {
+  Future<void> uploadPdf(String fileName, Uint8List bytes) async {
     final multiPartFile = MultipartFile.fromBytes(
       'upload',
       bytes,
@@ -30,28 +24,31 @@ class PdfService {
       contentType: MediaType("application", "pdf"),
     );
 
-    final options = MutationOptions(
-      document: gql(UploadPdf.uploadPdf),
-      variables: {
-        "file": multiPartFile,
-        "availableFrom": DateTime.now().toIso8601String(),
-        "availableUntil": DateTime.now().toIso8601String(),
-      },
-    );
+    final queryVariables = {
+      "file": multiPartFile,
+      "availableFrom": DateTime.now().toIso8601String(),
+      "availableUntil": DateTime.now().toIso8601String(),
+    };
 
-    return _graphQLService.mutate(options);
+    await _graphQLService.mutate(
+        UploadPdf.uploadPdf, queryVariables);
   }
 
   Future<File> downloadPdf() async {
-    final queryResult = await _getPdfPath();
-    if (queryResult.hasException) {
-      throw queryResult.exception;
-    }
-
+    final pdfPath = await _getPdfPath();
     final token = await _jwtTokenService.getToken();
     final _httpHeaders = {"Authorization": "Bearer $token"};
 
-    final pdfPath = queryResult.data['deploymentPlans'][0]['link'] as String;
-    return _cacheManager.getSingleFile(pdfPath, headers: _httpHeaders);
+    final file =
+      await _cacheManager.getSingleFile(pdfPath, headers: _httpHeaders);
+
+    return file;
+  }
+
+  Future<String> _getPdfPath() async {
+    final data = await _graphQLService.query(DeploymentPlans.deploymentPlans);
+    final pdfPath = data['deploymentPlans'][0]['link'] as String;
+
+    return pdfPath;
   }
 }

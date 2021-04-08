@@ -15,16 +15,15 @@ class LoginViewModel extends FormViewModel {
   void setFormStatus() {}
 
   Future<void> login() async {
-    final result = await runBusyFuture(
+    final isLoggedIn = await runBusyFuture(
       _authenticationService.login(userNameValue, passwordValue),
-    ) as QueryResult;
+    ) as bool;
 
     // TODO: Add specific check if server is unreachable
-    if (result == null || result.hasException) {
-      setValidationMessage('Login fehlgeschlagen.');
-      return;
+    if (isLoggedIn) {
+      _navigationService.replaceWith(Routes.homeView);
+    } else {
+      setValidationMessage('Login fehlgeschlagen');
     }
-
-    _navigationService.replaceWith(Routes.homeView);
   }
 }

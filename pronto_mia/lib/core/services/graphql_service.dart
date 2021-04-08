@@ -41,13 +41,33 @@ class GraphQLService {
     }
   }
 
-  Future<QueryResult> query(QueryOptions options) async {
-    final response = await _graphQLClient.query(options);
-    return response;
+  Future<Map<String, dynamic>> query(
+      String query, [Map<String, dynamic> variables]) async {
+    final queryOptions = QueryOptions(
+      document: gql(query),
+      variables: variables,
+    );
+
+    final queryResult = await _graphQLClient.query(queryOptions);
+    if (queryResult.hasException) {
+      throw queryResult.exception;
+    }
+
+    return queryResult.data;
   }
 
-  Future<QueryResult> mutate(MutationOptions options) async {
-    final response = await _graphQLClient.mutate(options);
-    return response;
+  Future<Map<String, dynamic>> mutate(
+      String mutation, [Map<String, dynamic> variables]) async {
+    final mutationOptions = MutationOptions(
+      document: gql(mutation),
+      variables: variables,
+    );
+
+    final queryResult = await _graphQLClient.mutate(mutationOptions);
+    if (queryResult.hasException) {
+      throw queryResult.exception;
+    }
+
+    return queryResult.data;
   }
 }

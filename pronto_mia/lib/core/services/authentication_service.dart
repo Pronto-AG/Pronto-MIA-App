@@ -18,21 +18,22 @@ class AuthenticationService {
     }
   }
 
-  Future<QueryResult> login(String userName, String password) async {
-    final QueryOptions options = QueryOptions(
-      document: gql(Authenticate.authenticate),
-      variables: <String, dynamic>{
-        'userName': userName,
-        'password': password,
-      },
-    );
+  Future<bool> login(String userName, String password) async {
+    final queryVariables = {
+      'userName': userName,
+      'password': password,
+    };
 
-    final result = await _graphQLService.query(options);
+    final data = await _graphQLService.query(
+        Authenticate.authenticate, queryVariables);
 
-    if (result.data != null) {
-      await _jwtTokenService.setToken(result.data['authenticate'] as String);
+    final token = data['authenticate'] as String;
+
+    if (token != null) {
+      await _jwtTokenService.setToken(token);
+      return true;
+    } else {
+      return false;
     }
-
-    return result;
   }
 }

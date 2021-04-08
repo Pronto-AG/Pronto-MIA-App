@@ -9,7 +9,9 @@
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
+import '../core/factories/error_message_factory.dart';
 import '../core/services/authentication_service.dart';
+import '../core/services/deployment_plan_service.dart';
 import '../core/services/graphql_service.dart';
 import '../core/services/jwt_token_service.dart';
 import '../core/services/pdf_service.dart';
@@ -26,4 +28,8 @@ void setupLocator() {
   locator.registerLazySingleton<PdfService>(() => PdfService());
   locator.registerLazySingleton<PushNotificationService>(
       () => PushNotificationService());
+  locator.registerLazySingleton<DeploymentPlanService>(
+      () => DeploymentPlanService());
+  locator
+      .registerLazySingleton<ErrorMessageFactory>(() => ErrorMessageFactory());
 }

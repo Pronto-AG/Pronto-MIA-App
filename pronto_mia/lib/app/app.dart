@@ -8,7 +8,7 @@ import 'package:pronto_mia/core/services/graphql_service.dart';
 import 'package:pronto_mia/core/services/jwt_token_service.dart';
 import 'package:pronto_mia/core/services/pdf_service.dart';
 import 'package:pronto_mia/core/services/push_notification_service.dart';
-import 'package:pronto_mia/ui/views/download_file/download_file_view.dart';
+import 'package:pronto_mia/ui/views/pdf/pdf_view.dart';
 import 'package:pronto_mia/ui/views/home/home_view.dart';
 import 'package:pronto_mia/ui/views/login/login_view.dart';
 import 'package:pronto_mia/ui/views/deployment_plan/deployment_plan_view.dart';
@@ -19,7 +19,7 @@ import 'package:pronto_mia/ui/views/upload_file/upload_file_view.dart';
   MaterialRoute(path: '/home', page: HomeView, children: [
     MaterialRoute(path: '/', page: DeploymentPlanView, initial: true),
     MaterialRoute(path: '/upload', page: UploadFileView),
-    MaterialRoute(path: '/download', page: DownloadFileView),
+    MaterialRoute(path: '/download', page: PdfView),
   ]),
 ], dependencies: [
   LazySingleton(classType: NavigationService, asType: NavigationService),

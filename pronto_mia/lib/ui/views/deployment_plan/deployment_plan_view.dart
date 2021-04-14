@@ -19,14 +19,18 @@ class DeploymentPlanView extends StatelessWidget {
 
         if (model.hasError) {
           return Center(
-            child: Text('Fehler'),
+            child: Text(model.errorMessage),
           );
         }
 
         return ListView.builder(
           itemCount: model.data.length,
-          itemBuilder: (context, index) => ListTile(
-            title: Text('Einsatzplan $index'),
+          itemBuilder: (context, index) => Card(
+            child: ListTile(
+              title: Text('Einsatzplan ${model.data[index].availableFrom}'),
+              subtitle: Text('gültig bis ${model.data[index].availableUntil}'),
+              onTap: () => model.openPdf(model.data[index]),
+            )
           ),
         );
       },

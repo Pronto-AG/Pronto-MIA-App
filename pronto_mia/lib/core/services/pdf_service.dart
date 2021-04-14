@@ -34,21 +34,14 @@ class PdfService {
         UploadPdf.uploadPdf, queryVariables);
   }
 
-  Future<File> downloadPdf() async {
-    final pdfPath = await _getPdfPath();
+  Future<File> downloadPdf(String path) async {
     final token = await _jwtTokenService.getToken();
-    final _httpHeaders = {"Authorization": "Bearer $token"};
+    final httpHeaders = {"Authorization": "Bearer $token"};
 
-    final file =
-      await _cacheManager.getSingleFile(pdfPath, headers: _httpHeaders);
+    print(path);
+    print(httpHeaders);
 
+    final file = await _cacheManager.getSingleFile(path, headers: httpHeaders);
     return file;
-  }
-
-  Future<String> _getPdfPath() async {
-    final data = await _graphQLService.query(DeploymentPlans.deploymentPlans);
-    final pdfPath = data['deploymentPlans'][0]['link'] as String;
-
-    return pdfPath;
   }
 }

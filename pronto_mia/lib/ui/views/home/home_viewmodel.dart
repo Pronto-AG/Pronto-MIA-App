@@ -8,7 +8,10 @@ class HomeViewModel extends IndexTrackingViewModel {
   final _navigationService = locator<NavigationService>();
 
   String get title => _title;
-  final _title = 'Pronto MIA';
+  String _title = 'Pronto MIA';
+
+  String get subTitle => _subTitle;
+  String _subTitle;
 
   void navigateTo(int index) {
     setIndex(index);

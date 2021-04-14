@@ -13,7 +13,15 @@ class HomeView extends StatelessWidget {
     return ViewModelBuilder<HomeViewModel>.reactive(
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
-          title: Text(model.title),
+          title: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(model.title),
+              if (model.subTitle != null)
+                Text(model.subTitle, style: TextStyle(fontSize: 12.0)),
+            ]
+          ),
           actions: const <Widget>[
             IconButton(
               icon: Icon(Icons.admin_panel_settings),
@@ -50,6 +58,10 @@ class HomeView extends StatelessWidget {
               label: 'News',
               icon: Icon(Icons.description),
             ),
+            BottomNavigationBarItem(
+              label: 'Benutzer',
+              icon: Icon(Icons.people),
+            )
           ],
         ),
       ),

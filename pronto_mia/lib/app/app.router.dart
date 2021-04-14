@@ -10,9 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 import '../ui/views/deployment_plan/deployment_plan_view.dart';
-import '../ui/views/download_file/download_file_view.dart';
 import '../ui/views/home/home_view.dart';
 import '../ui/views/login/login_view.dart';
+import '../ui/views/pdf/pdf_view.dart';
 import '../ui/views/upload_file/upload_file_view.dart';
 
 class Routes {
@@ -59,11 +59,11 @@ class StackedRouter extends RouterBase {
 class HomeViewRoutes {
   static const String deploymentPlanView = '/';
   static const String uploadFileView = '/upload';
-  static const String downloadFileView = '/download';
+  static const String pdfView = '/download';
   static const all = <String>{
     deploymentPlanView,
     uploadFileView,
-    downloadFileView,
+    pdfView,
   };
 }
 
@@ -73,7 +73,7 @@ class HomeViewRouter extends RouterBase {
   final _routes = <RouteDef>[
     RouteDef(HomeViewRoutes.deploymentPlanView, page: DeploymentPlanView),
     RouteDef(HomeViewRoutes.uploadFileView, page: UploadFileView),
-    RouteDef(HomeViewRoutes.downloadFileView, page: DownloadFileView),
+    RouteDef(HomeViewRoutes.pdfView, page: PdfView),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -90,9 +90,15 @@ class HomeViewRouter extends RouterBase {
         settings: data,
       );
     },
-    DownloadFileView: (data) {
+    PdfView: (data) {
+      var args = data.getArgs<PdfViewArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
-        builder: (context) => const DownloadFileView(),
+        builder: (context) => PdfView(
+          key: args.key,
+          title: args.title,
+          subTitle: args.subTitle,
+          pdfPath: args.pdfPath,
+        ),
         settings: data,
       );
     },
@@ -107,4 +113,17 @@ class HomeViewRouter extends RouterBase {
 class LoginViewArguments {
   final Key key;
   LoginViewArguments({this.key});
+}
+
+/// PdfView arguments holder class
+class PdfViewArguments {
+  final Key key;
+  final String title;
+  final String subTitle;
+  final String pdfPath;
+  PdfViewArguments(
+      {this.key,
+      @required this.title,
+      @required this.subTitle,
+      @required this.pdfPath});
 }

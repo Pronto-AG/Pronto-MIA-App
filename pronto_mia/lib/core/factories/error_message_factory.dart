@@ -1,5 +1,7 @@
 class ErrorMessageFactory {
-  String getErrorMessage(Exception exception) {
-    return exception.toString();
+  String getErrorMessage(dynamic error) {
+    // ignore: avoid_print
+    print(error);
+    return 'Es ist ein unerwarteter Fehler aufgetreten.';
   }
 }

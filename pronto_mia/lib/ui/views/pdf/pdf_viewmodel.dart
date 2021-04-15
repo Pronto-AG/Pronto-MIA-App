@@ -7,8 +7,9 @@ import 'package:pronto_mia/core/services/pdf_service.dart';
 import 'package:pronto_mia/core/factories/error_message_factory.dart';
 
 class PdfViewModel extends FutureViewModel<File> {
-  final PdfService _pdfService = locator<PdfService>();
-  final _errorMessageFactory = locator<ErrorMessageFactory>();
+  PdfService get _pdfService => locator<PdfService>();
+  ErrorMessageFactory get _errorMessageFactory =>
+      locator<ErrorMessageFactory>();
 
   final String pdfPath;
 

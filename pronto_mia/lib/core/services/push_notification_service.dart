@@ -1,14 +1,18 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
-import 'package:global_configuration/global_configuration.dart';
+
+import 'package:pronto_mia/app/app.locator.dart';
+import 'package:pronto_mia/core/services/configuration_service.dart';
 
 class PushNotificationService {
-  final _configuration = GlobalConfiguration();
   final _fcm = FirebaseMessaging.instance;
 
   String _webPushCertificateKey;
 
-  Future<void> initialise() async {
+  Future<ConfigurationService> get _configurationService =>
+      locator.getAsync<ConfigurationService>();
+
+  Future<void> init() async {
     final notificationSettings = await _fcm.requestPermission();
 
     if (notificationSettings.authorizationStatus ==
@@ -18,7 +22,7 @@ class PushNotificationService {
 
     if (kIsWeb) {
       _webPushCertificateKey =
-          _configuration.getValue<String>('webPushCertificateKey');
+      (await _configurationService).getValue<String>('webPushCertificateKey');
     }
   }
 

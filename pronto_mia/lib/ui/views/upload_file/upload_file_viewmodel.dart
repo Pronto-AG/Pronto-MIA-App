@@ -5,10 +5,16 @@ import 'package:pronto_mia/app/app.locator.dart';
 import 'package:pronto_mia/core/services/pdf_service.dart';
 
 class UploadFileViewModel extends BaseViewModel {
-  final PdfService _pdfService = locator<PdfService>();
+  Future<PdfService> get _pdfService async {
+    await locator.isReady<PdfService>();
+    return locator<PdfService>();
+  }
 
   Future<void> uploadFile() async {
     final result = await FilePicker.platform.pickFiles();
-    await _pdfService.uploadPdf(result.names.single, result.files.single.bytes);
+    await (await _pdfService).uploadPdf(
+      result.names.single,
+      result.files.single.bytes,
+    );
   }
 }

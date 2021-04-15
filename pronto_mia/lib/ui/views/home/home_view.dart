@@ -11,31 +11,16 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<HomeViewModel>.reactive(
+      viewModelBuilder: () => HomeViewModel(),
       builder: (context, model, child) => Scaffold(
-        appBar: AppBar(
-          title: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(model.title),
-              if (model.subTitle != null)
-                Text(model.subTitle, style: TextStyle(fontSize: 12.0)),
-            ]
-          ),
-          actions: const <Widget>[
-            IconButton(
-              icon: Icon(Icons.admin_panel_settings),
-              tooltip: 'Administrator-Modus'
-            ),
-            IconButton(
-              icon: Icon(Icons.account_circle),
-              tooltip: 'Benutzerprofil',
-            ),
-          ],
-        ),
         body: ExtendedNavigator(
           router: HomeViewRouter(),
           navigatorKey: StackedService.nestedNavigationKey(1),
+          initialRoute: HomeViewRoutes.deploymentPlanView,
+          initialRouteArgs: DeploymentPlanViewArguments(
+            adminModeEnabled: model.adminModeEnabled,
+            toggleAdminModeCallback: model.toggleAdminMode,
+          ),
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
@@ -58,14 +43,9 @@ class HomeView extends StatelessWidget {
               label: 'News',
               icon: Icon(Icons.description),
             ),
-            BottomNavigationBarItem(
-              label: 'Benutzer',
-              icon: Icon(Icons.people),
-            )
           ],
         ),
       ),
-      viewModelBuilder: () => HomeViewModel(),
     );
   }
 }

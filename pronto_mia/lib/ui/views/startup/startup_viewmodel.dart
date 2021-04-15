@@ -11,31 +11,22 @@ import 'package:pronto_mia/core/services/authentication_service.dart';
 import 'package:pronto_mia/app/app.router.dart';
 
 class StartUpViewModel extends BaseViewModel {
-  final _configuration = GlobalConfiguration();
-  final _pushNotificationService = locator<PushNotificationService>();
-  final _graphQLService = locator<GraphQLService>();
-  final _authenticationService = locator<AuthenticationService>();
-  final _navigationService = locator<NavigationService>();
+  Future<PushNotificationService> get _pushNotificationService =>
+    locator.getAsync<PushNotificationService>();
+  AuthenticationService get _authenticationService =>
+      locator<AuthenticationService>();
+  NavigationService get _navigationService => locator<NavigationService>();
 
   Future<void> handleStartUp() async {
-    await _configuration.loadFromPath('../config/app_settings.json');
-
-    if (kReleaseMode) {
-      await _configuration.loadFromPath('../config/app_settings_prod.json');
-    } else {
-      await _configuration.loadFromPath('../config/app_settings_dev.json');
-    }
-
     await Firebase.initializeApp();
 
-    await _pushNotificationService.initialise();
-    _graphQLService.initialise();
-
-    final pushNotificationToken = await _pushNotificationService.getToken();
+    final pushNotificationToken =
+      await (await _pushNotificationService).getToken();
     // ignore: avoid_print
     print('FCM Token: $pushNotificationToken');
 
-    final isAuthenticated = await _authenticationService.isAuthenticated();
+    final isAuthenticated =
+      await (await _authenticationService).isAuthenticated();
     if (isAuthenticated) {
       _navigationService.replaceWith(Routes.homeView);
     } else {

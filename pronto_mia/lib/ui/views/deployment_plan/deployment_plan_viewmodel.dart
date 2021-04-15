@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -8,12 +9,18 @@ import 'package:pronto_mia/core/services/deployment_plan_service.dart';
 import 'package:pronto_mia/core/factories/error_message_factory.dart';
 
 class DeploymentPlanViewModel extends FutureViewModel<List<DeploymentPlan>> {
-  final _deploymentPlanService = locator<DeploymentPlanService>();
-  final _navigationService = locator<NavigationService>();
-  final _errorMessageFactory = locator<ErrorMessageFactory>();
+  DeploymentPlanService get _deploymentPlanService =>
+      locator<DeploymentPlanService>();
+  NavigationService get _navigationService => locator<NavigationService>();
+  ErrorMessageFactory get _errorMessageFactory =>
+      locator<ErrorMessageFactory>();
 
   String get errorMessage => _errorMessage;
   String _errorMessage;
+
+  bool adminModeEnabled = false;
+
+  DeploymentPlanViewModel({@required this.adminModeEnabled});
 
   @override
   Future<List<DeploymentPlan>> futureToRun() => _getAvailableDeploymentPlans();
@@ -23,16 +30,21 @@ class DeploymentPlanViewModel extends FutureViewModel<List<DeploymentPlan>> {
     _errorMessage = _errorMessageFactory.getErrorMessage(error);
   }
 
+  void toggleAdminMode() {
+    adminModeEnabled = !adminModeEnabled;
+    notifyListeners();
+  }
+
   void openPdf (DeploymentPlan deploymentPlan) {
     final pdfViewArguments = PdfViewArguments(
+      pdfPath: deploymentPlan.link,
       title: "Einsatzplan ${deploymentPlan.availableFrom}",
       subTitle: "gültig bis ${deploymentPlan.availableUntil}",
-      pdfPath: deploymentPlan.link
     );
     _navigationService.navigateTo(
       HomeViewRoutes.pdfView,
-      arguments: pdfViewArguments,
       id: 1,
+      arguments: pdfViewArguments,
     );
   }
 

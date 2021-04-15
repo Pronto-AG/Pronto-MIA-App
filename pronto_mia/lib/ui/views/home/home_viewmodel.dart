@@ -5,24 +5,33 @@ import 'package:pronto_mia/app/app.locator.dart';
 import 'package:pronto_mia/app/app.router.dart';
 
 class HomeViewModel extends IndexTrackingViewModel {
-  final _navigationService = locator<NavigationService>();
+  NavigationService get _navigationService => locator<NavigationService>();
 
-  String get title => _title;
-  String _title = 'Pronto MIA';
-
-  String get subTitle => _subTitle;
-  String _subTitle;
+  bool get adminModeEnabled => _adminModeEnabled;
+  bool _adminModeEnabled = false;
 
   void navigateTo(int index) {
     setIndex(index);
 
     switch (index) {
       case 0:
-        _navigationService.navigateTo(HomeViewRoutes.deploymentPlanView, id: 1);
-        return;
-      default:
-        _navigationService.navigateTo(HomeViewRoutes.deploymentPlanView, id: 1);
-        return;
+        final deploymentPlanViewArguments = DeploymentPlanViewArguments(
+          adminModeEnabled: adminModeEnabled,
+          toggleAdminModeCallback: toggleAdminMode
+        );
+        _navigationService.navigateTo(HomeViewRoutes.deploymentPlanView,
+          id: 1,
+          arguments: deploymentPlanViewArguments
+        );
+        break;
+      case 1:
+        _navigationService.navigateTo(HomeViewRoutes.uploadFileView, id: 1);
+        break;
     }
+  }
+
+  void toggleAdminMode() {
+    _adminModeEnabled = !_adminModeEnabled;
+    notifyListeners();
   }
 }

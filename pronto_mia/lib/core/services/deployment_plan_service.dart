@@ -6,7 +6,8 @@ import 'package:pronto_mia/core/queries/deployment_plans.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
 
 class DeploymentPlanService {
-  final _graphQLService = locator<GraphQLService>();
+  Future<GraphQLService> get _graphQLService =>
+      locator.getAsync<GraphQLService>();
 
   Future<List<DeploymentPlan>> getAvailableDeploymentPlans() async {
     // final availableUntil = DateTime.now().toIso8601String();
@@ -15,7 +16,7 @@ class DeploymentPlanService {
       'availableUntil': availableUntil,
     };
 
-    final data = await _graphQLService.query(
+    final data = await (await _graphQLService).query(
         DeploymentPlans.deploymentPlansAvailableUntil, queryVariables);
 
     final dtoList = data['deploymentPlans'] as List<Object>;

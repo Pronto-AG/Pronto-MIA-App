@@ -13,8 +13,10 @@ import 'package:pronto_mia/core/services/jwt_token_service.dart';
 
 class PdfService {
   final _cacheManager = DefaultCacheManager();
-  final _graphQLService = locator<GraphQLService>();
-  final _jwtTokenService = locator<JwtTokenService>();
+  Future<GraphQLService> get _graphQLService =>
+      locator.getAsync<GraphQLService>();
+  Future<JwtTokenService> get _jwtTokenService =>
+      locator.getAsync<JwtTokenService>();
 
   Future<void> uploadPdf(String fileName, Uint8List bytes) async {
     final multiPartFile = MultipartFile.fromBytes(
@@ -30,16 +32,13 @@ class PdfService {
       "availableUntil": DateTime.now().toIso8601String(),
     };
 
-    await _graphQLService.mutate(
+    await (await _graphQLService).mutate(
         UploadPdf.uploadPdf, queryVariables);
   }
 
   Future<File> downloadPdf(String path) async {
-    final token = await _jwtTokenService.getToken();
+    final token = await (await _jwtTokenService).getToken();
     final httpHeaders = {"Authorization": "Bearer $token"};
-
-    print(path);
-    print(httpHeaders);
 
     final file = await _cacheManager.getSingleFile(path, headers: httpHeaders);
     return file;

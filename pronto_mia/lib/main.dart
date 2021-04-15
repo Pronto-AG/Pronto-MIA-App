@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:pronto_mia/core/services/push_notification_service.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import 'package:pronto_mia/app/app.locator.dart';
 import 'package:pronto_mia/app/app.router.dart';
 import 'package:pronto_mia/ui/views/startup/startup_view.dart';
+import 'package:pronto_mia/core/services/graphql_service.dart';
 
-void main() {
+void main() async {
   setupLocator();
   runApp(MyApp());
 }
@@ -18,6 +20,7 @@ class MyApp extends StatelessWidget {
       navigatorKey: StackedService.navigatorKey,
       onGenerateRoute: StackedRouter().onGenerateRoute,
       home: StartUpView(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }

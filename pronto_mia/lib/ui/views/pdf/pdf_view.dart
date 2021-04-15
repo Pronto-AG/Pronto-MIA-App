@@ -11,30 +11,43 @@ class PdfView extends StatelessWidget {
 
   const PdfView({
     Key key,
-    @required this.title,
-    @required this.subTitle,
     @required this.pdfPath,
+    @required this.title,
+    this.subTitle,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<PdfViewModel>.reactive(
       viewModelBuilder: () => PdfViewModel(pdfPath: pdfPath),
-      builder: (context, model, child) {
-        if (model.isBusy) {
-          return const Center(
+      builder: (context, model, child) => Scaffold(
+        appBar: AppBar(
+          title: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(title),
+              if (subTitle != null)
+                Text(subTitle, style: const TextStyle(fontSize: 12.0))
+            ],
+          )
+        ),
+        body: (() {
+          if (model.isBusy) {
+            return const Center(
               child: CircularProgressIndicator()
-          );
-        }
+            );
+          }
 
-        if (model.hasError) {
-          return Center(
-            child: Text(model.errorMessage),
-          );
-        }
+          if (model.hasError) {
+            return Center(
+              child: Text(model.errorMessage),
+            );
+          }
 
-        return PdfViewer.openData(model.data.readAsBytesSync());
-      }
+          return PdfViewer.openData(model.data.readAsBytesSync());
+        })(),
+      ),
     );
   }
 }

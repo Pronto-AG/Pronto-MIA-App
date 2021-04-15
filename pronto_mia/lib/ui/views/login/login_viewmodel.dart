@@ -8,8 +8,9 @@ import 'package:pronto_mia/core/services/authentication_service.dart';
 import 'package:pronto_mia/ui/views/login/login_view.form.dart';
 
 class LoginViewModel extends FormViewModel {
-  final _navigationService = locator<NavigationService>();
-  final _authenticationService = locator<AuthenticationService>();
+  AuthenticationService get _authenticationService =>
+      locator<AuthenticationService>();
+  NavigationService get _navigationService => locator<NavigationService>();
 
   @override
   void setFormStatus() {}

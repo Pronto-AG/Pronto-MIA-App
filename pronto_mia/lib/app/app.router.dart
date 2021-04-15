@@ -59,7 +59,7 @@ class StackedRouter extends RouterBase {
 class HomeViewRoutes {
   static const String deploymentPlanView = '/';
   static const String uploadFileView = '/upload';
-  static const String pdfView = '/download';
+  static const String pdfView = '/pdf';
   static const all = <String>{
     deploymentPlanView,
     uploadFileView,
@@ -79,8 +79,13 @@ class HomeViewRouter extends RouterBase {
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
   final _pagesMap = <Type, StackedRouteFactory>{
     DeploymentPlanView: (data) {
+      var args = data.getArgs<DeploymentPlanViewArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
-        builder: (context) => const DeploymentPlanView(),
+        builder: (context) => DeploymentPlanView(
+          key: args.key,
+          adminModeEnabled: args.adminModeEnabled,
+          toggleAdminModeCallback: args.toggleAdminModeCallback,
+        ),
         settings: data,
       );
     },
@@ -95,9 +100,9 @@ class HomeViewRouter extends RouterBase {
       return MaterialPageRoute<dynamic>(
         builder: (context) => PdfView(
           key: args.key,
+          pdfPath: args.pdfPath,
           title: args.title,
           subTitle: args.subTitle,
-          pdfPath: args.pdfPath,
         ),
         settings: data,
       );
@@ -115,15 +120,23 @@ class LoginViewArguments {
   LoginViewArguments({this.key});
 }
 
+/// DeploymentPlanView arguments holder class
+class DeploymentPlanViewArguments {
+  final Key key;
+  final bool adminModeEnabled;
+  final void Function() toggleAdminModeCallback;
+  DeploymentPlanViewArguments(
+      {this.key,
+      @required this.adminModeEnabled,
+      @required this.toggleAdminModeCallback});
+}
+
 /// PdfView arguments holder class
 class PdfViewArguments {
   final Key key;
+  final String pdfPath;
   final String title;
   final String subTitle;
-  final String pdfPath;
   PdfViewArguments(
-      {this.key,
-      @required this.title,
-      @required this.subTitle,
-      @required this.pdfPath});
+      {this.key, @required this.pdfPath, @required this.title, this.subTitle});
 }

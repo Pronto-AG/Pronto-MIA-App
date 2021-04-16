@@ -20,7 +20,7 @@ class StartUpView extends StatelessWidget {
                 child: Image.asset('assets/images/pronto_logo.png'),
               ),
               const Padding(
-                padding: EdgeInsets.only(top: 16.0),
+                padding: EdgeInsets.only(top: 32.0),
                 child: CircularProgressIndicator(),
               ),
             ],

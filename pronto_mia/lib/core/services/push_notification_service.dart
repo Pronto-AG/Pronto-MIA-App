@@ -1,7 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 
-import 'package:pronto_mia/app/app.locator.dart';
+import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/configuration_service.dart';
 
 class PushNotificationService {

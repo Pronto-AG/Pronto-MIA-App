@@ -4,7 +4,7 @@ import 'package:graphql/client.dart';
 import 'package:http/io_client.dart';
 
 import 'package:pronto_mia/core/services/jwt_token_service.dart';
-import 'package:pronto_mia/app/app.locator.dart';
+import 'package:pronto_mia/app/service_locator.dart';
 
 import 'configuration_service.dart';
 

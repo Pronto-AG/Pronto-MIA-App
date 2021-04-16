@@ -6,7 +6,7 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:global_configuration/global_configuration.dart';
 
-import 'package:pronto_mia/app/app.locator.dart';
+import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/authentication_service.dart';
 import 'package:pronto_mia/app/app.router.dart';
 

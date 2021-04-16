@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
 
-import 'package:pronto_mia/app/app.locator.dart';
+import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/pdf_service.dart';
 import 'package:pronto_mia/core/factories/error_message_factory.dart';
 

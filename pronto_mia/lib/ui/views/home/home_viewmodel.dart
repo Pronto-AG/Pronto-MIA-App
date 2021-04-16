@@ -1,7 +1,7 @@
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-import 'package:pronto_mia/app/app.locator.dart';
+import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/app/app.router.dart';
 
 class HomeViewModel extends IndexTrackingViewModel {
@@ -15,17 +15,14 @@ class HomeViewModel extends IndexTrackingViewModel {
 
     switch (index) {
       case 0:
-        final deploymentPlanViewArguments = DeploymentPlanViewArguments(
+        final deploymentPlanViewArguments = DeploymentPlanOverviewViewArguments(
           adminModeEnabled: adminModeEnabled,
           toggleAdminModeCallback: toggleAdminMode
         );
-        _navigationService.navigateTo(HomeViewRoutes.deploymentPlanView,
+        _navigationService.navigateTo(HomeViewRoutes.deploymentPlanOverviewView,
           id: 1,
           arguments: deploymentPlanViewArguments
         );
-        break;
-      case 1:
-        _navigationService.navigateTo(HomeViewRoutes.uploadFileView, id: 1);
         break;
     }
   }

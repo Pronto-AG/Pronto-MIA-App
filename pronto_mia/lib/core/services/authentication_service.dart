@@ -1,6 +1,6 @@
 import 'package:graphql/client.dart';
 
-import 'package:pronto_mia/app/app.locator.dart';
+import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
 import 'package:pronto_mia/core/queries/authenticate.dart';
 import 'package:pronto_mia/core/services/jwt_token_service.dart';
@@ -20,7 +20,7 @@ class AuthenticationService {
     }
   }
 
-  Future<bool> login(String userName, String password) async {
+  Future<void> login(String userName, String password) async {
     final queryVariables = {
       'userName': userName,
       'password': password,
@@ -33,9 +33,8 @@ class AuthenticationService {
 
     if (token != null) {
       await (await _jwtTokenService).setToken(token);
-      return true;
     } else {
-      return false;
+      throw Exception('Login failed');
     }
   }
 }

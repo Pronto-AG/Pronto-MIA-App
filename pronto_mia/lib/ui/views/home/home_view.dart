@@ -16,8 +16,8 @@ class HomeView extends StatelessWidget {
         body: ExtendedNavigator(
           router: HomeViewRouter(),
           navigatorKey: StackedService.nestedNavigationKey(1),
-          initialRoute: HomeViewRoutes.deploymentPlanView,
-          initialRouteArgs: DeploymentPlanViewArguments(
+          initialRoute: HomeViewRoutes.deploymentPlanOverviewView,
+          initialRouteArgs: DeploymentPlanOverviewViewArguments(
             adminModeEnabled: model.adminModeEnabled,
             toggleAdminModeCallback: model.toggleAdminMode,
           ),

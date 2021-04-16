@@ -2,7 +2,7 @@ include: package:lint/analysis_options.yaml
 
 analyzer:
   exclude: [
-    lib/app/app.locator.dart,
+    lib/app/service_locator.dart,
     lib/app/app.router.dart,
     lib/ui/**.form.dart,
     lib/generated_plugin_registrant.dart,

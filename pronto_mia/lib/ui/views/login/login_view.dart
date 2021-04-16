@@ -18,61 +18,62 @@ class LoginView extends StatelessWidget with $LoginView {
       viewModelBuilder: () => LoginViewModel(),
       onModelReady: (model) => listenToFormUpdated(model),
       builder: (context, model, child) => Scaffold(
-        body: Scaffold(
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
                 padding: const EdgeInsets.all(32.0),
-                child: Center(
-                  child: Image.asset('assets/images/pronto_logo.png',
-                      width: MediaQuery.of(context).size.width * 0.6),
+                child: Image.asset(
+                  'assets/images/pronto_logo.png',
+                  width: 300,
+                )
+            ),
+
+            Padding(
+              padding:
+              const EdgeInsets.only(left: 16.0, top: 16.0, right: 16.0),
+              child: TextField(
+                controller: userNameController,
+                decoration: const InputDecoration(
+                  labelText: 'Benutzername',
                 ),
               ),
-              Padding(
-                padding:
-                    const EdgeInsets.only(left: 16.0, top: 16.0, right: 16.0),
-                child: TextField(
-                  controller: userNameController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Benutzername',
-                    hintText: 'Geben Sie hier Ihren Benutzernamen ein.',
-                  ),
+            ),
+
+            Padding(
+              padding:
+              const EdgeInsets.only(left: 16.0, top: 8.0, right: 16.0),
+              child: TextField(
+                controller: passwordController,
+                obscureText: true,
+                decoration: const InputDecoration(
+                  labelText: 'Passwort',
                 ),
               ),
-              Padding(
-                padding:
-                    const EdgeInsets.only(left: 16.0, top: 16.0, right: 16.0),
-                child: TextField(
-                  controller: passwordController,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Passwort',
-                    hintText: 'Geben Sie hier Ihr Passwort ein.',
-                  ),
-                ),
-              ),
-              if (model.validationMessage != null)
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 16.0, top: 8.0, right: 16.0),
-                  child: Center(
-                    child: Text(model.validationMessage,
-                        style: const TextStyle(color: Colors.red)),
-                  ),
-                ),
-              Padding(
-                padding:
-                    const EdgeInsets.only(left: 16.0, top: 8.0, right: 16.0),
+            ),
+
+            Padding(
+              padding:
+              const EdgeInsets.only(left: 16.0, top: 32.0, right: 16.0),
+              child: SizedBox(
+                width: double.infinity,
+                height: 40.0,
                 child: ElevatedButton(
                   onPressed: model.login,
                   child: const Text('Anmelden'),
                 ),
               ),
-            ],
-          ),
+            ),
+
+            if (model.validationMessage != null)
+              Padding(
+                padding:
+                const EdgeInsets.only(left: 16.0, top: 8.0, right: 16.0),
+                child: Text(model.validationMessage,
+                  style: const TextStyle(color: Colors.red),
+                ),
+              ),
+          ],
         ),
       ),
     );

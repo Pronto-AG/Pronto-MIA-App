@@ -5,7 +5,7 @@ import 'package:graphql/client.dart';
 import 'package:http/http.dart';
 import 'package:http_parser/http_parser.dart';
 
-import 'package:pronto_mia/app/app.locator.dart';
+import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
 import 'package:pronto_mia/core/queries/upload_pdf.dart';
 import 'package:pronto_mia/core/queries/deployment_plans.dart';
@@ -32,8 +32,9 @@ class PdfService {
       "availableUntil": DateTime.now().toIso8601String(),
     };
 
-    await (await _graphQLService).mutate(
+    final result = await (await _graphQLService).mutate(
         UploadPdf.uploadPdf, queryVariables);
+    print(result);
   }
 
   Future<File> downloadPdf(String path) async {

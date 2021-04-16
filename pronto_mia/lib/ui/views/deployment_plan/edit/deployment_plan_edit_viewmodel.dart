@@ -1,0 +1,27 @@
+import 'package:stacked/stacked.dart';
+import 'package:file_picker/file_picker.dart';
+
+import 'package:pronto_mia/app/service_locator.dart';
+import 'package:pronto_mia/core/services/deployment_plan_service.dart';
+import 'package:pronto_mia/ui/views/deployment_plan/edit/deployment_plan_edit_view.form.dart';
+
+class DeploymentPlanEditViewModel extends FormViewModel {
+  DeploymentPlanService get _deploymentPlanService =>
+      locator<DeploymentPlanService>();
+
+  PlatformFile pdfFile;
+
+  @override
+  void setFormStatus() {}
+
+  Future<void> submitDeploymentPlan() async {
+    final availableFrom = DateTime.parse(availableFromValue);
+    final availableUntil = DateTime.parse(availableUntilValue);
+
+    await _deploymentPlanService.createDeploymentPlan(
+        availableFrom,
+        availableUntil,
+        pdfFile
+    );
+  }
+}

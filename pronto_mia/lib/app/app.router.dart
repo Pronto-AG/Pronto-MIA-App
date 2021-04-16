@@ -9,11 +9,11 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-import '../ui/views/deployment_plan/deployment_plan_view.dart';
+import '../ui/views/deployment_plan/edit/deployment_plan_edit_view.dart';
+import '../ui/views/deployment_plan/overview/deployment_plan_overview_view.dart';
 import '../ui/views/home/home_view.dart';
 import '../ui/views/login/login_view.dart';
 import '../ui/views/pdf/pdf_view.dart';
-import '../ui/views/upload_file/upload_file_view.dart';
 
 class Routes {
   static const String loginView = '/login';
@@ -57,12 +57,12 @@ class StackedRouter extends RouterBase {
 }
 
 class HomeViewRoutes {
-  static const String deploymentPlanView = '/';
-  static const String uploadFileView = '/upload';
+  static const String deploymentPlanOverviewView = '/';
+  static const String deploymentPlanEditView = '/deployment-plan-edit';
   static const String pdfView = '/pdf';
   static const all = <String>{
-    deploymentPlanView,
-    uploadFileView,
+    deploymentPlanOverviewView,
+    deploymentPlanEditView,
     pdfView,
   };
 }
@@ -71,17 +71,20 @@ class HomeViewRouter extends RouterBase {
   @override
   List<RouteDef> get routes => _routes;
   final _routes = <RouteDef>[
-    RouteDef(HomeViewRoutes.deploymentPlanView, page: DeploymentPlanView),
-    RouteDef(HomeViewRoutes.uploadFileView, page: UploadFileView),
+    RouteDef(HomeViewRoutes.deploymentPlanOverviewView,
+        page: DeploymentPlanOverviewView),
+    RouteDef(HomeViewRoutes.deploymentPlanEditView,
+        page: DeploymentPlanEditView),
     RouteDef(HomeViewRoutes.pdfView, page: PdfView),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
   final _pagesMap = <Type, StackedRouteFactory>{
-    DeploymentPlanView: (data) {
-      var args = data.getArgs<DeploymentPlanViewArguments>(nullOk: false);
+    DeploymentPlanOverviewView: (data) {
+      var args =
+          data.getArgs<DeploymentPlanOverviewViewArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
-        builder: (context) => DeploymentPlanView(
+        builder: (context) => DeploymentPlanOverviewView(
           key: args.key,
           adminModeEnabled: args.adminModeEnabled,
           toggleAdminModeCallback: args.toggleAdminModeCallback,
@@ -89,9 +92,12 @@ class HomeViewRouter extends RouterBase {
         settings: data,
       );
     },
-    UploadFileView: (data) {
+    DeploymentPlanEditView: (data) {
+      var args = data.getArgs<DeploymentPlanEditViewArguments>(
+        orElse: () => DeploymentPlanEditViewArguments(),
+      );
       return MaterialPageRoute<dynamic>(
-        builder: (context) => const UploadFileView(),
+        builder: (context) => DeploymentPlanEditView(key: args.key),
         settings: data,
       );
     },
@@ -120,15 +126,21 @@ class LoginViewArguments {
   LoginViewArguments({this.key});
 }
 
-/// DeploymentPlanView arguments holder class
-class DeploymentPlanViewArguments {
+/// DeploymentPlanOverviewView arguments holder class
+class DeploymentPlanOverviewViewArguments {
   final Key key;
   final bool adminModeEnabled;
   final void Function() toggleAdminModeCallback;
-  DeploymentPlanViewArguments(
+  DeploymentPlanOverviewViewArguments(
       {this.key,
       @required this.adminModeEnabled,
       @required this.toggleAdminModeCallback});
+}
+
+/// DeploymentPlanEditView arguments holder class
+class DeploymentPlanEditViewArguments {
+  final Key key;
+  DeploymentPlanEditViewArguments({this.key});
 }
 
 /// PdfView arguments holder class

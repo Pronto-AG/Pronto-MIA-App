@@ -1,6 +1,8 @@
-import 'package:graphql/client.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:http/http.dart';
+import 'package:http_parser/http_parser.dart';
 
-import 'package:pronto_mia/app/app.locator.dart';
+import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/models/deployment_plan.dart';
 import 'package:pronto_mia/core/queries/deployment_plans.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
@@ -25,5 +27,27 @@ class DeploymentPlanService {
         .toList();
 
     return deploymentPlanList;
+  }
+
+  Future<void> createDeploymentPlan(
+    DateTime availableFrom,
+    DateTime availableUntil,
+    PlatformFile pdfFile) async {
+    final multiPartFile = MultipartFile.fromBytes(
+      'upload',
+      pdfFile.bytes,
+      filename: pdfFile.name,
+      contentType: MediaType("application", "pdf"),
+    );
+
+    final queryVariables = {
+      "file": multiPartFile,
+      "availableFrom": availableFrom.toIso8601String(),
+      "availableUntil": availableUntil.toIso8601String(),
+    };
+
+    final result = await (await _graphQLService).mutate(
+        DeploymentPlans.createDeploymentPlan, queryVariables);
+    print(result);
   }
 }

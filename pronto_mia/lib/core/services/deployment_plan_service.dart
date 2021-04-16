@@ -1,5 +1,6 @@
-import 'package:file_picker/file_picker.dart';
-import 'package:http/http.dart';
+import 'dart:io';
+
+import 'package:http/http.dart' show MultipartFile;
 import 'package:http_parser/http_parser.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
@@ -32,11 +33,11 @@ class DeploymentPlanService {
   Future<void> createDeploymentPlan(
     DateTime availableFrom,
     DateTime availableUntil,
-    PlatformFile pdfFile) async {
+    File pdfFile) async {
     final multiPartFile = MultipartFile.fromBytes(
       'upload',
-      pdfFile.bytes,
-      filename: pdfFile.name,
+      pdfFile.readAsBytesSync(),
+      filename: pdfFile.path,
       contentType: MediaType("application", "pdf"),
     );
 

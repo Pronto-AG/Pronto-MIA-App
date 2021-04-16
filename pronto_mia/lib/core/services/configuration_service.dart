@@ -5,12 +5,12 @@ class ConfigurationService {
   final _configuration = GlobalConfiguration();
 
   Future<void> init() async {
-    await _configuration.loadFromPath('../config/app_settings.json');
+    await _configuration.loadFromAsset('app_settings.json');
 
     if (kReleaseMode) {
-      await _configuration.loadFromPath('../config/app_settings_prod.json');
+      await _configuration.loadFromAsset('app_settings_prod.json');
     } else {
-      await _configuration.loadFromPath('../config/app_settings_dev.json');
+      await _configuration.loadFromAsset('app_settings_dev.json');
     }
   }
 

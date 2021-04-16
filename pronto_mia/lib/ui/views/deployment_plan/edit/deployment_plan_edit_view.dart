@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
@@ -21,7 +22,7 @@ class DeploymentPlanEditView extends StatelessWidget with $DeploymentPlanEditVie
       pdfPathController.text = result.names.single;
     }
 
-    model.pdfFile = result.files.single;
+    model.pdfFile = File(result.files.single.path);
   }
 
   @override

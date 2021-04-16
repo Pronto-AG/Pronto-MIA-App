@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:graphql/client.dart';
@@ -33,7 +34,19 @@ class GraphQLService {
     final authLink = AuthLink(getToken: _getToken);
     final link = authLink.concat(httpLink);
 
-    _graphQLClient = GraphQLClient(link: link, cache: GraphQLCache());
+    final policies = Policies(
+      fetch: FetchPolicy.noCache,
+    );
+
+    _graphQLClient = GraphQLClient(
+        link: link,
+        cache: GraphQLCache(),
+        defaultPolicies: DefaultPolicies(
+          watchQuery: policies,
+          query: policies,
+          mutate: policies,
+        ),
+    );
   }
 
   Future<Map<String, dynamic>> query(
@@ -60,7 +73,9 @@ class GraphQLService {
 
     final queryResult = await _graphQLClient.mutate(mutationOptions);
     if (queryResult.hasException) {
-      throw queryResult.exception;
+      if (!(queryResult.exception.linkException.originalException is JsonUnsupportedObjectError)) {
+        throw queryResult.exception;
+      }
     }
 
     return queryResult.data;

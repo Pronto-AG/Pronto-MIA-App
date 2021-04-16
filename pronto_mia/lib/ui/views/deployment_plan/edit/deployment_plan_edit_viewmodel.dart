@@ -1,5 +1,5 @@
+import 'dart:io';
 import 'package:stacked/stacked.dart';
-import 'package:file_picker/file_picker.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/deployment_plan_service.dart';
@@ -9,7 +9,7 @@ class DeploymentPlanEditViewModel extends FormViewModel {
   DeploymentPlanService get _deploymentPlanService =>
       locator<DeploymentPlanService>();
 
-  PlatformFile pdfFile;
+  File pdfFile;
 
   @override
   void setFormStatus() {}

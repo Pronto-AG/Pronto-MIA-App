@@ -52,6 +52,9 @@ flutter:
 
   assets:
     - assets/images/pronto_logo.png
+    - assets/cfg/app_settings.json
+    - assets/cfg/app_settings_dev.json
+    - assets/cfg/app_settings_prod.json
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a

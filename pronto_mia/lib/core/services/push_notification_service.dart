@@ -40,6 +40,13 @@ class PushNotificationService {
     print(data);
   }
 
+  Future<void> unregisterToken() async {
+    final token = await _fcm.getToken(vapidKey: _webPushCertificateKey);
+    final queryVariables = { "fcmToken": token };
+    final data = (await _graphQLService).mutate(FcmTokenQueries.unregisterFcmToken, queryVariables);
+    print(data);
+  }
+
   // TODO: Improve foreground message handling
   void _handleForegroundMessage(RemoteMessage message) {
     // ignore: avoid_print

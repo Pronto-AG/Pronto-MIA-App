@@ -3,11 +3,14 @@ class FcmTokenQueries {
     mutation registerFcmToken(\$fcmToken: String!) {
       registerFcmToken(fcmToken: \$fcmToken) {
         id
-        owner {
-          id
-          userName
-        }
       }
+    }
+  """;
+
+  // TODO: Rename token -> fcmToken
+  static const unregisterFcmToken = """
+    mutation unregisterFcmToken(\$fcmToken: String!) {
+      unregisterFcmToken(token: \$fcmToken)
     }
   """;
 }

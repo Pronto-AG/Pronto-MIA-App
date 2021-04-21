@@ -12,8 +12,6 @@ class LoginViewModel extends FormViewModel {
   AuthenticationService get _authenticationService =>
       locator<AuthenticationService>();
   NavigationService get _navigationService => locator<NavigationService>();
-  Future<PushNotificationService> get _pushNotificationService =>
-      locator.getAsync<PushNotificationService>();
   ErrorMessageFactory get _errorMessageFactory =>
       locator<ErrorMessageFactory>();
 
@@ -28,10 +26,9 @@ class LoginViewModel extends FormViewModel {
       return;
     }
 
-    await runBusyFuture((() async {
-      await _authenticationService.login(userNameValue, passwordValue);
-      await (await _pushNotificationService).registerToken();
-    })());
+    await runBusyFuture(
+      _authenticationService.login(userNameValue, passwordValue)
+    );
 
     if (hasError) {
       final errorMessage = _errorMessageFactory.getErrorMessage(error);

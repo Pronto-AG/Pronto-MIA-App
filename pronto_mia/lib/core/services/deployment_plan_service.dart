@@ -4,7 +4,7 @@ import 'package:http_parser/http_parser.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/models/deployment_plan.dart';
-import 'package:pronto_mia/core/queries/deployment_plans.dart';
+import 'package:pronto_mia/core/queries/deployment_plan_queries.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
 
 class DeploymentPlanService {
@@ -19,7 +19,7 @@ class DeploymentPlanService {
     };
 
     final data = await (await _graphQLService).query(
-        DeploymentPlans.deploymentPlansAvailableUntil, queryVariables);
+        DeploymentPlanQueries.deploymentPlansAvailableUntil, queryVariables);
 
     final dtoList = data['deploymentPlans'] as List<Object>;
     final deploymentPlanList = dtoList
@@ -47,6 +47,7 @@ class DeploymentPlanService {
     };
 
     await (await _graphQLService).mutate(
-        DeploymentPlans.createDeploymentPlan, queryVariables);
+      DeploymentPlanQueries.createDeploymentPlan, queryVariables
+    );
   }
 }

@@ -5,19 +5,22 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:pronto_mia/app/app.router.dart';
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/authentication_service.dart';
+import 'package:pronto_mia/core/services/push_notification_service.dart';
 import 'package:pronto_mia/ui/views/login/login_view.form.dart';
 
 class LoginViewModel extends FormViewModel {
   AuthenticationService get _authenticationService =>
       locator<AuthenticationService>();
   NavigationService get _navigationService => locator<NavigationService>();
+  Future<PushNotificationService> get _pushNotificationService =>
+      locator.getAsync<PushNotificationService>();
   ErrorMessageFactory get _errorMessageFactory =>
       locator<ErrorMessageFactory>();
 
   @override
   void setFormStatus() {}
 
-  Future<void> login() async {
+  Future<void> submitForm() async {
     final validationMessage = _validateForm();
     if (validationMessage != null) {
       setValidationMessage(validationMessage);
@@ -25,9 +28,10 @@ class LoginViewModel extends FormViewModel {
       return;
     }
 
-    await runBusyFuture(
-      _authenticationService.login(userNameValue, passwordValue),
-    );
+    await runBusyFuture((() async {
+      await _authenticationService.login(userNameValue, passwordValue);
+      await (await _pushNotificationService).registerToken();
+    })());
 
     if (hasError) {
       final errorMessage = _errorMessageFactory.getErrorMessage(error);
@@ -38,7 +42,6 @@ class LoginViewModel extends FormViewModel {
     }
   }
 
-  // TODO: Improve form validation
   String _validateForm() {
     if (userNameValue == null || userNameValue.isEmpty) {
       return 'Bitte Benutzernamen eingeben.';

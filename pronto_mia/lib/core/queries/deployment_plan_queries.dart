@@ -1,4 +1,4 @@
-class DeploymentPlans {
+class DeploymentPlanQueries {
   static const deploymentPlans = """
     query deploymentPlans() {
       deploymentPlans {

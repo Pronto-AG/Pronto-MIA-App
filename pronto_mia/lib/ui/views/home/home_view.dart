@@ -8,6 +8,7 @@ import 'package:pronto_mia/app/app.router.dart';
 class HomeView extends StatelessWidget {
   const HomeView({Key key}) : super(key: key);
 
+  // TODO: Implement desktop layout
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<HomeViewModel>.reactive(
@@ -22,6 +23,7 @@ class HomeView extends StatelessWidget {
             toggleAdminModeCallback: model.toggleAdminMode,
           ),
         ),
+
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           currentIndex: model.currentIndex,

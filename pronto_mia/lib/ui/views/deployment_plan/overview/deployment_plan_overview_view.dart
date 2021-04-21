@@ -50,6 +50,7 @@ class DeploymentPlanOverviewView extends StatelessWidget {
             );
           }
 
+          // TODO: Add image to error
           if (model.hasError) {
             return Center(
               child: Text(model.errorMessage),

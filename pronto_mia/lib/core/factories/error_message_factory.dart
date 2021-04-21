@@ -1,3 +1,4 @@
+// TODO: Implement error distinction
 class ErrorMessageFactory {
   String getErrorMessage(dynamic error) {
     // ignore: avoid_print

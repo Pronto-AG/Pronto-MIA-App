@@ -6,8 +6,7 @@ import 'package:http/io_client.dart';
 
 import 'package:pronto_mia/core/services/jwt_token_service.dart';
 import 'package:pronto_mia/app/service_locator.dart';
-
-import 'configuration_service.dart';
+import 'package:pronto_mia/core/services/configuration_service.dart';
 
 class GraphQLService {
   Future<ConfigurationService> get _configurationService =>
@@ -17,7 +16,7 @@ class GraphQLService {
 
   GraphQLClient _graphQLClient;
 
-  void init() async {
+  Future<void> init() async {
     IOClient ioClient;
     final apiPath = (await _configurationService).getValue<String>('apiPath');
     final enforceValidCertificate =
@@ -31,7 +30,7 @@ class GraphQLService {
     }
 
     final httpLink = HttpLink(apiPath, httpClient: ioClient);
-    final authLink = AuthLink(getToken: _getToken);
+    final authLink = AuthLink(getToken: _getJwtToken);
     final link = authLink.concat(httpLink);
 
     final policies = Policies(
@@ -42,8 +41,6 @@ class GraphQLService {
         link: link,
         cache: GraphQLCache(),
         defaultPolicies: DefaultPolicies(
-          watchQuery: policies,
-          query: policies,
           mutate: policies,
         ),
     );
@@ -73,18 +70,17 @@ class GraphQLService {
 
     final queryResult = await _graphQLClient.mutate(mutationOptions);
     if (queryResult.hasException) {
-      if (!(queryResult.exception.linkException.originalException is JsonUnsupportedObjectError)) {
-        throw queryResult.exception;
-      }
+      throw queryResult.exception;
     }
 
     return queryResult.data;
   }
 
-  Future<String> _getToken() async {
+  Future<String> _getJwtToken() async {
     try {
       final token = await (await _jwtTokenService).getToken();
       return 'Bearer $token';
+    // TODO: Review error handling
     } catch (_) {
       return '';
     }

@@ -17,6 +17,7 @@ class PushNotificationService {
 
     if (notificationSettings.authorizationStatus ==
         AuthorizationStatus.authorized) {
+      // TODO: Implement additional message listeners
       FirebaseMessaging.onMessage.listen(_handleForegroundMessage);
     }
 
@@ -30,6 +31,7 @@ class PushNotificationService {
     return _fcm.getToken(vapidKey: _webPushCertificateKey);
   }
 
+  // TODO: Improve foreground message handling
   void _handleForegroundMessage(RemoteMessage message) {
     // ignore: avoid_print
     print('Message was received!');

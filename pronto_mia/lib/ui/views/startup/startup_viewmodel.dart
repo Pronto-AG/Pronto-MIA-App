@@ -20,6 +20,7 @@ class StartUpViewModel extends BaseViewModel {
   Future<void> handleStartUp() async {
     await Firebase.initializeApp();
 
+    // TODO: Implement device token registration
     final pushNotificationToken =
       await (await _pushNotificationService).getToken();
     // ignore: avoid_print

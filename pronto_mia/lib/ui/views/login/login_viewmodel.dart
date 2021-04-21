@@ -38,6 +38,7 @@ class LoginViewModel extends FormViewModel {
     }
   }
 
+  // TODO: Improve form validation
   String _validateForm() {
     if (userNameValue == null || userNameValue.isEmpty) {
       return 'Bitte Benutzernamen eingeben.';

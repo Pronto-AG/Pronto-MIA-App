@@ -14,6 +14,7 @@ class StartUpView extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
+              // TODO: Review image resizing
               SizedBox(
                 width: 300,
                 height: 100,

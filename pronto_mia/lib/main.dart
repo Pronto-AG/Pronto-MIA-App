@@ -12,6 +12,9 @@ void main() async {
   runApp(MyApp());
 }
 
+// TODO: Override error widget
+// TODO: Override error handler
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

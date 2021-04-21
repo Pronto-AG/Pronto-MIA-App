@@ -16,6 +16,7 @@ class PdfView extends StatelessWidget {
     this.subTitle,
   }) : super(key: key);
 
+  // TODO: Review pdf lag when moving it around
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<PdfViewModel>.reactive(

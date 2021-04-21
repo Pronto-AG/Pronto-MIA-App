@@ -1,6 +1,5 @@
 import 'dart:io';
-
-import 'package:http/http.dart' show MultipartFile;
+import 'package:http/http.dart';
 import 'package:http_parser/http_parser.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
@@ -47,8 +46,7 @@ class DeploymentPlanService {
       "availableUntil": availableUntil.toIso8601String(),
     };
 
-    final result = await (await _graphQLService).mutate(
+    await (await _graphQLService).mutate(
         DeploymentPlans.createDeploymentPlan, queryVariables);
-    print(result);
   }
 }

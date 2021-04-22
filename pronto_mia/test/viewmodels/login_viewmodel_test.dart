@@ -17,7 +17,7 @@ void main() {
         final model = LoginViewModel();
         await model.submitForm();
 
-        expect(model.validationMessage, 'Login fehlgeschlagen.');
+        expect(model.validationMessage, 'Bitte Benutzernamen eingeben.');
       });
     });
   });

@@ -46,11 +46,6 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# Config
-/config/app_settings.json
-/config/app_settings_dev.json
-/config/app_settings_prod.json
-
 # Confidential
 /android/app/google-services.json
 /web/firebase-config.js

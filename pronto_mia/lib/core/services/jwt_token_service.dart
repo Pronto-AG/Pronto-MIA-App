@@ -1,17 +1,18 @@
-// TODO: Replace with secure storage
 import 'package:shared_preferences/shared_preferences.dart';
 
 class JwtTokenService {
-  Future<SharedPreferences> get _preferences async =>
-      SharedPreferences.getInstance();
+  // TODO: Replace with something more secure and reliable
+  SharedPreferences _sharedPreferences;
+
+  Future<void> init() async {
+    _sharedPreferences = await SharedPreferences.getInstance();
+  }
 
   Future<String> getToken() async {
-    final preferences = await _preferences;
-    return preferences.getString('token');
+    return _sharedPreferences.getString('token');
   }
 
   Future<bool> setToken(String token) async {
-    final preferences = await _preferences;
-    return preferences.setString('token', token);
+    return _sharedPreferences.setString('token', token);
   }
 }

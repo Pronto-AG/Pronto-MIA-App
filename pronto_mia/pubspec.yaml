@@ -20,8 +20,10 @@ version: 1.0.0+1
 environment:
   sdk: ">=2.7.0 <3.0.0"
 
+# TODO: Fix version incompatibilities
 dependencies:
-  file_picker:
+  date_time_picker: ^2.0.0
+  file_picker: ^3.0.1
   firebase_core:
   firebase_messaging:
   flutter:
@@ -32,6 +34,7 @@ dependencies:
   http:
   http_parser:
   image_picker:
+  intl: ^0.17.0
   pdf_render:
   shared_preferences:
   stacked:
@@ -50,6 +53,9 @@ flutter:
 
   assets:
     - assets/images/pronto_logo.png
+    - assets/cfg/app_settings.json
+    - assets/cfg/app_settings_dev.json
+    - assets/cfg/app_settings_prod.json
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a

@@ -10,22 +10,19 @@ class StartUpView extends StatelessWidget {
       viewModelBuilder: () => StartUpViewModel(),
       onModelReady: (model) => model.handleStartUp(),
       builder: (context, model, child) => Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              SizedBox(
-                width: 300,
-                height: 100,
-                child: Image.asset('assets/images/pronto_logo.png'),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 16.0),
-                child: CircularProgressIndicator(),
-              ),
-            ],
-          ),
-        ),
+        body: Container(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/images/pronto_logo.png',
+                  fit: BoxFit.contain,
+                ),
+                const SizedBox(height: 32.0),
+                const CircularProgressIndicator(),
+              ],
+            )),
       ),
     );
   }

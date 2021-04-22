@@ -1,22 +1,25 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
-import 'package:global_configuration/global_configuration.dart';
 import 'package:graphql/client.dart';
 import 'package:http/io_client.dart';
 
 import 'package:pronto_mia/core/services/jwt_token_service.dart';
-import 'package:pronto_mia/app/app.locator.dart';
+import 'package:pronto_mia/app/service_locator.dart';
+import 'package:pronto_mia/core/services/configuration_service.dart';
 
 class GraphQLService {
-  final _configuration = GlobalConfiguration();
-  final _jwtTokenService = locator<JwtTokenService>();
+  Future<ConfigurationService> get _configurationService =>
+      locator.getAsync<ConfigurationService>();
+  Future<JwtTokenService> get _jwtTokenService =>
+      locator.getAsync<JwtTokenService>();
+
   GraphQLClient _graphQLClient;
 
-  void initialise() {
+  Future<void> init() async {
     IOClient ioClient;
-    final apiPath = _configuration.getValue<String>('apiPath');
+    final apiPath = (await _configurationService).getValue<String>('apiPath');
     final enforceValidCertificate =
-        _configuration.getValue<bool>('enforceValidCertificate');
+        (await _configurationService).getValue<bool>('enforceValidCertificate');
 
     if (!kIsWeb && !enforceValidCertificate) {
       final httpClient = HttpClient();
@@ -26,28 +29,58 @@ class GraphQLService {
     }
 
     final httpLink = HttpLink(apiPath, httpClient: ioClient);
-    final authLink = AuthLink(getToken: _getToken);
+    final authLink = AuthLink(getToken: _getJwtToken);
     final link = authLink.concat(httpLink);
 
-    _graphQLClient = GraphQLClient(link: link, cache: GraphQLCache());
+    final policies = Policies(
+      fetch: FetchPolicy.noCache,
+    );
+
+    _graphQLClient = GraphQLClient(
+      link: link,
+      cache: GraphQLCache(),
+      defaultPolicies: DefaultPolicies(
+        mutate: policies,
+      ),
+    );
   }
 
-  Future<String> _getToken() async {
+  Future<Map<String, dynamic>> query(String query,
+      [Map<String, dynamic> variables]) async {
+    final queryOptions = QueryOptions(
+      document: gql(query),
+      variables: variables,
+    );
+
+    final queryResult = await _graphQLClient.query(queryOptions);
+    if (queryResult.hasException) {
+      throw queryResult.exception;
+    }
+
+    return queryResult.data;
+  }
+
+  Future<Map<String, dynamic>> mutate(String mutation,
+      [Map<String, dynamic> variables]) async {
+    final mutationOptions = MutationOptions(
+      document: gql(mutation),
+      variables: variables,
+    );
+
+    final queryResult = await _graphQLClient.mutate(mutationOptions);
+    if (queryResult.hasException) {
+      throw queryResult.exception;
+    }
+
+    return queryResult.data;
+  }
+
+  Future<String> _getJwtToken() async {
     try {
-      final token = await _jwtTokenService.getToken();
-      return 'bearer $token';
+      final token = await (await _jwtTokenService).getToken();
+      return 'Bearer $token';
     } catch (_) {
       return '';
     }
-  }
-
-  Future<QueryResult> query(QueryOptions options) async {
-    final response = await _graphQLClient.query(options);
-    return response;
-  }
-
-  Future<QueryResult> mutate(MutationOptions options) async {
-    final response = await _graphQLClient.mutate(options);
-    return response;
   }
 }

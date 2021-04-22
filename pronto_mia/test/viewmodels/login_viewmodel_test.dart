@@ -15,9 +15,9 @@ void main() {
         getAndRegisterNavigationServiceMock();
 
         final model = LoginViewModel();
-        await model.login();
+        await model.submitForm();
 
-        expect(model.validationMessage, 'Login fehlgeschlagen.');
+        expect(model.validationMessage, 'Bitte Benutzernamen eingeben.');
       });
     });
   });

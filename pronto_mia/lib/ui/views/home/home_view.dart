@@ -8,13 +8,20 @@ import 'package:pronto_mia/app/app.router.dart';
 class HomeView extends StatelessWidget {
   const HomeView({Key key}) : super(key: key);
 
+  // TODO: Implement desktop layout
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<HomeViewModel>.reactive(
+      viewModelBuilder: () => HomeViewModel(),
       builder: (context, model, child) => Scaffold(
         body: ExtendedNavigator(
           router: HomeViewRouter(),
           navigatorKey: StackedService.nestedNavigationKey(1),
+          initialRoute: HomeViewRoutes.deploymentPlanOverviewView,
+          initialRouteArgs: DeploymentPlanOverviewViewArguments(
+            adminModeEnabled: model.adminModeEnabled,
+            toggleAdminModeCallback: model.toggleAdminMode,
+          ),
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
@@ -22,17 +29,24 @@ class HomeView extends StatelessWidget {
           onTap: model.navigateTo,
           items: const [
             BottomNavigationBarItem(
-              label: 'Hochladen',
-              icon: Icon(Icons.file_upload),
+              label: 'Einsatzplan',
+              icon: Icon(Icons.today),
             ),
             BottomNavigationBarItem(
-              label: 'Anzeigen',
+              label: 'Ferien',
+              icon: Icon(Icons.beach_access),
+            ),
+            BottomNavigationBarItem(
+              label: 'Schulung',
+              icon: Icon(Icons.school),
+            ),
+            BottomNavigationBarItem(
+              label: 'News',
               icon: Icon(Icons.description),
             ),
           ],
         ),
       ),
-      viewModelBuilder: () => HomeViewModel(),
     );
   }
 }

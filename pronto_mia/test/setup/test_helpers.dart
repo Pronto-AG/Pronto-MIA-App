@@ -1,6 +1,6 @@
 import 'package:mockito/mockito.dart';
 
-import 'package:pronto_mia/app/app.locator.dart';
+import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/authentication_service.dart';
 import 'package:stacked_services/stacked_services.dart';
 

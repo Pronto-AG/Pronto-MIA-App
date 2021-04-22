@@ -18,59 +18,58 @@ class LoginView extends StatelessWidget with $LoginView {
       viewModelBuilder: () => LoginViewModel(),
       onModelReady: (model) => listenToFormUpdated(model),
       builder: (context, model, child) => Scaffold(
-        body: Scaffold(
-          body: Column(
+        body: Container(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                padding: const EdgeInsets.all(32.0),
-                child: Center(
-                  child: Image.asset('assets/images/pronto_logo.png',
-                      width: MediaQuery.of(context).size.width * 0.6),
+              Image.asset(
+                'assets/images/pronto_logo.png',
+                fit: BoxFit.contain,
+              ),
+              const SizedBox(height: 32.0),
+              TextField(
+                controller: userNameController,
+                decoration: const InputDecoration(
+                  labelText: 'Benutzername',
+                  hintText: 'Geben Sie hier Ihren Benutzernamen ein.',
                 ),
               ),
-              Padding(
-                padding:
-                    const EdgeInsets.only(left: 16.0, top: 16.0, right: 16.0),
-                child: TextField(
-                  controller: userNameController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Benutzername',
-                    hintText: 'Geben Sie hier Ihren Benutzernamen ein.',
-                  ),
+              const SizedBox(height: 8.0),
+              TextField(
+                controller: passwordController,
+                obscureText: true,
+                decoration: const InputDecoration(
+                  labelText: 'Passwort',
+                  hintText: 'Geben Sie hier Ihr Passwort ein.',
                 ),
               ),
-              Padding(
-                padding:
-                    const EdgeInsets.only(left: 16.0, top: 16.0, right: 16.0),
-                child: TextField(
-                  controller: passwordController,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Passwort',
-                    hintText: 'Geben Sie hier Ihr Passwort ein.',
-                  ),
-                ),
-              ),
-              if (model.validationMessage != null)
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 16.0, top: 8.0, right: 16.0),
-                  child: Center(
-                    child: Text(model.validationMessage,
-                        style: const TextStyle(color: Colors.red)),
-                  ),
-                ),
-              Padding(
-                padding:
-                    const EdgeInsets.only(left: 16.0, top: 8.0, right: 16.0),
+              const SizedBox(height: 16.0),
+              SizedBox(
+                width: double.infinity,
+                height: 40.0,
                 child: ElevatedButton(
-                  onPressed: model.login,
-                  child: const Text('Anmelden'),
+                  onPressed: model.submitForm,
+                  child: model.isBusy
+                      ? const SizedBox(
+                          width: 16.0,
+                          height: 16.0,
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation(Colors.white),
+                            backgroundColor: Colors.blue,
+                            strokeWidth: 3,
+                          ),
+                        )
+                      : const Text('Anmelden'),
                 ),
               ),
+              if (model.validationMessage != null) ...[
+                const SizedBox(height: 8.0),
+                Text(
+                  model.validationMessage,
+                  style: const TextStyle(color: Colors.red),
+                ),
+              ],
             ],
           ),
         ),

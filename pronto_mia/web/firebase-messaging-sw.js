@@ -6,6 +6,7 @@ importScripts('firebase-config.js');
 firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
+// TODO: Improve background message handling
 messaging.onBackgroundMessage((message) => {
     console.log("onBackgroundMessage", message);
 });

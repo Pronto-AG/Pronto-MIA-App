@@ -97,8 +97,8 @@ jobs:
       run: |
         echo "$ANDROID_GOOGLE_SERVICES" > android/app/google-services.json
         echo "$WEB_FIREBASE_CONFIG" > web/firebase-config.js
-        echo "$APP_SETTINGS" > config/app_settings.json
-        echo "$APP_SETTINGS_PROD" > config/app_settings_prod.json
+        echo "$APP_SETTINGS" > assets/cfg/app_settings.json
+        echo "$APP_SETTINGS_PROD" > assets/cfg/app_settings_prod.json
       
     - name: Build for android
       run: flutter build apk

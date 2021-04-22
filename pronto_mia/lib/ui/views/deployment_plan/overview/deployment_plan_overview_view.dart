@@ -17,7 +17,9 @@ class DeploymentPlanOverviewView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<DeploymentPlanOverviewViewModel>.reactive(
-      viewModelBuilder: () => DeploymentPlanOverviewViewModel(adminModeEnabled: adminModeEnabled),
+      viewModelBuilder: () => DeploymentPlanOverviewViewModel(
+        adminModeEnabled: adminModeEnabled
+      ),
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
           title: const Text('Einsatzpläne'),
@@ -37,9 +39,10 @@ class DeploymentPlanOverviewView extends StatelessWidget {
                 }
               })(),
             ),
-            const IconButton(
-              icon: Icon(Icons.account_circle),
+            IconButton(
+              icon: const Icon(Icons.account_circle),
               tooltip: 'Benutzerprofil',
+              onPressed: () {},
             ),
           ],
         ),
@@ -68,8 +71,11 @@ class DeploymentPlanOverviewView extends StatelessWidget {
 
                 return Card(
                   child: ListTile(
+                    // TODO: Add description
                     title: Text('Einsatzplan $availableFromFormatted'),
-                    subtitle: Text(' $availableFromFormatted - $availableUntilFormatted'),
+                    subtitle: Text(
+                      ' $availableFromFormatted - $availableUntilFormatted'
+                    ),
                     onTap: () => model.openPdf(model.data[index]),
                   ),
                 );

@@ -4,12 +4,9 @@ import 'package:stacked_services/stacked_services.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/authentication_service.dart';
-import 'package:pronto_mia/core/services/push_notification_service.dart';
 import 'package:pronto_mia/app/app.router.dart';
 
 class StartUpViewModel extends BaseViewModel {
-  Future<PushNotificationService> get _pushNotificationService =>
-    locator.getAsync<PushNotificationService>();
   AuthenticationService get _authenticationService =>
       locator<AuthenticationService>();
   NavigationService get _navigationService => locator<NavigationService>();

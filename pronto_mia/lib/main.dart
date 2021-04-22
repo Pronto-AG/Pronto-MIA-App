@@ -6,7 +6,7 @@ import 'package:pronto_mia/app/app.router.dart';
 import 'package:pronto_mia/app/theme.dart';
 import 'package:pronto_mia/ui/views/startup/startup_view.dart';
 
-void main() async {
+void main() {
   setupLocator();
   runApp(MyApp());
 }

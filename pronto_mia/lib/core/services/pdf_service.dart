@@ -2,14 +2,11 @@ import 'dart:io';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
-import 'package:pronto_mia/core/services/graphql_service.dart';
 import 'package:pronto_mia/core/services/jwt_token_service.dart';
 
 class PdfService {
   // TODO: Review cache options
   final _cacheManager = DefaultCacheManager();
-  Future<GraphQLService> get _graphQLService =>
-      locator.getAsync<GraphQLService>();
   Future<JwtTokenService> get _jwtTokenService =>
       locator.getAsync<JwtTokenService>();
 

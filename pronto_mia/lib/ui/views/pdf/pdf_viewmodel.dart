@@ -24,6 +24,8 @@ class PdfViewModel extends FutureViewModel<File> {
     if (pdfUpload == null) {
       return _downloadPdf(pdfPath);
     }
+
+    return Future.value();
   }
 
   @override

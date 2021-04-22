@@ -80,7 +80,6 @@ class GraphQLService {
     try {
       final token = await (await _jwtTokenService).getToken();
       return 'Bearer $token';
-    // TODO: Review error handling
     } catch (_) {
       return '';
     }

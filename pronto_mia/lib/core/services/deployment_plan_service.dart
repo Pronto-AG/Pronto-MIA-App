@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart';
 import 'package:http_parser/http_parser.dart';
 
@@ -30,17 +30,19 @@ class DeploymentPlanService {
   }
 
   Future<void> createDeploymentPlan(
+    String description,
     DateTime availableFrom,
     DateTime availableUntil,
-    File pdfFile) async {
+    PlatformFile pdfFile) async {
     final multiPartFile = MultipartFile.fromBytes(
       'upload',
-      pdfFile.readAsBytesSync(),
+      pdfFile.bytes,
       filename: pdfFile.path,
       contentType: MediaType("application", "pdf"),
     );
 
     final queryVariables = {
+      "description": description,
       "file": multiPartFile,
       "availableFrom": availableFrom.toIso8601String(),
       "availableUntil": availableUntil.toIso8601String(),

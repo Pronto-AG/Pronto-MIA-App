@@ -23,7 +23,7 @@ environment:
 # TODO: Fix version incompatibilities
 dependencies:
   date_time_picker: ^2.0.0
-  file_picker:
+  file_picker: ^3.0.1
   firebase_core:
   firebase_messaging:
   flutter:

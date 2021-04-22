@@ -6,9 +6,11 @@
 
 // ignore_for_file: public_member_api_docs
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
+import '../core/models/deployment_plan.dart';
 import '../ui/views/deployment_plan/edit/deployment_plan_edit_view.dart';
 import '../ui/views/deployment_plan/overview/deployment_plan_overview_view.dart';
 import '../ui/views/home/home_view.dart';
@@ -97,7 +99,10 @@ class HomeViewRouter extends RouterBase {
         orElse: () => DeploymentPlanEditViewArguments(),
       );
       return MaterialPageRoute<dynamic>(
-        builder: (context) => DeploymentPlanEditView(key: args.key),
+        builder: (context) => DeploymentPlanEditView(
+          key: args.key,
+          deploymentPlan: args.deploymentPlan,
+        ),
         settings: data,
       );
     },
@@ -106,9 +111,10 @@ class HomeViewRouter extends RouterBase {
       return MaterialPageRoute<dynamic>(
         builder: (context) => PdfView(
           key: args.key,
-          pdfPath: args.pdfPath,
           title: args.title,
           subTitle: args.subTitle,
+          pdfUpload: args.pdfUpload,
+          pdfPath: args.pdfPath,
         ),
         settings: data,
       );
@@ -140,15 +146,21 @@ class DeploymentPlanOverviewViewArguments {
 /// DeploymentPlanEditView arguments holder class
 class DeploymentPlanEditViewArguments {
   final Key key;
-  DeploymentPlanEditViewArguments({this.key});
+  final DeploymentPlan deploymentPlan;
+  DeploymentPlanEditViewArguments({this.key, this.deploymentPlan});
 }
 
 /// PdfView arguments holder class
 class PdfViewArguments {
   final Key key;
-  final String pdfPath;
   final String title;
   final String subTitle;
+  final PlatformFile pdfUpload;
+  final String pdfPath;
   PdfViewArguments(
-      {this.key, @required this.pdfPath, @required this.title, this.subTitle});
+      {this.key,
+      @required this.title,
+      this.subTitle,
+      this.pdfUpload,
+      this.pdfPath});
 }

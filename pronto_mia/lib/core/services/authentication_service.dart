@@ -22,7 +22,6 @@ class AuthenticationService {
     }
   }
 
-  //
   Future<void> logout() async {
     await (await _jwtTokenService).setToken('');
     await (await _pushNotificationService).unregisterToken();

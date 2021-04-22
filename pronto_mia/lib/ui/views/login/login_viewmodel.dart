@@ -5,7 +5,6 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:pronto_mia/app/app.router.dart';
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/authentication_service.dart';
-import 'package:pronto_mia/core/services/push_notification_service.dart';
 import 'package:pronto_mia/ui/views/login/login_view.form.dart';
 
 class LoginViewModel extends FormViewModel {

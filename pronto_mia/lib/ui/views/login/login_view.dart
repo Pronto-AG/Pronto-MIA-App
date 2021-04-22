@@ -68,10 +68,13 @@ class LoginView extends StatelessWidget with $LoginView {
               ),
 
               if (model.validationMessage != null)
-                Text(
-                  model.validationMessage,
-                  style: const TextStyle(color: Colors.red),
-                )
+                ...[
+                  const SizedBox(height: 8.0),
+                  Text(
+                    model.validationMessage,
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                ],
             ],
           ),
         ),

@@ -60,7 +60,7 @@ class DeploymentPlanOverviewView extends StatelessWidget {
           return ListView.builder(
               itemCount: model.data.length,
               itemBuilder: (context, index) {
-                final dateFormat = DateFormat('dd.MM.yyyy');
+                final dateFormat = DateFormat('dd.MM.yyyy hh:mm');
                 final availableFromFormatted =
                   dateFormat.format(model.data[index].availableFrom);
                 final availableUntilFormatted =

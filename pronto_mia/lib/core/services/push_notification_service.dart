@@ -4,8 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/queries/fcm_token_queries.dart';
 import 'package:pronto_mia/core/services/configuration_service.dart';
-
-import 'graphql_service.dart';
+import 'package:pronto_mia/core/services/graphql_service.dart';
 
 class PushNotificationService {
   final _fcm = FirebaseMessaging.instance;
@@ -29,22 +28,26 @@ class PushNotificationService {
 
     if (kIsWeb) {
       _webPushCertificateKey =
-      (await _configurationService).getValue<String>('webPushCertificateKey');
+        (await _configurationService).getValue<String>('webPushCertificateKey');
     }
   }
 
   Future<void> registerToken() async {
     final token = await _fcm.getToken(vapidKey: _webPushCertificateKey);
     final queryVariables = { "fcmToken": token };
-    final data = (await _graphQLService).mutate(FcmTokenQueries.registerFcmToken, queryVariables);
-    print(data);
+    await (await _graphQLService).mutate(
+      FcmTokenQueries.registerFcmToken,
+      queryVariables
+    );
   }
 
   Future<void> unregisterToken() async {
     final token = await _fcm.getToken(vapidKey: _webPushCertificateKey);
     final queryVariables = { "fcmToken": token };
-    final data = (await _graphQLService).mutate(FcmTokenQueries.unregisterFcmToken, queryVariables);
-    print(data);
+    await (await _graphQLService).mutate(
+      FcmTokenQueries.unregisterFcmToken,
+      queryVariables
+    );
   }
 
   // TODO: Improve foreground message handling

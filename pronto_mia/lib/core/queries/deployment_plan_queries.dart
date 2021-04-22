@@ -27,8 +27,10 @@ class DeploymentPlanQueries {
     }
   """;
 
+  // TODO: Add description to query
   static const createDeploymentPlan = """
     mutation addDeploymentPlan(
+      \$description: String!,
       \$file: Upload!,
       \$availableFrom: DateTime!,
       \$availableUntil: DateTime!

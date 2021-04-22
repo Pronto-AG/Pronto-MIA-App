@@ -26,7 +26,7 @@ class LoginViewModel extends FormViewModel {
     }
 
     await runBusyFuture(
-      _authenticationService.login(userNameValue, passwordValue)
+      _authenticationService.login(userNameValue, passwordValue),
     );
 
     if (hasError) {

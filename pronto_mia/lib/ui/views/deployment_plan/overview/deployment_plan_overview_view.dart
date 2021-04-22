@@ -18,7 +18,7 @@ class DeploymentPlanOverviewView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<DeploymentPlanOverviewViewModel>.reactive(
       viewModelBuilder: () => DeploymentPlanOverviewViewModel(
-        adminModeEnabled: adminModeEnabled
+        adminModeEnabled: adminModeEnabled,
       ),
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
@@ -48,9 +48,7 @@ class DeploymentPlanOverviewView extends StatelessWidget {
         ),
         body: (() {
           if (model.isBusy) {
-            return const Center(
-              child: CircularProgressIndicator()
-            );
+            return const Center(child: CircularProgressIndicator());
           }
 
           // TODO: Add image to error
@@ -65,24 +63,22 @@ class DeploymentPlanOverviewView extends StatelessWidget {
               itemBuilder: (context, index) {
                 final dateFormat = DateFormat('dd.MM.yyyy hh:mm');
                 final availableFromFormatted =
-                  dateFormat.format(model.data[index].availableFrom);
+                    dateFormat.format(model.data[index].availableFrom);
                 final availableUntilFormatted =
-                  dateFormat.format(model.data[index].availableUntil);
+                    dateFormat.format(model.data[index].availableUntil);
 
                 return Card(
                   child: ListTile(
                     // TODO: Add description
                     title: Text('Einsatzplan $availableFromFormatted'),
                     subtitle: Text(
-                      ' $availableFromFormatted - $availableUntilFormatted'
-                    ),
+                        ' $availableFromFormatted - $availableUntilFormatted'),
                     onTap: () => model.openPdf(model.data[index]),
                   ),
                 );
-              }
-          );
+              });
         })(),
-        floatingActionButton:(() {
+        floatingActionButton: (() {
           if (model.adminModeEnabled) {
             return FloatingActionButton(
               tooltip: 'Einsatzplan erstellen',

@@ -23,7 +23,6 @@ class HomeView extends StatelessWidget {
             toggleAdminModeCallback: model.toggleAdminMode,
           ),
         ),
-
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           currentIndex: model.currentIndex,

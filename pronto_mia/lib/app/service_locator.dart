@@ -37,9 +37,11 @@ void setupLocator() {
     return pushNotificationService;
   });
 
-  locator.registerLazySingleton<AuthenticationService>(() => AuthenticationService());
+  locator.registerLazySingleton<AuthenticationService>(
+      () => AuthenticationService());
   locator.registerLazySingleton<NavigationService>(() => NavigationService());
-  locator.registerLazySingleton<DeploymentPlanService>(() => DeploymentPlanService());
+  locator.registerLazySingleton<DeploymentPlanService>(
+      () => DeploymentPlanService());
   locator.registerLazySingleton<PdfService>(() => PdfService());
   locator
       .registerLazySingleton<ErrorMessageFactory>(() => ErrorMessageFactory());

@@ -17,11 +17,12 @@ class HomeViewModel extends IndexTrackingViewModel {
       case 0:
         final deploymentPlanViewArguments = DeploymentPlanOverviewViewArguments(
           adminModeEnabled: adminModeEnabled,
-          toggleAdminModeCallback: toggleAdminMode
+          toggleAdminModeCallback: toggleAdminMode,
         );
-        _navigationService.navigateTo(HomeViewRoutes.deploymentPlanOverviewView,
+        _navigationService.navigateTo(
+          HomeViewRoutes.deploymentPlanOverviewView,
           id: 1,
-          arguments: deploymentPlanViewArguments
+          arguments: deploymentPlanViewArguments,
         );
         break;
     }

@@ -33,7 +33,8 @@ class DeploymentPlanService {
     String description,
     DateTime availableFrom,
     DateTime availableUntil,
-    PlatformFile pdfFile) async {
+    PlatformFile pdfFile,
+  ) async {
     final multiPartFile = MultipartFile.fromBytes(
       'upload',
       pdfFile.bytes,
@@ -48,8 +49,7 @@ class DeploymentPlanService {
       "availableUntil": availableUntil.toIso8601String(),
     };
 
-    await (await _graphQLService).mutate(
-      DeploymentPlanQueries.createDeploymentPlan, queryVariables
-    );
+    await (await _graphQLService)
+        .mutate(DeploymentPlanQueries.createDeploymentPlan, queryVariables);
   }
 }

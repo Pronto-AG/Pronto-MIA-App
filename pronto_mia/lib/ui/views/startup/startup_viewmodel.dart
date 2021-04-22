@@ -14,8 +14,7 @@ class StartUpViewModel extends BaseViewModel {
   Future<void> handleStartUp() async {
     await Firebase.initializeApp();
 
-    final isAuthenticated =
-      await _authenticationService.isAuthenticated();
+    final isAuthenticated = await _authenticationService.isAuthenticated();
     if (isAuthenticated) {
       _navigationService.replaceWith(Routes.homeView);
     } else {

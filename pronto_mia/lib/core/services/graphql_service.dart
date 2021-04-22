@@ -19,7 +19,7 @@ class GraphQLService {
     IOClient ioClient;
     final apiPath = (await _configurationService).getValue<String>('apiPath');
     final enforceValidCertificate =
-    (await _configurationService).getValue<bool>('enforceValidCertificate');
+        (await _configurationService).getValue<bool>('enforceValidCertificate');
 
     if (!kIsWeb && !enforceValidCertificate) {
       final httpClient = HttpClient();
@@ -37,16 +37,16 @@ class GraphQLService {
     );
 
     _graphQLClient = GraphQLClient(
-        link: link,
-        cache: GraphQLCache(),
-        defaultPolicies: DefaultPolicies(
-          mutate: policies,
-        ),
+      link: link,
+      cache: GraphQLCache(),
+      defaultPolicies: DefaultPolicies(
+        mutate: policies,
+      ),
     );
   }
 
-  Future<Map<String, dynamic>> query(
-      String query, [Map<String, dynamic> variables]) async {
+  Future<Map<String, dynamic>> query(String query,
+      [Map<String, dynamic> variables]) async {
     final queryOptions = QueryOptions(
       document: gql(query),
       variables: variables,
@@ -60,8 +60,8 @@ class GraphQLService {
     return queryResult.data;
   }
 
-  Future<Map<String, dynamic>> mutate(
-      String mutation, [Map<String, dynamic> variables]) async {
+  Future<Map<String, dynamic>> mutate(String mutation,
+      [Map<String, dynamic> variables]) async {
     final mutationOptions = MutationOptions(
       document: gql(mutation),
       variables: variables,

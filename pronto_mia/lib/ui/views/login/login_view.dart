@@ -27,7 +27,6 @@ class LoginView extends StatelessWidget with $LoginView {
                 'assets/images/pronto_logo.png',
                 fit: BoxFit.contain,
               ),
-
               const SizedBox(height: 32.0),
               TextField(
                 controller: userNameController,
@@ -36,7 +35,6 @@ class LoginView extends StatelessWidget with $LoginView {
                   hintText: 'Geben Sie hier Ihren Benutzernamen ein.',
                 ),
               ),
-
               const SizedBox(height: 8.0),
               TextField(
                 controller: passwordController,
@@ -46,7 +44,6 @@ class LoginView extends StatelessWidget with $LoginView {
                   hintText: 'Geben Sie hier Ihr Passwort ein.',
                 ),
               ),
-
               const SizedBox(height: 16.0),
               SizedBox(
                 width: double.infinity,
@@ -54,27 +51,25 @@ class LoginView extends StatelessWidget with $LoginView {
                 child: ElevatedButton(
                   onPressed: model.submitForm,
                   child: model.isBusy
-                    ? const SizedBox(
-                        width: 16.0,
-                        height: 16.0,
-                        child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation(Colors.white),
-                          backgroundColor: Colors.blue,
-                          strokeWidth: 3,
-                        ),
-                    )
-                    : const Text('Anmelden'),
+                      ? const SizedBox(
+                          width: 16.0,
+                          height: 16.0,
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation(Colors.white),
+                            backgroundColor: Colors.blue,
+                            strokeWidth: 3,
+                          ),
+                        )
+                      : const Text('Anmelden'),
                 ),
               ),
-
-              if (model.validationMessage != null)
-                ...[
-                  const SizedBox(height: 8.0),
-                  Text(
-                    model.validationMessage,
-                    style: const TextStyle(color: Colors.red),
-                  ),
-                ],
+              if (model.validationMessage != null) ...[
+                const SizedBox(height: 8.0),
+                Text(
+                  model.validationMessage,
+                  style: const TextStyle(color: Colors.red),
+                ),
+              ],
             ],
           ),
         ),

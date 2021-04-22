@@ -10,7 +10,7 @@ class AuthenticationService {
   Future<JwtTokenService> get _jwtTokenService =>
       locator.getAsync<JwtTokenService>();
   Future<PushNotificationService> get _pushNotificationService =>
-    locator.getAsync<PushNotificationService>();
+      locator.getAsync<PushNotificationService>();
 
   Future<bool> isAuthenticated() async {
     final token = await (await _jwtTokenService).getToken();
@@ -35,7 +35,7 @@ class AuthenticationService {
 
     final data = await (await _graphQLService).query(
       AuthenticationQueries.authenticate,
-      queryVariables
+      queryVariables,
     );
 
     final token = data['authenticate'] as String;

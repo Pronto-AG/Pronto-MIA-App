@@ -19,7 +19,7 @@ class DeploymentPlan {
     this._description,
     this._availableFrom,
     this._availableUntil,
-    this._link
+    this._link,
   );
 
   DeploymentPlan.fromJson(Map<String, dynamic> json)

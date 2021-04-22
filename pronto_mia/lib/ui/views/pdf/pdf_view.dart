@@ -25,20 +25,19 @@ class PdfView extends StatelessWidget {
     return ViewModelBuilder<PdfViewModel>.reactive(
       viewModelBuilder: () => PdfViewModel(
         pdfUpload: pdfUpload,
-        pdfPath: pdfPath
+        pdfPath: pdfPath,
       ),
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
-          title: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(title),
-              if (subTitle != null)
-                Text(subTitle, style: const TextStyle(fontSize: 12.0))
-            ],
-          )
-        ),
+            title: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(title),
+            if (subTitle != null)
+              Text(subTitle, style: const TextStyle(fontSize: 12.0))
+          ],
+        )),
         body: (() {
           if (model.isBusy) {
             return const Center(

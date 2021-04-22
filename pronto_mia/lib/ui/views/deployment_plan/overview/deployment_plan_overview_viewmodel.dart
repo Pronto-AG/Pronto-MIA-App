@@ -10,7 +10,7 @@ import 'package:pronto_mia/core/services/deployment_plan_service.dart';
 import 'package:pronto_mia/core/factories/error_message_factory.dart';
 
 class DeploymentPlanOverviewViewModel
-  extends FutureViewModel<List<DeploymentPlan>> {
+    extends FutureViewModel<List<DeploymentPlan>> {
   DeploymentPlanService get _deploymentPlanService =>
       locator<DeploymentPlanService>();
   NavigationService get _navigationService => locator<NavigationService>();
@@ -35,12 +35,12 @@ class DeploymentPlanOverviewViewModel
     notifyListeners();
   }
 
-  void openPdf (DeploymentPlan deploymentPlan) {
+  void openPdf(DeploymentPlan deploymentPlan) {
     final dateFormat = DateFormat('dd.MM.yyyy');
     final availableFromFormatted =
-      dateFormat.format(deploymentPlan.availableFrom);
+        dateFormat.format(deploymentPlan.availableFrom);
     final availableUntilFormatted =
-      dateFormat.format(deploymentPlan.availableUntil);
+        dateFormat.format(deploymentPlan.availableUntil);
     final pdfViewArguments = PdfViewArguments(
       pdfPath: deploymentPlan.link,
       // TODO: Add description

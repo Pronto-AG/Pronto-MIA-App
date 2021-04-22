@@ -4,7 +4,7 @@ This is the repository for the app component of the Pronto-MIA application. The 
 
 ## Settings
 
-All available settings for the application can be defined within three JSON files in the folder `pronto_mia/config`. In this folder there is also a configuration template for each file named `app_settings*_default.json`
+All available settings for the application can be defined within three JSON files in the folder `pronto_mia/config`.
 
 * `app_settings.json`
   * Contains settings relevant for all contexts. Settings which do not depend on the context the application is run in are defined here.

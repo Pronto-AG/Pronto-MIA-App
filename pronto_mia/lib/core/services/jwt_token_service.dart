@@ -17,7 +17,7 @@ class JwtTokenService {
   }
 
   Future<String> getToken() async {
-    if(kIsWeb) {
+    if (kIsWeb) {
       return _sharedPreferences.getString(_tokenIdentifier);
     } else {
       return _secureStorage.read(key: _tokenIdentifier);

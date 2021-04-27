@@ -29,6 +29,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_cache_manager:
+  flutter_secure_storage:
   global_configuration: ^1.6.0
   graphql:
   http:

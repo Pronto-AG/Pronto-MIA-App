@@ -24,7 +24,7 @@ USER flutter:flutter
 
 # Build web
 RUN flutter pub get
-RUN flutter build web --profile
+RUN flutter build web --csp --web-renderer canvaskit
 
 # final stage/image
 FROM nginx:stable-alpine

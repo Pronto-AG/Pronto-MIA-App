@@ -19,11 +19,14 @@ class PushNotificationService {
   Future<void> init() async {
     // TODO: Improve permission request
     final notificationSettings = await _fcm.requestPermission();
+    print(notificationSettings.authorizationStatus);
 
     if (notificationSettings.authorizationStatus ==
         AuthorizationStatus.authorized) {
       // TODO: Implement additional message listeners
       FirebaseMessaging.onMessage.listen(_handleForegroundMessage);
+    } else {
+      // ToDo: Throw error if not worked, ask again, or deactivate completely
     }
 
     if (kIsWeb) {

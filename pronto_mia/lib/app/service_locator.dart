@@ -12,6 +12,10 @@ import 'package:pronto_mia/core/services/configuration_service.dart';
 
 final locator = StackedLocator.instance;
 
+// Workaround mentioned in https://github.com/FilledStacks/stacked/issues/288 for
+// https://github.com/FilledStacks/stacked/issues/262
+//final locator = GetIt.instance;
+
 void setupLocator() {
   locator.registerLazySingletonAsync<ConfigurationService>(() async {
     final configurationService = ConfigurationService();

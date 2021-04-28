@@ -196,10 +196,8 @@ jobs:
       
   documentation:
     runs-on: ubuntu-latest
-    if: ${{ (cancelled() || success()) }}
-    # && startsWith(github.ref, 'refs/tags/')}}
     needs: [build-android, build-web-docker-master, build-web-docker-release]
-    #if: startsWith(github.ref, 'refs/tags/')
+    if: startsWith(github.ref, 'refs/tags/')
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2

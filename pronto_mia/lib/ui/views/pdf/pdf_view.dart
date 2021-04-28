@@ -1,5 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:pronto_mia/core/models/file_upload.dart';
 import 'package:stacked/stacked.dart';
 import 'package:pdf_render/pdf_render_widgets.dart';
 
@@ -8,7 +9,7 @@ import 'package:pronto_mia/ui/views/pdf/pdf_viewmodel.dart';
 class PdfView extends StatelessWidget {
   final String title;
   final String subTitle;
-  final PlatformFile pdfUpload;
+  final FileUpload pdfUpload;
   final String pdfPath;
 
   const PdfView({

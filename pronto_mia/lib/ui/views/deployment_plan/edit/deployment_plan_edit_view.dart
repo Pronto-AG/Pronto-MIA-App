@@ -1,5 +1,8 @@
+import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pronto_mia/core/models/deployment_plan.dart';
+import 'package:pronto_mia/core/models/file_upload.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:date_time_picker/date_time_picker.dart';
@@ -27,9 +30,16 @@ class DeploymentPlanEditView extends StatelessWidget
     );
     if (result != null) {
       pdfPathController.text = result.names.single;
-    }
+      FileUpload fileUpload;
 
-    model.setPdfUpload(result.files.single);
+      if (kIsWeb) {
+        fileUpload = FileUpload(result.names.single, result.files.single.bytes);
+      } else {
+        final file = File(result.files.single.path);
+        fileUpload = FileUpload(result.names.single, file.readAsBytesSync());
+      }
+      model.setPdfUpload(fileUpload);
+    }
   }
 
   // TODO: Implement update and delete
@@ -49,7 +59,6 @@ class DeploymentPlanEditView extends StatelessWidget
                 controller: descriptionController,
                 decoration: const InputDecoration(
                   labelText: 'Bezeichnung',
-                  hintText: 'Geben Sie hier eine optionale Bezeichnung ein.',
                 ),
               ),
               const SizedBox(height: 8.0),
@@ -59,8 +68,7 @@ class DeploymentPlanEditView extends StatelessWidget
                 firstDate: DateTime.now(),
                 lastDate: DateTime(9999),
                 dateMask: 'dd.MM.yyyy HH:mm',
-                dateLabelText: 'Gültig ab',
-                dateHintText: 'Geben Sie hier das Startdatum ein.',
+                dateLabelText: 'Gültig ab*',
               ),
               const SizedBox(height: 8.0),
               DateTimePicker(
@@ -69,8 +77,7 @@ class DeploymentPlanEditView extends StatelessWidget
                 firstDate: DateTime.now(),
                 lastDate: DateTime(9999),
                 dateMask: 'dd.MM.yyyy HH:mm',
-                dateLabelText: 'Gültig bis',
-                dateHintText: ' Geben Sie hier das Enddatum ein.',
+                dateLabelText: 'Gültig bis*',
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -86,13 +93,13 @@ class DeploymentPlanEditView extends StatelessWidget
                     child: TextField(
                       controller: pdfPathController,
                       readOnly: true,
+                      onTap: model.openPdf,
+                      style: const TextStyle(
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   ),
-                  if (model.pdfUpload != null)
-                    TextButton(
-                      onPressed: model.openPdf,
-                      child: const Text('Anzeigen'),
-                    )
                 ],
               ),
               const SizedBox(height: 16.0),

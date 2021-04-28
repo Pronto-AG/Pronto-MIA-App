@@ -36,6 +36,7 @@ class DeploymentPlanQueries {
       \$availableUntil: DateTime!
     ) {
       addDeploymentPlan(
+        description: \$description,
         file: \$file,
         availableFrom: \$availableFrom,
         availableUntil: \$availableUntil

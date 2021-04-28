@@ -1,9 +1,9 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart';
 import 'package:http_parser/http_parser.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/models/deployment_plan.dart';
+import 'package:pronto_mia/core/models/file_upload.dart';
 import 'package:pronto_mia/core/queries/deployment_plan_queries.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
 
@@ -12,10 +12,8 @@ class DeploymentPlanService {
       locator.getAsync<GraphQLService>();
 
   Future<List<DeploymentPlan>> getAvailableDeploymentPlans() async {
-    // final availableUntil = DateTime.now().toIso8601String();
-    const availableUntil = '2021-04-06T18:00:00.000+02:00';
     final queryVariables = {
-      'availableUntil': availableUntil,
+      'availableUntil': DateTime.now().toIso8601String(),
     };
 
     final data = await (await _graphQLService).query(
@@ -33,12 +31,12 @@ class DeploymentPlanService {
     String description,
     DateTime availableFrom,
     DateTime availableUntil,
-    PlatformFile pdfFile,
+    FileUpload pdfFile,
   ) async {
     final multiPartFile = MultipartFile.fromBytes(
-      'upload',
+      'file',
       pdfFile.bytes,
-      filename: pdfFile.path,
+      filename: pdfFile.name,
       contentType: MediaType("application", "pdf"),
     );
 

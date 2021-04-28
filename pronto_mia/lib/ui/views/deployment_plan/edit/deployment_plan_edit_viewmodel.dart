@@ -1,4 +1,3 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -6,21 +5,22 @@ import 'package:pronto_mia/app/app.router.dart';
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/deployment_plan_service.dart';
 import 'package:pronto_mia/ui/views/deployment_plan/edit/deployment_plan_edit_view.form.dart';
+import 'package:pronto_mia/core/models/file_upload.dart';
 
 class DeploymentPlanEditViewModel extends FormViewModel {
   DeploymentPlanService get _deploymentPlanService =>
       locator<DeploymentPlanService>();
   NavigationService get _navigationService => locator<NavigationService>();
 
-  PlatformFile pdfUpload;
+  FileUpload pdfUpload;
 
   @override
   void setFormStatus() {}
 
   // TODO: Implement error and busy handling
 
-  void setPdfUpload(PlatformFile file) {
-    pdfUpload = file;
+  void setPdfUpload(FileUpload fileUpload) {
+    pdfUpload = fileUpload;
     notifyListeners();
   }
 
@@ -38,9 +38,8 @@ class DeploymentPlanEditViewModel extends FormViewModel {
       );
 
       _navigationService.navigateTo(
-        HomeViewRoutes.pdfView,
-        id: 1,
-        arguments: pdfViewArguments,
+        Routes.pdfView,
+        arguments: pdfViewArguments
       );
     }
   }

@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
+import 'package:pronto_mia/core/models/file_upload.dart';
 import 'package:stacked/stacked.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
@@ -11,7 +12,7 @@ class PdfViewModel extends FutureViewModel<File> {
   ErrorMessageFactory get _errorMessageFactory =>
       locator<ErrorMessageFactory>();
 
-  final PlatformFile pdfUpload;
+  final FileUpload pdfUpload;
   final String pdfPath;
 
   String get errorMessage => _errorMessage;

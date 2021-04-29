@@ -35,7 +35,8 @@ class AuthenticationService {
 
     final data = await (await _graphQLService).query(
       AuthenticationQueries.authenticate,
-      queryVariables,
+      variables: queryVariables,
+      useCache: false,
     );
 
     final token = data['authenticate'] as String;

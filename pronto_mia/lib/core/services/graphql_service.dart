@@ -32,10 +32,7 @@ class GraphQLService {
     final authLink = AuthLink(getToken: _getJwtToken);
     final link = authLink.concat(httpLink);
 
-    final queryPolicies = Policies(
-      fetch: FetchPolicy.networkOnly,
-    );
-    final mutationPolicies = Policies(
+    final policies = Policies(
       fetch: FetchPolicy.noCache,
     );
 
@@ -43,25 +40,36 @@ class GraphQLService {
       link: link,
       cache: GraphQLCache(),
       defaultPolicies: DefaultPolicies(
-        query: queryPolicies,
-        mutate: mutationPolicies,
+        query: policies,
+        mutate: policies,
       ),
     );
   }
 
-  Future<Map<String, dynamic>> query(String query,
-      [Map<String, dynamic> variables]) async {
+  Future<Map<String, dynamic>> query(
+    String query,
+    {
+      Map<String, dynamic> variables,
+      bool useCache = true,
+    }
+  ) async {
     final queryOptions = QueryOptions(
       document: gql(query),
       variables: variables,
     );
 
+    if (useCache) {
+      queryOptions.policies = Policies(fetch: FetchPolicy.networkOnly);
+    }
+
     var queryResult = await _graphQLClient.query(queryOptions);
     if (queryResult.hasException) {
-      if (queryResult.exception.linkException is NetworkException) {
+      if (useCache && !_isNetworkAvailable(queryResult.exception)) {
         queryOptions.policies = Policies(fetch: FetchPolicy.cacheOnly);
         queryResult = await _graphQLClient.query(queryOptions);
-      } else {
+      }
+
+      if (queryResult.hasException) {
         throw queryResult.exception;
       }
     }
@@ -69,8 +77,10 @@ class GraphQLService {
     return queryResult.data;
   }
 
-  Future<Map<String, dynamic>> mutate(String mutation,
-      [Map<String, dynamic> variables]) async {
+  Future<Map<String, dynamic>> mutate(
+    String mutation,
+    {Map<String, dynamic> variables}
+  ) async {
     final mutationOptions = MutationOptions(
       document: gql(mutation),
       variables: variables,
@@ -91,5 +101,20 @@ class GraphQLService {
     } catch (_) {
       return '';
     }
+  }
+
+  bool _isNetworkAvailable(OperationException exception) {
+    if (exception.linkException is NetworkException) {
+      return false;
+    }
+
+    if (exception.linkException is ServerException) {
+      final serverException = exception.linkException as ServerException;
+      if (serverException.parsedResponse == null) {
+        return false;
+      }
+    }
+
+    return true;
   }
 }

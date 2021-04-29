@@ -31,7 +31,7 @@ class DeploymentPlanService {
 
     final data = await (await _graphQLService).query(
       DeploymentPlanQueries.deploymentPlansAvailableUntil,
-      queryVariables,
+      variables: queryVariables,
     );
 
     final dtoList = data['deploymentPlans'] as List<Object>;
@@ -61,8 +61,10 @@ class DeploymentPlanService {
       contentType: MediaType('application', 'pdf'),
     );
 
-    await (await _graphQLService)
-        .mutate(DeploymentPlanQueries.addDeploymentPlan, queryVariables);
+    await (await _graphQLService).mutate(
+      DeploymentPlanQueries.addDeploymentPlan,
+      variables: queryVariables,
+    );
   }
 
   Future<void> updateDeploymentPlan(
@@ -90,13 +92,17 @@ class DeploymentPlanService {
       );
     }
 
-    await (await _graphQLService)
-      .mutate(DeploymentPlanQueries.updateDeploymentPlan, queryVariables);
+    await (await _graphQLService).mutate(
+      DeploymentPlanQueries.updateDeploymentPlan,
+      variables: queryVariables,
+    );
   }
 
   Future<void> removeDeploymentPlan(int id) async {
     final queryVariables = {'id': id};
-    await (await _graphQLService)
-      .mutate(DeploymentPlanQueries.removeDeploymentPlan, queryVariables);
+    await (await _graphQLService).mutate(
+      DeploymentPlanQueries.removeDeploymentPlan,
+      variables: queryVariables,
+    );
   }
 }

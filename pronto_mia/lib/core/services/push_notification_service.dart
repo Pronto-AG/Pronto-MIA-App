@@ -35,15 +35,19 @@ class PushNotificationService {
   Future<void> registerToken() async {
     final token = await _fcm.getToken(vapidKey: _webPushCertificateKey);
     final queryVariables = {"fcmToken": token};
-    await (await _graphQLService)
-        .mutate(FcmTokenQueries.registerFcmToken, queryVariables);
+    await (await _graphQLService).mutate(
+      FcmTokenQueries.registerFcmToken,
+      variables: queryVariables,
+    );
   }
 
   Future<void> unregisterToken() async {
     final token = await _fcm.getToken(vapidKey: _webPushCertificateKey);
     final queryVariables = {"fcmToken": token};
-    await (await _graphQLService)
-        .mutate(FcmTokenQueries.unregisterFcmToken, queryVariables);
+    await (await _graphQLService).mutate(
+      FcmTokenQueries.unregisterFcmToken,
+      variables: queryVariables,
+    );
   }
 
   // TODO: Improve foreground message handling

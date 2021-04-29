@@ -12,15 +12,16 @@ import 'package:pronto_mia/core/models/deployment_plan.dart';
 
 class DeploymentPlanEditViewModel extends FormViewModel {
   DeploymentPlanService get _deploymentPlanService =>
-      locator<DeploymentPlanService>();
-  NavigationService get _navigationService => locator<NavigationService>();
+      locator.get<DeploymentPlanService>();
+  NavigationService get _navigationService => locator.get<NavigationService>();
   ErrorMessageFactory get _errorMessageFactory =>
-      locator<ErrorMessageFactory>();
+      locator.get<ErrorMessageFactory>();
 
   final String editBusyKey = 'edit-busy-key';
   final String removeBusyKey = 'remove-busy-key';
   final DeploymentPlan deploymentPlan;
-  FileUpload pdfUpload;
+  FileUpload get pdfUpload => _pdfUpload;
+  FileUpload _pdfUpload;
 
   DeploymentPlanEditViewModel({@required this.deploymentPlan});
 
@@ -28,12 +29,12 @@ class DeploymentPlanEditViewModel extends FormViewModel {
   void setFormStatus() {}
 
   void setPdfUpload(FileUpload fileUpload) {
-    pdfUpload = fileUpload;
+    _pdfUpload = fileUpload;
     notifyListeners();
   }
 
   void openPdf() {
-    if (pdfUpload != null) {
+    if (_pdfUpload != null) {
       final title = (descriptionValue == null || descriptionValue.isEmpty)
           ? 'Einsatzplan'
           : descriptionValue;
@@ -42,7 +43,7 @@ class DeploymentPlanEditViewModel extends FormViewModel {
       final pdfViewArguments = PdfViewArguments(
         title: title,
         subTitle: subTitle,
-        pdfUpload: pdfUpload,
+        pdfUpload: _pdfUpload,
       );
 
       _navigationService.navigateTo(
@@ -69,7 +70,7 @@ class DeploymentPlanEditViewModel extends FormViewModel {
           descriptionValue,
           availableFrom,
           availableUntil,
-          pdfUpload,
+          _pdfUpload,
         ),
         busyObject: editBusyKey,
       );
@@ -88,7 +89,7 @@ class DeploymentPlanEditViewModel extends FormViewModel {
               !deploymentPlan.availableUntil.isAtSameMomentAs(availableUntil)
                   ? availableUntil
                   : null,
-          pdfFile: pdfUpload,
+          pdfFile: _pdfUpload,
         ),
         busyObject: editBusyKey,
       );

@@ -29,12 +29,15 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_cache_manager:
+  flutter_secure_storage:
   global_configuration: ^1.6.0
   graphql:
   http:
   http_parser:
   image_picker:
   intl: ^0.17.0
+  jwt_decoder:
+  logging:
   pdf_render:
   shared_preferences:
   stacked:

@@ -24,7 +24,7 @@ class PdfViewModel extends FutureViewModel<File> {
   PdfViewModel({this.pdfUpload, this.pdfPath});
 
   @override
-  Future<File> futureToRun() async {
+  Future<File> futureToRun() {
     if (pdfUpload == null) {
       return _downloadPdf(pdfPath);
     }

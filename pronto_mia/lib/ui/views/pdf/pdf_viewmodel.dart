@@ -21,12 +21,12 @@ class PdfViewModel extends FutureViewModel<File> {
 
   @override
   Future<File> futureToRun() async {
-    try{
+    try {
       if (pdfUpload == null) {
         return _downloadPdf(pdfPath);
       }
       return Future.value();
-    } catch(e) {
+    } catch (e) {
       _errorMessage = await _errorMessageFactory.getErrorMessage(
           "DeploymentPlanOverviewViewModel", e);
       rethrow;

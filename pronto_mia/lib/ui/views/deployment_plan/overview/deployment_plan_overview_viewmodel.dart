@@ -25,11 +25,11 @@ class DeploymentPlanOverviewViewModel
 
   @override
   Future<List<DeploymentPlan>> futureToRun() async {
-    try{
+    try {
       return _getAvailableDeploymentPlans();
-    } catch(e) {
+    } catch (e) {
       _errorMessage = await _errorMessageFactory.getErrorMessage(
-      "DeploymentPlanOverviewViewModel", e);
+          "DeploymentPlanOverviewViewModel", e);
       rethrow;
     }
   }
@@ -66,6 +66,6 @@ class DeploymentPlanOverviewViewModel
   }
 
   Future<List<DeploymentPlan>> _getAvailableDeploymentPlans() async {
-      return _deploymentPlanService.getAvailableDeploymentPlans();
+    return _deploymentPlanService.getAvailableDeploymentPlans();
   }
 }

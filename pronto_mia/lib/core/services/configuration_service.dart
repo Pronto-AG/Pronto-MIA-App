@@ -12,10 +12,6 @@ class ConfigurationService {
     } else {
       await _configuration.loadFromAsset('app_settings_dev.json');
     }
-    var logLevel = _configuration.getValue<String>("LogLevel");
-    if (logLevel == null || logLevel.isEmpty) {
-      logLevel = "info";
-    }
   }
 
   T getValue<T>(String key) {

@@ -1,4 +1,6 @@
+import 'package:logging/logging.dart';
 import 'package:pronto_mia/core/factories/error_message_factory.dart';
+import 'package:pronto_mia/core/services/logging_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -13,6 +15,8 @@ class LoginViewModel extends FormViewModel {
   NavigationService get _navigationService => locator.get<NavigationService>();
   ErrorMessageFactory get _errorMessageFactory =>
       locator.get<ErrorMessageFactory>();
+  Future<LoggingService> get _loggingService =>
+      locator.getAsync<LoggingService>();
 
   @override
   void setFormStatus() {}
@@ -30,7 +34,9 @@ class LoginViewModel extends FormViewModel {
     );
 
     if (hasError) {
-      final errorMessage = _errorMessageFactory.getErrorMessage(error);
+      final errorMessage = _errorMessageFactory.getErrorMessage(modelError);
+      (await _loggingService).log("LoginViewModel", Level.WARNING, modelError);
+
       setValidationMessage(errorMessage);
       notifyListeners();
     } else {

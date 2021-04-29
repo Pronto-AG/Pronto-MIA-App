@@ -37,6 +37,7 @@ dependencies:
   image_picker:
   intl: ^0.17.0
   jwt_decoder:
+  logging:
   pdf_render:
   shared_preferences:
   stacked:

@@ -54,16 +54,25 @@ class DeploymentPlanOverviewViewModel
   }
 
   Future<void> createDeploymentPlan() async {
-    await _navigationService.navigateTo(Routes.deploymentPlanEditView);
+    final dataHasChanged = await _navigationService.navigateTo(
+      Routes.deploymentPlanEditView
+    );
+    if (dataHasChanged is bool && dataHasChanged) {
+       await initialise();
+    }
   }
 
   Future<void> editDeploymentPlan(DeploymentPlan deploymentPlan) async {
-    await _navigationService.navigateTo(
+    final dataHasChanged = await _navigationService.navigateTo(
       Routes.deploymentPlanEditView,
       arguments: DeploymentPlanEditViewArguments(
         deploymentPlan: deploymentPlan,
       ),
     );
+
+    if (dataHasChanged is bool && dataHasChanged) {
+      await initialise();
+    }
   }
 
   Future<List<DeploymentPlan>> _getAvailableDeploymentPlans() async {

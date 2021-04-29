@@ -1,6 +1,5 @@
 import 'package:http/http.dart';
 import 'package:http_parser/http_parser.dart';
-import 'package:flutter/foundation.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/models/deployment_plan.dart';

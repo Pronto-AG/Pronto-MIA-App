@@ -17,17 +17,15 @@ class DeploymentPlanEditViewModel extends FormViewModel {
   ErrorMessageFactory get _errorMessageFactory =>
       locator<ErrorMessageFactory>();
 
-  final DeploymentPlan deploymentPlan;
   final String editBusyKey = 'edit-busy-key';
   final String removeBusyKey = 'remove-busy-key';
+  final DeploymentPlan deploymentPlan;
   FileUpload pdfUpload;
 
   DeploymentPlanEditViewModel({@required this.deploymentPlan});
 
   @override
   void setFormStatus() {}
-
-  // TODO: Implement error and busy handling
 
   void setPdfUpload(FileUpload fileUpload) {
     pdfUpload = fileUpload;
@@ -82,10 +80,12 @@ class DeploymentPlanEditViewModel extends FormViewModel {
           description: deploymentPlan.description != descriptionValue
             ? descriptionValue
             : null,
-          availableFrom: deploymentPlan.availableFrom != availableFrom
+          availableFrom: !deploymentPlan.availableFrom
+              .isAtSameMomentAs(availableFrom)
             ? availableFrom
             : null,
-          availableUntil: deploymentPlan.availableUntil != availableUntil
+          availableUntil: !deploymentPlan.availableUntil
+              .isAtSameMomentAs(availableUntil)
             ? availableUntil
             : null,
           pdfFile: pdfUpload,
@@ -99,7 +99,7 @@ class DeploymentPlanEditViewModel extends FormViewModel {
       setValidationMessage(errorMessage);
       notifyListeners();
     } else {
-      _navigationService.back();
+      _navigationService.back(result: true);
     }
   }
 
@@ -109,6 +109,14 @@ class DeploymentPlanEditViewModel extends FormViewModel {
         _deploymentPlanService.removeDeploymentPlan(deploymentPlan.id),
         busyObject: removeBusyKey,
       );
+    }
+
+    if (hasError) {
+      final errorMessage = _errorMessageFactory.getErrorMessage(error);
+      setValidationMessage(errorMessage);
+      notifyListeners();
+    } else {
+      _navigationService.back(result: true);
     }
   }
 
@@ -124,10 +132,10 @@ class DeploymentPlanEditViewModel extends FormViewModel {
     final availableFrom = DateTime.parse(availableFromValue);
     final availableUntil = DateTime.parse(availableUntilValue);
     if (!availableFrom.isBefore(availableUntil)) {
-      return 'Das Startdatum muss vor dem Enddatum liegen';
+      return 'Das Startdatum muss vor dem Enddatum liegen.';
     }
 
-    if (pdfPathValue == null) {
+    if (pdfPathValue == null || pdfPathValue.isEmpty) {
       return 'Bitte Einsatzplan als PDF-Datei hochladen.';
     }
 

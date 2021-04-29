@@ -49,8 +49,6 @@ class DeploymentPlanEditView extends StatelessWidget
     }
   }
 
-  // TODO: Implement update and delete
-
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<DeploymentPlanEditViewModel>.reactive(
@@ -144,15 +142,13 @@ class DeploymentPlanEditView extends StatelessWidget
                     SizedBox(
                       width: double.infinity,
                       height: 40.0,
-                      child: ElevatedButton(
+                      child: OutlinedButton(
                         onPressed: model.removeDeploymentPlan,
                         child: model.busy(model.removeBusyKey)
                           ? const SizedBox(
                             width: 16.0,
                             height: 16.0,
                             child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation(Colors.white),
-                              backgroundColor: Colors.blue,
                               strokeWidth: 3,
                             ),
                           )

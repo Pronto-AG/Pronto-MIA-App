@@ -32,7 +32,10 @@ class GraphQLService {
     final authLink = AuthLink(getToken: _getJwtToken);
     final link = authLink.concat(httpLink);
 
-    final policies = Policies(
+    final queryPolicies = Policies(
+      fetch: FetchPolicy.noCache,
+    );
+    final mutationPolicies = Policies(
       fetch: FetchPolicy.noCache,
     );
 
@@ -40,7 +43,8 @@ class GraphQLService {
       link: link,
       cache: GraphQLCache(),
       defaultPolicies: DefaultPolicies(
-        mutate: policies,
+        query: queryPolicies,
+        mutate: mutationPolicies,
       ),
     );
   }

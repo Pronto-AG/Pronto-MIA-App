@@ -1,4 +1,3 @@
-import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -67,8 +66,7 @@ class DeploymentPlanOverviewView extends StatelessWidget {
                     ?? 'Einsatzplan $availableFromDateFormatted'
                   ),
                   subtitle: Text(
-                    //'$availableFromFormatted - $availableUntilFormatted',
-                    'Id ${model.data[index].id}'
+                    '$availableFromFormatted - $availableUntilFormatted',
                   ),
                   onTap: () {
                     if (adminModeEnabled) {
@@ -133,7 +131,10 @@ class DeploymentPlanOverviewView extends StatelessWidget {
     );
   }
 
-  void showMenu(BuildContext context, DeploymentPlanOverviewViewModel model) async {
+  Future<void> showMenu(
+    BuildContext context,
+    DeploymentPlanOverviewViewModel model
+  ) async {
     await showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {

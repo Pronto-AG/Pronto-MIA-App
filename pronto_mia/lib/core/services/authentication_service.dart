@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
 import 'package:pronto_mia/core/queries/authentication_queries.dart';

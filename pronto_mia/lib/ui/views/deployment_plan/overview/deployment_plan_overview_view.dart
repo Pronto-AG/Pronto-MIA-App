@@ -47,37 +47,40 @@ class DeploymentPlanOverviewView extends StatelessWidget {
             );
           }
 
-          return ListView.builder(
-            itemCount: model.data.length,
-            itemBuilder: (context, index) {
-              final dateFormat = DateFormat('dd.MM.yyyy');
-              final dateTimeFormat = DateFormat('dd.MM.yyyy hh:mm');
-              final availableFromDateFormatted =
-                  dateFormat.format(model.data[index].availableFrom);
-              final availableFromFormatted =
-                  dateTimeFormat.format(model.data[index].availableFrom);
-              final availableUntilFormatted =
-                  dateTimeFormat.format(model.data[index].availableUntil);
+          return RefreshIndicator(
+            onRefresh: model.initialise,
+            child: ListView.builder(
+              itemCount: model.data.length,
+              itemBuilder: (context, index) {
+                final dateFormat = DateFormat('dd.MM.yyyy');
+                final dateTimeFormat = DateFormat('dd.MM.yyyy hh:mm');
+                final availableFromDateFormatted =
+                dateFormat.format(model.data[index].availableFrom);
+                final availableFromFormatted =
+                dateTimeFormat.format(model.data[index].availableFrom);
+                final availableUntilFormatted =
+                dateTimeFormat.format(model.data[index].availableUntil);
 
-              return Card(
-                child: ListTile(
-                  title: Text(
-                    model.data[index].description
-                    ?? 'Einsatzplan $availableFromDateFormatted'
+                return Card(
+                  child: ListTile(
+                    title: Text(
+                        model.data[index].description
+                            ?? 'Einsatzplan $availableFromDateFormatted'
+                    ),
+                    subtitle: Text(
+                      '$availableFromFormatted - $availableUntilFormatted',
+                    ),
+                    onTap: () {
+                      if (adminModeEnabled) {
+                        model.editDeploymentPlan(model.data[index]);
+                      } else {
+                        model.openPdf(model.data[index]);
+                      }
+                    },
                   ),
-                  subtitle: Text(
-                    '$availableFromFormatted - $availableUntilFormatted',
-                  ),
-                  onTap: () {
-                    if (adminModeEnabled) {
-                      model.editDeploymentPlan(model.data[index]);
-                    } else {
-                      model.openPdf(model.data[index]);
-                    }
-                  },
-                ),
-              );
-            },
+                );
+              },
+            ),
           );
         })(),
         floatingActionButton: adminModeEnabled

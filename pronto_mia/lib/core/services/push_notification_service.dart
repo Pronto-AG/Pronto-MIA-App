@@ -11,7 +11,7 @@ class PushNotificationService {
   Future<GraphQLService> get _graphQLService =>
       locator.getAsync<GraphQLService>();
 
-  String _webPushCertificateKey;
+  String _pushMessageServerVapidPublicKey;
 
   Future<ConfigurationService> get _configurationService =>
       locator.getAsync<ConfigurationService>();
@@ -28,21 +28,21 @@ class PushNotificationService {
       // ToDo: Throw error if not worked, ask again, or deactivate completely
     }
 
-    if (kIsWeb) {
-      _webPushCertificateKey = (await _configurationService)
-          .getValue<String>('webPushCertificateKey');
-    }
+    _pushMessageServerVapidPublicKey = (await _configurationService)
+        .getValue<String>('pushMessageServerVapidPublicKey');
   }
 
   Future<void> registerToken() async {
-    final token = await _fcm.getToken(vapidKey: _webPushCertificateKey);
+    final token =
+        await _fcm.getToken(vapidKey: _pushMessageServerVapidPublicKey);
     final queryVariables = {"fcmToken": token};
     await (await _graphQLService)
         .mutate(FcmTokenQueries.registerFcmToken, queryVariables);
   }
 
   Future<void> unregisterToken() async {
-    final token = await _fcm.getToken(vapidKey: _webPushCertificateKey);
+    final token =
+        await _fcm.getToken(vapidKey: _pushMessageServerVapidPublicKey);
     final queryVariables = {"fcmToken": token};
     await (await _graphQLService)
         .mutate(FcmTokenQueries.unregisterFcmToken, queryVariables);

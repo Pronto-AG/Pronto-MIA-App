@@ -12,10 +12,10 @@ import 'package:pronto_mia/core/factories/error_message_factory.dart';
 class DeploymentPlanOverviewViewModel
     extends FutureViewModel<List<DeploymentPlan>> {
   DeploymentPlanService get _deploymentPlanService =>
-      locator<DeploymentPlanService>();
+      locator.get<DeploymentPlanService>();
   NavigationService get _navigationService => locator<NavigationService>();
   ErrorMessageFactory get _errorMessageFactory =>
-      locator<ErrorMessageFactory>();
+      locator.get<ErrorMessageFactory>();
 
   String errorMessage;
   bool adminModeEnabled = false;

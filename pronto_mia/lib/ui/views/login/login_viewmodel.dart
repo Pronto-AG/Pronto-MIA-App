@@ -9,10 +9,10 @@ import 'package:pronto_mia/ui/views/login/login_view.form.dart';
 
 class LoginViewModel extends FormViewModel {
   AuthenticationService get _authenticationService =>
-      locator<AuthenticationService>();
-  NavigationService get _navigationService => locator<NavigationService>();
+      locator.get<AuthenticationService>();
+  NavigationService get _navigationService => locator.get<NavigationService>();
   ErrorMessageFactory get _errorMessageFactory =>
-      locator<ErrorMessageFactory>();
+      locator.get<ErrorMessageFactory>();
 
   @override
   void setFormStatus() {}

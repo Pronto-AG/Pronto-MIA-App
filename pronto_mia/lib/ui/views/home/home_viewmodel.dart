@@ -5,7 +5,7 @@ import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/app/app.router.dart';
 
 class HomeViewModel extends IndexTrackingViewModel {
-  NavigationService get _navigationService => locator<NavigationService>();
+  NavigationService get _navigationService => locator.get<NavigationService>();
 
   bool get adminModeEnabled => _adminModeEnabled;
   bool _adminModeEnabled = false;

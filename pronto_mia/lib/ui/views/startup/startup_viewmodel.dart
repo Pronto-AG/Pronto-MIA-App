@@ -8,8 +8,8 @@ import 'package:pronto_mia/app/app.router.dart';
 
 class StartUpViewModel extends BaseViewModel {
   AuthenticationService get _authenticationService =>
-      locator<AuthenticationService>();
-  NavigationService get _navigationService => locator<NavigationService>();
+      locator.get<AuthenticationService>();
+  NavigationService get _navigationService => locator.get<NavigationService>();
 
   Future<void> handleStartUp() async {
     await Firebase.initializeApp();

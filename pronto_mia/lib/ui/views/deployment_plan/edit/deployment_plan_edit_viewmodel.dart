@@ -9,8 +9,8 @@ import 'package:pronto_mia/ui/views/deployment_plan/edit/deployment_plan_edit_vi
 
 class DeploymentPlanEditViewModel extends FormViewModel {
   DeploymentPlanService get _deploymentPlanService =>
-      locator<DeploymentPlanService>();
-  NavigationService get _navigationService => locator<NavigationService>();
+      locator.get<DeploymentPlanService>();
+  NavigationService get _navigationService => locator.get<NavigationService>();
 
   PlatformFile pdfUpload;
 

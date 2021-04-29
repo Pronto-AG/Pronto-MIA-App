@@ -24,6 +24,8 @@ class PushNotificationService {
         AuthorizationStatus.authorized) {
       // TODO: Implement additional message listeners
       FirebaseMessaging.onMessage.listen(_handleForegroundMessage);
+    } else {
+      // ToDo: Throw error if not worked, ask again, or deactivate completely
     }
 
     if (kIsWeb) {

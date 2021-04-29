@@ -27,6 +27,8 @@ class LoggingService {
         return level;
       }
     }
+
+    return Level.INFO;
   }
 
   void log(String logContext, Level logLevel, Object message) {

@@ -1,9 +1,12 @@
+import 'package:logging/logging.dart';
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
 import 'package:pronto_mia/core/queries/authentication_queries.dart';
 import 'package:pronto_mia/core/services/jwt_token_service.dart';
 import 'package:pronto_mia/core/services/push_notification_service.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+
+import 'package:pronto_mia/core/services/logging_service.dart';
 
 class AuthenticationService {
   Future<GraphQLService> get _graphQLService =>
@@ -12,6 +15,8 @@ class AuthenticationService {
       locator.getAsync<JwtTokenService>();
   Future<PushNotificationService> get _pushNotificationService =>
       locator.getAsync<PushNotificationService>();
+  Future<LoggingService> get _loggingService =>
+      locator.getAsync<LoggingService>();
 
   Future<bool> isAuthenticated() async {
     final token = await (await _jwtTokenService).getToken();
@@ -21,8 +26,9 @@ class AuthenticationService {
       try {
         tokenValid = !JwtDecoder.isExpired(token);
       } catch (e) {
-        // ignore: avoid_print
-        print("JWT token could not be decoded");
+        (await _loggingService).log("AuthenticationService", Level.WARNING,
+            "JWT token could not be decoded");
+        tokenValid = false;
       }
     }
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:logging/logging.dart';
+import 'package:pronto_mia/core/services/logging_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -16,6 +18,8 @@ class DeploymentPlanOverviewViewModel
   NavigationService get _navigationService => locator<NavigationService>();
   ErrorMessageFactory get _errorMessageFactory =>
       locator.get<ErrorMessageFactory>();
+  Future<LoggingService> get _loggingService =>
+      locator.getAsync<LoggingService>();
 
   String get errorMessage => _errorMessage;
   String _errorMessage;
@@ -28,8 +32,9 @@ class DeploymentPlanOverviewViewModel
 
   @override
   Future<void> onError(dynamic error) async {
-    _errorMessage = await _errorMessageFactory.getErrorMessage(
-        "DeploymentPlanOverviewViewModel", error);
+    _errorMessage = _errorMessageFactory.getErrorMessage(error);
+    (await _loggingService)
+        .log("DeploymentPlanOverviewViewModel", Level.WARNING, error);
   }
 
   void toggleAdminMode() {

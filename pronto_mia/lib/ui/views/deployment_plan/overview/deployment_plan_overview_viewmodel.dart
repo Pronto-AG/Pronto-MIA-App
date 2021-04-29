@@ -24,14 +24,12 @@ class DeploymentPlanOverviewViewModel
   DeploymentPlanOverviewViewModel({@required this.adminModeEnabled});
 
   @override
-  Future<List<DeploymentPlan>> futureToRun() async {
-    try {
-      return _getAvailableDeploymentPlans();
-    } catch (e) {
-      _errorMessage = await _errorMessageFactory.getErrorMessage(
-          "DeploymentPlanOverviewViewModel", e);
-      rethrow;
-    }
+  Future<List<DeploymentPlan>> futureToRun() => _getAvailableDeploymentPlans();
+
+  @override
+  Future<void> onError(dynamic error) async {
+    _errorMessage = await _errorMessageFactory.getErrorMessage(
+        "DeploymentPlanOverviewViewModel", error);
   }
 
   void toggleAdminMode() {

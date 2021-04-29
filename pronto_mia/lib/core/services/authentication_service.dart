@@ -3,6 +3,7 @@ import 'package:pronto_mia/core/services/graphql_service.dart';
 import 'package:pronto_mia/core/queries/authentication_queries.dart';
 import 'package:pronto_mia/core/services/jwt_token_service.dart';
 import 'package:pronto_mia/core/services/push_notification_service.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class AuthenticationService {
   Future<GraphQLService> get _graphQLService =>
@@ -14,12 +15,18 @@ class AuthenticationService {
 
   Future<bool> isAuthenticated() async {
     final token = await (await _jwtTokenService).getToken();
-    // TODO: Check token validity
-    if (token == null || token.isEmpty) {
-      return false;
-    } else {
-      return true;
+    var tokenValid = false;
+
+    if (token != null && token.isNotEmpty) {
+      try {
+        tokenValid = !JwtDecoder.isExpired(token);
+      } catch (e) {
+        // ignore: avoid_print
+        print("JWT token could not be decoded");
+      }
     }
+
+    return tokenValid;
   }
 
   Future<void> logout() async {

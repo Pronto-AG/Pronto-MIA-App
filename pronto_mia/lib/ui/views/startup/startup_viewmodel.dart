@@ -16,7 +16,7 @@ class StartUpViewModel extends BaseViewModel {
 
     final isAuthenticated = await _authenticationService.isAuthenticated();
     if (isAuthenticated) {
-      _navigationService.replaceWith(Routes.homeView);
+      _navigationService.replaceWith(Routes.deploymentPlanOverviewView);
     } else {
       _navigationService.replaceWith(Routes.loginView);
     }

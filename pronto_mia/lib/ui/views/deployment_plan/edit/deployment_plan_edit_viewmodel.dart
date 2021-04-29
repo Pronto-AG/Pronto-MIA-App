@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -6,13 +7,22 @@ import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/deployment_plan_service.dart';
 import 'package:pronto_mia/ui/views/deployment_plan/edit/deployment_plan_edit_view.form.dart';
 import 'package:pronto_mia/core/models/file_upload.dart';
+import 'package:pronto_mia/core/factories/error_message_factory.dart';
+import 'package:pronto_mia/core/models/deployment_plan.dart';
 
 class DeploymentPlanEditViewModel extends FormViewModel {
   DeploymentPlanService get _deploymentPlanService =>
       locator<DeploymentPlanService>();
   NavigationService get _navigationService => locator<NavigationService>();
+  ErrorMessageFactory get _errorMessageFactory =>
+      locator<ErrorMessageFactory>();
 
+  final DeploymentPlan deploymentPlan;
+  final String editBusyKey = 'edit-busy-key';
+  final String removeBusyKey = 'remove-busy-key';
   FileUpload pdfUpload;
+
+  DeploymentPlanEditViewModel({@required this.deploymentPlan});
 
   @override
   void setFormStatus() {}
@@ -55,16 +65,72 @@ class DeploymentPlanEditViewModel extends FormViewModel {
     final availableFrom = DateTime.parse(availableFromValue);
     final availableUntil = DateTime.parse(availableUntilValue);
 
-    await _deploymentPlanService.createDeploymentPlan(
-      descriptionValue,
-      availableFrom,
-      availableUntil,
-      pdfUpload,
-    );
+    if (deploymentPlan == null) {
+      await runBusyFuture(
+        _deploymentPlanService.createDeploymentPlan(
+          descriptionValue,
+          availableFrom,
+          availableUntil,
+          pdfUpload,
+        ),
+        busyObject: editBusyKey,
+      );
+    } else {
+      await runBusyFuture(
+        _deploymentPlanService.updateDeploymentPlan(
+          deploymentPlan.id,
+          description: deploymentPlan.description != descriptionValue
+            ? descriptionValue
+            : null,
+          availableFrom: deploymentPlan.availableFrom != availableFrom
+            ? availableFrom
+            : null,
+          availableUntil: deploymentPlan.availableUntil != availableUntil
+            ? availableUntil
+            : null,
+          pdfFile: pdfUpload,
+        ),
+        busyObject: editBusyKey,
+      );
+    }
+
+    if (hasError) {
+      final errorMessage = _errorMessageFactory.getErrorMessage(error);
+      setValidationMessage(errorMessage);
+      notifyListeners();
+    } else {
+      _navigationService.back();
+    }
   }
 
-  // TODO: Implement validation
+  Future<void> removeDeploymentPlan() async {
+    if (deploymentPlan != null) {
+      await runBusyFuture(
+        _deploymentPlanService.removeDeploymentPlan(deploymentPlan.id),
+        busyObject: removeBusyKey,
+      );
+    }
+  }
+
   String _validateForm() {
+    if (availableFromValue == null || availableFromValue.isEmpty) {
+      return 'Bitte Startdatum eingeben.';
+    }
+
+    if (availableUntilValue == null || availableUntilValue.isEmpty) {
+      return 'Bitte Enddatum eingeben.';
+    }
+
+    final availableFrom = DateTime.parse(availableFromValue);
+    final availableUntil = DateTime.parse(availableUntilValue);
+    if (!availableFrom.isBefore(availableUntil)) {
+      return 'Das Startdatum muss vor dem Enddatum liegen';
+    }
+
+    if (pdfPathValue == null) {
+      return 'Bitte Einsatzplan als PDF-Datei hochladen.';
+    }
+
     return null;
   }
 }

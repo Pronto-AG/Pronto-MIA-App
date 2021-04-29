@@ -13,15 +13,22 @@ import 'package:pronto_mia/ui/views/deployment_plan/edit/deployment_plan_edit_vi
 
 @FormView(fields: [
   FormTextField(name: 'description'),
-  FormTextField(name: 'pdfPath'),
   FormTextField(name: 'availableFrom'),
   FormTextField(name: 'availableUntil'),
+  FormTextField(name: 'pdfPath'),
 ])
 class DeploymentPlanEditView extends StatelessWidget
     with $DeploymentPlanEditView {
   final DeploymentPlan deploymentPlan;
 
-  DeploymentPlanEditView({Key key, this.deploymentPlan}) : super(key: key);
+  DeploymentPlanEditView({Key key, this.deploymentPlan}) : super(key: key) {
+    if (deploymentPlan != null) {
+      descriptionController.text = deploymentPlan.description;
+      availableFromController.text = deploymentPlan.availableFrom.toString();
+      availableUntilController.text = deploymentPlan.availableUntil.toString();
+      pdfPathController.text = 'upload.pdf';
+    }
+  }
 
   Future<void> handlePdfUpload(DeploymentPlanEditViewModel model) async {
     final result = await FilePicker.platform.pickFiles(
@@ -47,77 +54,122 @@ class DeploymentPlanEditView extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<DeploymentPlanEditViewModel>.reactive(
-      viewModelBuilder: () => DeploymentPlanEditViewModel(),
+      viewModelBuilder: () => DeploymentPlanEditViewModel(
+        deploymentPlan: deploymentPlan,
+      ),
       onModelReady: (model) => listenToFormUpdated(model),
       builder: (context, model, child) => Scaffold(
-        appBar: AppBar(title: const Text('Einsatzplan erstellen')),
+        appBar: AppBar(title: Text(
+          deploymentPlan == null
+          ? 'Einsatzplan erstellen'
+          : 'Einsatzplan bearbeiten'
+        )),
         body: Container(
             padding: const EdgeInsets.all(16.0),
             child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              TextField(
-                controller: descriptionController,
-                decoration: const InputDecoration(
-                  labelText: 'Bezeichnung',
-                ),
-              ),
-              const SizedBox(height: 8.0),
-              DateTimePicker(
-                type: DateTimePickerType.dateTime,
-                controller: availableFromController,
-                firstDate: DateTime.now(),
-                lastDate: DateTime(9999),
-                dateMask: 'dd.MM.yyyy HH:mm',
-                dateLabelText: 'Gültig ab*',
-              ),
-              const SizedBox(height: 8.0),
-              DateTimePicker(
-                type: DateTimePickerType.dateTime,
-                controller: availableUntilController,
-                firstDate: DateTime.now(),
-                lastDate: DateTime(9999),
-                dateMask: 'dd.MM.yyyy HH:mm',
-                dateLabelText: 'Gültig bis*',
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.baseline,
-                textBaseline: TextBaseline.ideographic,
+              Column(
                 children: [
-                  TextButton(
-                    onPressed: () => handlePdfUpload(model),
-                    child: const Text('Datei hochladen'),
-                  ),
-                  const SizedBox(width: 8.0),
-                  Expanded(
-                    child: TextField(
-                      controller: pdfPathController,
-                      readOnly: true,
-                      onTap: model.openPdf,
-                      style: const TextStyle(
-                        color: Colors.blue,
-                        decoration: TextDecoration.underline,
-                      ),
+                  TextField(
+                    controller: descriptionController,
+                    decoration: const InputDecoration(
+                      labelText: 'Bezeichnung',
                     ),
                   ),
+                  const SizedBox(height: 8.0),
+                  DateTimePicker(
+                    type: DateTimePickerType.dateTime,
+                    controller: availableFromController,
+                    firstDate: deploymentPlan != null
+                      ? deploymentPlan.availableFrom
+                      : DateTime.now(),
+                    lastDate: DateTime.now().add(const Duration(days: 365)),
+                    dateMask: 'dd.MM.yyyy HH:mm',
+                    dateLabelText: 'Gültig ab*',
+                  ),
+                  const SizedBox(height: 8.0),
+                  DateTimePicker(
+                    type: DateTimePickerType.dateTime,
+                    controller: availableUntilController,
+                    firstDate: deploymentPlan != null
+                      ? deploymentPlan.availableUntil
+                      : DateTime.now(),
+                    lastDate: DateTime.now().add(const Duration(days: 365)),
+                    dateMask: 'dd.MM.yyyy HH:mm',
+                    dateLabelText: 'Gültig bis*',
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.ideographic,
+                    children: [
+                      TextButton(
+                        onPressed: () => handlePdfUpload(model),
+                        child: const Text('Datei hochladen'),
+                      ),
+                      const SizedBox(width: 8.0),
+                      Expanded(
+                        child: TextField(
+                          controller: pdfPathController,
+                          readOnly: true,
+                          onTap: model.openPdf,
+                          style: const TextStyle(
+                            color: Colors.blue,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16.0),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 40.0,
+                    child: ElevatedButton(
+                      onPressed: model.submitForm,
+                      child: model.busy(model.editBusyKey)
+                        ? const SizedBox(
+                          width: 16.0,
+                          height: 16.0,
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation(Colors.white),
+                            backgroundColor: Colors.blue,
+                            strokeWidth: 3,
+                          ),
+                        )
+                        : const Text('Speichern'),
+                    ),
+                  ),
+                  if (deploymentPlan != null)  ...[
+                    const SizedBox(height: 8.0),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 40.0,
+                      child: ElevatedButton(
+                        onPressed: model.removeDeploymentPlan,
+                        child: model.busy(model.removeBusyKey)
+                          ? const SizedBox(
+                            width: 16.0,
+                            height: 16.0,
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation(Colors.white),
+                              backgroundColor: Colors.blue,
+                              strokeWidth: 3,
+                            ),
+                          )
+                          : const Text('Löschen'),
+                      ),
+                    ),
+                  ],
+                  if (model.validationMessage != null) ...[
+                    const SizedBox(height: 8.0),
+                    Text(
+                      model.validationMessage,
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  ],
                 ],
               ),
-              const SizedBox(height: 16.0),
-              SizedBox(
-                  width: double.infinity,
-                  height: 40.0,
-                  child: ElevatedButton(
-                    onPressed: model.submitForm,
-                    child: const Text('Erstellen'),
-                  )),
-              if (model.validationMessage != null) ...[
-                const SizedBox(height: 8.0),
-                Text(
-                  model.validationMessage,
-                  style: const TextStyle(color: Colors.red),
-                ),
-              ],
-            ])),
+            ),
       ),
     );
   }

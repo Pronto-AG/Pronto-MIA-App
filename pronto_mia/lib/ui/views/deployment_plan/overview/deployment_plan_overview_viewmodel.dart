@@ -17,25 +17,26 @@ class DeploymentPlanOverviewViewModel
   ErrorMessageFactory get _errorMessageFactory =>
       locator<ErrorMessageFactory>();
 
+  final bool adminModeEnabled;
   String errorMessage;
-  bool adminModeEnabled = false;
 
   DeploymentPlanOverviewViewModel({@required this.adminModeEnabled});
 
   @override
-  Future<List<DeploymentPlan>> futureToRun() => _getAvailableDeploymentPlans();
+  Future<List<DeploymentPlan>> futureToRun() {
+    if (adminModeEnabled) {
+      return _getDeploymentPlans();
+    } else {
+      return _getAvailableDeploymentPlans();
+    }
+  }
 
   @override
   void onError(dynamic error) {
     errorMessage = _errorMessageFactory.getErrorMessage(error);
   }
 
-  void toggleAdminMode() {
-    adminModeEnabled = !adminModeEnabled;
-    notifyListeners();
-  }
-
-  void openPdf(DeploymentPlan deploymentPlan) {
+  Future<void> openPdf(DeploymentPlan deploymentPlan) async {
     final dateFormat = DateFormat('dd.MM.yyyy');
     final availableFromFormatted =
         dateFormat.format(deploymentPlan.availableFrom);
@@ -43,25 +44,37 @@ class DeploymentPlanOverviewViewModel
         dateFormat.format(deploymentPlan.availableUntil);
     final pdfViewArguments = PdfViewArguments(
       pdfPath: deploymentPlan.link,
-      // TODO: Add description
-      title: 'Einsatzplan',
+      title: deploymentPlan.description ?? 'Einsatzplan',
       subTitle: '$availableFromFormatted - $availableUntilFormatted',
     );
-    _navigationService.navigateTo(
-      HomeViewRoutes.pdfView,
-      id: 1,
+    await _navigationService.navigateTo(
+      Routes.pdfView,
       arguments: pdfViewArguments,
     );
   }
 
-  void createDeploymentPlan() {
-    _navigationService.navigateTo(
-      HomeViewRoutes.deploymentPlanEditView,
-      id: 1,
+  Future<void> createDeploymentPlan() async {
+    await _navigationService.navigateTo(Routes.deploymentPlanEditView);
+  }
+
+  Future<void> editDeploymentPlan(DeploymentPlan deploymentPlan) async {
+    await _navigationService.navigateTo(
+      Routes.deploymentPlanEditView,
+      arguments: DeploymentPlanEditViewArguments(
+        deploymentPlan: deploymentPlan,
+      ),
     );
   }
 
   Future<List<DeploymentPlan>> _getAvailableDeploymentPlans() async {
     return _deploymentPlanService.getAvailableDeploymentPlans();
+  }
+
+  Future<List<DeploymentPlan>> _getDeploymentPlans() async {
+    return _deploymentPlanService.getDeploymentPlans();
+  }
+
+  Future<void> navigateFromMenu(String route, {dynamic arguments}) async {
+    await _navigationService.replaceWith(route, arguments: arguments);
   }
 }

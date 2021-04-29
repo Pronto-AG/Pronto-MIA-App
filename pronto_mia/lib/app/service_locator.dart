@@ -9,6 +9,7 @@ import 'package:pronto_mia/core/services/jwt_token_service.dart';
 import 'package:pronto_mia/core/services/pdf_service.dart';
 import 'package:pronto_mia/core/services/push_notification_service.dart';
 import 'package:pronto_mia/core/services/configuration_service.dart';
+import 'package:pronto_mia/core/services/logging_service.dart';
 
 final locator = StackedLocator.instance;
 
@@ -35,6 +36,12 @@ void setupLocator() {
     final pushNotificationService = PushNotificationService();
     await pushNotificationService.init();
     return pushNotificationService;
+  });
+
+  locator.registerLazySingletonAsync<LoggingService>(() async {
+    final loggingService = LoggingService();
+    await loggingService.init();
+    return loggingService;
   });
 
   locator.registerLazySingleton<AuthenticationService>(

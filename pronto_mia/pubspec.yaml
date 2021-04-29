@@ -36,6 +36,7 @@ dependencies:
   http_parser:
   image_picker:
   intl: ^0.17.0
+  logging:
   pdf_render:
   shared_preferences:
   stacked:

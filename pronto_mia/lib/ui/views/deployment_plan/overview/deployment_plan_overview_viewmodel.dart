@@ -17,17 +17,21 @@ class DeploymentPlanOverviewViewModel
   ErrorMessageFactory get _errorMessageFactory =>
       locator.get<ErrorMessageFactory>();
 
-  String errorMessage;
+  String get errorMessage => _errorMessage;
+  String _errorMessage;
   bool adminModeEnabled = false;
 
   DeploymentPlanOverviewViewModel({@required this.adminModeEnabled});
 
   @override
-  Future<List<DeploymentPlan>> futureToRun() => _getAvailableDeploymentPlans();
-
-  @override
-  void onError(dynamic error) {
-    errorMessage = _errorMessageFactory.getErrorMessage(error);
+  Future<List<DeploymentPlan>> futureToRun() async {
+    try{
+      return _getAvailableDeploymentPlans();
+    } catch(e) {
+      _errorMessage = await _errorMessageFactory.getErrorMessage(
+      "DeploymentPlanOverviewViewModel", e);
+      rethrow;
+    }
   }
 
   void toggleAdminMode() {
@@ -62,6 +66,6 @@ class DeploymentPlanOverviewViewModel
   }
 
   Future<List<DeploymentPlan>> _getAvailableDeploymentPlans() async {
-    return _deploymentPlanService.getAvailableDeploymentPlans();
+      return _deploymentPlanService.getAvailableDeploymentPlans();
   }
 }

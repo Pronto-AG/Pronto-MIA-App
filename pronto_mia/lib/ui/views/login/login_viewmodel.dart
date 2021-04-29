@@ -30,7 +30,8 @@ class LoginViewModel extends FormViewModel {
     );
 
     if (hasError) {
-      final errorMessage = _errorMessageFactory.getErrorMessage(error);
+      final errorMessage =
+          await _errorMessageFactory.getErrorMessage("LoginViewModel", error);
       setValidationMessage(errorMessage);
       notifyListeners();
     } else {

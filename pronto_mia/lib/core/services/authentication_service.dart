@@ -19,10 +19,10 @@ class AuthenticationService {
     final token = await (await _jwtTokenService).getToken();
     var tokenValid = false;
 
-    if(token != null && token.isNotEmpty) {
+    if (token != null && token.isNotEmpty) {
       try {
         tokenValid = !JwtDecoder.isExpired(token);
-      } catch(e) {
+      } catch (e) {
         // ignore: avoid_print
         print("JWT token could not be decoded");
       }

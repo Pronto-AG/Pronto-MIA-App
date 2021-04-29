@@ -33,7 +33,7 @@ class GraphQLService {
     final link = authLink.concat(httpLink);
 
     final queryPolicies = Policies(
-      fetch: FetchPolicy.noCache,
+      fetch: FetchPolicy.networkOnly,
     );
     final mutationPolicies = Policies(
       fetch: FetchPolicy.noCache,
@@ -56,9 +56,14 @@ class GraphQLService {
       variables: variables,
     );
 
-    final queryResult = await _graphQLClient.query(queryOptions);
+    var queryResult = await _graphQLClient.query(queryOptions);
     if (queryResult.hasException) {
-      throw queryResult.exception;
+      if (queryResult.exception.linkException is NetworkException) {
+        queryOptions.policies = Policies(fetch: FetchPolicy.cacheOnly);
+        queryResult = await _graphQLClient.query(queryOptions);
+      } else {
+        throw queryResult.exception;
+      }
     }
 
     return queryResult.data;

@@ -47,12 +47,10 @@ class GraphQLService {
   }
 
   Future<Map<String, dynamic>> query(
-    String query,
-    {
-      Map<String, dynamic> variables,
-      bool useCache = true,
-    }
-  ) async {
+    String query, {
+    Map<String, dynamic> variables,
+    bool useCache = true,
+  }) async {
     final queryOptions = QueryOptions(
       document: gql(query),
       variables: variables,
@@ -77,10 +75,8 @@ class GraphQLService {
     return queryResult.data;
   }
 
-  Future<Map<String, dynamic>> mutate(
-    String mutation,
-    {Map<String, dynamic> variables}
-  ) async {
+  Future<Map<String, dynamic>> mutate(String mutation,
+      {Map<String, dynamic> variables}) async {
     final mutationOptions = MutationOptions(
       document: gql(mutation),
       variables: variables,

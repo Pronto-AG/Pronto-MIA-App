@@ -55,18 +55,16 @@ class DeploymentPlanOverviewView extends StatelessWidget {
                 final dateFormat = DateFormat('dd.MM.yyyy');
                 final dateTimeFormat = DateFormat('dd.MM.yyyy hh:mm');
                 final availableFromDateFormatted =
-                dateFormat.format(model.data[index].availableFrom);
+                    dateFormat.format(model.data[index].availableFrom);
                 final availableFromFormatted =
-                dateTimeFormat.format(model.data[index].availableFrom);
+                    dateTimeFormat.format(model.data[index].availableFrom);
                 final availableUntilFormatted =
-                dateTimeFormat.format(model.data[index].availableUntil);
+                    dateTimeFormat.format(model.data[index].availableUntil);
 
                 return Card(
                   child: ListTile(
-                    title: Text(
-                        model.data[index].description
-                            ?? 'Einsatzplan $availableFromDateFormatted'
-                    ),
+                    title: Text(model.data[index].description ??
+                        'Einsatzplan $availableFromDateFormatted'),
                     subtitle: Text(
                       '$availableFromFormatted - $availableUntilFormatted',
                     ),
@@ -84,14 +82,14 @@ class DeploymentPlanOverviewView extends StatelessWidget {
           );
         })(),
         floatingActionButton: adminModeEnabled
-          ? FloatingActionButton(
-              tooltip: 'Einsatzplan erstellen',
-              backgroundColor: Colors.green,
-              onPressed: model.createDeploymentPlan,
-              heroTag: null,
-              child: const Icon(Icons.post_add),
-            )
-          : null,
+            ? FloatingActionButton(
+                tooltip: 'Einsatzplan erstellen',
+                backgroundColor: Colors.green,
+                onPressed: model.createDeploymentPlan,
+                heroTag: null,
+                child: const Icon(Icons.post_add),
+              )
+            : null,
         floatingActionButtonLocation: (() {
           if (kIsWeb) {
             return FloatingActionButtonLocation.endFloat;
@@ -135,9 +133,7 @@ class DeploymentPlanOverviewView extends StatelessWidget {
   }
 
   Future<void> showMenu(
-    BuildContext context,
-    DeploymentPlanOverviewViewModel model
-  ) async {
+      BuildContext context, DeploymentPlanOverviewViewModel model) async {
     await showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {

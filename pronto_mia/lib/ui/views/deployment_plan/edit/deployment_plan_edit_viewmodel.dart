@@ -47,7 +47,7 @@ class DeploymentPlanEditViewModel extends FormViewModel {
 
       _navigationService.navigateTo(
         Routes.pdfView,
-        arguments: pdfViewArguments
+        arguments: pdfViewArguments,
       );
     }
   }
@@ -78,16 +78,16 @@ class DeploymentPlanEditViewModel extends FormViewModel {
         _deploymentPlanService.updateDeploymentPlan(
           deploymentPlan.id,
           description: deploymentPlan.description != descriptionValue
-            ? descriptionValue
-            : null,
-          availableFrom: !deploymentPlan.availableFrom
-              .isAtSameMomentAs(availableFrom)
-            ? availableFrom
-            : null,
-          availableUntil: !deploymentPlan.availableUntil
-              .isAtSameMomentAs(availableUntil)
-            ? availableUntil
-            : null,
+              ? descriptionValue
+              : null,
+          availableFrom:
+              !deploymentPlan.availableFrom.isAtSameMomentAs(availableFrom)
+                  ? availableFrom
+                  : null,
+          availableUntil:
+              !deploymentPlan.availableUntil.isAtSameMomentAs(availableUntil)
+                  ? availableUntil
+                  : null,
           pdfFile: pdfUpload,
         ),
         busyObject: editBusyKey,

@@ -55,10 +55,10 @@ class DeploymentPlanOverviewViewModel
 
   Future<void> createDeploymentPlan() async {
     final dataHasChanged = await _navigationService.navigateTo(
-      Routes.deploymentPlanEditView
+      Routes.deploymentPlanEditView,
     );
     if (dataHasChanged is bool && dataHasChanged) {
-       await initialise();
+      await initialise();
     }
   }
 

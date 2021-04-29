@@ -18,8 +18,8 @@ class DeploymentPlanService {
 
     final dtoList = data['deploymentPlans'] as List<Object>;
     final deploymentPlanList = dtoList
-      .map((dto) => DeploymentPlan.fromJson(dto as Map<String, dynamic>))
-      .toList();
+        .map((dto) => DeploymentPlan.fromJson(dto as Map<String, dynamic>))
+        .toList();
 
     return deploymentPlanList;
   }
@@ -68,14 +68,12 @@ class DeploymentPlanService {
   }
 
   Future<void> updateDeploymentPlan(
-    int id,
-    {
-      String description,
-      DateTime availableFrom,
-      DateTime availableUntil,
-      FileUpload pdfFile,
-    }
-  ) async {
+    int id, {
+    String description,
+    DateTime availableFrom,
+    DateTime availableUntil,
+    FileUpload pdfFile,
+  }) async {
     final queryVariables = {
       'id': id,
       'description': description,

@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
-import 'package:pronto_mia/core/services/logging_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -10,25 +8,32 @@ import 'package:pronto_mia/app/app.router.dart';
 import 'package:pronto_mia/core/models/deployment_plan.dart';
 import 'package:pronto_mia/core/services/deployment_plan_service.dart';
 import 'package:pronto_mia/core/factories/error_message_factory.dart';
+import 'package:pronto_mia/core/services/logging_service.dart';
 
 class DeploymentPlanOverviewViewModel
     extends FutureViewModel<List<DeploymentPlan>> {
   DeploymentPlanService get _deploymentPlanService =>
       locator.get<DeploymentPlanService>();
-  NavigationService get _navigationService => locator<NavigationService>();
+  NavigationService get _navigationService => locator.get<NavigationService>();
   ErrorMessageFactory get _errorMessageFactory =>
       locator.get<ErrorMessageFactory>();
   Future<LoggingService> get _loggingService =>
       locator.getAsync<LoggingService>();
 
+  final bool adminModeEnabled;
   String get errorMessage => _errorMessage;
   String _errorMessage;
-  bool adminModeEnabled = false;
 
-  DeploymentPlanOverviewViewModel({@required this.adminModeEnabled});
+  DeploymentPlanOverviewViewModel({this.adminModeEnabled = false});
 
   @override
-  Future<List<DeploymentPlan>> futureToRun() => _getAvailableDeploymentPlans();
+  Future<List<DeploymentPlan>> futureToRun() {
+    if (adminModeEnabled) {
+      return _getDeploymentPlans();
+    } else {
+      return _getAvailableDeploymentPlans();
+    }
+  }
 
   @override
   Future<void> onError(dynamic error) async {
@@ -37,12 +42,7 @@ class DeploymentPlanOverviewViewModel
         .log("DeploymentPlanOverviewViewModel", Level.WARNING, error);
   }
 
-  void toggleAdminMode() {
-    adminModeEnabled = !adminModeEnabled;
-    notifyListeners();
-  }
-
-  void openPdf(DeploymentPlan deploymentPlan) {
+  Future<void> openPdf(DeploymentPlan deploymentPlan) async {
     final dateFormat = DateFormat('dd.MM.yyyy');
     final availableFromFormatted =
         dateFormat.format(deploymentPlan.availableFrom);
@@ -50,25 +50,46 @@ class DeploymentPlanOverviewViewModel
         dateFormat.format(deploymentPlan.availableUntil);
     final pdfViewArguments = PdfViewArguments(
       pdfPath: deploymentPlan.link,
-      // TODO: Add description
-      title: 'Einsatzplan',
+      title: deploymentPlan.description ?? 'Einsatzplan',
       subTitle: '$availableFromFormatted - $availableUntilFormatted',
     );
-    _navigationService.navigateTo(
-      HomeViewRoutes.pdfView,
-      id: 1,
+    await _navigationService.navigateTo(
+      Routes.pdfView,
       arguments: pdfViewArguments,
     );
   }
 
-  void createDeploymentPlan() {
-    _navigationService.navigateTo(
-      HomeViewRoutes.deploymentPlanEditView,
-      id: 1,
+  Future<void> createDeploymentPlan() async {
+    final dataHasChanged = await _navigationService.navigateTo(
+      Routes.deploymentPlanEditView,
     );
+    if (dataHasChanged is bool && dataHasChanged) {
+      await initialise();
+    }
+  }
+
+  Future<void> editDeploymentPlan(DeploymentPlan deploymentPlan) async {
+    final dataHasChanged = await _navigationService.navigateTo(
+      Routes.deploymentPlanEditView,
+      arguments: DeploymentPlanEditViewArguments(
+        deploymentPlan: deploymentPlan,
+      ),
+    );
+
+    if (dataHasChanged is bool && dataHasChanged) {
+      await initialise();
+    }
   }
 
   Future<List<DeploymentPlan>> _getAvailableDeploymentPlans() async {
     return _deploymentPlanService.getAvailableDeploymentPlans();
+  }
+
+  Future<List<DeploymentPlan>> _getDeploymentPlans() async {
+    return _deploymentPlanService.getDeploymentPlans();
+  }
+
+  Future<void> navigateFromMenu(String route, {dynamic arguments}) async {
+    await _navigationService.replaceWith(route, arguments: arguments);
   }
 }

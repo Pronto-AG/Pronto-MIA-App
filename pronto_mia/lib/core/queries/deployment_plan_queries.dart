@@ -3,6 +3,7 @@ class DeploymentPlanQueries {
     query deploymentPlans() {
       deploymentPlans {
         id
+        description
         availableFrom
         availableUntil
         link
@@ -20,6 +21,7 @@ class DeploymentPlanQueries {
         }
       ) {
         id
+        description
         availableFrom
         availableUntil
         link
@@ -27,21 +29,47 @@ class DeploymentPlanQueries {
     }
   """;
 
-  // TODO: Add description to query
-  static const createDeploymentPlan = """
+  static const addDeploymentPlan = """
     mutation addDeploymentPlan(
-      \$description: String!,
+      \$description: String,
       \$file: Upload!,
       \$availableFrom: DateTime!,
       \$availableUntil: DateTime!
     ) {
       addDeploymentPlan(
+        description: \$description,
         file: \$file,
         availableFrom: \$availableFrom,
         availableUntil: \$availableUntil
       ) {
-        link
+        id
       }
+    }
+  """;
+
+  static const updateDeploymentPlan = """
+    mutation updateDeploymentPlan(
+      \$id: Int!,
+      \$description: String,
+      \$file: Upload,
+      \$availableFrom: DateTime,
+      \$availableUntil: DateTime
+    ) {
+      updateDeploymentPlan(
+        id: \$id,
+        description: \$description,
+        file: \$file,
+        availableFrom: \$availableFrom,
+        availableUntil: \$availableUntil,
+      ) {
+        id
+      }
+    }
+  """;
+
+  static const removeDeploymentPlan = """
+    mutation removeDeploymentPlan(\$id: Int!) {
+      removeDeploymentPlan(id: \$id)
     }
   """;
 }

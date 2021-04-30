@@ -3,7 +3,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class JwtTokenService {
-  // TODO: Replace with something more secure and reliable
   static const String _tokenIdentifier = "authToken";
   SharedPreferences _sharedPreferences;
   FlutterSecureStorage _secureStorage;

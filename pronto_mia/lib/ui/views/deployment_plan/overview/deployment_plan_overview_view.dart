@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:pronto_mia/ui/components/custom_app_bar.dart';
 import 'package:stacked/stacked.dart';
 import 'package:intl/intl.dart';
 
@@ -6,12 +8,10 @@ import 'package:pronto_mia/ui/views/deployment_plan/overview/deployment_plan_ove
 
 class DeploymentPlanOverviewView extends StatelessWidget {
   final bool adminModeEnabled;
-  final void Function() toggleAdminModeCallback;
 
   const DeploymentPlanOverviewView({
     Key key,
-    @required this.adminModeEnabled,
-    @required this.toggleAdminModeCallback,
+    this.adminModeEnabled = false,
   }) : super(key: key);
 
   @override
@@ -22,71 +22,93 @@ class DeploymentPlanOverviewView extends StatelessWidget {
       ),
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
-          title: const Text('Einsatzpläne'),
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.admin_panel_settings),
-              tooltip: 'Administrator-Modus',
-              onPressed: () {
-                model.toggleAdminMode();
-                toggleAdminModeCallback();
-              },
-              color: (() {
-                if (model.adminModeEnabled) {
-                  return Colors.yellow;
-                } else {
-                  return null;
-                }
-              })(),
-            ),
-            IconButton(
-              icon: const Icon(Icons.account_circle),
-              tooltip: 'Benutzerprofil',
-              onPressed: () {},
-            ),
-          ],
+          automaticallyImplyLeading: false,
+          title: Text(
+            adminModeEnabled ? 'Einsatzplanverwaltung' : 'Einsatzpläne',
+            style: const TextStyle(color: Colors.black),
+          ),
+          elevation: 0.0,
+          backgroundColor: Colors.transparent,
         ),
         body: (() {
           if (model.isBusy) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          // TODO: Add image to error
           if (model.hasError) {
             return Center(
               child: Text(model.errorMessage),
             );
           }
 
-          return ListView.builder(
+          if (model.data == null || model.data.isEmpty) {
+            return const Center(
+              child: Text('Es sind keine Einsatzpläne verfügbar.'),
+            );
+          }
+
+          return RefreshIndicator(
+            onRefresh: model.initialise,
+            child: ListView.builder(
               itemCount: model.data.length,
               itemBuilder: (context, index) {
-                final dateFormat = DateFormat('dd.MM.yyyy hh:mm');
-                final availableFromFormatted =
+                final dateFormat = DateFormat('dd.MM.yyyy');
+                final dateTimeFormat = DateFormat('dd.MM.yyyy hh:mm');
+                final availableFromDateFormatted =
                     dateFormat.format(model.data[index].availableFrom);
+                final availableFromFormatted =
+                    dateTimeFormat.format(model.data[index].availableFrom);
                 final availableUntilFormatted =
-                    dateFormat.format(model.data[index].availableUntil);
+                    dateTimeFormat.format(model.data[index].availableUntil);
 
                 return Card(
                   child: ListTile(
-                    // TODO: Add description
-                    title: Text('Einsatzplan $availableFromFormatted'),
+                    title: Text(model.data[index].description ??
+                        'Einsatzplan $availableFromDateFormatted'),
                     subtitle: Text(
-                        ' $availableFromFormatted - $availableUntilFormatted'),
-                    onTap: () => model.openPdf(model.data[index]),
+                      '$availableFromFormatted - $availableUntilFormatted',
+                    ),
+                    onTap: () {
+                      if (adminModeEnabled) {
+                        model.editDeploymentPlan(model.data[index]);
+                      } else {
+                        model.openPdf(model.data[index]);
+                      }
+                    },
                   ),
                 );
-              });
+              },
+            ),
+          );
         })(),
-        floatingActionButton: (() {
-          if (model.adminModeEnabled) {
-            return FloatingActionButton(
-              tooltip: 'Einsatzplan erstellen',
-              onPressed: model.createDeploymentPlan,
-              child: const Icon(Icons.post_add),
-            );
+        floatingActionButton: adminModeEnabled
+            ? FloatingActionButton(
+                tooltip: 'Einsatzplan erstellen',
+                backgroundColor: Colors.green,
+                onPressed: model.createDeploymentPlan,
+                heroTag: null,
+                child: const Icon(Icons.post_add),
+              )
+            : null,
+        floatingActionButtonLocation: (() {
+          if (kIsWeb) {
+            return FloatingActionButtonLocation.endFloat;
+          } else {
+            return FloatingActionButtonLocation.centerDocked;
           }
         })(),
+        bottomNavigationBar: CustomAppBar(actions: [
+          IconButton(
+            tooltip: 'Suche öffnen',
+            icon: const Icon(Icons.search),
+            onPressed: () {},
+          ),
+          IconButton(
+            tooltip: 'Filteroptionen anzeigen',
+            icon: const Icon(Icons.filter_list),
+            onPressed: () {},
+          ),
+        ]),
       ),
     );
   }

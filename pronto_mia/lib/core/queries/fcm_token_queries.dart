@@ -7,7 +7,6 @@ class FcmTokenQueries {
     }
   """;
 
-  // TODO: Rename token -> fcmToken
   static const unregisterFcmToken = """
     mutation unregisterFcmToken(\$fcmToken: String!) {
       unregisterFcmToken(token: \$fcmToken)

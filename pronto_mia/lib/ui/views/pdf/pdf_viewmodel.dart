@@ -1,12 +1,12 @@
 import 'dart:io';
-import 'package:file_picker/file_picker.dart';
 import 'package:logging/logging.dart';
-import 'package:pronto_mia/core/services/logging_service.dart';
 import 'package:stacked/stacked.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/pdf_service.dart';
 import 'package:pronto_mia/core/factories/error_message_factory.dart';
+import 'package:pronto_mia/core/models/file_upload.dart';
+import 'package:pronto_mia/core/services/logging_service.dart';
 
 class PdfViewModel extends FutureViewModel<File> {
   PdfService get _pdfService => locator.get<PdfService>();
@@ -15,7 +15,7 @@ class PdfViewModel extends FutureViewModel<File> {
   Future<LoggingService> get _loggingService =>
       locator.getAsync<LoggingService>();
 
-  final PlatformFile pdfUpload;
+  final FileUpload pdfUpload;
   final String pdfPath;
 
   String get errorMessage => _errorMessage;

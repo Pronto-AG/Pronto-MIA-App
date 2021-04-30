@@ -10,7 +10,14 @@ class StartUpView extends StatelessWidget {
       viewModelBuilder: () => StartUpViewModel(),
       onModelReady: (model) => model.handleStartUp(),
       builder: (context, model, child) => Scaffold(
-        body: Container(
+        body: (() {
+          if (model.hasError) {
+            return Center(
+              child: Text(model.errorMessage),
+            );
+          }
+
+          return Container(
             padding: const EdgeInsets.all(16.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -22,7 +29,9 @@ class StartUpView extends StatelessWidget {
                 const SizedBox(height: 32.0),
                 const CircularProgressIndicator(),
               ],
-            )),
+            ),
+          );
+        })(),
       ),
     );
   }

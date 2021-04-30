@@ -40,7 +40,7 @@ class LoginViewModel extends FormViewModel {
       setValidationMessage(errorMessage);
       notifyListeners();
     } else {
-      _navigationService.replaceWith(Routes.homeView);
+      _navigationService.replaceWith(Routes.deploymentPlanOverviewView);
     }
   }
 

@@ -1,11 +1,11 @@
 import 'package:logging/logging.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
+
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
 import 'package:pronto_mia/core/queries/authentication_queries.dart';
 import 'package:pronto_mia/core/services/jwt_token_service.dart';
 import 'package:pronto_mia/core/services/push_notification_service.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
-
 import 'package:pronto_mia/core/services/logging_service.dart';
 
 class AuthenticationService {
@@ -48,7 +48,8 @@ class AuthenticationService {
 
     final data = await (await _graphQLService).query(
       AuthenticationQueries.authenticate,
-      queryVariables,
+      variables: queryVariables,
+      useCache: false,
     );
 
     final token = data['authenticate'] as String;

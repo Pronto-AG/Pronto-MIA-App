@@ -25,7 +25,7 @@ class ErrorMessageFactory {
   }
 
   static String _getGraphQlError(ServerException error) {
-    if( error.parsedResponse == null ) {
+    if (error.parsedResponse == null) {
       return _networkError;
     }
 

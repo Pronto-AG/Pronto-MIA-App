@@ -11,31 +11,28 @@ class ErrorMessageFactory {
     String message = _unknownError;
 
     if (error is OperationException) {
-      if (error.linkException is NetworkException) {
-        message = _networkError;
-      }
-
-      if (error.linkException is ServerException) {
-        final serverException = error.linkException as ServerException;
-        message = _getGraphQlError(serverException);
-      }
+      message = _getGraphQlErrorMessage(error);
     }
 
     return message;
   }
 
-  static String _getGraphQlError(ServerException error) {
-    if (error.parsedResponse == null) {
+  static String _getGraphQlErrorMessage(OperationException error) {
+    if (!_isNetworkAvailable(error)) {
       return _networkError;
     }
 
-    if (error.parsedResponse.errors == null ||
-        error.parsedResponse.errors.isEmpty ||
-        error.parsedResponse.errors.length > 1) {
+    final serverException = error.linkException as ServerException;
+
+    if (serverException.parsedResponse == null ||
+        serverException.parsedResponse.errors == null ||
+        serverException.parsedResponse.errors.isEmpty ||
+        serverException.parsedResponse.errors.length > 1) {
       return _unknownError;
     }
 
-    switch (error.parsedResponse.errors.first.extensions["code"].toString()) {
+    switch (serverException.parsedResponse.errors.first.extensions["code"]
+        .toString()) {
       case 'PasswordTooWeak':
         return 'Das angegebene Passwort ist zu schwach.';
         break;
@@ -75,5 +72,21 @@ class ErrorMessageFactory {
       default:
         return _unknownError;
     }
+  }
+
+  // ToDo: Replace with #39 globally.
+  static bool _isNetworkAvailable(OperationException exception) {
+    if (exception.linkException is NetworkException) {
+      return false;
+    }
+
+    if (exception.linkException is ServerException) {
+      final serverException = exception.linkException as ServerException;
+      if (serverException.parsedResponse == null) {
+        return false;
+      }
+    }
+
+    return true;
   }
 }

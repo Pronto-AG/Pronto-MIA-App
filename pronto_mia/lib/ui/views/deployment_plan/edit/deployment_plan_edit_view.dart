@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pronto_mia/core/models/deployment_plan.dart';
 import 'package:pronto_mia/core/models/file_upload.dart';
+import 'package:pronto_mia/ui/components/form_layout.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:date_time_picker/date_time_picker.dart';
@@ -62,108 +63,74 @@ class DeploymentPlanEditView extends StatelessWidget
               ? 'Einsatzplan erstellen'
               : 'Einsatzplan bearbeiten'),
         ),
-        body: Container(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              TextField(
-                controller: descriptionController,
-                decoration: const InputDecoration(
-                  labelText: 'Bezeichnung',
+        body: FormLayout(
+          textFields: [
+            TextField(
+              controller: descriptionController,
+              decoration: const InputDecoration(
+                labelText: 'Bezeichnung',
+              ),
+            ),
+            DateTimePicker(
+              type: DateTimePickerType.dateTime,
+              controller: availableFromController,
+              firstDate: deploymentPlan != null
+                  ? deploymentPlan.availableFrom
+                  : DateTime.now(),
+              lastDate: DateTime.now().add(const Duration(days: 365)),
+              dateMask: 'dd.MM.yyyy HH:mm',
+              dateLabelText: 'Gültig ab*',
+            ),
+            DateTimePicker(
+              type: DateTimePickerType.dateTime,
+              controller: availableUntilController,
+              firstDate: deploymentPlan != null
+                  ? deploymentPlan.availableUntil
+                  : DateTime.now(),
+              lastDate: DateTime.now().add(const Duration(days: 365)),
+              dateMask: 'dd.MM.yyyy HH:mm',
+              dateLabelText: 'Gültig bis*',
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.ideographic,
+              children: [
+                TextButton(
+                  onPressed: () => handlePdfUpload(model),
+                  child: const Text('Datei hochladen'),
                 ),
-              ),
-              const SizedBox(height: 8.0),
-              DateTimePicker(
-                type: DateTimePickerType.dateTime,
-                controller: availableFromController,
-                firstDate: deploymentPlan != null
-                    ? deploymentPlan.availableFrom
-                    : DateTime.now(),
-                lastDate: DateTime.now().add(const Duration(days: 365)),
-                dateMask: 'dd.MM.yyyy HH:mm',
-                dateLabelText: 'Gültig ab*',
-              ),
-              const SizedBox(height: 8.0),
-              DateTimePicker(
-                type: DateTimePickerType.dateTime,
-                controller: availableUntilController,
-                firstDate: deploymentPlan != null
-                    ? deploymentPlan.availableUntil
-                    : DateTime.now(),
-                lastDate: DateTime.now().add(const Duration(days: 365)),
-                dateMask: 'dd.MM.yyyy HH:mm',
-                dateLabelText: 'Gültig bis*',
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.baseline,
-                textBaseline: TextBaseline.ideographic,
-                children: [
-                  TextButton(
-                    onPressed: () => handlePdfUpload(model),
-                    child: const Text('Datei hochladen'),
-                  ),
-                  const SizedBox(width: 8.0),
-                  Expanded(
-                    child: TextField(
-                      controller: pdfPathController,
-                      readOnly: true,
-                      onTap: model.openPdf,
-                      style: const TextStyle(
-                        color: Colors.blue,
-                        decoration: TextDecoration.underline,
-                      ),
+                const SizedBox(width: 8.0),
+                Expanded(
+                  child: TextField(
+                    controller: pdfPathController,
+                    readOnly: true,
+                    onTap: model.openPdf,
+                    style: const TextStyle(
+                      color: Colors.blue,
+                      decoration: TextDecoration.underline,
                     ),
                   ),
-                ],
-              ),
-              const SizedBox(height: 16.0),
-              SizedBox(
-                width: double.infinity,
-                height: 40.0,
-                child: ElevatedButton(
-                  onPressed: model.submitForm,
-                  child: model.busy(model.editBusyKey)
-                      ? const SizedBox(
-                          width: 16.0,
-                          height: 16.0,
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation(Colors.white),
-                            backgroundColor: Colors.blue,
-                            strokeWidth: 3,
-                          ),
-                        )
-                      : const Text('Speichern'),
-                ),
-              ),
-              if (deploymentPlan != null) ...[
-                const SizedBox(height: 8.0),
-                SizedBox(
-                  width: double.infinity,
-                  height: 40.0,
-                  child: OutlinedButton(
-                    onPressed: model.removeDeploymentPlan,
-                    child: model.busy(model.removeBusyKey)
-                        ? const SizedBox(
-                            width: 16.0,
-                            height: 16.0,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 3,
-                            ),
-                          )
-                        : const Text('Löschen'),
-                  ),
                 ),
               ],
-              if (model.validationMessage != null) ...[
-                const SizedBox(height: 8.0),
-                Text(
-                  model.validationMessage,
-                  style: const TextStyle(color: Colors.red),
-                ),
-              ],
-            ],
+            ),
+          ],
+          primaryButton: ButtonSpecification(
+            title: 'Speichern',
+            onTap: model.submitForm,
+            isBusy: model.busy(model.editBusyKey),
           ),
+          secondaryButton: (() {
+            if (deploymentPlan != null) {
+              return ButtonSpecification(
+                title: 'Löschen',
+                onTap: model.removeDeploymentPlan,
+                isBusy: model.busy(model.removeBusyKey),
+                backgroundColor: Colors.red,
+              );
+            }
+          })(),
+          validationMessage: model.validationMessage,
         ),
       ),
     );

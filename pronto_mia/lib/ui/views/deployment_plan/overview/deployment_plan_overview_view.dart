@@ -4,7 +4,6 @@ import 'package:pronto_mia/ui/components/custom_app_bar.dart';
 import 'package:stacked/stacked.dart';
 import 'package:intl/intl.dart';
 
-import 'package:pronto_mia/app/app.router.dart';
 import 'package:pronto_mia/ui/views/deployment_plan/overview/deployment_plan_overview_viewmodel.dart';
 
 class DeploymentPlanOverviewView extends StatelessWidget {
@@ -98,14 +97,16 @@ class DeploymentPlanOverviewView extends StatelessWidget {
             return FloatingActionButtonLocation.centerDocked;
           }
         })(),
-        bottomNavigationBar: const CustomAppBar(actions: [
+        bottomNavigationBar: CustomAppBar(actions: [
           IconButton(
             tooltip: 'Suche öffnen',
-            icon: Icon(Icons.search),
+            icon: const Icon(Icons.search),
+            onPressed: () {},
           ),
           IconButton(
             tooltip: 'Filteroptionen anzeigen',
-            icon: Icon(Icons.filter_list),
+            icon: const Icon(Icons.filter_list),
+            onPressed: () {},
           ),
         ]),
       ),

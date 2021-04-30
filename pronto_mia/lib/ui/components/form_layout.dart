@@ -21,7 +21,7 @@ class FormLayout extends StatelessWidget {
       child: Column(
         // mainAxisAlignment: MainAxisAlignment.center,
         children: _buildForm(),
-      )
+      ),
     );
   }
 
@@ -65,14 +65,14 @@ class FormLayout extends StatelessWidget {
         ),
         child: button.isBusy
             ? const SizedBox(
-              width: 16.0,
-              height: 16.0,
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation(Colors.white),
-                backgroundColor: Colors.blue,
-                strokeWidth: 3,
+                width: 16.0,
+                height: 16.0,
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation(Colors.white),
+                  backgroundColor: Colors.blue,
+                  strokeWidth: 3,
+                ),
               )
-            )
             : Text(button.title),
       ),
     );

@@ -23,7 +23,7 @@ class StartUpViewModel extends BaseViewModel {
 
   @override
   Future<void> onFutureError(dynamic error, Object key) async {
-    final errorMessage = _errorMessageFactory.getErrorMessage(modelError);
+    _errorMessage = _errorMessageFactory.getErrorMessage(modelError);
     (await _loggingService).log("LoginViewModel", Level.WARNING, modelError);
   }
 

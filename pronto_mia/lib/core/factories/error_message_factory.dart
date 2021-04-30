@@ -1,15 +1,18 @@
-// TODO: Implement error distinction
 import 'package:graphql/client.dart';
 
+// ignore: avoid_classes_with_only_static_members
 class ErrorMessageFactory {
-  final String _unknownError = 'Es ist ein unerwarteter Fehler aufgetreten.';
+  static const String _unknownError =
+      'Es ist ein unerwarteter Fehler aufgetreten.';
+  static const String _networkError =
+      'Es konnte keine Verbindung zum Server aufgebaut werden.';
 
-  String getErrorMessage(dynamic error) {
+  static String getErrorMessage(dynamic error) {
     String message = _unknownError;
 
     if (error is OperationException) {
       if (error.linkException is NetworkException) {
-        message = "";
+        message = _networkError;
       }
 
       if (error.linkException is ServerException) {
@@ -21,9 +24,12 @@ class ErrorMessageFactory {
     return message;
   }
 
-  String _getGraphQlError(ServerException error) {
-    if (error.parsedResponse == null ||
-        error.parsedResponse.errors == null ||
+  static String _getGraphQlError(ServerException error) {
+    if( error.parsedResponse == null ) {
+      return _networkError;
+    }
+
+    if (error.parsedResponse.errors == null ||
         error.parsedResponse.errors.isEmpty ||
         error.parsedResponse.errors.length > 1) {
       return _unknownError;

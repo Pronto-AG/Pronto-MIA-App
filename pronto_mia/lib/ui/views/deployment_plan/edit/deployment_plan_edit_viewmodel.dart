@@ -14,8 +14,6 @@ class DeploymentPlanEditViewModel extends FormViewModel {
   DeploymentPlanService get _deploymentPlanService =>
       locator.get<DeploymentPlanService>();
   NavigationService get _navigationService => locator.get<NavigationService>();
-  ErrorMessageFactory get _errorMessageFactory =>
-      locator.get<ErrorMessageFactory>();
 
   final String editBusyKey = 'edit-busy-key';
   final String removeBusyKey = 'remove-busy-key';
@@ -96,7 +94,7 @@ class DeploymentPlanEditViewModel extends FormViewModel {
     }
 
     if (hasError) {
-      final errorMessage = _errorMessageFactory.getErrorMessage(error);
+      final errorMessage = ErrorMessageFactory.getErrorMessage(error);
       setValidationMessage(errorMessage);
       notifyListeners();
     } else {
@@ -113,7 +111,7 @@ class DeploymentPlanEditViewModel extends FormViewModel {
     }
 
     if (hasError) {
-      final errorMessage = _errorMessageFactory.getErrorMessage(error);
+      final errorMessage = ErrorMessageFactory.getErrorMessage(error);
       setValidationMessage(errorMessage);
       notifyListeners();
     } else {

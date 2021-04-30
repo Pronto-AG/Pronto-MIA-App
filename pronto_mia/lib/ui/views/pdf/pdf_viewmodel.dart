@@ -10,8 +10,6 @@ import 'package:pronto_mia/core/services/logging_service.dart';
 
 class PdfViewModel extends FutureViewModel<File> {
   PdfService get _pdfService => locator.get<PdfService>();
-  ErrorMessageFactory get _errorMessageFactory =>
-      locator.get<ErrorMessageFactory>();
   Future<LoggingService> get _loggingService =>
       locator.getAsync<LoggingService>();
 
@@ -34,7 +32,7 @@ class PdfViewModel extends FutureViewModel<File> {
   @override
   Future<void> onError(dynamic error) async {
     super.onError(error);
-    _errorMessage = _errorMessageFactory.getErrorMessage(error);
+    _errorMessage = ErrorMessageFactory.getErrorMessage(error);
     (await _loggingService).log("PdfViewModel", Level.WARNING, error);
   }
 

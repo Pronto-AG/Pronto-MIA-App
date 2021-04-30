@@ -15,8 +15,6 @@ class DeploymentPlanOverviewViewModel
   DeploymentPlanService get _deploymentPlanService =>
       locator.get<DeploymentPlanService>();
   NavigationService get _navigationService => locator.get<NavigationService>();
-  ErrorMessageFactory get _errorMessageFactory =>
-      locator.get<ErrorMessageFactory>();
   Future<LoggingService> get _loggingService =>
       locator.getAsync<LoggingService>();
 
@@ -37,7 +35,7 @@ class DeploymentPlanOverviewViewModel
 
   @override
   Future<void> onError(dynamic error) async {
-    _errorMessage = _errorMessageFactory.getErrorMessage(error);
+    _errorMessage = ErrorMessageFactory.getErrorMessage(error);
     (await _loggingService)
         .log("DeploymentPlanOverviewViewModel", Level.WARNING, error);
   }

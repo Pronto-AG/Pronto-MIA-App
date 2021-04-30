@@ -34,17 +34,17 @@ class DeploymentPlanEditViewModel extends FormViewModel {
   }
 
   void openPdf() {
-    if (_pdfUpload != null) {
-      final title = (descriptionValue == null || descriptionValue.isEmpty)
-          ? 'Einsatzplan'
-          : descriptionValue;
-      final subTitle = '$availableFromValue - $availableUntilValue';
-
-      final pdfViewArguments = PdfViewArguments(
-        title: title,
-        subTitle: subTitle,
-        pdfUpload: _pdfUpload,
-      );
+    if (pdfPathValue != null) {
+      PdfViewArguments pdfViewArguments;
+      if (pdfUpload != null) {
+        pdfViewArguments =
+            PdfViewArguments(title: pdfPathValue, pdfUpload: pdfUpload);
+      } else {
+        pdfViewArguments = PdfViewArguments(
+          title: pdfPathValue,
+          pdfPath: deploymentPlan.link,
+        );
+      }
 
       _navigationService.navigateTo(
         Routes.pdfView,

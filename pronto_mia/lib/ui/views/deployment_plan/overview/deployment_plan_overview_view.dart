@@ -23,9 +23,9 @@ class DeploymentPlanOverviewView extends StatelessWidget {
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: const Text(
-            'Einsatzpläne',
-            style: TextStyle(color: Colors.black),
+          title: Text(
+            adminModeEnabled ? 'Einsatzplanverwaltung' : 'Einsatzpläne',
+            style: const TextStyle(color: Colors.black),
           ),
           elevation: 0.0,
           backgroundColor: Colors.transparent,

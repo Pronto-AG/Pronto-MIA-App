@@ -60,9 +60,11 @@ class FormLayout extends StatelessWidget {
       height: 40.0,
       child: ElevatedButton(
         onPressed: button.onTap,
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(button.backgroundColor),
-        ),
+        style: button.isDestructive
+            ? ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.red),
+              )
+            : null,
         child: button.isBusy
             ? const SizedBox(
                 width: 16.0,
@@ -83,12 +85,12 @@ class ButtonSpecification {
   final String title;
   final void Function() onTap;
   final bool isBusy;
-  final MaterialColor backgroundColor;
+  final bool isDestructive;
 
   ButtonSpecification({
     @required this.title,
     @required this.onTap,
     @required this.isBusy,
-    this.backgroundColor = Colors.blue,
+    this.isDestructive = false,
   });
 }

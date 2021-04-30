@@ -126,7 +126,7 @@ class DeploymentPlanEditView extends StatelessWidget
                 title: 'Löschen',
                 onTap: model.removeDeploymentPlan,
                 isBusy: model.busy(model.removeBusyKey),
-                backgroundColor: Colors.red,
+                isDestructive: true,
               );
             }
           })(),

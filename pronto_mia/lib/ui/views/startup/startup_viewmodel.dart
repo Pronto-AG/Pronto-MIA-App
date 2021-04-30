@@ -8,6 +8,7 @@ import 'package:pronto_mia/core/services/authentication_service.dart';
 import 'package:pronto_mia/app/app.router.dart';
 import 'package:pronto_mia/core/factories/error_message_factory.dart';
 import 'package:pronto_mia/core/services/logging_service.dart';
+import 'package:pronto_mia/core/services/push_notification_service.dart';
 
 class StartUpViewModel extends BaseViewModel {
   AuthenticationService get _authenticationService =>
@@ -17,6 +18,8 @@ class StartUpViewModel extends BaseViewModel {
       locator.getAsync<LoggingService>();
   ErrorMessageFactory get _errorMessageFactory =>
       locator.get<ErrorMessageFactory>();
+  Future<PushNotificationService> get _pushNotificationService =>
+      locator.getAsync<PushNotificationService>();
 
   String get errorMessage => _errorMessage;
   String _errorMessage;
@@ -34,6 +37,8 @@ class StartUpViewModel extends BaseViewModel {
       _authenticationService.isAuthenticated(),
     ) as bool;
 
+    _handlePushNotifcations(isAuthenticated);
+
     if (isAuthenticated) {
       (await _loggingService).log("StartUpViewModel", Level.INFO,
           "User already authenticated. Redirecting...");
@@ -42,6 +47,15 @@ class StartUpViewModel extends BaseViewModel {
       (await _loggingService)
           .log("StartUpViewModel", Level.INFO, "User not yet authenticated");
       _navigationService.replaceWith(Routes.loginView);
+    }
+  }
+
+  Future<void> _handlePushNotifcations(bool isAuthenticated) async {
+    final notificationsAuthorized = await (await _pushNotificationService).requestPermissions();;
+    if (notificationsAuthorized && isAuthenticated) {
+      await (await _pushNotificationService).enableNotifications();
+    } else {
+      await (await _pushNotificationService).disableNotifications();
     }
   }
 }

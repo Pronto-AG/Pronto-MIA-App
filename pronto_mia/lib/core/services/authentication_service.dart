@@ -37,7 +37,7 @@ class AuthenticationService {
 
   Future<void> logout() async {
     await (await _jwtTokenService).setToken('');
-    await (await _pushNotificationService).unregisterToken();
+    await (await _pushNotificationService).disableNotifications();
   }
 
   Future<void> login(String userName, String password) async {
@@ -54,6 +54,6 @@ class AuthenticationService {
 
     final token = data['authenticate'] as String;
     await (await _jwtTokenService).setToken(token);
-    await (await _pushNotificationService).registerToken();
+    await (await _pushNotificationService).enableNotifications();
   }
 }

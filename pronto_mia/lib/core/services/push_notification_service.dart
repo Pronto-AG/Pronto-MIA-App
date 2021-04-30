@@ -27,8 +27,8 @@ class PushNotificationService {
 
   Future<bool> notificationsAuthorized() async {
     final notificationSettings = await _fcm.getNotificationSettings();
-    print(notificationSettings.authorizationStatus);
-    if (notificationSettings.authorizationStatus == AuthorizationStatus.authorized) {
+    if (notificationSettings.authorizationStatus ==
+        AuthorizationStatus.authorized) {
       return true;
     }
     return false;
@@ -36,16 +36,17 @@ class PushNotificationService {
 
   Future<bool> requestPermissions() async {
     final notificationSettings = await _fcm.requestPermission();
-    if (notificationSettings.authorizationStatus == AuthorizationStatus.authorized) {
+    if (notificationSettings.authorizationStatus ==
+        AuthorizationStatus.authorized) {
       return true;
     }
     return false;
   }
 
   Future<void> enableNotifications() async {
-    print('notificationsEnabled $_notificationsEnabled');
     if (!_notificationsEnabled && await notificationsAuthorized()) {
-      final token = await _fcm.getToken(vapidKey: _pushMessageServerVapidPublicKey);
+      final token =
+          await _fcm.getToken(vapidKey: _pushMessageServerVapidPublicKey);
 
       final queryVariables = {"fcmToken": token};
       await (await _graphQLService).mutate(
@@ -56,14 +57,12 @@ class PushNotificationService {
       FirebaseMessaging.onMessage.listen(_handleForegroundMessage);
       _notificationsEnabled = true;
     }
-    print('notificationsEnabled $_notificationsEnabled');
   }
 
   Future<void> disableNotifications() async {
-    print('notificationsEnabled $_notificationsEnabled');
     if (_notificationsEnabled) {
       final token =
-      await _fcm.getToken(vapidKey: _pushMessageServerVapidPublicKey);
+          await _fcm.getToken(vapidKey: _pushMessageServerVapidPublicKey);
       final queryVariables = {"fcmToken": token};
       await (await _graphQLService).mutate(
         FcmTokenQueries.unregisterFcmToken,
@@ -72,7 +71,6 @@ class PushNotificationService {
 
       _notificationsEnabled = false;
     }
-    print('notificationsEnabled $_notificationsEnabled');
   }
 
   // TODO: Improve foreground message handling

@@ -45,7 +45,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
     if (state == AppLifecycleState.resumed) {
       final isAuthenticated = await _authenticationsService.isAuthenticated();
-      final notificationsAuthorized = await (await _pushNotificationService).notificationsAuthorized();
+      final notificationsAuthorized =
+          await (await _pushNotificationService).notificationsAuthorized();
       if (isAuthenticated && notificationsAuthorized) {
         await (await _pushNotificationService).enableNotifications();
       } else {

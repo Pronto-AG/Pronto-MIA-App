@@ -51,7 +51,8 @@ class StartUpViewModel extends BaseViewModel {
   }
 
   Future<void> _handlePushNotifcations(bool isAuthenticated) async {
-    final notificationsAuthorized = await (await _pushNotificationService).requestPermissions();;
+    final notificationsAuthorized =
+        await (await _pushNotificationService).requestPermissions();
     if (notificationsAuthorized && isAuthenticated) {
       await (await _pushNotificationService).enableNotifications();
     } else {

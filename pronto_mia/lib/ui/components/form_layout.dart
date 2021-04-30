@@ -19,6 +19,7 @@ class FormLayout extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16.0),
       child: ListView(
+        shrinkWrap: true,
         children: _buildForm(),
       ),
     );

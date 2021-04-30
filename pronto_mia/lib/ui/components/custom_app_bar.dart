@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:jdenticon_dart/jdenticon_dart.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import 'package:pronto_mia/app/app.router.dart';
@@ -41,6 +43,7 @@ class CustomAppBar extends StatelessWidget {
   }
 
   Future<void> _showMenu(BuildContext context) async {
+    final String rawSvg = Jdenticon.toSvg('Your input string');
     await showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -48,8 +51,8 @@ class CustomAppBar extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: ListView(
             children: [
-              const ListTile(
-                leading: Icon(Icons.person),
+              ListTile(
+                leading: SvgPicture.string(rawSvg, fit: BoxFit.contain, height: 24, width: 24,),//Icon(Icons.person),
                 title: Text('Benutzerprofil'),
               ),
               const Divider(),

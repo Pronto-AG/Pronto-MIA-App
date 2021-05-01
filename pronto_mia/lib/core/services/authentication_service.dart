@@ -19,20 +19,7 @@ class AuthenticationService {
       locator.getAsync<LoggingService>();
 
   Future<bool> isAuthenticated() async {
-    final token = await (await _jwtTokenService).getToken();
-    var tokenValid = false;
-
-    if (token != null && token.isNotEmpty) {
-      try {
-        tokenValid = !JwtDecoder.isExpired(token);
-      } catch (e) {
-        (await _loggingService).log("AuthenticationService", Level.WARNING,
-            "JWT token could not be decoded");
-        tokenValid = false;
-      }
-    }
-
-    return tokenValid;
+    return (await _jwtTokenService).hasValidToken();
   }
 
   Future<void> logout() async {
@@ -55,5 +42,6 @@ class AuthenticationService {
     final token = data['authenticate'] as String;
     await (await _jwtTokenService).setToken(token);
     await (await _pushNotificationService).registerToken();
+    print(await (await _jwtTokenService).getUsername());
   }
 }

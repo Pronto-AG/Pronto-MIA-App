@@ -52,7 +52,12 @@ class CustomAppBar extends StatelessWidget {
           child: ListView(
             children: [
               ListTile(
-                leading: SvgPicture.string(rawSvg, fit: BoxFit.contain, height: 24, width: 24,),//Icon(Icons.person),
+                leading: SvgPicture.string(
+                  rawSvg,
+                  fit: BoxFit.contain,
+                  height: 24,
+                  width: 24,
+                ), //Icon(Icons.person),
                 title: Text('Benutzerprofil'),
               ),
               const Divider(),

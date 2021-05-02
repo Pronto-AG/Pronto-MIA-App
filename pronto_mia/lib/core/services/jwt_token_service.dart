@@ -87,7 +87,7 @@ class JwtTokenService {
 
     if (await hasValidToken()) {
       final map = JwtDecoder.decode(token);
-      userId = map[_idClaimIdentifier] as int;
+      userId = int.parse(map[_idClaimIdentifier] as String);
     }
 
     return userId;

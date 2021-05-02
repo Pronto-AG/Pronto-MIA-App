@@ -21,13 +21,11 @@ class StartUpView extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Image.asset(
-                  'assets/images/pronto_logo.png',
-                  fit: BoxFit.contain,
+                  'assets/images/pronto_icon.png',
                 ),
-                const SizedBox(height: 32.0),
-                const CircularProgressIndicator(),
               ],
             ),
           );

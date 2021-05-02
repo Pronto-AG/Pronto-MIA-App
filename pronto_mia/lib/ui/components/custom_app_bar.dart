@@ -61,7 +61,6 @@ class CustomAppBar extends StatelessWidget {
                 contentPadding: EdgeInsets.zero,
                 leading: SvgPicture.string(
                   userImage,
-                  fit: BoxFit.contain,
                   height: 48,
                   width: 48,
                 ), //Icon(Icons.person),

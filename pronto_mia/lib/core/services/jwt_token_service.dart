@@ -62,7 +62,6 @@ class JwtTokenService {
       } catch (e) {
         (await _loggingService).log(
             "JwtTokenService", Level.WARNING, "JWT token could not be decoded");
-        tokenValid = false;
       }
     }
 

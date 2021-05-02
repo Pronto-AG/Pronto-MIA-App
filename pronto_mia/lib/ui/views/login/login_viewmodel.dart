@@ -13,8 +13,6 @@ class LoginViewModel extends FormViewModel {
   AuthenticationService get _authenticationService =>
       locator.get<AuthenticationService>();
   NavigationService get _navigationService => locator.get<NavigationService>();
-  ErrorMessageFactory get _errorMessageFactory =>
-      locator.get<ErrorMessageFactory>();
   Future<LoggingService> get _loggingService =>
       locator.getAsync<LoggingService>();
 
@@ -34,7 +32,7 @@ class LoginViewModel extends FormViewModel {
     );
 
     if (hasError) {
-      final errorMessage = _errorMessageFactory.getErrorMessage(modelError);
+      final errorMessage = ErrorMessageFactory.getErrorMessage(modelError);
       (await _loggingService).log("LoginViewModel", Level.WARNING, modelError);
 
       setValidationMessage(errorMessage);

@@ -16,8 +16,6 @@ class StartUpViewModel extends BaseViewModel {
   NavigationService get _navigationService => locator.get<NavigationService>();
   Future<LoggingService> get _loggingService =>
       locator.getAsync<LoggingService>();
-  ErrorMessageFactory get _errorMessageFactory =>
-      locator.get<ErrorMessageFactory>();
   Future<PushNotificationService> get _pushNotificationService =>
       locator.getAsync<PushNotificationService>();
 
@@ -26,7 +24,7 @@ class StartUpViewModel extends BaseViewModel {
 
   @override
   Future<void> onFutureError(dynamic error, Object key) async {
-    _errorMessage = _errorMessageFactory.getErrorMessage(modelError);
+    _errorMessage = ErrorMessageFactory.getErrorMessage(modelError);
     (await _loggingService).log("LoginViewModel", Level.WARNING, modelError);
   }
 

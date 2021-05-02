@@ -99,7 +99,8 @@ class GraphQLService {
     }
   }
 
-  bool _isNetworkAvailable(OperationException exception) {
+  // ToDo: Replace with #39 globally.
+  static bool _isNetworkAvailable(OperationException exception) {
     if (exception.linkException is NetworkException) {
       return false;
     }

@@ -3,7 +3,6 @@ import 'package:pronto_mia/core/services/graphql_service.dart';
 import 'package:pronto_mia/core/queries/authentication_queries.dart';
 import 'package:pronto_mia/core/services/jwt_token_service.dart';
 import 'package:pronto_mia/core/services/push_notification_service.dart';
-import 'package:pronto_mia/core/services/logging_service.dart';
 
 class AuthenticationService {
   Future<GraphQLService> get _graphQLService =>

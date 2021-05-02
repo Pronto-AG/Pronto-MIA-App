@@ -15,44 +15,62 @@ class PushNotificationService {
       locator.getAsync<LoggingService>();
 
   String _pushMessageServerVapidPublicKey;
+  bool _notificationsEnabled = false;
 
   Future<ConfigurationService> get _configurationService =>
       locator.getAsync<ConfigurationService>();
 
   Future<void> init() async {
-    // TODO: Improve permission request
-    final notificationSettings = await _fcm.requestPermission();
-
-    if (notificationSettings.authorizationStatus ==
-        AuthorizationStatus.authorized) {
-      // TODO: Implement additional message listeners
-      FirebaseMessaging.onMessage.listen(_handleForegroundMessage);
-    } else {
-      // ToDo: Throw error if not worked, ask again, or deactivate completely
-    }
-
     _pushMessageServerVapidPublicKey = (await _configurationService)
         .getValue<String>('pushMessageServerVapidPublicKey');
   }
 
-  Future<void> registerToken() async {
-    final token =
-        await _fcm.getToken(vapidKey: _pushMessageServerVapidPublicKey);
-    final queryVariables = {"fcmToken": token};
-    await (await _graphQLService).mutate(
-      FcmTokenQueries.registerFcmToken,
-      variables: queryVariables,
-    );
+  Future<bool> notificationsAuthorized() async {
+    final notificationSettings = await _fcm.getNotificationSettings();
+    if (notificationSettings.authorizationStatus ==
+        AuthorizationStatus.authorized) {
+      return true;
+    }
+    return false;
   }
 
-  Future<void> unregisterToken() async {
-    final token =
-        await _fcm.getToken(vapidKey: _pushMessageServerVapidPublicKey);
-    final queryVariables = {"fcmToken": token};
-    await (await _graphQLService).mutate(
-      FcmTokenQueries.unregisterFcmToken,
-      variables: queryVariables,
-    );
+  Future<bool> requestPermissions() async {
+    final notificationSettings = await _fcm.requestPermission();
+    if (notificationSettings.authorizationStatus ==
+        AuthorizationStatus.authorized) {
+      return true;
+    }
+    return false;
+  }
+
+  Future<void> enableNotifications() async {
+    if (!_notificationsEnabled && await notificationsAuthorized()) {
+      final token =
+          await _fcm.getToken(vapidKey: _pushMessageServerVapidPublicKey);
+
+      final queryVariables = {"fcmToken": token};
+      await (await _graphQLService).mutate(
+        FcmTokenQueries.registerFcmToken,
+        variables: queryVariables,
+      );
+
+      FirebaseMessaging.onMessage.listen(_handleForegroundMessage);
+      _notificationsEnabled = true;
+    }
+  }
+
+  Future<void> disableNotifications() async {
+    if (_notificationsEnabled) {
+      final token =
+          await _fcm.getToken(vapidKey: _pushMessageServerVapidPublicKey);
+      final queryVariables = {"fcmToken": token};
+      await (await _graphQLService).mutate(
+        FcmTokenQueries.unregisterFcmToken,
+        variables: queryVariables,
+      );
+
+      _notificationsEnabled = false;
+    }
   }
 
   // TODO: Improve foreground message handling

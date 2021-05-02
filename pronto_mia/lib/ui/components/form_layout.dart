@@ -18,8 +18,8 @@ class FormLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16.0),
-      child: Column(
-        // mainAxisAlignment: MainAxisAlignment.center,
+      child: ListView(
+        shrinkWrap: true,
         children: _buildForm(),
       ),
     );

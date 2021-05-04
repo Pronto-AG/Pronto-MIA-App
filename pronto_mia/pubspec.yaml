@@ -30,12 +30,14 @@ dependencies:
     sdk: flutter
   flutter_cache_manager:
   flutter_secure_storage:
+  flutter_svg:
   global_configuration: ^1.6.0
   graphql:
   http:
   http_parser:
   image_picker:
   intl: ^0.17.0
+  jdenticon_dart:
   jwt_decoder:
   logging:
   pdf_render:
@@ -45,17 +47,33 @@ dependencies:
 
 dev_dependencies:
   build_runner:
+  flutter_native_splash:
   flutter_test:
     sdk: flutter
   lint:
   mockito:
   stacked_generator:
 
+flutter_native_splash:
+  color: "#ffffff"
+  image: "assets/images/3.0x/pronto_icon.png"
+  android: true
+  ios: true
+
 flutter:
   uses-material-design: true
 
   assets:
     - assets/images/pronto_logo.png
+    - assets/images/1.5x/pronto_logo.png
+    - assets/images/2.0x/pronto_logo.png
+    - assets/images/2.5x/pronto_logo.png
+    - assets/images/3.0x/pronto_logo.png
+    - assets/images/pronto_icon.png
+    - assets/images/1.5x/pronto_icon.png
+    - assets/images/2.0x/pronto_icon.png
+    - assets/images/2.5x/pronto_icon.png
+    - assets/images/3.0x/pronto_icon.png
     - assets/cfg/app_settings.json
     - assets/cfg/app_settings_dev.json
     - assets/cfg/app_settings_prod.json

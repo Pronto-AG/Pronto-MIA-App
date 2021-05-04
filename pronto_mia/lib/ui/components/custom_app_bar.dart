@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:pronto_mia/app/custom_colors.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import 'package:pronto_mia/app/app.router.dart';
@@ -22,9 +23,8 @@ class CustomAppBar extends StatelessWidget {
           return const CircularNotchedRectangle();
         }
       })(),
-      color: Colors.blue,
       child: IconTheme(
-        data: const IconThemeData(color: Colors.white),
+        data: const IconThemeData(color: CustomColors.background),
         child: Row(
           children: [
             IconButton(

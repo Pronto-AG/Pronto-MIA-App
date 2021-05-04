@@ -1,10 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:pronto_mia/ui/components/custom_app_bar.dart';
 import 'package:stacked/stacked.dart';
 import 'package:intl/intl.dart';
 
 import 'package:pronto_mia/ui/views/deployment_plan/overview/deployment_plan_overview_viewmodel.dart';
+import 'package:pronto_mia/app/custom_colors.dart';
+import 'package:pronto_mia/ui/components/custom_app_bar.dart';
 
 class DeploymentPlanOverviewView extends StatelessWidget {
   final bool adminModeEnabled;
@@ -25,7 +26,7 @@ class DeploymentPlanOverviewView extends StatelessWidget {
           automaticallyImplyLeading: false,
           title: Text(
             adminModeEnabled ? 'Einsatzplanverwaltung' : 'Einsatzpläne',
-            style: const TextStyle(color: Colors.black),
+            style: const TextStyle(color: CustomColors.primary),
           ),
           elevation: 0.0,
           backgroundColor: Colors.transparent,
@@ -84,7 +85,7 @@ class DeploymentPlanOverviewView extends StatelessWidget {
         floatingActionButton: adminModeEnabled
             ? FloatingActionButton(
                 tooltip: 'Einsatzplan erstellen',
-                backgroundColor: Colors.green,
+                backgroundColor: CustomColors.secondary,
                 onPressed: model.createDeploymentPlan,
                 heroTag: null,
                 child: const Icon(Icons.post_add),

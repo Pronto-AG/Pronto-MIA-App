@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'package:pronto_mia/app/custom_colors.dart';
+
 class FormLayout extends StatelessWidget {
   final List<Widget> textFields;
   final String validationMessage;
@@ -47,7 +49,7 @@ class FormLayout extends StatelessWidget {
       form.add(const SizedBox(height: 8.0));
       form.add(Text(
         validationMessage,
-        style: const TextStyle(color: Colors.red),
+        style: const TextStyle(color: CustomColors.danger),
       ));
     }
 
@@ -62,7 +64,7 @@ class FormLayout extends StatelessWidget {
         onPressed: button.onTap,
         style: button.isDestructive
             ? ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.red),
+                backgroundColor: MaterialStateProperty.all(CustomColors.danger),
               )
             : null,
         child: button.isBusy
@@ -70,8 +72,8 @@ class FormLayout extends StatelessWidget {
                 width: 16.0,
                 height: 16.0,
                 child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation(Colors.white),
-                  backgroundColor: Colors.blue,
+                  valueColor: AlwaysStoppedAnimation(CustomColors.background),
+                  // backgroundColor: CustomColors.secondary,
                   strokeWidth: 3,
                 ),
               )

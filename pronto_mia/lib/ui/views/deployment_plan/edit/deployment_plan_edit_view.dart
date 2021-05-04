@@ -1,9 +1,6 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:pronto_mia/core/models/deployment_plan.dart';
-import 'package:pronto_mia/core/models/file_upload.dart';
-import 'package:pronto_mia/ui/components/form_layout.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:date_time_picker/date_time_picker.dart';
@@ -11,6 +8,10 @@ import 'package:file_picker/file_picker.dart';
 
 import 'package:pronto_mia/ui/views/deployment_plan/edit/deployment_plan_edit_view.form.dart';
 import 'package:pronto_mia/ui/views/deployment_plan/edit/deployment_plan_edit_viewmodel.dart';
+import 'package:pronto_mia/app/custom_colors.dart';
+import 'package:pronto_mia/core/models/deployment_plan.dart';
+import 'package:pronto_mia/core/models/file_upload.dart';
+import 'package:pronto_mia/ui/components/form_layout.dart';
 
 @FormView(fields: [
   FormTextField(name: 'description'),
@@ -107,7 +108,7 @@ class DeploymentPlanEditView extends StatelessWidget
                     readOnly: true,
                     onTap: model.openPdf,
                     style: const TextStyle(
-                      color: Colors.blue,
+                      color: CustomColors.link,
                       decoration: TextDecoration.underline,
                     ),
                   ),

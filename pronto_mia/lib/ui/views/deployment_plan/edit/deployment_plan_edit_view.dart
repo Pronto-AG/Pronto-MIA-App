@@ -149,8 +149,8 @@ class DeploymentPlanEditView extends StatelessWidget
                 child: TextField(
                   controller: pdfPathController,
                   readOnly: true,
-                  onTap: pdfPathController.text == null
-                    || pdfPathController.text.isEmpty
+                  onTap: pdfPathController.text == null ||
+                          pdfPathController.text.isEmpty
                       ? () => handlePdfUpload(model)
                       : model.openPdf,
                   decoration: const InputDecoration(labelText: 'Dateiname *'),

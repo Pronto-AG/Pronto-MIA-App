@@ -66,7 +66,7 @@ class DeploymentPlanOverviewViewModel
   }) async {
     bool dataHasChanged;
     if (asDialog) {
-      final dynamic dialogResponse = await _dialogService.showCustomDialog(
+      final dialogResponse = await _dialogService.showCustomDialog(
         variant: DialogType.custom,
         customData: DeploymentPlanEditView(
           deploymentPlan: deploymentPlan,
@@ -74,11 +74,7 @@ class DeploymentPlanOverviewViewModel
         ),
       );
 
-      if (dialogResponse is DialogResponse) {
-        dataHasChanged = dialogResponse.confirmed;
-      } else {
-        dataHasChanged = false;
-      }
+      dataHasChanged = dialogResponse.confirmed;
     } else {
       dataHasChanged = await _navigationService.navigateTo(
         Routes.deploymentPlanEditView,

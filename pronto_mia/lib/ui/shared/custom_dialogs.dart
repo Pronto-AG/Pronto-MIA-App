@@ -6,7 +6,9 @@ import 'package:pronto_mia/app/service_locator.dart';
 
 enum DialogType { custom }
 
-DialogService registerDialogs(DialogService dialogService) {
+final _dialogService = locator.get<DialogService>();
+
+void setupDialogs() {
   final builders = {
     DialogType.custom: (
       BuildContext context,
@@ -16,20 +18,17 @@ DialogService registerDialogs(DialogService dialogService) {
         _CustomDialog(request: sheetRequest),
   };
 
-  dialogService.registerCustomDialogBuilders(builders);
-  return dialogService;
+  _dialogService.registerCustomDialogBuilders(builders);
 }
 
 class _CustomDialog extends StatelessWidget {
-  NavigationService get _navigationService => locator.get<NavigationService>();
-
   final DialogRequest request;
 
   const _CustomDialog({Key key, this.request}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-        onTap: () => _navigationService.back(),
+        onTap: () => _dialogService.completeDialog(DialogResponse()),
         child: Container(
           decoration: const BoxDecoration(color: CustomColors.shade),
           child: Center(

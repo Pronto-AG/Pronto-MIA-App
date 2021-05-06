@@ -54,7 +54,7 @@ class DeploymentPlanOverviewView extends StatelessWidget {
       DataViewLayout(
         isBusy: model.isBusy,
         errorMessage: model.errorMessage,
-        emptyMessage: (model.data == null || model.data.isEmpty)
+        noDataMessage: (model.data == null || model.data.isEmpty)
             ? 'Es sind keine Einsatzpläne verfügbar.'
             : null,
         childBuilder: () => _buildList(context, model),

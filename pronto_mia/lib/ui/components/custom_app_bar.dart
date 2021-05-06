@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:pronto_mia/ui/shared/custom_colors.dart';
-import 'package:pronto_mia/ui/components/side_menu/side_menu.dart';
+import 'package:pronto_mia/ui/components/navigation_menu/navigation_menu.dart';
 
 class CustomAppBar extends StatelessWidget {
   final List<Widget> actions;
@@ -39,7 +39,7 @@ class CustomAppBar extends StatelessWidget {
   Future<void> _showMenu(BuildContext context) async {
     await showModalBottomSheet(
       context: context,
-      builder: (BuildContext context) => SideMenu(),
+      builder: (BuildContext context) => NavigationMenu(),
     );
   }
 }

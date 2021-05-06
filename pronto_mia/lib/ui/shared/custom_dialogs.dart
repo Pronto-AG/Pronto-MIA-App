@@ -28,18 +28,30 @@ class _CustomDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-        onTap: () => _dialogService.completeDialog(DialogResponse()),
+    onTap: () => _dialogService.completeDialog(DialogResponse()),
+    child: Scaffold(
+      backgroundColor: CustomColors.shade,
+      body: Center(
+        // ignore: sized_box_for_whitespace
         child: Container(
-          decoration: const BoxDecoration(color: CustomColors.shade),
-          child: Center(
-            // ignore: sized_box_for_whitespace
-            child: Container(
-              width: 500.0,
-              child: Card(
-                child: request.customData as Widget,
+          width: 500.0,
+          child: Stack(
+            children: [
+              Card(child: request.customData as Widget),
+              Positioned(
+                top: 16.0,
+                right: 16.0,
+                child: IconButton(
+                  tooltip: 'Schliessen',
+                  icon: const Icon(Icons.close),
+                  onPressed: () =>
+                      _dialogService.completeDialog(DialogResponse()),
+                ),
               ),
-            ),
+            ],
           ),
         ),
-      );
+      ),
+    ),
+  );
 }

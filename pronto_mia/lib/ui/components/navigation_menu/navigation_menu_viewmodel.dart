@@ -8,7 +8,7 @@ import 'package:pronto_mia/core/models/user.dart';
 import 'package:pronto_mia/core/factories/error_message_factory.dart';
 import 'package:pronto_mia/core/services/logging_service.dart';
 
-class SideMenuViewModel extends FutureViewModel<User> {
+class NavigationMenuViewModel extends FutureViewModel<User> {
   NavigationService get _navigationService => locator.get<NavigationService>();
   UserService get _userService => locator.get<UserService>();
   Future<LoggingService> get _loggingService =>

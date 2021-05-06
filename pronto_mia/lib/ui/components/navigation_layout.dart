@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import 'package:pronto_mia/ui/shared/custom_colors.dart';
-import 'package:pronto_mia/ui/components/side_menu/side_menu.dart';
+import 'package:pronto_mia/ui/components/navigation_menu/navigation_menu.dart';
 import 'package:pronto_mia/ui/components/custom_app_bar.dart';
 
 class NavigationLayout extends StatelessWidget {
@@ -73,7 +73,7 @@ class NavigationLayout extends StatelessWidget {
                     child: Image.asset('assets/images/pronto_logo.png'),
                   ),
                   const Divider(),
-                  SideMenu(),
+                  NavigationMenu(),
                 ],
               ),
             ),

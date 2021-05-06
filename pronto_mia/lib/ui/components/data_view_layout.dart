@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 class DataViewLayout extends StatelessWidget {
   final bool isBusy;
-  final String emptyMessage;
+  final String noDataMessage;
   final String errorMessage;
   final Widget Function() childBuilder;
 
   const DataViewLayout({
     @required this.childBuilder,
     this.isBusy,
-    this.emptyMessage,
+    this.noDataMessage,
     this.errorMessage,
   });
 
@@ -25,9 +25,9 @@ class DataViewLayout extends StatelessWidget {
       );
     }
 
-    if (emptyMessage != null && emptyMessage.isNotEmpty) {
+    if (noDataMessage != null && noDataMessage.isNotEmpty) {
       return Center(
-        child: Text(emptyMessage),
+        child: Text(noDataMessage),
       );
     }
 

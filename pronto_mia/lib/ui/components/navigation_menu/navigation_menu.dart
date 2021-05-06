@@ -3,14 +3,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jdenticon_dart/jdenticon_dart.dart';
 import 'package:stacked/stacked.dart';
 
-import 'package:pronto_mia/ui/components/side_menu/side_menu_viewmodel.dart';
+import 'package:pronto_mia/ui/components/navigation_menu/navigation_menu_viewmodel.dart';
 import 'package:pronto_mia/app/app.router.dart';
 
-class SideMenu extends StatelessWidget {
+class NavigationMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) =>
-      ViewModelBuilder<SideMenuViewModel>.reactive(
-        viewModelBuilder: () => SideMenuViewModel(),
+      ViewModelBuilder<NavigationMenuViewModel>.reactive(
+        viewModelBuilder: () => NavigationMenuViewModel(),
         builder: (context, model, child) => Container(
           padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
           child: ListView(
@@ -24,7 +24,7 @@ class SideMenu extends StatelessWidget {
         ),
       );
 
-  Widget _buildProfile(SideMenuViewModel model) {
+  Widget _buildProfile(NavigationMenuViewModel model) {
     final username =
         model.data != null ? model.data.username : 'Hans Mustermann';
     final userImage = Jdenticon.toSvg(username);
@@ -41,7 +41,7 @@ class SideMenu extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildOverview(SideMenuViewModel model) =>
+  List<Widget> _buildOverview(NavigationMenuViewModel model) =>
       _buildNavigationCategory(
         'Übersicht',
         [
@@ -67,7 +67,7 @@ class SideMenu extends StatelessWidget {
         ],
       );
 
-  List<Widget> _buildAdministration(SideMenuViewModel model) =>
+  List<Widget> _buildAdministration(NavigationMenuViewModel model) =>
       _buildNavigationCategory(
         'Administration',
         [

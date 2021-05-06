@@ -22,7 +22,7 @@ final theme = ThemeData(
   ),
   textButtonTheme: TextButtonThemeData(
     style: ButtonStyle(
-      foregroundColor: MaterialStateProperty.all(CustomColors.primary),
+      foregroundColor: MaterialStateProperty.all(CustomColors.link),
     ),
   ),
 );

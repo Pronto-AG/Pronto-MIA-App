@@ -39,7 +39,7 @@ class _CustomDialog extends StatelessWidget {
                 children: [
                   Card(child: request.customData as Widget),
                   Positioned(
-                    top: 16.0,
+                    top: 12.0,
                     right: 16.0,
                     child: IconButton(
                       tooltip: 'Schliessen',

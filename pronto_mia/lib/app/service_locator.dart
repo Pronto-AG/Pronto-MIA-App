@@ -50,8 +50,7 @@ void setupLocator() {
   locator.registerLazySingleton<AuthenticationService>(
       () => AuthenticationService());
   locator.registerLazySingleton<NavigationService>(() => NavigationService());
-  locator.registerLazySingleton<DialogService>(
-      () => DialogService());
+  locator.registerLazySingleton<DialogService>(() => DialogService());
   locator.registerLazySingleton<DeploymentPlanService>(
       () => DeploymentPlanService());
   locator.registerLazySingleton<PdfService>(() => PdfService());

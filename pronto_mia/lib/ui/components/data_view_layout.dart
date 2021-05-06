@@ -31,6 +31,8 @@ class DataViewLayout extends StatelessWidget {
       );
     }
 
-    return childBuilder();
+    return Expanded(
+      child: childBuilder(),
+    );
   }
 }

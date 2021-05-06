@@ -9,9 +9,17 @@ class CustomColors {
 
   static const Color background = Colors.white;
 
+  static const Color shadow = Colors.grey;
+
+  static const Color shade = Color.fromRGBO(0, 0, 0, 0.6);
+
   static const Color text = Colors.black;
 
+  static const Color negativeText = Colors.white;
+
   static const Color link = Colors.blue;
+
+  static const Color divider = Colors.grey;
 
   static const Color info = Color(0xFF8889B3);
 

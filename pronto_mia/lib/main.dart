@@ -4,7 +4,7 @@ import 'package:stacked_services/stacked_services.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/app/app.router.dart';
-import 'package:pronto_mia/app/theme.dart';
+import 'package:pronto_mia/ui/shared/theme.dart';
 import 'package:pronto_mia/ui/views/startup/startup_view.dart';
 import 'package:pronto_mia/core/services/push_notification_service.dart';
 

@@ -41,6 +41,7 @@ dependencies:
   jwt_decoder:
   logging:
   pdf_render:
+  responsive_builder:
   shared_preferences:
   stacked:
   stacked_services:

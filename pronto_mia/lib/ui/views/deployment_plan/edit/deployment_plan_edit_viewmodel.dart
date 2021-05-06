@@ -14,14 +14,21 @@ class DeploymentPlanEditViewModel extends FormViewModel {
   DeploymentPlanService get _deploymentPlanService =>
       locator.get<DeploymentPlanService>();
   NavigationService get _navigationService => locator.get<NavigationService>();
+  DialogService get _dialogService => locator.get<DialogService>();
 
   final String editBusyKey = 'edit-busy-key';
   final String removeBusyKey = 'remove-busy-key';
+
   final DeploymentPlan deploymentPlan;
+  final bool isDialog;
+
   FileUpload get pdfUpload => _pdfUpload;
   FileUpload _pdfUpload;
 
-  DeploymentPlanEditViewModel({@required this.deploymentPlan});
+  DeploymentPlanEditViewModel({
+    @required this.deploymentPlan,
+    this.isDialog = false,
+  });
 
   @override
   void setFormStatus() {}
@@ -97,6 +104,8 @@ class DeploymentPlanEditViewModel extends FormViewModel {
       final errorMessage = ErrorMessageFactory.getErrorMessage(error);
       setValidationMessage(errorMessage);
       notifyListeners();
+    } else if (isDialog) {
+      _dialogService.completeDialog(DialogResponse(confirmed: true));
     } else {
       _navigationService.back(result: true);
     }
@@ -114,6 +123,8 @@ class DeploymentPlanEditViewModel extends FormViewModel {
       final errorMessage = ErrorMessageFactory.getErrorMessage(error);
       setValidationMessage(errorMessage);
       notifyListeners();
+    } else if (isDialog) {
+      _dialogService.completeDialog(DialogResponse(confirmed: true));
     } else {
       _navigationService.back(result: true);
     }

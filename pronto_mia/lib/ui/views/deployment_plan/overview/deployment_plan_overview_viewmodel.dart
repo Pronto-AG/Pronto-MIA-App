@@ -9,12 +9,15 @@ import 'package:pronto_mia/core/models/deployment_plan.dart';
 import 'package:pronto_mia/core/services/deployment_plan_service.dart';
 import 'package:pronto_mia/core/factories/error_message_factory.dart';
 import 'package:pronto_mia/core/services/logging_service.dart';
+import 'package:pronto_mia/ui/shared/custom_dialogs.dart';
+import 'package:pronto_mia/ui/views/deployment_plan/edit/deployment_plan_edit_view.dart';
 
 class DeploymentPlanOverviewViewModel
     extends FutureViewModel<List<DeploymentPlan>> {
   DeploymentPlanService get _deploymentPlanService =>
       locator.get<DeploymentPlanService>();
   NavigationService get _navigationService => locator.get<NavigationService>();
+  DialogService get _dialogService => locator.get<DialogService>();
   Future<LoggingService> get _loggingService =>
       locator.getAsync<LoggingService>();
 
@@ -25,7 +28,7 @@ class DeploymentPlanOverviewViewModel
   DeploymentPlanOverviewViewModel({this.adminModeEnabled = false});
 
   @override
-  Future<List<DeploymentPlan>> futureToRun() {
+  Future<List<DeploymentPlan>> futureToRun() async {
     if (adminModeEnabled) {
       return _getDeploymentPlans();
     } else {
@@ -57,24 +60,35 @@ class DeploymentPlanOverviewViewModel
     );
   }
 
-  Future<void> createDeploymentPlan() async {
-    final dataHasChanged = await _navigationService.navigateTo(
-      Routes.deploymentPlanEditView,
-    );
-    if (dataHasChanged is bool && dataHasChanged) {
-      await initialise();
+  Future<void> editDeploymentPlan({
+    DeploymentPlan deploymentPlan,
+    bool asDialog = false,
+  }) async {
+    bool dataHasChanged;
+    if (asDialog) {
+      final dynamic dialogResponse = await _dialogService.showCustomDialog(
+        variant: DialogType.custom,
+        customData: DeploymentPlanEditView(
+          deploymentPlan: deploymentPlan,
+          isDialog: true
+        ),
+      );
+
+      if (dialogResponse is DialogResponse) {
+        dataHasChanged = dialogResponse.confirmed;
+      } else {
+        dataHasChanged = false;
+      }
+    } else {
+      dataHasChanged = await _navigationService.navigateTo(
+        Routes.deploymentPlanEditView,
+        arguments: DeploymentPlanEditViewArguments(
+          deploymentPlan: deploymentPlan,
+        ),
+      ) as bool;
     }
-  }
 
-  Future<void> editDeploymentPlan(DeploymentPlan deploymentPlan) async {
-    final dataHasChanged = await _navigationService.navigateTo(
-      Routes.deploymentPlanEditView,
-      arguments: DeploymentPlanEditViewArguments(
-        deploymentPlan: deploymentPlan,
-      ),
-    );
-
-    if (dataHasChanged is bool && dataHasChanged) {
+    if (dataHasChanged) {
       await initialise();
     }
   }
@@ -85,9 +99,5 @@ class DeploymentPlanOverviewViewModel
 
   Future<List<DeploymentPlan>> _getDeploymentPlans() async {
     return _deploymentPlanService.getDeploymentPlans();
-  }
-
-  Future<void> navigateFromMenu(String route, {dynamic arguments}) async {
-    await _navigationService.replaceWith(route, arguments: arguments);
   }
 }

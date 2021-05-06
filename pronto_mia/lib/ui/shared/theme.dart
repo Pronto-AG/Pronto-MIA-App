@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:pronto_mia/app/custom_colors.dart';
+import 'package:pronto_mia/ui/shared/custom_colors.dart';
 
 
 final theme = ThemeData(
@@ -8,10 +8,15 @@ final theme = ThemeData(
   primaryColor: CustomColors.primary,
   accentColor: CustomColors.secondary,
   bottomAppBarColor: CustomColors.primary,
-  scaffoldBackgroundColor: CustomColors.background,
+  dividerColor: CustomColors.divider,
+  shadowColor: CustomColors.shadow,
+
+  textSelectionTheme: const TextSelectionThemeData(
+    cursorColor: CustomColors.primary,
+  ),
 
   inputDecorationTheme: const InputDecorationTheme(
-    contentPadding: EdgeInsets.only(top: 8.0, bottom: 4.0),
+    border: OutlineInputBorder(),
   ),
 
   elevatedButtonTheme: ElevatedButtonThemeData(

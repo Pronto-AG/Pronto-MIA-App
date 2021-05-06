@@ -11,22 +11,14 @@ class StartUpView extends StatelessWidget {
       onModelReady: (model) => model.handleStartUp(),
       builder: (context, model, child) => Scaffold(
         body: (() {
-          if (model.hasError) {
-            return Center(
-              child: Text(model.errorMessage),
-            );
-          }
-
           return Container(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Image.asset(
+            child: Center(
+              child: model.hasError
+                ? Text(model.errorMessage)
+                : Image.asset(
                   'assets/images/pronto_icon.png',
                 ),
-              ],
             ),
           );
         })(),

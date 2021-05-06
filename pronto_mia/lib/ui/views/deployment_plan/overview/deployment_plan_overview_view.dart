@@ -1,16 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:pronto_mia/ui/components/navigation_layout.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 import 'package:intl/intl.dart';
 
 import 'package:pronto_mia/ui/views/deployment_plan/overview/deployment_plan_overview_viewmodel.dart';
-import 'package:pronto_mia/ui/shared/custom_colors.dart';
-import 'package:pronto_mia/ui/components/custom_app_bar.dart';
 import 'package:pronto_mia/core/models/deployment_plan.dart';
 import 'package:pronto_mia/ui/components/data_view_layout.dart';
-import 'package:pronto_mia/ui/components/side_menu/side_menu.dart';
+import 'package:pronto_mia/ui/components/navigation_layout.dart';
 
 class DeploymentPlanOverviewView extends StatelessWidget {
   final bool adminModeEnabled;
@@ -53,15 +50,17 @@ class DeploymentPlanOverviewView extends StatelessWidget {
         ),
       );
 
-  Widget _buildDataView(BuildContext context, DeploymentPlanOverviewViewModel model) =>
-      DataViewLayout(
-        isBusy: model.isBusy,
-        errorMessage: model.errorMessage,
-        emptyMessage: (model.data == null || model.data.isEmpty)
-            ? 'Es sind keine Einsatzpläne verfügbar.'
-            : null,
-        childBuilder: () => _buildList(context, model),
-      );
+  Widget _buildDataView(
+    BuildContext context,
+    DeploymentPlanOverviewViewModel model,
+  ) => DataViewLayout(
+    isBusy: model.isBusy,
+    errorMessage: model.errorMessage,
+    emptyMessage: (model.data == null || model.data.isEmpty)
+        ? 'Es sind keine Einsatzpläne verfügbar.'
+        : null,
+    childBuilder: () => _buildList(context, model),
+  );
 
   Widget _buildList(
     BuildContext context,
@@ -115,28 +114,4 @@ class DeploymentPlanOverviewView extends StatelessWidget {
       ),
     );
   }
-
-  Widget _buildFloatingActionButton(DeploymentPlanOverviewViewModel model) =>
-      FloatingActionButton(
-        tooltip: 'Einsatzplan erstellen',
-        backgroundColor: CustomColors.secondary,
-        onPressed: model.editDeploymentPlan,
-        child: const Icon(Icons.post_add),
-      );
-
-  Widget _buildBottomAppBar() =>
-      CustomAppBar(
-        actions: [
-          IconButton(
-            tooltip: 'Suche öffnen',
-            icon: const Icon(Icons.search),
-            onPressed: () {},
-          ),
-          IconButton(
-            tooltip: 'Filteroptionen anzeigen',
-            icon: const Icon(Icons.filter_list),
-            onPressed: () {},
-          ),
-        ],
-      );
 }

@@ -80,6 +80,7 @@ class DeploymentPlanEditView extends StatelessWidget
     body: _buildForm(model),
   );
 
+  // ignore: sized_box_for_whitespace
   Widget _buildDialogLayout(DeploymentPlanEditViewModel model) => Container(
     width: 500.0,
     child: Column(

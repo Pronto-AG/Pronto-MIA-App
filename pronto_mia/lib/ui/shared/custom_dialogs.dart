@@ -37,7 +37,11 @@ class _CustomDialog extends StatelessWidget {
               width: 500.0,
               child: Stack(
                 children: [
-                  Card(child: request.customData as Widget),
+                  Card(
+                    child: SingleChildScrollView(
+                      child: request.customData as Widget,
+                    ),
+                  ),
                   Positioned(
                     top: 12.0,
                     right: 16.0,

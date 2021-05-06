@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'package:pronto_mia/ui/shared/custom_colors.dart';
+
 class FormLayout extends StatelessWidget {
   final List<Widget> textFields;
   final String validationMessage;
@@ -26,12 +28,12 @@ class FormLayout extends StatelessWidget {
   }
 
   List<Widget> _buildForm() {
-    final List<Widget> form = [];
+    final List<Widget> form = [const SizedBox(height: 2.0)];
 
     for (final textField in textFields) {
       form.add(textField);
       if (textField != textFields.last) {
-        form.add(const SizedBox(height: 8.0));
+        form.add(const SizedBox(height: 16.0));
       }
     }
 
@@ -47,7 +49,7 @@ class FormLayout extends StatelessWidget {
       form.add(const SizedBox(height: 8.0));
       form.add(Text(
         validationMessage,
-        style: const TextStyle(color: Colors.red),
+        style: const TextStyle(color: CustomColors.danger),
       ));
     }
 
@@ -57,12 +59,12 @@ class FormLayout extends StatelessWidget {
   Widget _buildButton({@required ButtonSpecification button}) {
     return SizedBox(
       width: double.infinity,
-      height: 40.0,
+      height: 48.0,
       child: ElevatedButton(
         onPressed: button.onTap,
         style: button.isDestructive
             ? ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.red),
+                backgroundColor: MaterialStateProperty.all(CustomColors.danger),
               )
             : null,
         child: button.isBusy
@@ -70,8 +72,8 @@ class FormLayout extends StatelessWidget {
                 width: 16.0,
                 height: 16.0,
                 child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation(Colors.white),
-                  backgroundColor: Colors.blue,
+                  valueColor: AlwaysStoppedAnimation(CustomColors.negativeText),
+                  // backgroundColor: CustomColors.secondary,
                   strokeWidth: 3,
                 ),
               )

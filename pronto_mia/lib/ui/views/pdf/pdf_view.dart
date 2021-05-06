@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pronto_mia/core/models/file_upload.dart';
 import 'package:stacked/stacked.dart';
 import 'package:pdf_render/pdf_render_widgets.dart';
 
+import 'package:pronto_mia/core/models/file_upload.dart';
 import 'package:pronto_mia/ui/views/pdf/pdf_viewmodel.dart';
 
 class PdfView extends StatelessWidget {
@@ -51,11 +51,10 @@ class PdfView extends StatelessWidget {
             );
           }
 
-          if (model.data != null) {
-            return PdfViewer.openData(model.data.readAsBytesSync());
-          } else {
-            return PdfViewer.openData(model.pdfUpload.bytes);
-          }
+          final bytes = model.data != null
+              ? model.data.readAsBytesSync()
+              : model.pdfUpload.bytes;
+          return PdfViewer.openData(bytes);
         })(),
       ),
     );

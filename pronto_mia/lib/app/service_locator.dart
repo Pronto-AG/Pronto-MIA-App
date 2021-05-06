@@ -11,6 +11,7 @@ import 'package:pronto_mia/core/services/push_notification_service.dart';
 import 'package:pronto_mia/core/services/configuration_service.dart';
 import 'package:pronto_mia/core/services/logging_service.dart';
 import 'package:pronto_mia/core/services/user_service.dart';
+import 'package:pronto_mia/ui/shared/custom_dialogs.dart';
 
 final locator = StackedLocator.instance;
 
@@ -49,6 +50,7 @@ void setupLocator() {
   locator.registerLazySingleton<AuthenticationService>(
       () => AuthenticationService());
   locator.registerLazySingleton<NavigationService>(() => NavigationService());
+  locator.registerLazySingleton<DialogService>(() => DialogService());
   locator.registerLazySingleton<DeploymentPlanService>(
       () => DeploymentPlanService());
   locator.registerLazySingleton<PdfService>(() => PdfService());

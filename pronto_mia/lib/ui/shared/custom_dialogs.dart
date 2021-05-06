@@ -9,12 +9,13 @@ enum DialogType { custom }
 DialogService registerDialogs(DialogService dialogService) {
   final builders = {
     DialogType.custom: (
-      BuildContext context, 
-      DialogRequest sheetRequest, 
+      BuildContext context,
+      DialogRequest sheetRequest,
       Function(DialogResponse) completer,
-    ) => _CustomDialog(request: sheetRequest),
+    ) =>
+        _CustomDialog(request: sheetRequest),
   };
-  
+
   dialogService.registerCustomDialogBuilders(builders);
   return dialogService;
 }
@@ -28,18 +29,18 @@ class _CustomDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-    onTap: () => _navigationService.back(),
-    child: Container(
-      decoration: const BoxDecoration(color: CustomColors.shade),
-      child: Center(
-        // ignore: sized_box_for_whitespace
+        onTap: () => _navigationService.back(),
         child: Container(
-          width: 500.0,
-          child: Card(
-            child: request.customData as Widget,
+          decoration: const BoxDecoration(color: CustomColors.shade),
+          child: Center(
+            // ignore: sized_box_for_whitespace
+            child: Container(
+              width: 500.0,
+              child: Card(
+                child: request.customData as Widget,
+              ),
+            ),
           ),
         ),
-      ),
-    ),
-  );
+      );
 }

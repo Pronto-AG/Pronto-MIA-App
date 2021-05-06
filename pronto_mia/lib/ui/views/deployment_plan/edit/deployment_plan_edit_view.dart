@@ -74,24 +74,22 @@ class DeploymentPlanEditView extends StatelessWidget
       );
 
   Widget _buildStandaloneLayout(DeploymentPlanEditViewModel model) => Scaffold(
-    appBar: AppBar(
-      title: _buildTitle()
-    ),
-    body: _buildForm(model),
-  );
+        appBar: AppBar(title: _buildTitle()),
+        body: _buildForm(model),
+      );
 
   // ignore: sized_box_for_whitespace
   Widget _buildDialogLayout(DeploymentPlanEditViewModel model) => Container(
-    width: 500.0,
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        _buildTitle(),
-        _buildForm(model),
-      ],
-    ),
-  );
+        width: 500.0,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _buildTitle(),
+            _buildForm(model),
+          ],
+        ),
+      );
 
   Widget _buildTitle() {
     final title = deploymentPlan == null
@@ -112,71 +110,71 @@ class DeploymentPlanEditView extends StatelessWidget
   }
 
   Widget _buildForm(DeploymentPlanEditViewModel model) => FormLayout(
-    textFields: [
-      TextField(
-        controller: descriptionController,
-        decoration: const InputDecoration(labelText: 'Bezeichnung'),
-      ),
-      DateTimePicker(
-        type: DateTimePickerType.dateTime,
-        controller: availableFromController,
-        firstDate: deploymentPlan != null
-            ? deploymentPlan.availableFrom
-            : DateTime.now(),
-        lastDate: DateTime.now().add(const Duration(days: 365)),
-        dateMask: 'dd.MM.yyyy HH:mm',
-        dateLabelText: 'Gültig ab*',
-      ),
-      DateTimePicker(
-        type: DateTimePickerType.dateTime,
-        controller: availableUntilController,
-        firstDate: deploymentPlan != null
-            ? deploymentPlan.availableUntil
-            : DateTime.now(),
-        lastDate: DateTime.now().add(const Duration(days: 365)),
-        dateMask: 'dd.MM.yyyy HH:mm',
-        dateLabelText: 'Gültig bis*',
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.baseline,
-        textBaseline: TextBaseline.ideographic,
-        children: [
-          TextButton(
-            onPressed: () => handlePdfUpload(model),
-            child: const Text('Datei hochladen'),
+        textFields: [
+          TextField(
+            controller: descriptionController,
+            decoration: const InputDecoration(labelText: 'Bezeichnung'),
           ),
-          const SizedBox(width: 8.0),
-          Expanded(
-            child: TextField(
-              controller: pdfPathController,
-              readOnly: true,
-              onTap: model.openPdf,
-              decoration: const InputDecoration(labelText: 'Dateiname'),
-              style: const TextStyle(
-                color: CustomColors.link,
-                decoration: TextDecoration.underline,
+          DateTimePicker(
+            type: DateTimePickerType.dateTime,
+            controller: availableFromController,
+            firstDate: deploymentPlan != null
+                ? deploymentPlan.availableFrom
+                : DateTime.now(),
+            lastDate: DateTime.now().add(const Duration(days: 365)),
+            dateMask: 'dd.MM.yyyy HH:mm',
+            dateLabelText: 'Gültig ab*',
+          ),
+          DateTimePicker(
+            type: DateTimePickerType.dateTime,
+            controller: availableUntilController,
+            firstDate: deploymentPlan != null
+                ? deploymentPlan.availableUntil
+                : DateTime.now(),
+            lastDate: DateTime.now().add(const Duration(days: 365)),
+            dateMask: 'dd.MM.yyyy HH:mm',
+            dateLabelText: 'Gültig bis*',
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.ideographic,
+            children: [
+              TextButton(
+                onPressed: () => handlePdfUpload(model),
+                child: const Text('Datei hochladen'),
               ),
-            ),
+              const SizedBox(width: 8.0),
+              Expanded(
+                child: TextField(
+                  controller: pdfPathController,
+                  readOnly: true,
+                  onTap: model.openPdf,
+                  decoration: const InputDecoration(labelText: 'Dateiname'),
+                  style: const TextStyle(
+                    color: CustomColors.link,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
-      ),
-    ],
-    primaryButton: ButtonSpecification(
-      title: 'Speichern',
-      onTap: model.submitForm,
-      isBusy: model.busy(model.editBusyKey),
-    ),
-    secondaryButton: (() {
-      if (deploymentPlan != null) {
-        return ButtonSpecification(
-          title: 'Löschen',
-          onTap: model.removeDeploymentPlan,
-          isBusy: model.busy(model.removeBusyKey),
-          isDestructive: true,
-        );
-      }
-    })(),
-    validationMessage: model.validationMessage,
-  );
+        primaryButton: ButtonSpecification(
+          title: 'Speichern',
+          onTap: model.submitForm,
+          isBusy: model.busy(model.editBusyKey),
+        ),
+        secondaryButton: (() {
+          if (deploymentPlan != null) {
+            return ButtonSpecification(
+              title: 'Löschen',
+              onTap: model.removeDeploymentPlan,
+              isBusy: model.busy(model.removeBusyKey),
+              isDestructive: true,
+            );
+          }
+        })(),
+        validationMessage: model.validationMessage,
+      );
 }

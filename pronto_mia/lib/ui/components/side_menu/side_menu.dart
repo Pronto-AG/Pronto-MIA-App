@@ -25,9 +25,8 @@ class SideMenu extends StatelessWidget {
       );
 
   Widget _buildProfile(SideMenuViewModel model) {
-    final username = model.data != null
-      ? model.data.username
-      : 'Hans Mustermann';
+    final username =
+        model.data != null ? model.data.username : 'Hans Mustermann';
     final userImage = Jdenticon.toSvg(username);
 
     return ListTile(
@@ -102,12 +101,12 @@ class SideMenu extends StatelessWidget {
       );
 
   List<Widget> _buildNavigationCategory(String title, List<Widget> tiles) => [
-    const Divider(),
-    Text(
-      title,
-      textAlign: TextAlign.left,
-      style: const TextStyle(fontWeight: FontWeight.w600),
-    ),
-    ...tiles,
-  ];
+        const Divider(),
+        Text(
+          title,
+          textAlign: TextAlign.left,
+          style: const TextStyle(fontWeight: FontWeight.w600),
+        ),
+        ...tiles,
+      ];
 }

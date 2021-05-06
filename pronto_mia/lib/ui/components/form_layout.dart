@@ -23,7 +23,7 @@ class FormLayout extends StatelessWidget {
       child: ListView(
         shrinkWrap: true,
         children: _buildForm(),
-      )
+      ),
     );
   }
 

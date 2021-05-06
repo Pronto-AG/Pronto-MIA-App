@@ -20,14 +20,11 @@ class DeploymentPlanOverviewView extends StatelessWidget {
   @override
   Widget build(BuildContext context) =>
       ViewModelBuilder<DeploymentPlanOverviewViewModel>.reactive(
-        viewModelBuilder: () =>
-            DeploymentPlanOverviewViewModel(
-              adminModeEnabled: adminModeEnabled,
-            ),
+        viewModelBuilder: () => DeploymentPlanOverviewViewModel(
+          adminModeEnabled: adminModeEnabled,
+        ),
         builder: (context, model, child) => NavigationLayout(
-          title: adminModeEnabled
-              ? 'Einsatplanverwaltung'
-              : 'Einsatzpläne',
+          title: adminModeEnabled ? 'Einsatplanverwaltung' : 'Einsatzpläne',
           body: _buildDataView(context, model),
           actions: [
             if (adminModeEnabled)
@@ -53,28 +50,29 @@ class DeploymentPlanOverviewView extends StatelessWidget {
   Widget _buildDataView(
     BuildContext context,
     DeploymentPlanOverviewViewModel model,
-  ) => DataViewLayout(
-    isBusy: model.isBusy,
-    errorMessage: model.errorMessage,
-    emptyMessage: (model.data == null || model.data.isEmpty)
-        ? 'Es sind keine Einsatzpläne verfügbar.'
-        : null,
-    childBuilder: () => _buildList(context, model),
-  );
+  ) =>
+      DataViewLayout(
+        isBusy: model.isBusy,
+        errorMessage: model.errorMessage,
+        emptyMessage: (model.data == null || model.data.isEmpty)
+            ? 'Es sind keine Einsatzpläne verfügbar.'
+            : null,
+        childBuilder: () => _buildList(context, model),
+      );
 
   Widget _buildList(
     BuildContext context,
     DeploymentPlanOverviewViewModel model,
   ) =>
-    RefreshIndicator(
-      onRefresh: model.initialise,
-      child: ListView.builder(
-        shrinkWrap: true,
-        itemCount: model.data.length,
-        itemBuilder: (context, index) =>
-            _buildListItem(context, model, model.data[index]),
-      ),
-    );
+      RefreshIndicator(
+        onRefresh: model.initialise,
+        child: ListView.builder(
+          shrinkWrap: true,
+          itemCount: model.data.length,
+          itemBuilder: (context, index) =>
+              _buildListItem(context, model, model.data[index]),
+        ),
+      );
 
   Widget _buildListItem(
     BuildContext context,
@@ -84,11 +82,11 @@ class DeploymentPlanOverviewView extends StatelessWidget {
     final dateFormat = DateFormat('dd.MM.yyyy');
     final dateTimeFormat = DateFormat('dd.MM.yyyy hh:mm');
     final availableFromDateFormatted =
-    dateFormat.format(deploymentPlan.availableFrom);
+        dateFormat.format(deploymentPlan.availableFrom);
     final availableFromFormatted =
-    dateTimeFormat.format(deploymentPlan.availableFrom);
+        dateTimeFormat.format(deploymentPlan.availableFrom);
     final availableUntilFormatted =
-    dateTimeFormat.format(deploymentPlan.availableUntil);
+        dateTimeFormat.format(deploymentPlan.availableUntil);
 
     return Card(
       child: ListTile(

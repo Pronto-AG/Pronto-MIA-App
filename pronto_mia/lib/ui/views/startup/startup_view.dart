@@ -15,10 +15,10 @@ class StartUpView extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Center(
               child: model.hasError
-                ? Text(model.errorMessage)
-                : Image.asset(
-                  'assets/images/pronto_icon.png',
-                ),
+                  ? Text(model.errorMessage)
+                  : Image.asset(
+                      'assets/images/pronto_icon.png',
+                    ),
             ),
           );
         })(),

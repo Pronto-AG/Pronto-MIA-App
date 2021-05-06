@@ -70,7 +70,7 @@ class DeploymentPlanOverviewViewModel
         variant: DialogType.custom,
         customData: DeploymentPlanEditView(
           deploymentPlan: deploymentPlan,
-          isDialog: true
+          isDialog: true,
         ),
       );
 

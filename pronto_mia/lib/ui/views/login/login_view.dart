@@ -48,12 +48,10 @@ class LoginView extends StatelessWidget with $LoginView {
   }
 
   Widget _buildCardLayout(
-    LoginViewModel model,
-    {
-      @required double width,
-      @required double padding,
-    }
-  ) {
+    LoginViewModel model, {
+    @required double width,
+    @required double padding,
+  }) {
     return Container(
       width: width,
       padding: EdgeInsets.all(padding),
@@ -72,7 +70,7 @@ class LoginView extends StatelessWidget with $LoginView {
       ),
     );
   }
-  
+
   Widget _buildForm(LoginViewModel model) {
     return FormLayout(
       textFields: [

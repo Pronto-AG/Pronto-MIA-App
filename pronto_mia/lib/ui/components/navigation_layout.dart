@@ -19,82 +19,82 @@ class NavigationLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ScreenTypeLayout(
-    mobile: _buildMobileLayout(body: body),
-    tablet: _buildTabletLayout(),
-    desktop: _buildDesktopLayout(),
-  );
+        mobile: _buildMobileLayout(body: body),
+        tablet: _buildTabletLayout(),
+        desktop: _buildDesktopLayout(),
+      );
 
   Widget _buildMobileLayout({@required Widget body}) => Scaffold(
-    appBar: _buildAppBar(),
-    body: body,
-    floatingActionButton: actions != null && actions.isNotEmpty
-      ? FloatingActionButton(
-        tooltip: actions[0].tooltip,
-        backgroundColor: CustomColors.secondary,
-        onPressed: actions[0].onPressed,
-        child: actions[0].icon,
-      )
-      : null,
-    floatingActionButtonLocation: kIsWeb
-      ? FloatingActionButtonLocation.endFloat
-      : FloatingActionButtonLocation.centerDocked,
-    bottomNavigationBar: _buildBottomAppBar(),
-  );
+        appBar: _buildAppBar(),
+        body: body,
+        floatingActionButton: actions != null && actions.isNotEmpty
+            ? FloatingActionButton(
+                tooltip: actions[0].tooltip,
+                backgroundColor: CustomColors.secondary,
+                onPressed: actions[0].onPressed,
+                child: actions[0].icon,
+              )
+            : null,
+        floatingActionButtonLocation: kIsWeb
+            ? FloatingActionButtonLocation.endFloat
+            : FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: _buildBottomAppBar(),
+      );
 
   Widget _buildTabletLayout() => _buildMobileLayout(
-    body: Align(
-      alignment: Alignment.topCenter,
-      // ignore: sized_box_for_whitespace
-      child: Container(width: 584.0, child: body),
-    ),
-  );
+        body: Align(
+          alignment: Alignment.topCenter,
+          // ignore: sized_box_for_whitespace
+          child: Container(width: 584.0, child: body),
+        ),
+      );
 
   Widget _buildDesktopLayout() => Scaffold(
-     body: Row(
-       crossAxisAlignment: CrossAxisAlignment.stretch,
-       children: [
-         Container(
-           width: 300.0,
-           decoration: const BoxDecoration(
-             color: CustomColors.background,
-             boxShadow: [
-               BoxShadow(
-                 color: CustomColors.shadow,
-                 spreadRadius: 1,
-                 blurRadius: 1,
-               )
-             ],
-           ),
-           child: Column(
-             children: [
-               Container(
-                 padding: const EdgeInsets.all(16.0),
-                 width: 240.0,
-                 child: Image.asset('assets/images/pronto_logo.png'),
-               ),
-               const Divider(),
-               SideMenu(),
-             ],
-           ),
-         ),
-         Expanded(
-           child: Align(
-             alignment: Alignment.topCenter,
-             // ignore: sized_box_for_whitespace
-             child: Container(
-               width: 600.0,
-               child: Column(
-                 children: [
-                   _buildAppBar(actions: actions),
-                   body,
-                 ],
-               ),
-             ),
-           ),
-         ),
-       ],
-     ),
-   );
+        body: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              width: 300.0,
+              decoration: const BoxDecoration(
+                color: CustomColors.background,
+                boxShadow: [
+                  BoxShadow(
+                    color: CustomColors.shadow,
+                    spreadRadius: 1,
+                    blurRadius: 1,
+                  )
+                ],
+              ),
+              child: Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(16.0),
+                    width: 240.0,
+                    child: Image.asset('assets/images/pronto_logo.png'),
+                  ),
+                  const Divider(),
+                  SideMenu(),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Align(
+                alignment: Alignment.topCenter,
+                // ignore: sized_box_for_whitespace
+                child: Container(
+                  width: 600.0,
+                  child: Column(
+                    children: [
+                      _buildAppBar(actions: actions),
+                      body,
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
 
   PreferredSizeWidget _buildAppBar({List<ActionSpecification> actions}) =>
       AppBar(
@@ -105,21 +105,26 @@ class NavigationLayout extends StatelessWidget {
         ),
         elevation: 0.0,
         backgroundColor: Colors.transparent,
-        actions: actions?.map((ActionSpecification action) => IconButton(
-          tooltip: action.tooltip,
-          icon: action.icon,
-          onPressed: action.onPressed,
-        ))?.toList(),
+        actions: actions
+            ?.map((ActionSpecification action) => IconButton(
+                  tooltip: action.tooltip,
+                  icon: action.icon,
+                  onPressed: action.onPressed,
+                ))
+            ?.toList(),
         actionsIconTheme: const IconThemeData(color: CustomColors.text),
       );
 
   Widget _buildBottomAppBar() => CustomAppBar(
-    actions: actions.sublist(1).map((ActionSpecification action) => IconButton(
-      tooltip: action.tooltip,
-      icon: action.icon,
-      onPressed: action.onPressed,
-    )).toList(),
-  );
+        actions: actions
+            .sublist(1)
+            .map((ActionSpecification action) => IconButton(
+                  tooltip: action.tooltip,
+                  icon: action.icon,
+                  onPressed: action.onPressed,
+                ))
+            .toList(),
+      );
 }
 
 class ActionSpecification {

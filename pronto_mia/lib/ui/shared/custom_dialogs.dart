@@ -32,7 +32,6 @@ class _CustomDialog extends StatelessWidget {
     child: Container(
       decoration: const BoxDecoration(color: CustomColors.shade),
       child: Center(
-        // ignore: sized_box_for_whitespace
         child: Container(
           width: 500.0,
           child: Card(

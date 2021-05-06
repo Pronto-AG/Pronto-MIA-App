@@ -25,7 +25,7 @@ class SideMenu extends StatelessWidget {
       );
 
   Widget _buildProfile(SideMenuViewModel model) {
-    String username = model.data != null
+    final username = model.data != null
       ? model.data.username
       : 'Hans Mustermann';
     final userImage = Jdenticon.toSvg(username);

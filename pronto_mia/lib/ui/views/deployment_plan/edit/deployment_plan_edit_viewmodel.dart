@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:pronto_mia/core/services/pdf_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -6,7 +7,7 @@ import 'package:pronto_mia/app/app.router.dart';
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/deployment_plan_service.dart';
 import 'package:pronto_mia/ui/views/deployment_plan/edit/deployment_plan_edit_view.form.dart';
-import 'package:pronto_mia/core/models/file_upload.dart';
+import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/core/factories/error_message_factory.dart';
 import 'package:pronto_mia/core/models/deployment_plan.dart';
 
@@ -15,6 +16,7 @@ class DeploymentPlanEditViewModel extends FormViewModel {
       locator.get<DeploymentPlanService>();
   NavigationService get _navigationService => locator.get<NavigationService>();
   DialogService get _dialogService => locator.get<DialogService>();
+  PdfService get _pdfService => locator.get<PdfService>();
 
   final String editBusyKey = 'edit-busy-key';
   final String removeBusyKey = 'remove-busy-key';
@@ -22,8 +24,8 @@ class DeploymentPlanEditViewModel extends FormViewModel {
   final DeploymentPlan deploymentPlan;
   final bool isDialog;
 
-  FileUpload get pdfUpload => _pdfUpload;
-  FileUpload _pdfUpload;
+  SimpleFile get pdfUpload => _pdfUpload;
+  SimpleFile _pdfUpload;
 
   DeploymentPlanEditViewModel({
     @required this.deploymentPlan,
@@ -33,27 +35,23 @@ class DeploymentPlanEditViewModel extends FormViewModel {
   @override
   void setFormStatus() {}
 
-  void setPdfUpload(FileUpload fileUpload) {
+  void setPdfUpload(SimpleFile fileUpload) {
     _pdfUpload = fileUpload;
     notifyListeners();
   }
 
-  void openPdf() {
-    if (pdfPathValue != null) {
-      PdfViewArguments pdfViewArguments;
-      if (pdfUpload != null) {
-        pdfViewArguments =
-            PdfViewArguments(title: pdfPathValue, pdfUpload: pdfUpload);
-      } else {
-        pdfViewArguments = PdfViewArguments(
-          title: pdfPathValue,
-          pdfPath: deploymentPlan.link,
-        );
-      }
+  Future<void> openPdf() async {
+    _pdfUpload ??= await _pdfService.downloadPdf(deploymentPlan.link);
 
+    if (kIsWeb) {
+      _pdfService.openPdfWeb(_pdfUpload);
+    } else {
       _navigationService.navigateTo(
         Routes.pdfView,
-        arguments: pdfViewArguments,
+        arguments: PdfViewArguments(
+          title: pdfPathValue,
+          pdfUpload: _pdfUpload,
+        ),
       );
     }
   }

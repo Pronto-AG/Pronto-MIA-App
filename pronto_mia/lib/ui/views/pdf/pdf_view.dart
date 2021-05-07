@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:pdf_render/pdf_render_widgets.dart';
 
-import 'package:pronto_mia/core/models/file_upload.dart';
+import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/ui/views/pdf/pdf_viewmodel.dart';
+import 'package:pronto_mia/ui/components/data_view_layout.dart';
 
 class PdfView extends StatelessWidget {
   final String title;
   final String subTitle;
-  final FileUpload pdfUpload;
+  final SimpleFile pdfUpload;
   final String pdfPath;
 
   const PdfView({
@@ -19,7 +20,6 @@ class PdfView extends StatelessWidget {
     this.pdfPath,
   }) : super(key: key);
 
-  // TODO: Review pdf lag when moving it around
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<PdfViewModel>.reactive(
@@ -38,24 +38,17 @@ class PdfView extends StatelessWidget {
               Text(subTitle, style: const TextStyle(fontSize: 12.0))
           ],
         )),
-        body: (() {
-          if (model.isBusy) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          if (model.hasError) {
-            return Center(
-              child: Text(model.errorMessage),
-            );
-          }
-
-          final bytes = model.data != null
-              ? model.data.readAsBytesSync()
+        body: DataViewLayout(
+          isBusy: model.isBusy,
+          errorMessage: model.errorMessage,
+          childBuilder: () {
+            final bytes = model.data != null
+              ? model.data.bytes
               : model.pdfUpload.bytes;
-          return PdfViewer.openData(bytes);
-        })(),
+
+            return PdfViewer.openData(bytes);
+          },
+        ),
       ),
     );
   }

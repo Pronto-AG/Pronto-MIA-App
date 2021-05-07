@@ -1,7 +1,9 @@
+import 'dart:html';
 import 'dart:io';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
+import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/core/services/jwt_token_service.dart';
 
 class PdfService {
@@ -10,11 +12,24 @@ class PdfService {
   Future<JwtTokenService> get _jwtTokenService =>
       locator.getAsync<JwtTokenService>();
 
-  Future<File> downloadPdf(String path) async {
+  Future<SimpleFile> downloadPdf(String path) async {
     final token = await (await _jwtTokenService).getToken();
     final httpHeaders = {"Authorization": "Bearer $token"};
 
     final file = await _cacheManager.getSingleFile(path, headers: httpHeaders);
-    return file;
+    return SimpleFile('upload.pdf', file.readAsBytesSync());
+  }
+
+  void openPdfWeb(SimpleFile pdf) async {
+    final blob = Blob([pdf.bytes], 'application/pdf');
+    final url = Url.createObjectUrlFromBlob(blob);
+
+    final anchor = AnchorElement(href: url)
+      ..target = 'blank';
+    anchor.download = pdf.name;
+    document.body.append(anchor);
+
+    anchor.click();
+    anchor.remove();
   }
 }

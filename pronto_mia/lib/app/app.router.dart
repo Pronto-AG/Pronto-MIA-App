@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 import '../core/models/deployment_plan.dart';
-import '../core/models/file_upload.dart';
+import '../core/models/simple_file.dart';
 import '../ui/views/deployment_plan/edit/deployment_plan_edit_view.dart';
 import '../ui/views/deployment_plan/overview/deployment_plan_overview_view.dart';
 import '../ui/views/login/login_view.dart';
@@ -121,7 +121,7 @@ class PdfViewArguments {
   final Key key;
   final String title;
   final String subTitle;
-  final FileUpload pdfUpload;
+  final SimpleFile pdfUpload;
   final String pdfPath;
   PdfViewArguments(
       {this.key,

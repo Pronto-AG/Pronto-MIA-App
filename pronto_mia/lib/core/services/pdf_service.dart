@@ -1,10 +1,11 @@
-import 'dart:html';
-import 'dart:io';
+import 'package:universal_html/html.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/core/services/jwt_token_service.dart';
+
 
 class PdfService {
   // TODO: Review cache options
@@ -23,13 +24,6 @@ class PdfService {
   void openPdfWeb(SimpleFile pdf) async {
     final blob = Blob([pdf.bytes], 'application/pdf');
     final url = Url.createObjectUrlFromBlob(blob);
-
-    final anchor = AnchorElement(href: url)
-      ..target = 'blank';
-    anchor.download = pdf.name;
-    document.body.append(anchor);
-
-    anchor.click();
-    anchor.remove();
+    launch(url);
   }
 }

@@ -9,24 +9,19 @@ import 'package:pronto_mia/ui/components/data_view_layout.dart';
 class PdfView extends StatelessWidget {
   final String title;
   final String subTitle;
-  final SimpleFile pdfUpload;
-  final String pdfPath;
+  final Object pdfFile;
 
   const PdfView({
     Key key,
     @required this.title,
     this.subTitle,
-    this.pdfUpload,
-    this.pdfPath,
+    @required this.pdfFile,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<PdfViewModel>.reactive(
-      viewModelBuilder: () => PdfViewModel(
-        pdfUpload: pdfUpload,
-        pdfPath: pdfPath,
-      ),
+      viewModelBuilder: () => PdfViewModel(pdfFile: pdfFile),
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
             title: Column(
@@ -41,13 +36,7 @@ class PdfView extends StatelessWidget {
         body: DataViewLayout(
           isBusy: model.isBusy,
           errorMessage: model.errorMessage,
-          childBuilder: () {
-            final bytes = model.data != null
-              ? model.data.bytes
-              : model.pdfUpload.bytes;
-
-            return PdfViewer.openData(bytes);
-          },
+          childBuilder: () => PdfViewer.openData(model.data.bytes),
         ),
       ),
     );

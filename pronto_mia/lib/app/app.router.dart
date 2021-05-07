@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 import '../core/models/deployment_plan.dart';
-import '../core/models/simple_file.dart';
 import '../ui/views/deployment_plan/edit/deployment_plan_edit_view.dart';
 import '../ui/views/deployment_plan/overview/deployment_plan_overview_view.dart';
 import '../ui/views/login/login_view.dart';
@@ -71,6 +70,7 @@ class StackedRouter extends RouterBase {
         builder: (context) => DeploymentPlanEditView(
           key: args.key,
           deploymentPlan: args.deploymentPlan,
+          isDialog: args.isDialog,
         ),
         settings: data,
       );
@@ -82,8 +82,7 @@ class StackedRouter extends RouterBase {
           key: args.key,
           title: args.title,
           subTitle: args.subTitle,
-          pdfUpload: args.pdfUpload,
-          pdfPath: args.pdfPath,
+          pdfFile: args.pdfFile,
         ),
         settings: data,
       );
@@ -113,7 +112,9 @@ class DeploymentPlanOverviewViewArguments {
 class DeploymentPlanEditViewArguments {
   final Key key;
   final DeploymentPlan deploymentPlan;
-  DeploymentPlanEditViewArguments({this.key, this.deploymentPlan});
+  final bool isDialog;
+  DeploymentPlanEditViewArguments(
+      {this.key, this.deploymentPlan, this.isDialog = false});
 }
 
 /// PdfView arguments holder class
@@ -121,12 +122,7 @@ class PdfViewArguments {
   final Key key;
   final String title;
   final String subTitle;
-  final SimpleFile pdfUpload;
-  final String pdfPath;
+  final Object pdfFile;
   PdfViewArguments(
-      {this.key,
-      @required this.title,
-      this.subTitle,
-      this.pdfUpload,
-      this.pdfPath});
+      {this.key, @required this.title, this.subTitle, @required this.pdfFile});
 }

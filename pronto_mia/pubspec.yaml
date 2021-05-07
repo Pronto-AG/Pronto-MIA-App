@@ -45,6 +45,8 @@ dependencies:
   shared_preferences:
   stacked:
   stacked_services:
+  universal_html:
+  url_launcher: ^6.0.3
 
 dev_dependencies:
   build_runner:

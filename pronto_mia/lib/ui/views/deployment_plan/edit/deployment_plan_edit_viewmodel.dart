@@ -24,8 +24,8 @@ class DeploymentPlanEditViewModel extends FormViewModel {
   final DeploymentPlan deploymentPlan;
   final bool isDialog;
 
-  SimpleFile get pdfUpload => _pdfUpload;
-  SimpleFile _pdfUpload;
+  SimpleFile get pdfFile => _pdfFile;
+  SimpleFile _pdfFile;
 
   DeploymentPlanEditViewModel({
     @required this.deploymentPlan,
@@ -36,21 +36,20 @@ class DeploymentPlanEditViewModel extends FormViewModel {
   void setFormStatus() {}
 
   void setPdfUpload(SimpleFile fileUpload) {
-    _pdfUpload = fileUpload;
+    _pdfFile = fileUpload;
     notifyListeners();
   }
 
   Future<void> openPdf() async {
-    _pdfUpload ??= await _pdfService.downloadPdf(deploymentPlan.link);
-
     if (kIsWeb) {
-      _pdfService.openPdfWeb(_pdfUpload);
+      _pdfFile ??= await _pdfService.downloadPdf(deploymentPlan.link);
+      _pdfService.openPdfWeb(_pdfFile);
     } else {
       _navigationService.navigateTo(
         Routes.pdfView,
         arguments: PdfViewArguments(
           title: pdfPathValue,
-          pdfUpload: _pdfUpload,
+          pdfFile: _pdfFile ?? deploymentPlan.link,
         ),
       );
     }
@@ -73,7 +72,7 @@ class DeploymentPlanEditViewModel extends FormViewModel {
           descriptionValue,
           availableFrom,
           availableUntil,
-          _pdfUpload,
+          _pdfFile,
         ),
         busyObject: editBusyKey,
       );
@@ -92,7 +91,7 @@ class DeploymentPlanEditViewModel extends FormViewModel {
               !deploymentPlan.availableUntil.isAtSameMomentAs(availableUntil)
                   ? availableUntil
                   : null,
-          pdfFile: _pdfUpload,
+          pdfFile: _pdfFile,
         ),
         busyObject: editBusyKey,
       );

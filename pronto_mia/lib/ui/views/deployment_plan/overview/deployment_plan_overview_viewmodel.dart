@@ -47,10 +47,9 @@ class DeploymentPlanOverviewViewModel
   }
 
   Future<void> openPdf(DeploymentPlan deploymentPlan) async {
-    final pdfUpload = await _pdfService.downloadPdf(deploymentPlan.link);
-
     if (kIsWeb) {
-      _pdfService.openPdfWeb(pdfUpload);
+      final pdfFile = await _pdfService.downloadPdf(deploymentPlan.link);
+      _pdfService.openPdfWeb(pdfFile);
     } else {
       final dateFormat = DateFormat('dd.MM.yyyy');
       final availableFromFormatted =
@@ -58,7 +57,7 @@ class DeploymentPlanOverviewViewModel
       final availableUntilFormatted =
       dateFormat.format(deploymentPlan.availableUntil);
       final pdfViewArguments = PdfViewArguments(
-        pdfUpload: pdfUpload,
+        pdfFile: deploymentPlan.link,
         title: deploymentPlan.description ?? 'Einsatzplan',
         subTitle: '$availableFromFormatted - $availableUntilFormatted',
       );

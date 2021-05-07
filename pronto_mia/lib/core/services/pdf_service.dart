@@ -1,10 +1,10 @@
 import 'package:universal_html/html.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/core/services/jwt_token_service.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 class PdfService {
@@ -21,7 +21,7 @@ class PdfService {
     return SimpleFile('upload.pdf', file.readAsBytesSync());
   }
 
-  void openPdfWeb(SimpleFile pdf) async {
+   void openPdfWeb(SimpleFile pdf) {
     final blob = Blob([pdf.bytes], 'application/pdf');
     final url = Url.createObjectUrlFromBlob(blob);
     launch(url);

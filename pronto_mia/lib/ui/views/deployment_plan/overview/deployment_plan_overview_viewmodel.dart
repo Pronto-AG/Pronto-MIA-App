@@ -53,9 +53,9 @@ class DeploymentPlanOverviewViewModel
     } else {
       final dateFormat = DateFormat('dd.MM.yyyy');
       final availableFromFormatted =
-      dateFormat.format(deploymentPlan.availableFrom);
+          dateFormat.format(deploymentPlan.availableFrom);
       final availableUntilFormatted =
-      dateFormat.format(deploymentPlan.availableUntil);
+          dateFormat.format(deploymentPlan.availableUntil);
       final pdfViewArguments = PdfViewArguments(
         pdfFile: deploymentPlan.link,
         title: deploymentPlan.description ?? 'Einsatzplan',

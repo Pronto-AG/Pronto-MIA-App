@@ -84,12 +84,18 @@ class DeploymentPlanOverviewViewModel
 
       dataHasChanged = dialogResponse.confirmed;
     } else {
-      dataHasChanged = await _navigationService.navigateTo(
+      final response = await _navigationService.navigateTo(
         Routes.deploymentPlanEditView,
         arguments: DeploymentPlanEditViewArguments(
           deploymentPlan: deploymentPlan,
         ),
-      ) as bool;
+      );
+
+      if (response is bool && response == true) {
+        dataHasChanged = true;
+      } else {
+        dataHasChanged = false;
+      }
     }
 
     if (dataHasChanged) {

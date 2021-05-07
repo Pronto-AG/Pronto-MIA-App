@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:stacked/stacked.dart';
-import 'package:pdf_render/pdf_render_widgets.dart';
 
-import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/ui/views/pdf/pdf_viewmodel.dart';
 import 'package:pronto_mia/ui/components/data_view_layout.dart';
 
@@ -36,7 +35,10 @@ class PdfView extends StatelessWidget {
         body: DataViewLayout(
           isBusy: model.isBusy,
           errorMessage: model.errorMessage,
-          childBuilder: () => PdfViewer.openData(model.data.bytes),
+          // childBuilder: () => PdfViewer.openData(model.data.bytes),
+          childBuilder: () => PDFView(
+            pdfData: model.data.bytes,
+          ),
         ),
       ),
     );

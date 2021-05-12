@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked/stacked_annotations.dart';
 
 import 'package:pronto_mia/ui/views/login/login_view.form.dart';
 import 'package:pronto_mia/ui/views/login/login_viewmodel.dart';
 import 'package:pronto_mia/ui/components/form_layout.dart';
 
-@FormView(fields: [
-  FormTextField(name: 'userName'),
-  FormTextField(name: 'password'),
-])
-class LoginView extends StatelessWidget with $LoginView {
-  LoginView({Key key}) : super(key: key);
+class LoginView extends StatefulWidget {
+  @override
+  LoginViewState createState() => LoginViewState();
+}
+
+class LoginViewState extends State<LoginView> with $LoginView {
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -48,10 +48,10 @@ class LoginView extends StatelessWidget with $LoginView {
   }
 
   Widget _buildCardLayout(
-    LoginViewModel model, {
-    @required double width,
-    @required double padding,
-  }) {
+      LoginViewModel model, {
+        @required double width,
+        @required double padding,
+      }) {
     return Container(
       width: width,
       padding: EdgeInsets.all(padding),
@@ -72,28 +72,33 @@ class LoginView extends StatelessWidget with $LoginView {
   }
 
   Widget _buildForm(LoginViewModel model) {
-    return FormLayout(
-      textFields: [
-        TextField(
-          controller: userNameController,
-          decoration: const InputDecoration(
-            labelText: 'Benutzername *',
+    return Form(
+      key: _formKey,
+      child: FormLayout(
+        textFields: [
+          TextFormField(
+            controller: userNameController,
+            onFieldSubmitted: (_) => model.submitForm(),
+            decoration: const InputDecoration(
+              labelText: 'Benutzername *',
+            ),
           ),
-        ),
-        TextField(
-          controller: passwordController,
-          obscureText: true,
-          decoration: const InputDecoration(
-            labelText: 'Passwort *',
+          TextFormField(
+            controller: passwordController,
+            onFieldSubmitted: (_) => model.submitForm(),
+            obscureText: true,
+            decoration: const InputDecoration(
+              labelText: 'Passwort *',
+            ),
           ),
+        ],
+        primaryButton: ButtonSpecification(
+          title: 'Anmelden',
+          onTap: model.submitForm,
+          isBusy: model.isBusy,
         ),
-      ],
-      primaryButton: ButtonSpecification(
-        title: 'Anmelden',
-        onTap: model.submitForm,
-        isBusy: model.isBusy,
+        validationMessage: model.validationMessage,
       ),
-      validationMessage: model.validationMessage,
     );
   }
 }

@@ -116,7 +116,8 @@ class DeploymentPlanOverviewView extends StatelessWidget {
             }
           },
         )),
-        if(adminModeEnabled) _buildPublishToggle(context, model, deploymentPlan)
+        if (adminModeEnabled)
+          _buildPublishToggle(context, model, deploymentPlan)
       ],
     ));
   }

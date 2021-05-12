@@ -34,11 +34,10 @@ class DeploymentPlanService {
     );
 
     final dtoList = data['deploymentPlans'] as List<Object>;
-    final deploymentPlanList = dtoList
-        .map((dto) => DeploymentPlan.fromJson(dto as Map<String, dynamic>))
-        .toList();
+    final deploymentPlan =
+        DeploymentPlan.fromJson(dtoList.first as Map<String, dynamic>);
 
-    return deploymentPlanList.first;
+    return deploymentPlan;
   }
 
   Future<List<DeploymentPlan>> getAvailableDeploymentPlans() async {

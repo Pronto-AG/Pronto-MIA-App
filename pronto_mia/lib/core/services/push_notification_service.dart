@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 
@@ -11,6 +11,7 @@ import 'package:pronto_mia/core/services/configuration_service.dart';
 import 'package:pronto_mia/core/services/deployment_plan_service.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
 import 'package:pronto_mia/core/services/logging_service.dart';
+import 'package:pronto_mia/ui/components/deployment_plan_notification.dart';
 import 'package:pronto_mia/ui/shared/custom_dialogs.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -145,32 +146,20 @@ class PushNotificationService {
       subTitle: '$availableFromFormatted - $availableUntilFormatted',
     );
 
-    final dialogResponse = await _dialogService.showCustomDialog(
+    // ignore: prefer_function_declarations_over_variables
+    final AsyncCallback navigationCallback = () async {
+      await _navigationService.replaceWith(
+        Routes.pdfView,
+        arguments: pdfViewArguments,
+      );
+    };
+
+    await _dialogService.showCustomDialog(
         variant: DialogType.custom,
-        customData: Container(
-          width: 500.0,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(16.0),
-                child: const Text(
-                  "Einsatzplan wurde veröffentlicht",
-                  style: const TextStyle(fontSize: 20.0),
-                ),
-              ),
-              const Text("Dies ist ein Text"),
-              ElevatedButton(
-                  onPressed: () async => {
-                        await _navigationService.replaceWith(
-                          Routes.pdfView,
-                          arguments: pdfViewArguments,
-                        )
-                      },
-                  child: const Text("Ansehen"))
-            ],
-          ),
+        customData: DeploymentPlanNotification(
+          title: "Einsatzplan wurde veröffentlicht",
+          body: "Dies ist der Body",
+          navigationCallback: navigationCallback,
         ));
   }
 }

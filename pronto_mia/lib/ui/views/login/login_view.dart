@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked/stacked_annotations.dart';
 
 import 'package:pronto_mia/ui/views/login/login_view.form.dart';
 import 'package:pronto_mia/ui/views/login/login_viewmodel.dart';
 import 'package:pronto_mia/ui/components/form_layout.dart';
 
-class LoginView extends StatefulWidget {
-  @override
-  LoginViewState createState() => LoginViewState();
-}
-
-class LoginViewState extends State<LoginView> with $LoginView {
+@FormView(fields: [
+  FormTextField(name: 'userName'),
+  FormTextField(name: 'password'),
+])
+class LoginView extends StatelessWidget with $LoginView {
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -78,18 +78,14 @@ class LoginViewState extends State<LoginView> with $LoginView {
         textFields: [
           TextFormField(
             controller: userNameController,
-            onFieldSubmitted: (_) => model.submitForm(),
-            decoration: const InputDecoration(
-              labelText: 'Benutzername *',
-            ),
+            onEditingComplete: model.submitForm,
+            decoration: const InputDecoration(labelText: 'Benutzername *'),
           ),
           TextFormField(
             controller: passwordController,
-            onFieldSubmitted: (_) => model.submitForm(),
+            onEditingComplete: model.submitForm,
             obscureText: true,
-            decoration: const InputDecoration(
-              labelText: 'Passwort *',
-            ),
+            decoration: const InputDecoration(labelText: 'Passwort *'),
           ),
         ],
         primaryButton: ButtonSpecification(

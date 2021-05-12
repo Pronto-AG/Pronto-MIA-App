@@ -1,11 +1,18 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+// **************************************************************************
+// StackedFormGenerator
+// **************************************************************************
+
+// ignore_for_file: public_member_api_docs
+
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:pronto_mia/ui/views/login/login_view.dart';
 
 const String UserNameValueKey = 'userName';
 const String PasswordValueKey = 'password';
 
-mixin $LoginView on State<LoginView> {
+mixin $LoginView on StatelessWidget {
   final TextEditingController userNameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final FocusNode userNameFocusNode = FocusNode();
@@ -28,6 +35,8 @@ mixin $LoginView on State<LoginView> {
 
   /// Calls dispose on all the generated controllers and focus nodes
   void disposeForm() {
+    // The dispose function for a TextEditingController sets all listeners to null
+
     userNameController.dispose();
     passwordController.dispose();
   }

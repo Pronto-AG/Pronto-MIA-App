@@ -1,3 +1,5 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -32,6 +34,10 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+
+    _pushNotificationService.then((pushNotificationService) =>
+        pushNotificationService.handleInitialMessage());
+
     WidgetsBinding.instance.addObserver(this);
   }
 

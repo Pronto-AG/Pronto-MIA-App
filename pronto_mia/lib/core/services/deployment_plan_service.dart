@@ -24,6 +24,23 @@ class DeploymentPlanService {
     return deploymentPlanList;
   }
 
+  Future<DeploymentPlan> getDeploymentPlan(int id) async {
+    final queryVariables = {
+      'id': id,
+    };
+    final data = await (await _graphQLService).query(
+      DeploymentPlanQueries.deploymentPlanById,
+      variables: queryVariables,
+    );
+
+    final dtoList = data['deploymentPlans'] as List<Object>;
+    final deploymentPlanList = dtoList
+        .map((dto) => DeploymentPlan.fromJson(dto as Map<String, dynamic>))
+        .toList();
+
+    return deploymentPlanList.first;
+  }
+
   Future<List<DeploymentPlan>> getAvailableDeploymentPlans() async {
     final queryVariables = {
       'availableUntil': DateTime.now().toIso8601String(),

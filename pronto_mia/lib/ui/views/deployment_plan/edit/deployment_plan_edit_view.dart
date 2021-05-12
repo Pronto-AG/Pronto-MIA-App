@@ -111,77 +111,77 @@ class DeploymentPlanEditView extends StatelessWidget
   }
 
   Widget _buildForm(DeploymentPlanEditViewModel model) => Form(
-    key: _formKey,
-    child: FormLayout(
-      textFields: [
-        TextFormField(
-          controller: descriptionController,
-          onEditingComplete: model.submitForm,
-          decoration: const InputDecoration(labelText: 'Bezeichnung'),
-        ),
-        DateTimePicker(
-          type: DateTimePickerType.dateTime,
-          controller: availableFromController,
-          onEditingComplete: model.submitForm,
-          firstDate: deploymentPlan != null
-              ? deploymentPlan.availableFrom
-              : DateTime.now(),
-          lastDate: DateTime.now().add(const Duration(days: 365)),
-          dateMask: 'dd.MM.yyyy HH:mm',
-          dateLabelText: 'Gültig ab*',
-        ),
-        DateTimePicker(
-          type: DateTimePickerType.dateTime,
-          controller: availableUntilController,
-          onEditingComplete: model.submitForm,
-          firstDate: deploymentPlan != null
-              ? deploymentPlan.availableUntil
-              : DateTime.now(),
-          lastDate: DateTime.now().add(const Duration(days: 365)),
-          dateMask: 'dd.MM.yyyy HH:mm',
-          dateLabelText: 'Gültig bis*',
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.baseline,
-          textBaseline: TextBaseline.ideographic,
-          children: [
-            TextButton(
-              onPressed: () => handlePdfUpload(model),
-              child: const Text('Datei hochladen'),
+        key: _formKey,
+        child: FormLayout(
+          textFields: [
+            TextFormField(
+              controller: descriptionController,
+              onEditingComplete: model.submitForm,
+              decoration: const InputDecoration(labelText: 'Bezeichnung'),
             ),
-            const SizedBox(width: 8.0),
-            Expanded(
-              child: TextFormField(
-                controller: pdfPathController,
-                readOnly: true,
-                onTap: pdfPathController.text == null ||
-                    pdfPathController.text.isEmpty
-                    ? () => handlePdfUpload(model)
-                    : model.openPdf,
-                decoration: const InputDecoration(labelText: 'Dateiname *'),
-                style: const TextStyle(color: CustomColors.link),
-              ),
+            DateTimePicker(
+              type: DateTimePickerType.dateTime,
+              controller: availableFromController,
+              onEditingComplete: model.submitForm,
+              firstDate: deploymentPlan != null
+                  ? deploymentPlan.availableFrom
+                  : DateTime.now(),
+              lastDate: DateTime.now().add(const Duration(days: 365)),
+              dateMask: 'dd.MM.yyyy HH:mm',
+              dateLabelText: 'Gültig ab*',
+            ),
+            DateTimePicker(
+              type: DateTimePickerType.dateTime,
+              controller: availableUntilController,
+              onEditingComplete: model.submitForm,
+              firstDate: deploymentPlan != null
+                  ? deploymentPlan.availableUntil
+                  : DateTime.now(),
+              lastDate: DateTime.now().add(const Duration(days: 365)),
+              dateMask: 'dd.MM.yyyy HH:mm',
+              dateLabelText: 'Gültig bis*',
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.ideographic,
+              children: [
+                TextButton(
+                  onPressed: () => handlePdfUpload(model),
+                  child: const Text('Datei hochladen'),
+                ),
+                const SizedBox(width: 8.0),
+                Expanded(
+                  child: TextFormField(
+                    controller: pdfPathController,
+                    readOnly: true,
+                    onTap: pdfPathController.text == null ||
+                            pdfPathController.text.isEmpty
+                        ? () => handlePdfUpload(model)
+                        : model.openPdf,
+                    decoration: const InputDecoration(labelText: 'Dateiname *'),
+                    style: const TextStyle(color: CustomColors.link),
+                  ),
+                ),
+              ],
             ),
           ],
+          primaryButton: ButtonSpecification(
+            title: 'Speichern',
+            onTap: model.submitForm,
+            isBusy: model.busy(model.editBusyKey),
+          ),
+          secondaryButton: (() {
+            if (deploymentPlan != null) {
+              return ButtonSpecification(
+                title: 'Löschen',
+                onTap: model.removeDeploymentPlan,
+                isBusy: model.busy(model.removeBusyKey),
+                isDestructive: true,
+              );
+            }
+          })(),
+          validationMessage: model.validationMessage,
         ),
-      ],
-      primaryButton: ButtonSpecification(
-        title: 'Speichern',
-        onTap: model.submitForm,
-        isBusy: model.busy(model.editBusyKey),
-      ),
-      secondaryButton: (() {
-        if (deploymentPlan != null) {
-          return ButtonSpecification(
-            title: 'Löschen',
-            onTap: model.removeDeploymentPlan,
-            isBusy: model.busy(model.removeBusyKey),
-            isDestructive: true,
-          );
-        }
-      })(),
-      validationMessage: model.validationMessage,
-    ),
-  );
+      );
 }

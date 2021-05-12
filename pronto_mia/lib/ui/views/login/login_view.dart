@@ -48,53 +48,48 @@ class LoginView extends StatelessWidget with $LoginView {
   }
 
   Widget _buildCardLayout(
-      LoginViewModel model, {
-        @required double width,
-        @required double padding,
-      }) {
-    return Container(
-      width: width,
-      padding: EdgeInsets.all(padding),
-      child: Card(
-        child: _buildBaseLayout(model),
-      ),
-    );
-  }
-
-  Widget _buildLogo() {
-    return Container(
-      height: 120.0,
-      padding: const EdgeInsets.all(16.0),
-      child: Image.asset(
-        'assets/images/pronto_logo.png',
-      ),
-    );
-  }
-
-  Widget _buildForm(LoginViewModel model) {
-    return Form(
-      key: _formKey,
-      child: FormLayout(
-        textFields: [
-          TextFormField(
-            controller: userNameController,
-            onEditingComplete: model.submitForm,
-            decoration: const InputDecoration(labelText: 'Benutzername *'),
-          ),
-          TextFormField(
-            controller: passwordController,
-            onEditingComplete: model.submitForm,
-            obscureText: true,
-            decoration: const InputDecoration(labelText: 'Passwort *'),
-          ),
-        ],
-        primaryButton: ButtonSpecification(
-          title: 'Anmelden',
-          onTap: model.submitForm,
-          isBusy: model.isBusy,
+    LoginViewModel model, {
+    @required double width,
+    @required double padding,
+  }) =>
+      Container(
+        width: width,
+        padding: EdgeInsets.all(padding),
+        child: Card(
+          child: _buildBaseLayout(model),
         ),
-        validationMessage: model.validationMessage,
-      ),
-    );
-  }
+      );
+
+  Widget _buildLogo() => Container(
+        height: 120.0,
+        padding: const EdgeInsets.all(16.0),
+        child: Image.asset(
+          'assets/images/pronto_logo.png',
+        ),
+      );
+
+  Widget _buildForm(LoginViewModel model) => Form(
+        key: _formKey,
+        child: FormLayout(
+          textFields: [
+            TextFormField(
+              controller: userNameController,
+              onEditingComplete: model.submitForm,
+              decoration: const InputDecoration(labelText: 'Benutzername *'),
+            ),
+            TextFormField(
+              controller: passwordController,
+              onEditingComplete: model.submitForm,
+              obscureText: true,
+              decoration: const InputDecoration(labelText: 'Passwort *'),
+            ),
+          ],
+          primaryButton: ButtonSpecification(
+            title: 'Anmelden',
+            onTap: model.submitForm,
+            isBusy: model.isBusy,
+          ),
+          validationMessage: model.validationMessage,
+        ),
+      );
 }

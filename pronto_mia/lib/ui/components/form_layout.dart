@@ -17,15 +17,13 @@ class FormLayout extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      child: ListView(
-        shrinkWrap: true,
-        children: _buildForm(),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => Container(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView(
+          shrinkWrap: true,
+          children: _buildForm(),
+        ),
+      );
 
   List<Widget> _buildForm() {
     final List<Widget> form = [const SizedBox(height: 2.0)];
@@ -56,21 +54,19 @@ class FormLayout extends StatelessWidget {
     return form;
   }
 
-  Widget _buildButton({@required ButtonSpecification button}) {
-    return SizedBox(
-      width: double.infinity,
-      height: 48.0,
-      child: !button.isDestructive
-          ? ElevatedButton(
-            onPressed: button.onTap,
-            child: _buildButtonChild(button: button),
-          )
-          : DestructiveButton(
-            onPressed: button.onTap,
-            child: _buildButtonChild(button: button),
-          ),
-    );
-  }
+  Widget _buildButton({@required ButtonSpecification button}) => SizedBox(
+        width: double.infinity,
+        height: 48.0,
+        child: !button.isDestructive
+            ? ElevatedButton(
+                onPressed: button.onTap,
+                child: _buildButtonChild(button: button),
+              )
+            : DestructiveButton(
+                onPressed: button.onTap,
+                child: _buildButtonChild(button: button),
+              ),
+      );
 
   Widget _buildButtonChild({@required ButtonSpecification button}) {
     if (button.isBusy) {

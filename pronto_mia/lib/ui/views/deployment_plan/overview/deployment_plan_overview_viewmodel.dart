@@ -1,18 +1,18 @@
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
-import 'package:pronto_mia/core/services/pdf_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
-import 'package:pronto_mia/app/app.router.dart';
 import 'package:pronto_mia/core/models/deployment_plan.dart';
 import 'package:pronto_mia/core/services/deployment_plan_service.dart';
 import 'package:pronto_mia/core/factories/error_message_factory.dart';
 import 'package:pronto_mia/core/services/logging_service.dart';
 import 'package:pronto_mia/ui/shared/custom_dialogs.dart';
 import 'package:pronto_mia/ui/views/deployment_plan/edit/deployment_plan_edit_view.dart';
+import 'package:pronto_mia/core/services/pdf_service.dart';
+import 'package:pronto_mia/ui/views/pdf/pdf_view.dart';
 
 class DeploymentPlanOverviewViewModel
     extends FutureViewModel<List<DeploymentPlan>> {
@@ -56,14 +56,13 @@ class DeploymentPlanOverviewViewModel
           dateFormat.format(deploymentPlan.availableFrom);
       final availableUntilFormatted =
           dateFormat.format(deploymentPlan.availableUntil);
-      final pdfViewArguments = PdfViewArguments(
-        pdfFile: deploymentPlan.link,
-        title: deploymentPlan.description ?? 'Einsatzplan',
-        subTitle: '$availableFromFormatted - $availableUntilFormatted',
-      );
-      await _navigationService.navigateTo(
-        Routes.pdfView,
-        arguments: pdfViewArguments,
+      await _navigationService.navigateWithTransition(
+        PdfView(
+          pdfFile: deploymentPlan.link,
+          title: deploymentPlan.description ?? 'Einsatzplan',
+          subTitle: '$availableFromFormatted - $availableUntilFormatted',
+        ),
+        transition: NavigationTransition.DownToUp,
       );
     }
   }
@@ -84,11 +83,11 @@ class DeploymentPlanOverviewViewModel
 
       dataHasChanged = dialogResponse.confirmed;
     } else {
-      final response = await _navigationService.navigateTo(
-        Routes.deploymentPlanEditView,
-        arguments: DeploymentPlanEditViewArguments(
+      final response = await _navigationService.navigateWithTransition(
+        DeploymentPlanEditView(
           deploymentPlan: deploymentPlan,
         ),
+        transition: NavigationTransition.DownToUp,
       );
 
       if (response is bool && response == true) {

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -26,8 +27,11 @@ class NavigationMenuViewModel extends FutureViewModel<User> {
     (await _loggingService).log('SideMenuViewModel', Level.WARNING, error);
   }
 
-  void navigateTo(String route, {dynamic arguments}) {
-    _navigationService.replaceWith(route, arguments: arguments);
+  void navigateTo(Widget page) {
+    _navigationService.replaceWithTransition(
+      page,
+      transition: NavigationTransition.Fade,
+    );
   }
 
   Future<User> _getUser() => _userService.getCurrentUser();

@@ -1,15 +1,15 @@
 import 'package:flutter/foundation.dart';
-import 'package:pronto_mia/core/services/pdf_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-import 'package:pronto_mia/app/app.router.dart';
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/deployment_plan_service.dart';
 import 'package:pronto_mia/ui/views/deployment_plan/edit/deployment_plan_edit_view.form.dart';
 import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/core/factories/error_message_factory.dart';
 import 'package:pronto_mia/core/models/deployment_plan.dart';
+import 'package:pronto_mia/core/services/pdf_service.dart';
+import 'package:pronto_mia/ui/views/pdf/pdf_view.dart';
 
 class DeploymentPlanEditViewModel extends FormViewModel {
   DeploymentPlanService get _deploymentPlanService =>
@@ -45,12 +45,12 @@ class DeploymentPlanEditViewModel extends FormViewModel {
       _pdfFile ??= await _pdfService.downloadPdf(deploymentPlan.link);
       _pdfService.openPdfWeb(_pdfFile);
     } else {
-      _navigationService.navigateTo(
-        Routes.pdfView,
-        arguments: PdfViewArguments(
+      _navigationService.navigateWithTransition(
+        PdfView(
           title: pdfPathValue,
           pdfFile: _pdfFile ?? deploymentPlan.link,
         ),
+        transition: NavigationTransition.DownToUp,
       );
     }
   }

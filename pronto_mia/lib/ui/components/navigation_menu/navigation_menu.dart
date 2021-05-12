@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jdenticon_dart/jdenticon_dart.dart';
 import 'package:stacked/stacked.dart';
 
+import 'package:pronto_mia/ui/views/deployment_plan/overview/deployment_plan_overview_view.dart';
 import 'package:pronto_mia/ui/components/navigation_menu/navigation_menu_viewmodel.dart';
-import 'package:pronto_mia/app/app.router.dart';
 
 class NavigationMenu extends StatelessWidget {
   @override
@@ -49,7 +49,7 @@ class NavigationMenu extends StatelessWidget {
             leading: const Icon(Icons.today),
             title: const Text('Einsatzpläne'),
             onTap: () => model.navigateTo(
-              Routes.deploymentPlanOverviewView,
+              const DeploymentPlanOverviewView(),
             ),
           ),
           const ListTile(
@@ -75,10 +75,11 @@ class NavigationMenu extends StatelessWidget {
             leading: const Icon(Icons.today),
             title: const Text('Einsatzplanverwaltung'),
             onTap: () => model.navigateTo(
-              Routes.deploymentPlanOverviewView,
-              arguments: DeploymentPlanOverviewViewArguments(
-                adminModeEnabled: true,
-              ),
+              const DeploymentPlanOverviewView(adminModeEnabled: true),
+              // Routes.deploymentPlanOverviewView,
+              // arguments: DeploymentPlanOverviewViewArguments(
+              //   adminModeEnabled: true,
+              // ),
             ),
           ),
           const ListTile(

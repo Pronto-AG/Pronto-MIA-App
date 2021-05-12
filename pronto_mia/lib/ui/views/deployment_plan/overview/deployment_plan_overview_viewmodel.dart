@@ -110,4 +110,57 @@ class DeploymentPlanOverviewViewModel
   Future<List<DeploymentPlan>> _getDeploymentPlans() async {
     return _deploymentPlanService.getDeploymentPlans();
   }
+
+  Future<void> publishDeploymentPlan(DeploymentPlan deploymentPlan) async {
+    final deploymentPlanTitle = getDeploymentPlanTitle(deploymentPlan);
+
+    final response = await _dialogService.showConfirmationDialog(
+        title: "Einsatzplan veröffentlichen",
+        description: 'Wollen sie den Einsatzplan "$deploymentPlanTitle" '
+            "wirklich veröffentlichen?",
+        cancelTitle: "Nein",
+        confirmationTitle: "Ja",
+        dialogPlatform: DialogPlatform.Material);
+
+    if (!response.confirmed) {
+      return;
+    }
+
+    await _deploymentPlanService.publishDeploymentPlan(
+        deploymentPlan.id,
+        "Einsatzplan veröffentlicht",
+        'Der Einsatzplan "$deploymentPlanTitle" wurde soeben veröffentlicht.');
+
+    await initialise();
+  }
+
+  Future<void> hideDeploymentPlan(DeploymentPlan deploymentPlan) async {
+    final deploymentPlanTitle = getDeploymentPlanTitle(deploymentPlan);
+
+    final response = await _dialogService.showConfirmationDialog(
+        title: "Einsatzplan verstecken",
+        description: 'Wollen sie den Einsatzplan "$deploymentPlanTitle" '
+            "wirklich verstecken?",
+        cancelTitle: "Nein",
+        confirmationTitle: "Ja",
+        dialogPlatform: DialogPlatform.Material);
+
+    if (!response.confirmed) {
+      return;
+    }
+
+    await _deploymentPlanService.hideDeploymentPlan(deploymentPlan.id);
+    await initialise();
+  }
+
+  String getDeploymentPlanTitle(DeploymentPlan deploymentPlan) {
+    final dateFormat = DateFormat('dd.MM.yyyy');
+    final availableFromDateFormatted =
+        dateFormat.format(deploymentPlan.availableFrom);
+    dateFormat.format(deploymentPlan.availableFrom);
+    final deploymentPlanTitle =
+        deploymentPlan.description ?? "Einsatzplan $availableFromDateFormatted";
+
+    return deploymentPlanTitle;
+  }
 }

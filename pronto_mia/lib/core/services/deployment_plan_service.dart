@@ -103,4 +103,24 @@ class DeploymentPlanService {
       variables: queryVariables,
     );
   }
+
+  Future<void> publishDeploymentPlan(int id, String title, String body) async {
+    final queryVariables = {
+      'id': id,
+      'title': title,
+      'body': body,
+    };
+    await (await _graphQLService).mutate(
+      DeploymentPlanQueries.publishDeploymentPlan,
+      variables: queryVariables,
+    );
+  }
+
+  Future<void> hideDeploymentPlan(int id) async {
+    final queryVariables = {'id': id};
+    await (await _graphQLService).mutate(
+      DeploymentPlanQueries.hideDeploymentPlan,
+      variables: queryVariables,
+    );
+  }
 }

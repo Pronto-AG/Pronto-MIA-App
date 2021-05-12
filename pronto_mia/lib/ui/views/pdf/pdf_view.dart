@@ -1,32 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:stacked/stacked.dart';
-import 'package:pdf_render/pdf_render_widgets.dart';
 
-import 'package:pronto_mia/core/models/file_upload.dart';
 import 'package:pronto_mia/ui/views/pdf/pdf_viewmodel.dart';
+import 'package:pronto_mia/ui/components/data_view_layout.dart';
 
 class PdfView extends StatelessWidget {
   final String title;
   final String subTitle;
-  final FileUpload pdfUpload;
-  final String pdfPath;
+  final Object pdfFile;
 
   const PdfView({
     Key key,
     @required this.title,
     this.subTitle,
-    this.pdfUpload,
-    this.pdfPath,
+    @required this.pdfFile,
   }) : super(key: key);
 
-  // TODO: Review pdf lag when moving it around
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<PdfViewModel>.reactive(
-      viewModelBuilder: () => PdfViewModel(
-        pdfUpload: pdfUpload,
-        pdfPath: pdfPath,
-      ),
+      viewModelBuilder: () => PdfViewModel(pdfFile: pdfFile),
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
             title: Column(
@@ -38,24 +32,14 @@ class PdfView extends StatelessWidget {
               Text(subTitle, style: const TextStyle(fontSize: 12.0))
           ],
         )),
-        body: (() {
-          if (model.isBusy) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          if (model.hasError) {
-            return Center(
-              child: Text(model.errorMessage),
-            );
-          }
-
-          final bytes = model.data != null
-              ? model.data.readAsBytesSync()
-              : model.pdfUpload.bytes;
-          return PdfViewer.openData(bytes);
-        })(),
+        body: DataViewLayout(
+          isBusy: model.isBusy,
+          errorMessage: model.errorMessage,
+          // childBuilder: () => PdfViewer.openData(model.data.bytes),
+          childBuilder: () => PDFView(
+            pdfData: model.data.bytes,
+          ),
+        ),
       ),
     );
   }

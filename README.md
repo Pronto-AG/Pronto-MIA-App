@@ -60,7 +60,7 @@ All available settings for the application can be defined within three JSON file
    
    2. Run the application either through your IDE or with `flutter run -d chrome`
 
-5. If you want to run on Android:
+5. If you want to run on Android in debug mode:
    
    1. Create or [import](https://firebase.google.com/docs/android/setup#add-config-file) `pronto_mia/android/app/google-services.json` with the following properties:
       
@@ -70,7 +70,27 @@ All available settings for the application can be defined within three JSON file
       
       * `configuration_version`
    
-   2. Run the application either throug your IDE or build with `flutter build apk`
+   2. Run the application either through your IDE or alternatively build it with `flutter build apk --debug` or `flutter build appbundle --debug`
+
+6. If you want to test Android in release mode or upload a version to the play store:
+
+   1. Create or [import](https://firebase.google.com/docs/android/setup#add-config-file) `pronto_mia/android/app/google-services.json` with the following properties:
+      
+      * `project_info`
+      
+      * `client`
+      
+      * `configuration_version`
+
+   2. In order to sign the release apk/appbundle you will need to create the file `pronto_mia/android/key.properties` with the following contents (see also [this](https://flutter.dev/docs/deployment/android#signing-the-app) tutorial):
+     ```ini
+    storePassword=<password of your upload keystore>
+    keyPassword=<password of your upload key>
+    keyAlias=<alias of your upload key (normally upload)>
+    storeFile=<path to your keystore file>
+     ```
+
+   3. Build the application either through your IDE or with `flutter build apk` or `flutter build appbundle`
 
 ## Special Dependencies
 

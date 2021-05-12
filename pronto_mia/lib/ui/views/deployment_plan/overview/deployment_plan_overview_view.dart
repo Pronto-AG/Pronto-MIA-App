@@ -31,7 +31,13 @@ class DeploymentPlanOverviewView extends StatelessWidget {
               ActionSpecification(
                 tooltip: 'Einsatzplan erstellen',
                 icon: const Icon(Icons.post_add),
-                onPressed: () => model.editDeploymentPlan(asDialog: true),
+                onPressed: () => model.editDeploymentPlan(
+                  asDialog: getValueForScreenType<bool>(
+                    context: context,
+                    mobile: false,
+                    desktop: true,
+                  ),
+                ),
               ),
             ActionSpecification(
               tooltip: 'Suche öffnen',

@@ -3,7 +3,7 @@ import 'package:http_parser/http_parser.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/models/deployment_plan.dart';
-import 'package:pronto_mia/core/models/file_upload.dart';
+import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/core/queries/deployment_plan_queries.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
 
@@ -62,7 +62,7 @@ class DeploymentPlanService {
     String description,
     DateTime availableFrom,
     DateTime availableUntil,
-    FileUpload pdfFile,
+    SimpleFile pdfFile,
   ) async {
     final Map<String, dynamic> queryVariables = {
       'description': description,
@@ -88,7 +88,7 @@ class DeploymentPlanService {
     String description,
     DateTime availableFrom,
     DateTime availableUntil,
-    FileUpload pdfFile,
+    SimpleFile pdfFile,
   }) async {
     final queryVariables = {
       'id': id,

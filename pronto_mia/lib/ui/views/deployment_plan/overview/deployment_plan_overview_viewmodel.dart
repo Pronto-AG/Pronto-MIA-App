@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
+import 'package:pronto_mia/core/services/pdf_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -20,6 +22,7 @@ class DeploymentPlanOverviewViewModel
   DialogService get _dialogService => locator.get<DialogService>();
   Future<LoggingService> get _loggingService =>
       locator.getAsync<LoggingService>();
+  PdfService get _pdfService => locator.get<PdfService>();
 
   final bool adminModeEnabled;
   String get errorMessage => _errorMessage;
@@ -44,20 +47,25 @@ class DeploymentPlanOverviewViewModel
   }
 
   Future<void> openPdf(DeploymentPlan deploymentPlan) async {
-    final dateFormat = DateFormat('dd.MM.yyyy');
-    final availableFromFormatted =
-        dateFormat.format(deploymentPlan.availableFrom);
-    final availableUntilFormatted =
-        dateFormat.format(deploymentPlan.availableUntil);
-    final pdfViewArguments = PdfViewArguments(
-      pdfPath: deploymentPlan.link,
-      title: deploymentPlan.description ?? 'Einsatzplan',
-      subTitle: '$availableFromFormatted - $availableUntilFormatted',
-    );
-    await _navigationService.navigateTo(
-      Routes.pdfView,
-      arguments: pdfViewArguments,
-    );
+    if (kIsWeb) {
+      final pdfFile = await _pdfService.downloadPdf(deploymentPlan.link);
+      _pdfService.openPdfWeb(pdfFile);
+    } else {
+      final dateFormat = DateFormat('dd.MM.yyyy');
+      final availableFromFormatted =
+          dateFormat.format(deploymentPlan.availableFrom);
+      final availableUntilFormatted =
+          dateFormat.format(deploymentPlan.availableUntil);
+      final pdfViewArguments = PdfViewArguments(
+        pdfFile: deploymentPlan.link,
+        title: deploymentPlan.description ?? 'Einsatzplan',
+        subTitle: '$availableFromFormatted - $availableUntilFormatted',
+      );
+      await _navigationService.navigateTo(
+        Routes.pdfView,
+        arguments: pdfViewArguments,
+      );
+    }
   }
 
   Future<void> editDeploymentPlan({
@@ -76,12 +84,18 @@ class DeploymentPlanOverviewViewModel
 
       dataHasChanged = dialogResponse.confirmed;
     } else {
-      dataHasChanged = await _navigationService.navigateTo(
+      final response = await _navigationService.navigateTo(
         Routes.deploymentPlanEditView,
         arguments: DeploymentPlanEditViewArguments(
           deploymentPlan: deploymentPlan,
         ),
-      ) as bool;
+      );
+
+      if (response is bool && response == true) {
+        dataHasChanged = true;
+      } else {
+        dataHasChanged = false;
+      }
     }
 
     if (dataHasChanged) {

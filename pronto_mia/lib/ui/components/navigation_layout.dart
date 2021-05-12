@@ -73,7 +73,9 @@ class NavigationLayout extends StatelessWidget {
                     child: Image.asset('assets/images/pronto_logo.png'),
                   ),
                   const Divider(),
-                  NavigationMenu(),
+                  Expanded(
+                    child: NavigationMenu(),
+                  ),
                 ],
               ),
             ),
@@ -86,7 +88,9 @@ class NavigationLayout extends StatelessWidget {
                   child: Column(
                     children: [
                       _buildAppBar(actions: actions),
-                      body,
+                      Expanded(
+                        child: body,
+                      ),
                     ],
                   ),
                 ),

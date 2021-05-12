@@ -10,7 +10,7 @@ import 'package:pronto_mia/ui/views/deployment_plan/edit/deployment_plan_edit_vi
 import 'package:pronto_mia/ui/views/deployment_plan/edit/deployment_plan_edit_viewmodel.dart';
 import 'package:pronto_mia/ui/shared/custom_colors.dart';
 import 'package:pronto_mia/core/models/deployment_plan.dart';
-import 'package:pronto_mia/core/models/file_upload.dart';
+import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/ui/components/form_layout.dart';
 
 @FormView(fields: [
@@ -44,13 +44,13 @@ class DeploymentPlanEditView extends StatelessWidget
     );
     if (result != null) {
       pdfPathController.text = result.names.single;
-      FileUpload fileUpload;
+      SimpleFile fileUpload;
 
       if (kIsWeb) {
-        fileUpload = FileUpload(result.names.single, result.files.single.bytes);
+        fileUpload = SimpleFile(result.names.single, result.files.single.bytes);
       } else {
         final file = File(result.files.single.path);
-        fileUpload = FileUpload(result.names.single, file.readAsBytesSync());
+        fileUpload = SimpleFile(result.names.single, file.readAsBytesSync());
       }
       model.setPdfUpload(fileUpload);
     }

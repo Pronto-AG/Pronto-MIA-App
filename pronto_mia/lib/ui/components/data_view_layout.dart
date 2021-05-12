@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class DataViewLayout extends StatelessWidget {
@@ -32,9 +33,5 @@ class DataViewLayout extends StatelessWidget {
     }
 
     return childBuilder();
-
-    return Expanded(
-      child: childBuilder(),
-    );
   }
 }

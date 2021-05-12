@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'package:pronto_mia/ui/shared/custom_colors.dart';
 
-final theme = ThemeData(
-  brightness: Brightness.light,
+final theme = ThemeData.light().copyWith(
   primaryColor: CustomColors.primary,
   accentColor: CustomColors.secondary,
   bottomAppBarColor: CustomColors.primary,
   dividerColor: CustomColors.divider,
   shadowColor: CustomColors.shadow,
+  colorScheme: const ColorScheme.light(primary: CustomColors.primary),
   textSelectionTheme: const TextSelectionThemeData(
     cursorColor: CustomColors.primary,
   ),

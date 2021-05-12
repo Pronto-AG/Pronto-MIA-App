@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
@@ -66,6 +67,12 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       home: StartUpView(),
       theme: theme,
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('de', 'CH'),
+      ],
     );
   }
 }

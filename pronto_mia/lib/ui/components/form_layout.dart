@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:pronto_mia/ui/shared/custom_colors.dart';
+import 'package:pronto_mia/ui/components/destructive_button/destructive_button.dart';
 
 class FormLayout extends StatelessWidget {
   final List<Widget> textFields;
@@ -60,26 +60,31 @@ class FormLayout extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       height: 48.0,
-      child: ElevatedButton(
-        onPressed: button.onTap,
-        style: button.isDestructive
-            ? ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(CustomColors.danger),
-              )
-            : null,
-        child: button.isBusy
-            ? const SizedBox(
-                width: 16.0,
-                height: 16.0,
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation(CustomColors.negativeText),
-                  // backgroundColor: CustomColors.secondary,
-                  strokeWidth: 3,
-                ),
-              )
-            : Text(button.title),
-      ),
+      child: !button.isDestructive
+          ? ElevatedButton(
+            onPressed: button.onTap,
+            child: _buildButtonChild(button: button),
+          )
+          : DestructiveButton(
+            onPressed: button.onTap,
+            child: _buildButtonChild(button: button),
+          ),
     );
+  }
+
+  Widget _buildButtonChild({@required ButtonSpecification button}) {
+    if (button.isBusy) {
+      return const SizedBox(
+        width: 16.0,
+        height: 16.0,
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation(CustomColors.negativeText),
+          strokeWidth: 3,
+        ),
+      );
+    }
+
+    return Text(button.title);
   }
 }
 

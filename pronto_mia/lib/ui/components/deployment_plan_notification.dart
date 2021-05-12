@@ -2,12 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class DeploymentPlanNotification extends StatelessWidget {
-  final AsyncCallback navigationCallback;
+  final AsyncCallback onViewPressed;
   final String title;
   final String body;
 
   const DeploymentPlanNotification({
-    @required this.navigationCallback,
+    @required this.onViewPressed,
     @required this.title,
     @required this.body,
   });
@@ -28,8 +28,7 @@ class DeploymentPlanNotification extends StatelessWidget {
             ),
           ),
           Text(body),
-          ElevatedButton(
-              onPressed: navigationCallback, child: const Text("Ansehen"))
+          ElevatedButton(onPressed: onViewPressed, child: const Text("Ansehen"))
         ],
       ),
     );

@@ -6,6 +6,7 @@ import 'package:logging/logging.dart';
 
 import 'package:pronto_mia/app/app.router.dart';
 import 'package:pronto_mia/app/service_locator.dart';
+import 'package:pronto_mia/core/models/deployment_plan.dart';
 import 'package:pronto_mia/core/queries/fcm_token_queries.dart';
 import 'package:pronto_mia/core/services/configuration_service.dart';
 import 'package:pronto_mia/core/services/deployment_plan_service.dart';
@@ -131,35 +132,30 @@ class PushNotificationService {
     final deploymentPlan =
         await _deploymentPlanService.getDeploymentPlan(targetId);
 
-    if (deploymentPlan == null) {
-      return;
-    }
-
     final dateFormat = DateFormat('dd.MM.yyyy');
     final availableFromFormatted =
         dateFormat.format(deploymentPlan.availableFrom);
     final availableUntilFormatted =
         dateFormat.format(deploymentPlan.availableUntil);
     final pdfViewArguments = PdfViewArguments(
-      pdfPath: deploymentPlan.link,
+      pdfFile: deploymentPlan.link,
       title: deploymentPlan.description ?? 'Einsatzplan',
       subTitle: '$availableFromFormatted - $availableUntilFormatted',
     );
-
-    // ignore: prefer_function_declarations_over_variables
-    final AsyncCallback navigationCallback = () async {
-      await _navigationService.replaceWith(
-        Routes.pdfView,
-        arguments: pdfViewArguments,
-      );
-    };
 
     await _dialogService.showCustomDialog(
         variant: DialogType.custom,
         customData: DeploymentPlanNotification(
           title: "Einsatzplan wurde veröffentlicht",
           body: "Dies ist der Body",
-          navigationCallback: navigationCallback,
+          onViewPressed: () async => {await _navigateToPdf(pdfViewArguments)},
         ));
+  }
+
+  Future<void> _navigateToPdf(PdfViewArguments pdfViewArguments) async {
+    await _navigationService.replaceWith(
+      Routes.pdfView,
+      arguments: pdfViewArguments,
+    );
   }
 }

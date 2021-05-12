@@ -3,7 +3,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
-import 'package:pronto_mia/app/app.router.dart';
 import 'package:pronto_mia/ui/shared/theme.dart';
 import 'package:pronto_mia/ui/views/startup/startup_view.dart';
 import 'package:pronto_mia/core/services/push_notification_service.dart';
@@ -67,7 +66,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       child: MaterialApp(
         title: 'Pronto-MIA',
         navigatorKey: StackedService.navigatorKey,
-        onGenerateRoute: StackedRouter().onGenerateRoute,
         home: StartUpView(),
         theme: theme,
         debugShowCheckedModeBanner: false,

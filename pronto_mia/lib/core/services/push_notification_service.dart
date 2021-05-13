@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:logging/logging.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
@@ -24,6 +25,7 @@ class PushNotificationService {
 
   String _pushMessageServerVapidPublicKey;
   bool _notificationsEnabled = false;
+  bool _pushDialogOpen = false;
 
   Future<ConfigurationService> get _configurationService =>
       locator.getAsync<ConfigurationService>();
@@ -93,6 +95,9 @@ class PushNotificationService {
   }
 
   Future<void> _handleMessage(RemoteMessage message) async {
+    var widgi = ModalRoute.of(StackedService.navigatorKey.currentContext);
+
+
     if (message.data != null) {
       final action = message.data['Action'].toString();
       switch (action) {
@@ -130,6 +135,11 @@ class PushNotificationService {
     final deploymentPlanTitle =
         _deploymentPlanService.getDeploymentPlanTitle(deploymentPlan);
 
+    if(_pushDialogOpen) {
+      _dialogService.completeDialog(DialogResponse());
+    }
+
+    _pushDialogOpen = true;
     await _dialogService.showCustomDialog(
         variant: DialogType.custom,
         customData: DeploymentPlanNotification(
@@ -137,7 +147,10 @@ class PushNotificationService {
           body: 'Der Einsatzplan "$deploymentPlanTitle" '
               'wurde soeben veröffentlicht.',
           onViewPressed: () async =>
-              {await _deploymentPlanService.openPdfWithReplace(deploymentPlan)},
+              {
+                await _deploymentPlanService.openPdfWithReplace(deploymentPlan)
+              },
         ));
+    _pushDialogOpen = false;
   }
 }

@@ -97,7 +97,7 @@ class DeploymentPlanQueries {
   """;
 
   static const publishDeploymentPlan = """
-    mutation hideDeploymentPlan(\$id: Int!, \$title: String!, \$body: String!) {
+    mutation publishDeploymentPlan(\$id: Int!, \$title: String!, \$body: String!) {
       publishDeploymentPlan(id: \$id, title: \$title, body: \$body)
     }
   """;

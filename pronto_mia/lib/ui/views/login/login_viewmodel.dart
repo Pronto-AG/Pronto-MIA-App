@@ -17,7 +17,10 @@ class LoginViewModel extends FormViewModel {
       locator.getAsync<LoggingService>();
 
   @override
-  void setFormStatus() {}
+  void setFormStatus() {
+    // Called after the validation message is reset.
+    clearErrors();
+  }
 
   Future<void> submitForm() async {
     final validationMessage = _validateForm();

@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:logging/logging.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
@@ -134,7 +133,7 @@ class PushNotificationService {
     final deploymentPlanTitle =
         _deploymentPlanService.getDeploymentPlanTitle(deploymentPlan);
 
-    if(_pushDialogOpen) {
+    if (_pushDialogOpen) {
       _dialogService.completeDialog(DialogResponse());
     }
 
@@ -146,9 +145,7 @@ class PushNotificationService {
           body: 'Der Einsatzplan "$deploymentPlanTitle" '
               'wurde soeben veröffentlicht.',
           onViewPressed: () async =>
-              {
-                await _deploymentPlanService.openPdfWithReplace(deploymentPlan)
-              },
+              {await _deploymentPlanService.openPdfWithReplace(deploymentPlan)},
         ));
     _pushDialogOpen = false;
   }

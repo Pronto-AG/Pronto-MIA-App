@@ -30,8 +30,6 @@ class DeploymentPlanOverviewViewModel
 
   @override
   Future<List<DeploymentPlan>> futureToRun() async {
-
-
     if (adminModeEnabled) {
       return _getDeploymentPlans();
     } else {

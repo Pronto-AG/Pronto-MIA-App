@@ -1,15 +1,24 @@
+import 'dart:typed_data';
+
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:intl/intl.dart';
 
+import 'package:pronto_mia/app/app.router.dart';
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/models/deployment_plan.dart';
 import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/core/queries/deployment_plan_queries.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
+import 'package:pronto_mia/core/services/pdf_service.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 class DeploymentPlanService {
   Future<GraphQLService> get _graphQLService =>
       locator.getAsync<GraphQLService>();
+  PdfService get _pdfService => locator.get<PdfService>();
+  NavigationService get _navigationService => locator.get<NavigationService>();
 
   Future<List<DeploymentPlan>> getDeploymentPlans() async {
     final data = await (await _graphQLService).query(
@@ -118,5 +127,65 @@ class DeploymentPlanService {
       DeploymentPlanQueries.removeDeploymentPlan,
       variables: queryVariables,
     );
+  }
+
+  Future<void> openPdfSimpleFile(SimpleFile pdfFile) async {
+    if (kIsWeb) {
+      _pdfService.openPdfWeb(pdfFile);
+    } else {
+      final arguments = PdfViewArguments(
+        pdfFile: pdfFile,
+        title: "Upload.pdf",
+      );
+
+      _navigationService.navigateTo(Routes.pdfView, arguments: arguments);
+    }
+  }
+
+  Future<void> openPdf(DeploymentPlan deploymentPlan) async {
+    if (kIsWeb) {
+      final _pdfFile = await _pdfService.downloadPdf(deploymentPlan.link);
+      _pdfService.openPdfWeb(_pdfFile);
+    } else {
+      _navigationService.navigateTo(Routes.pdfView,
+          arguments: _getPdfArguments(deploymentPlan));
+    }
+  }
+
+  Future<void> openPdfWithReplace(DeploymentPlan deploymentPlan) async {
+    if (kIsWeb) {
+      final _pdfFile = await _pdfService.downloadPdf(deploymentPlan.link);
+      _pdfService.openPdfWeb(_pdfFile);
+    } else {
+      _navigationService.replaceWith(
+          Routes.pdfView,
+          arguments: _getPdfArguments(deploymentPlan));
+    }
+  }
+
+  PdfViewArguments _getPdfArguments(DeploymentPlan deploymentPlan) {
+    return PdfViewArguments(
+      pdfFile: deploymentPlan.link,
+      title: getDeploymentPlanTitle(deploymentPlan),
+      subTitle: getDeploymentPlanSubtitle(deploymentPlan),
+    );
+  }
+
+  String getDeploymentPlanTitle(DeploymentPlan deploymentPlan) {
+    final dateFormat = DateFormat('dd.MM.yyyy');
+    final availableFromDateFormatted =
+        dateFormat.format(deploymentPlan.availableFrom);
+    return deploymentPlan.description ??
+        'Einsatzplan $availableFromDateFormatted';
+  }
+
+  String getDeploymentPlanSubtitle(DeploymentPlan deploymentPlan) {
+    final dateTimeFormat = DateFormat('dd.MM.yyyy hh:mm');
+    final availableFromFormatted =
+        dateTimeFormat.format(deploymentPlan.availableFrom);
+    final availableUntilFormatted =
+        dateTimeFormat.format(deploymentPlan.availableUntil);
+
+    return '$availableFromFormatted - $availableUntilFormatted';
   }
 }

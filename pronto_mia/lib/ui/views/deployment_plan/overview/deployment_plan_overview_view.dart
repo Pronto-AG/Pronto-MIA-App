@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
-import 'package:intl/intl.dart';
 
 import 'package:pronto_mia/ui/views/deployment_plan/overview/deployment_plan_overview_viewmodel.dart';
 import 'package:pronto_mia/core/models/deployment_plan.dart';
@@ -85,22 +84,10 @@ class DeploymentPlanOverviewView extends StatelessWidget {
     DeploymentPlanOverviewViewModel model,
     DeploymentPlan deploymentPlan,
   ) {
-    final dateFormat = DateFormat('dd.MM.yyyy');
-    final dateTimeFormat = DateFormat('dd.MM.yyyy hh:mm');
-    final availableFromDateFormatted =
-        dateFormat.format(deploymentPlan.availableFrom);
-    final availableFromFormatted =
-        dateTimeFormat.format(deploymentPlan.availableFrom);
-    final availableUntilFormatted =
-        dateTimeFormat.format(deploymentPlan.availableUntil);
-
     return Card(
       child: ListTile(
-        title: Text(deploymentPlan.description ??
-            'Einsatzplan $availableFromDateFormatted'),
-        subtitle: Text(
-          '$availableFromFormatted - $availableUntilFormatted',
-        ),
+        title: Text(model.getDeploymentPlanTitle(deploymentPlan)),
+        subtitle: Text(model.getDeploymentPlanSubtitle(deploymentPlan)),
         onTap: () {
           if (adminModeEnabled) {
             model.editDeploymentPlan(

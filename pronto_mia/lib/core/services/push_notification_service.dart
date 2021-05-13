@@ -1,9 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 
-import 'package:pronto_mia/app/app.router.dart';
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/queries/fcm_token_queries.dart';
 import 'package:pronto_mia/core/services/configuration_service.dart';
@@ -22,7 +20,6 @@ class PushNotificationService {
       locator.getAsync<LoggingService>();
   DeploymentPlanService get _deploymentPlanService =>
       locator.get<DeploymentPlanService>();
-  NavigationService get _navigationService => locator.get<NavigationService>();
   DialogService get _dialogService => locator.get<DialogService>();
 
   String _pushMessageServerVapidPublicKey;
@@ -67,7 +64,7 @@ class PushNotificationService {
         variables: queryVariables,
       );
 
-      FirebaseMessaging.onMessage.listen(_handleMessage);
+      FirebaseMessaging.onMessage.listen(_handleForegroundMessage);
       FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
 
       _notificationsEnabled = true;
@@ -93,6 +90,11 @@ class PushNotificationService {
     if (initialMessage != null) {
       _handleMessage(initialMessage);
     }
+  }
+
+  Future<void> _handleForegroundMessage(RemoteMessage message) async {
+    print(StackedService.navigatorKey.currentWidget.runtimeType.toString());
+    _handleMessage(message);
   }
 
   Future<void> _handleMessage(RemoteMessage message) async {
@@ -130,30 +132,17 @@ class PushNotificationService {
     final deploymentPlan =
         await _deploymentPlanService.getDeploymentPlan(targetId);
 
-    final dateFormat = DateFormat('dd.MM.yyyy');
-    final availableFromFormatted =
-        dateFormat.format(deploymentPlan.availableFrom);
-    final availableUntilFormatted =
-        dateFormat.format(deploymentPlan.availableUntil);
-    final pdfViewArguments = PdfViewArguments(
-      pdfFile: deploymentPlan.link,
-      title: deploymentPlan.description ?? 'Einsatzplan',
-      subTitle: '$availableFromFormatted - $availableUntilFormatted',
-    );
+    final deploymentPlanTitle =
+        _deploymentPlanService.getDeploymentPlanTitle(deploymentPlan);
 
     await _dialogService.showCustomDialog(
         variant: DialogType.custom,
         customData: DeploymentPlanNotification(
-          title: "Einsatzplan wurde veröffentlicht",
-          body: "Dies ist der Body",
-          onViewPressed: () async => {await _navigateToPdf(pdfViewArguments)},
+          title: "Einsatzplan veröffentlicht",
+          body: 'Der Einsatzplan "$deploymentPlanTitle" '
+              'wurde soeben veröffentlicht.',
+          onViewPressed: () async =>
+              {await _deploymentPlanService.openPdfWithReplace(deploymentPlan)},
         ));
-  }
-
-  Future<void> _navigateToPdf(PdfViewArguments pdfViewArguments) async {
-    await _navigationService.replaceWith(
-      Routes.pdfView,
-      arguments: pdfViewArguments,
-    );
   }
 }

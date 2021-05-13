@@ -8,8 +8,6 @@ import 'package:pronto_mia/ui/views/deployment_plan/edit/deployment_plan_edit_vi
 import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/core/factories/error_message_factory.dart';
 import 'package:pronto_mia/core/models/deployment_plan.dart';
-import 'package:pronto_mia/core/services/pdf_service.dart';
-import 'package:pronto_mia/ui/views/pdf/pdf_view.dart';
 
 class DeploymentPlanEditViewModel extends FormViewModel {
   DeploymentPlanService get _deploymentPlanService =>

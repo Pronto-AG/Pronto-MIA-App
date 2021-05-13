@@ -9,8 +9,6 @@ import 'package:pronto_mia/core/factories/error_message_factory.dart';
 import 'package:pronto_mia/core/services/logging_service.dart';
 import 'package:pronto_mia/ui/shared/custom_dialogs.dart';
 import 'package:pronto_mia/ui/views/deployment_plan/edit/deployment_plan_edit_view.dart';
-import 'package:pronto_mia/core/services/pdf_service.dart';
-import 'package:pronto_mia/ui/views/pdf/pdf_view.dart';
 
 class DeploymentPlanOverviewViewModel
     extends FutureViewModel<List<DeploymentPlan>> {

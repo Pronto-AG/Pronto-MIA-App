@@ -32,6 +32,10 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+
+    _pushNotificationService.then((pushNotificationService) =>
+        pushNotificationService.handleInitialMessage());
+
     WidgetsBinding.instance.addObserver(this);
   }
 

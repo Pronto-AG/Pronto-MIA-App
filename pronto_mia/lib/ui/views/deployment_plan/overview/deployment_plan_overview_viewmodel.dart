@@ -62,7 +62,7 @@ class DeploymentPlanOverviewViewModel
           title: deploymentPlan.description ?? 'Einsatzplan',
           subTitle: '$availableFromFormatted - $availableUntilFormatted',
         ),
-        transition: NavigationTransition.DownToUp,
+        transition: NavigationTransition.LeftToRight,
       );
     }
   }
@@ -87,7 +87,7 @@ class DeploymentPlanOverviewViewModel
         DeploymentPlanEditView(
           deploymentPlan: deploymentPlan,
         ),
-        transition: NavigationTransition.DownToUp,
+        transition: NavigationTransition.LeftToRight,
       );
 
       if (response is bool && response == true) {

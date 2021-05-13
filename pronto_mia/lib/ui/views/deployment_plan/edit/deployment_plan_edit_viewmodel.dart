@@ -50,7 +50,7 @@ class DeploymentPlanEditViewModel extends FormViewModel {
           title: pdfPathValue,
           pdfFile: _pdfFile ?? deploymentPlan.link,
         ),
-        transition: NavigationTransition.DownToUp,
+        transition: NavigationTransition.LeftToRight,
       );
     }
   }

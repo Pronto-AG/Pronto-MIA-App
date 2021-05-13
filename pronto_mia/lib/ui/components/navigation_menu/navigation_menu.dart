@@ -76,10 +76,6 @@ class NavigationMenu extends StatelessWidget {
             title: const Text('Einsatzplanverwaltung'),
             onTap: () => model.navigateTo(
               const DeploymentPlanOverviewView(adminModeEnabled: true),
-              // Routes.deploymentPlanOverviewView,
-              // arguments: DeploymentPlanOverviewViewArguments(
-              //   adminModeEnabled: true,
-              // ),
             ),
           ),
           const ListTile(

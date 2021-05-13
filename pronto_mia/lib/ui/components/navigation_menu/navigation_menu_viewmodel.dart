@@ -30,7 +30,7 @@ class NavigationMenuViewModel extends FutureViewModel<User> {
   void navigateTo(Widget page) {
     _navigationService.replaceWithTransition(
       page,
-      transition: NavigationTransition.Fade,
+      transition: NavigationTransition.Rotate,
     );
   }
 

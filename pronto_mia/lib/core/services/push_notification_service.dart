@@ -64,7 +64,7 @@ class PushNotificationService {
         variables: queryVariables,
       );
 
-      FirebaseMessaging.onMessage.listen(_handleForegroundMessage);
+      FirebaseMessaging.onMessage.listen(_handleMessage);
       FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
 
       _notificationsEnabled = true;
@@ -90,11 +90,6 @@ class PushNotificationService {
     if (initialMessage != null) {
       _handleMessage(initialMessage);
     }
-  }
-
-  Future<void> _handleForegroundMessage(RemoteMessage message) async {
-    print(StackedService.navigatorKey.currentWidget.runtimeType.toString());
-    _handleMessage(message);
   }
 
   Future<void> _handleMessage(RemoteMessage message) async {

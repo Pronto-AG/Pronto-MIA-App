@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 import 'package:http_parser/http_parser.dart';
@@ -157,8 +155,7 @@ class DeploymentPlanService {
       final _pdfFile = await _pdfService.downloadPdf(deploymentPlan.link);
       _pdfService.openPdfWeb(_pdfFile);
     } else {
-      _navigationService.replaceWith(
-          Routes.pdfView,
+      _navigationService.replaceWith(Routes.pdfView,
           arguments: _getPdfArguments(deploymentPlan));
     }
   }

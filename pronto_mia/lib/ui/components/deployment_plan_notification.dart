@@ -26,7 +26,7 @@ class DeploymentPlanNotification extends StatelessWidget {
             title,
             style: const TextStyle(fontSize: 20.0),
           ),
-          const SizedBox(height: 16.0),
+          const SizedBox(height: 24.0),
           Text(body),
           const SizedBox(height: 16.0),
           Row(

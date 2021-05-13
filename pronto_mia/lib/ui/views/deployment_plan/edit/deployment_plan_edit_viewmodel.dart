@@ -16,7 +16,6 @@ class DeploymentPlanEditViewModel extends FormViewModel {
       locator.get<DeploymentPlanService>();
   NavigationService get _navigationService => locator.get<NavigationService>();
   DialogService get _dialogService => locator.get<DialogService>();
-  PdfService get _pdfService => locator.get<PdfService>();
 
   final String editBusyKey = 'edit-busy-key';
   final String removeBusyKey = 'remove-busy-key';
@@ -41,17 +40,10 @@ class DeploymentPlanEditViewModel extends FormViewModel {
   }
 
   Future<void> openPdf() async {
-    if (kIsWeb) {
-      _pdfFile ??= await _pdfService.downloadPdf(deploymentPlan.link);
-      _pdfService.openPdfWeb(_pdfFile);
+    if (_pdfFile != null) {
+      _deploymentPlanService.openPdfSimpleFile(_pdfFile);
     } else {
-      _navigationService.navigateWithTransition(
-        PdfView(
-          title: pdfPathValue,
-          pdfFile: _pdfFile ?? deploymentPlan.link,
-        ),
-        transition: NavigationTransition.LeftToRight,
-      );
+      _deploymentPlanService.openPdf(deploymentPlan);
     }
   }
 
@@ -147,5 +139,13 @@ class DeploymentPlanEditViewModel extends FormViewModel {
     }
 
     return null;
+  }
+
+  String getDeploymentPlanTitle(DeploymentPlan deploymentPlan) {
+    return _deploymentPlanService.getDeploymentPlanTitle(deploymentPlan);
+  }
+
+  String getDeploymentPlanSubtitle(DeploymentPlan deploymentPlan) {
+    return _deploymentPlanService.getDeploymentPlanSubtitle(deploymentPlan);
   }
 }

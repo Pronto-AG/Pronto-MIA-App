@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked/stacked_annotations.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:file_picker/file_picker.dart';
 
@@ -13,12 +12,6 @@ import 'package:pronto_mia/core/models/deployment_plan.dart';
 import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/ui/components/form_layout.dart';
 
-@FormView(fields: [
-  FormTextField(name: 'description'),
-  FormTextField(name: 'availableFrom'),
-  FormTextField(name: 'availableUntil'),
-  FormTextField(name: 'pdfPath'),
-])
 class DeploymentPlanEditView extends StatelessWidget
     with $DeploymentPlanEditView {
   final _formKey = GlobalKey<FormState>();
@@ -48,10 +41,12 @@ class DeploymentPlanEditView extends StatelessWidget
       SimpleFile fileUpload;
 
       if (kIsWeb) {
-        fileUpload = SimpleFile(result.names.single, result.files.single.bytes);
+        fileUpload = SimpleFile(
+            name: result.names.single, bytes: result.files.single.bytes);
       } else {
         final file = File(result.files.single.path);
-        fileUpload = SimpleFile(result.names.single, file.readAsBytesSync());
+        fileUpload = SimpleFile(
+            name: result.names.single, bytes: file.readAsBytesSync());
       }
       model.setPdfUpload(fileUpload);
     }

@@ -1,11 +1,3 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
-// **************************************************************************
-// StackedFormGenerator
-// **************************************************************************
-
-// ignore_for_file: public_member_api_docs
-
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 

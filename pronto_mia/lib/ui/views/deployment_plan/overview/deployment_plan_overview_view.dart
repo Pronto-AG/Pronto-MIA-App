@@ -1,8 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
-import 'package:intl/intl.dart';
 
 import 'package:pronto_mia/ui/views/deployment_plan/overview/deployment_plan_overview_viewmodel.dart';
 import 'package:pronto_mia/core/models/deployment_plan.dart';
@@ -85,37 +85,53 @@ class DeploymentPlanOverviewView extends StatelessWidget {
     DeploymentPlanOverviewViewModel model,
     DeploymentPlan deploymentPlan,
   ) {
-    final dateFormat = DateFormat('dd.MM.yyyy');
-    final dateTimeFormat = DateFormat('dd.MM.yyyy hh:mm');
-    final availableFromDateFormatted =
-        dateFormat.format(deploymentPlan.availableFrom);
-    final availableFromFormatted =
-        dateTimeFormat.format(deploymentPlan.availableFrom);
-    final availableUntilFormatted =
-        dateTimeFormat.format(deploymentPlan.availableUntil);
-
     return Card(
-      child: ListTile(
-        title: Text(deploymentPlan.description ??
-            'Einsatzplan $availableFromDateFormatted'),
-        subtitle: Text(
-          '$availableFromFormatted - $availableUntilFormatted',
-        ),
-        onTap: () {
-          if (adminModeEnabled) {
-            model.editDeploymentPlan(
-              deploymentPlan: deploymentPlan,
-              asDialog: getValueForScreenType<bool>(
-                context: context,
-                mobile: false,
-                desktop: true,
-              ),
-            );
-          } else {
-            model.openPdf(deploymentPlan);
-          }
-        },
-      ),
-    );
+        child: Row(
+      children: [
+        Expanded(
+            child: ListTile(
+          title: Text(model.getDeploymentPlanTitle(deploymentPlan)),
+          subtitle: Text(model.getDeploymentPlanSubtitle(deploymentPlan)),
+          onTap: () {
+            if (adminModeEnabled) {
+              model.editDeploymentPlan(
+                deploymentPlan: deploymentPlan,
+                asDialog: getValueForScreenType<bool>(
+                  context: context,
+                  mobile: false,
+                  desktop: true,
+                ),
+              );
+            } else {
+              model.openPdf(deploymentPlan);
+            }
+          },
+        )),
+        if (adminModeEnabled)
+          _buildPublishToggle(context, model, deploymentPlan)
+      ],
+    ));
+  }
+
+  Widget _buildPublishToggle(
+    BuildContext context,
+    DeploymentPlanOverviewViewModel model,
+    DeploymentPlan deploymentPlan,
+  ) {
+    return Container(
+        padding: const EdgeInsets.all(12),
+        child: Column(children: [
+          const Text("Veröffentlicht?"),
+          Switch(
+            value: deploymentPlan.published,
+            onChanged: (bool newValue) {
+              if (newValue) {
+                model.publishDeploymentPlan(deploymentPlan);
+              } else {
+                model.hideDeploymentPlan(deploymentPlan);
+              }
+            },
+          )
+        ]));
   }
 }

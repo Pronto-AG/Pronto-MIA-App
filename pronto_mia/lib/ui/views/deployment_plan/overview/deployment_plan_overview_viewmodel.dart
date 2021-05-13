@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -22,13 +20,14 @@ class DeploymentPlanOverviewViewModel
   DialogService get _dialogService => locator.get<DialogService>();
   Future<LoggingService> get _loggingService =>
       locator.getAsync<LoggingService>();
-  PdfService get _pdfService => locator.get<PdfService>();
 
   final bool adminModeEnabled;
   String get errorMessage => _errorMessage;
   String _errorMessage;
 
-  DeploymentPlanOverviewViewModel({this.adminModeEnabled = false});
+  DeploymentPlanOverviewViewModel({this.adminModeEnabled = false}) {
+    _deploymentPlanService.addListener(_notifyDataChanged);
+  }
 
   @override
   Future<List<DeploymentPlan>> futureToRun() async {
@@ -47,24 +46,7 @@ class DeploymentPlanOverviewViewModel
   }
 
   Future<void> openPdf(DeploymentPlan deploymentPlan) async {
-    if (kIsWeb) {
-      final pdfFile = await _pdfService.downloadPdf(deploymentPlan.link);
-      _pdfService.openPdfWeb(pdfFile);
-    } else {
-      final dateFormat = DateFormat('dd.MM.yyyy');
-      final availableFromFormatted =
-          dateFormat.format(deploymentPlan.availableFrom);
-      final availableUntilFormatted =
-          dateFormat.format(deploymentPlan.availableUntil);
-      await _navigationService.navigateWithTransition(
-        PdfView(
-          pdfFile: deploymentPlan.link,
-          title: deploymentPlan.description ?? 'Einsatzplan',
-          subTitle: '$availableFromFormatted - $availableUntilFormatted',
-        ),
-        transition: NavigationTransition.LeftToRight,
-      );
-    }
+    _deploymentPlanService.openPdf(deploymentPlan);
   }
 
   Future<void> editDeploymentPlan({
@@ -108,5 +90,64 @@ class DeploymentPlanOverviewViewModel
 
   Future<List<DeploymentPlan>> _getDeploymentPlans() async {
     return _deploymentPlanService.getDeploymentPlans();
+  }
+
+  Future<void> publishDeploymentPlan(DeploymentPlan deploymentPlan) async {
+    final deploymentPlanTitle = getDeploymentPlanTitle(deploymentPlan);
+    final response = await _dialogService.showConfirmationDialog(
+        title: "Einsatzplan veröffentlichen",
+        description: 'Wollen sie den Einsatzplan "$deploymentPlanTitle" '
+            "wirklich veröffentlichen?",
+        cancelTitle: "Nein",
+        confirmationTitle: "Ja",
+        dialogPlatform: DialogPlatform.Material);
+
+    if (!response.confirmed) {
+      return;
+    }
+
+    await _deploymentPlanService.publishDeploymentPlan(
+        deploymentPlan.id,
+        "Einsatzplan veröffentlicht",
+        'Der Einsatzplan "$deploymentPlanTitle" wurde soeben veröffentlicht.');
+
+    await initialise();
+  }
+
+  Future<void> hideDeploymentPlan(DeploymentPlan deploymentPlan) async {
+    final deploymentPlanTitle = getDeploymentPlanTitle(deploymentPlan);
+
+    final response = await _dialogService.showConfirmationDialog(
+        title: "Einsatzplan verstecken",
+        description: 'Wollen sie den Einsatzplan "$deploymentPlanTitle" '
+            "wirklich verstecken?",
+        cancelTitle: "Nein",
+        confirmationTitle: "Ja",
+        dialogPlatform: DialogPlatform.Material);
+
+    if (!response.confirmed) {
+      return;
+    }
+
+    await _deploymentPlanService.hideDeploymentPlan(deploymentPlan.id);
+    await initialise();
+  }
+
+  String getDeploymentPlanTitle(DeploymentPlan deploymentPlan) {
+    return _deploymentPlanService.getDeploymentPlanTitle(deploymentPlan);
+  }
+
+  String getDeploymentPlanSubtitle(DeploymentPlan deploymentPlan) {
+    return _deploymentPlanService.getDeploymentPlanSubtitle(deploymentPlan);
+  }
+
+  void _notifyDataChanged() {
+    initialise();
+  }
+
+  @override
+  void dispose() {
+    _deploymentPlanService.removeListener(_notifyDataChanged);
+    super.dispose();
   }
 }

@@ -7,6 +7,7 @@ class DeploymentPlanQueries {
         availableFrom
         availableUntil
         link
+        published
       }
     }
   """;
@@ -35,6 +36,9 @@ class DeploymentPlanQueries {
         where: { 
           availableUntil: { 
             gte: \$availableUntil
+          },
+          published: {
+            eq: true
           }
         }
       ) {
@@ -43,6 +47,7 @@ class DeploymentPlanQueries {
         availableFrom
         availableUntil
         link
+        published
       }
     }
   """;
@@ -88,6 +93,18 @@ class DeploymentPlanQueries {
   static const removeDeploymentPlan = """
     mutation removeDeploymentPlan(\$id: Int!) {
       removeDeploymentPlan(id: \$id)
+    }
+  """;
+
+  static const publishDeploymentPlan = """
+    mutation publishDeploymentPlan(\$id: Int!, \$title: String!, \$body: String!) {
+      publishDeploymentPlan(id: \$id, title: \$title, body: \$body)
+    }
+  """;
+
+  static const hideDeploymentPlan = """
+    mutation hideDeploymentPlan(\$id: Int!) {
+      hideDeploymentPlan(id: \$id)
     }
   """;
 }

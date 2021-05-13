@@ -24,7 +24,9 @@ class DeploymentPlanOverviewViewModel
   String get errorMessage => _errorMessage;
   String _errorMessage;
 
-  DeploymentPlanOverviewViewModel({this.adminModeEnabled = false});
+  DeploymentPlanOverviewViewModel({this.adminModeEnabled = false}) {
+    _deploymentPlanService.addListener(_notifyDataChanged);
+  }
 
   @override
   Future<List<DeploymentPlan>> futureToRun() async {
@@ -89,11 +91,62 @@ class DeploymentPlanOverviewViewModel
     return _deploymentPlanService.getDeploymentPlans();
   }
 
+  Future<void> publishDeploymentPlan(DeploymentPlan deploymentPlan) async {
+    final deploymentPlanTitle = getDeploymentPlanTitle(deploymentPlan);
+    final response = await _dialogService.showConfirmationDialog(
+        title: "Einsatzplan veröffentlichen",
+        description: 'Wollen sie den Einsatzplan "$deploymentPlanTitle" '
+            "wirklich veröffentlichen?",
+        cancelTitle: "Nein",
+        confirmationTitle: "Ja",
+        dialogPlatform: DialogPlatform.Material);
+
+    if (!response.confirmed) {
+      return;
+    }
+
+    await _deploymentPlanService.publishDeploymentPlan(
+        deploymentPlan.id,
+        "Einsatzplan veröffentlicht",
+        'Der Einsatzplan "$deploymentPlanTitle" wurde soeben veröffentlicht.');
+
+    await initialise();
+  }
+
+  Future<void> hideDeploymentPlan(DeploymentPlan deploymentPlan) async {
+    final deploymentPlanTitle = getDeploymentPlanTitle(deploymentPlan);
+
+    final response = await _dialogService.showConfirmationDialog(
+        title: "Einsatzplan verstecken",
+        description: 'Wollen sie den Einsatzplan "$deploymentPlanTitle" '
+            "wirklich verstecken?",
+        cancelTitle: "Nein",
+        confirmationTitle: "Ja",
+        dialogPlatform: DialogPlatform.Material);
+
+    if (!response.confirmed) {
+      return;
+    }
+
+    await _deploymentPlanService.hideDeploymentPlan(deploymentPlan.id);
+    await initialise();
+  }
+
   String getDeploymentPlanTitle(DeploymentPlan deploymentPlan) {
     return _deploymentPlanService.getDeploymentPlanTitle(deploymentPlan);
   }
 
   String getDeploymentPlanSubtitle(DeploymentPlan deploymentPlan) {
     return _deploymentPlanService.getDeploymentPlanSubtitle(deploymentPlan);
+  }
+
+  void _notifyDataChanged() {
+    initialise();
+  }
+
+  @override
+  void dispose() {
+    _deploymentPlanService.removeListener(_notifyDataChanged);
+    super.dispose();
   }
 }

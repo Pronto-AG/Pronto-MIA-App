@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -85,24 +86,52 @@ class DeploymentPlanOverviewView extends StatelessWidget {
     DeploymentPlan deploymentPlan,
   ) {
     return Card(
-      child: ListTile(
-        title: Text(model.getDeploymentPlanTitle(deploymentPlan)),
-        subtitle: Text(model.getDeploymentPlanSubtitle(deploymentPlan)),
-        onTap: () {
-          if (adminModeEnabled) {
-            model.editDeploymentPlan(
-              deploymentPlan: deploymentPlan,
-              asDialog: getValueForScreenType<bool>(
-                context: context,
-                mobile: false,
-                desktop: true,
-              ),
-            );
-          } else {
-            model.openPdf(deploymentPlan);
-          }
-        },
-      ),
-    );
+        child: Row(
+      children: [
+        Expanded(
+            child: ListTile(
+          title: Text(model.getDeploymentPlanTitle(deploymentPlan)),
+          subtitle: Text(model.getDeploymentPlanSubtitle(deploymentPlan)),
+          onTap: () {
+            if (adminModeEnabled) {
+              model.editDeploymentPlan(
+                deploymentPlan: deploymentPlan,
+                asDialog: getValueForScreenType<bool>(
+                  context: context,
+                  mobile: false,
+                  desktop: true,
+                ),
+              );
+            } else {
+              model.openPdf(deploymentPlan);
+            }
+          },
+        )),
+        if (adminModeEnabled)
+          _buildPublishToggle(context, model, deploymentPlan)
+      ],
+    ));
+  }
+
+  Widget _buildPublishToggle(
+    BuildContext context,
+    DeploymentPlanOverviewViewModel model,
+    DeploymentPlan deploymentPlan,
+  ) {
+    return Container(
+        padding: const EdgeInsets.all(12),
+        child: Column(children: [
+          const Text("Veröffentlicht?"),
+          Switch(
+            value: deploymentPlan.published,
+            onChanged: (bool newValue) {
+              if (newValue) {
+                model.publishDeploymentPlan(deploymentPlan);
+              } else {
+                model.hideDeploymentPlan(deploymentPlan);
+              }
+            },
+          )
+        ]));
   }
 }

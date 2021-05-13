@@ -21,6 +21,6 @@ class UserService {
       return null;
     }
 
-    return User(userId, username);
+    return User(id: userId, username: username);
   }
 }

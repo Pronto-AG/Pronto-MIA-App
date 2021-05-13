@@ -12,7 +12,7 @@ import 'package:pronto_mia/core/services/graphql_service.dart';
 import 'package:pronto_mia/core/services/pdf_service.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-class DeploymentPlanService {
+class DeploymentPlanService with ChangeNotifier {
   Future<GraphQLService> get _graphQLService =>
       locator.getAsync<GraphQLService>();
   PdfService get _pdfService => locator.get<PdfService>();
@@ -127,6 +127,26 @@ class DeploymentPlanService {
     );
   }
 
+  Future<void> publishDeploymentPlan(int id, String title, String body) async {
+    final queryVariables = {
+      'id': id,
+      'title': title,
+      'body': body,
+    };
+    await (await _graphQLService).mutate(
+      DeploymentPlanQueries.publishDeploymentPlan,
+      variables: queryVariables,
+    );
+  }
+
+  Future<void> hideDeploymentPlan(int id) async {
+    final queryVariables = {'id': id};
+    await (await _graphQLService).mutate(
+      DeploymentPlanQueries.hideDeploymentPlan,
+      variables: queryVariables,
+    );
+  }
+
   Future<void> openPdfSimpleFile(SimpleFile pdfFile) async {
     if (kIsWeb) {
       _pdfService.openPdfWeb(pdfFile);
@@ -184,5 +204,9 @@ class DeploymentPlanService {
         dateTimeFormat.format(deploymentPlan.availableUntil);
 
     return '$availableFromFormatted - $availableUntilFormatted';
+  }
+
+  void notifyDataChanged() {
+    notifyListeners();
   }
 }

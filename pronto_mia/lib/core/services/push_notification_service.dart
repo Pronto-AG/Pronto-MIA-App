@@ -24,6 +24,7 @@ class PushNotificationService {
 
   String _pushMessageServerVapidPublicKey;
   bool _notificationsEnabled = false;
+  bool _pushDialogOpen = false;
 
   Future<ConfigurationService> get _configurationService =>
       locator.getAsync<ConfigurationService>();
@@ -123,6 +124,8 @@ class PushNotificationService {
   }
 
   Future<void> _handleDeploymentPlanPublish(RemoteMessage message) async {
+    _deploymentPlanService.notifyDataChanged();
+
     final targetId = int.parse(message.data['TargetId'].toString());
     final deploymentPlan =
         await _deploymentPlanService.getDeploymentPlan(targetId);
@@ -130,6 +133,11 @@ class PushNotificationService {
     final deploymentPlanTitle =
         _deploymentPlanService.getDeploymentPlanTitle(deploymentPlan);
 
+    if (_pushDialogOpen) {
+      _dialogService.completeDialog(DialogResponse());
+    }
+
+    _pushDialogOpen = true;
     await _dialogService.showCustomDialog(
         variant: DialogType.custom,
         customData: DeploymentPlanNotification(
@@ -139,5 +147,6 @@ class PushNotificationService {
           onViewPressed: () async =>
               {await _deploymentPlanService.openPdfWithReplace(deploymentPlan)},
         ));
+    _pushDialogOpen = false;
   }
 }

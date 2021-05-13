@@ -5,10 +5,11 @@ import 'package:stacked_services/stacked_services.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/authentication_service.dart';
-import 'package:pronto_mia/app/app.router.dart';
 import 'package:pronto_mia/core/factories/error_message_factory.dart';
 import 'package:pronto_mia/core/services/logging_service.dart';
 import 'package:pronto_mia/core/services/push_notification_service.dart';
+import 'package:pronto_mia/ui/views/deployment_plan/overview/deployment_plan_overview_view.dart';
+import 'package:pronto_mia/ui/views/login/login_view.dart';
 
 class StartUpViewModel extends BaseViewModel {
   AuthenticationService get _authenticationService =>
@@ -40,11 +41,17 @@ class StartUpViewModel extends BaseViewModel {
     if (isAuthenticated) {
       (await _loggingService).log("StartUpViewModel", Level.INFO,
           "User already authenticated. Redirecting...");
-      _navigationService.replaceWith(Routes.deploymentPlanOverviewView);
+      _navigationService.replaceWithTransition(
+        const DeploymentPlanOverviewView(),
+        transition: NavigationTransition.UpToDown,
+      );
     } else {
       (await _loggingService)
           .log("StartUpViewModel", Level.INFO, "User not yet authenticated");
-      _navigationService.replaceWith(Routes.loginView);
+      _navigationService.replaceWithTransition(
+        LoginView(),
+        transition: NavigationTransition.UpToDown,
+      );
     }
   }
 

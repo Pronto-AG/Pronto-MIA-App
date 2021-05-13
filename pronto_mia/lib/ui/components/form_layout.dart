@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:pronto_mia/ui/shared/custom_colors.dart';
+import 'package:pronto_mia/ui/components/destructive_button/destructive_button.dart';
 
 class FormLayout extends StatelessWidget {
   final List<Widget> textFields;
@@ -17,15 +17,13 @@ class FormLayout extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      child: ListView(
-        shrinkWrap: true,
-        children: _buildForm(),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => Container(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView(
+          shrinkWrap: true,
+          children: _buildForm(),
+        ),
+      );
 
   List<Widget> _buildForm() {
     final List<Widget> form = [const SizedBox(height: 2.0)];
@@ -56,30 +54,33 @@ class FormLayout extends StatelessWidget {
     return form;
   }
 
-  Widget _buildButton({@required ButtonSpecification button}) {
-    return SizedBox(
-      width: double.infinity,
-      height: 48.0,
-      child: ElevatedButton(
-        onPressed: button.onTap,
-        style: button.isDestructive
-            ? ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(CustomColors.danger),
+  Widget _buildButton({@required ButtonSpecification button}) => SizedBox(
+        width: double.infinity,
+        height: 48.0,
+        child: !button.isDestructive
+            ? ElevatedButton(
+                onPressed: button.onTap,
+                child: _buildButtonChild(button: button),
               )
-            : null,
-        child: button.isBusy
-            ? const SizedBox(
-                width: 16.0,
-                height: 16.0,
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation(CustomColors.negativeText),
-                  // backgroundColor: CustomColors.secondary,
-                  strokeWidth: 3,
-                ),
-              )
-            : Text(button.title),
-      ),
-    );
+            : DestructiveButton(
+                onPressed: button.onTap,
+                child: _buildButtonChild(button: button),
+              ),
+      );
+
+  Widget _buildButtonChild({@required ButtonSpecification button}) {
+    if (button.isBusy) {
+      return const SizedBox(
+        width: 16.0,
+        height: 16.0,
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation(CustomColors.negativeText),
+          strokeWidth: 3,
+        ),
+      );
+    }
+
+    return Text(button.title);
   }
 }
 

@@ -3,13 +3,13 @@ import 'package:http/http.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:intl/intl.dart';
 
-import 'package:pronto_mia/app/app.router.dart';
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/models/deployment_plan.dart';
 import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/core/queries/deployment_plan_queries.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
 import 'package:pronto_mia/core/services/pdf_service.dart';
+import 'package:pronto_mia/ui/views/pdf/pdf_view.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class DeploymentPlanService with ChangeNotifier {
@@ -151,12 +151,13 @@ class DeploymentPlanService with ChangeNotifier {
     if (kIsWeb) {
       _pdfService.openPdfWeb(pdfFile);
     } else {
-      final arguments = PdfViewArguments(
-        pdfFile: pdfFile,
-        title: "Upload.pdf",
+      _navigationService.navigateWithTransition(
+        PdfView(
+          pdfFile: pdfFile,
+          title: 'Upload.pdf',
+        ),
+        transition: NavigationTransition.LeftToRight,
       );
-
-      _navigationService.navigateTo(Routes.pdfView, arguments: arguments);
     }
   }
 
@@ -165,8 +166,10 @@ class DeploymentPlanService with ChangeNotifier {
       final _pdfFile = await _pdfService.downloadPdf(deploymentPlan.link);
       _pdfService.openPdfWeb(_pdfFile);
     } else {
-      _navigationService.navigateTo(Routes.pdfView,
-          arguments: _getPdfArguments(deploymentPlan));
+      _navigationService.navigateWithTransition(
+        _getPdfView(deploymentPlan),
+        transition: NavigationTransition.LeftToRight,
+      );
     }
   }
 
@@ -175,13 +178,15 @@ class DeploymentPlanService with ChangeNotifier {
       final _pdfFile = await _pdfService.downloadPdf(deploymentPlan.link);
       _pdfService.openPdfWeb(_pdfFile);
     } else {
-      _navigationService.replaceWith(Routes.pdfView,
-          arguments: _getPdfArguments(deploymentPlan));
+      _navigationService.replaceWithTransition(
+        _getPdfView(deploymentPlan),
+        transition: NavigationTransition.LeftToRight,
+      );
     }
   }
 
-  PdfViewArguments _getPdfArguments(DeploymentPlan deploymentPlan) {
-    return PdfViewArguments(
+  PdfView _getPdfView(DeploymentPlan deploymentPlan) {
+    return PdfView(
       pdfFile: deploymentPlan.link,
       title: getDeploymentPlanTitle(deploymentPlan),
       subTitle: getDeploymentPlanSubtitle(deploymentPlan),

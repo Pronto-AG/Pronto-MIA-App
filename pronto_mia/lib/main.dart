@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
-import 'package:pronto_mia/app/app.router.dart';
 import 'package:pronto_mia/ui/shared/theme.dart';
 import 'package:pronto_mia/ui/views/startup/startup_view.dart';
 import 'package:pronto_mia/core/services/push_notification_service.dart';
@@ -63,13 +63,23 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Pronto-MIA',
-      navigatorKey: StackedService.navigatorKey,
-      onGenerateRoute: StackedRouter().onGenerateRoute,
-      home: StartUpView(),
-      theme: theme,
-      debugShowCheckedModeBanner: false,
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: MaterialApp(
+        title: 'Pronto-MIA',
+        navigatorKey: StackedService.navigatorKey,
+        home: StartUpView(),
+        theme: theme,
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('de', 'CH'),
+        ],
+      ),
     );
   }
 }

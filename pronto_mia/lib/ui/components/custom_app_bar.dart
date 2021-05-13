@@ -12,29 +12,27 @@ class CustomAppBar extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return BottomAppBar(
-      shape: (() {
-        if (!kIsWeb) {
-          return const CircularNotchedRectangle();
-        }
-      })(),
-      child: IconTheme(
-        data: const IconThemeData(color: CustomColors.negativeText),
-        child: Row(
-          children: [
-            IconButton(
-              tooltip: 'Navigation öffnen',
-              icon: const Icon(Icons.menu),
-              onPressed: () async => _showMenu(context),
-            ),
-            const Spacer(),
-            ...actions,
-          ],
+  Widget build(BuildContext context) => BottomAppBar(
+        shape: (() {
+          if (!kIsWeb) {
+            return const CircularNotchedRectangle();
+          }
+        })(),
+        child: IconTheme(
+          data: const IconThemeData(color: CustomColors.negativeText),
+          child: Row(
+            children: [
+              IconButton(
+                tooltip: 'Navigation öffnen',
+                icon: const Icon(Icons.menu),
+                onPressed: () async => _showMenu(context),
+              ),
+              const Spacer(),
+              ...actions,
+            ],
+          ),
         ),
-      ),
-    );
-  }
+      );
 
   Future<void> _showMenu(BuildContext context) async {
     await showModalBottomSheet(

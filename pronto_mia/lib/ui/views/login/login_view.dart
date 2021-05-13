@@ -7,7 +7,7 @@ import 'package:pronto_mia/ui/views/login/login_viewmodel.dart';
 import 'package:pronto_mia/ui/components/form_layout.dart';
 
 class LoginView extends StatelessWidget with $LoginView {
-  LoginView({Key key}) : super(key: key);
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -46,49 +46,45 @@ class LoginView extends StatelessWidget with $LoginView {
     LoginViewModel model, {
     @required double width,
     @required double padding,
-  }) {
-    return Container(
-      width: width,
-      padding: EdgeInsets.all(padding),
-      child: Card(
-        child: _buildBaseLayout(model),
-      ),
-    );
-  }
-
-  Widget _buildLogo() {
-    return Container(
-      height: 120.0,
-      padding: const EdgeInsets.all(16.0),
-      child: Image.asset(
-        'assets/images/pronto_logo.png',
-      ),
-    );
-  }
-
-  Widget _buildForm(LoginViewModel model) {
-    return FormLayout(
-      textFields: [
-        TextField(
-          controller: userNameController,
-          decoration: const InputDecoration(
-            labelText: 'Benutzername *',
-          ),
+  }) =>
+      Container(
+        width: width,
+        padding: EdgeInsets.all(padding),
+        child: Card(
+          child: _buildBaseLayout(model),
         ),
-        TextField(
-          controller: passwordController,
-          obscureText: true,
-          decoration: const InputDecoration(
-            labelText: 'Passwort *',
-          ),
+      );
+
+  Widget _buildLogo() => Container(
+        height: 120.0,
+        padding: const EdgeInsets.all(16.0),
+        child: Image.asset(
+          'assets/images/pronto_logo.png',
         ),
-      ],
-      primaryButton: ButtonSpecification(
-        title: 'Anmelden',
-        onTap: model.submitForm,
-        isBusy: model.isBusy,
-      ),
-      validationMessage: model.validationMessage,
-    );
-  }
+      );
+
+  Widget _buildForm(LoginViewModel model) => Form(
+        key: _formKey,
+        child: FormLayout(
+          textFields: [
+            TextFormField(
+              controller: userNameController,
+              onEditingComplete: model.submitForm,
+              decoration: const InputDecoration(labelText: 'Benutzername *'),
+            ),
+            TextFormField(
+              controller: passwordController,
+              onEditingComplete: model.submitForm,
+              obscureText: true,
+              decoration: const InputDecoration(labelText: 'Passwort *'),
+            ),
+          ],
+          primaryButton: ButtonSpecification(
+            title: 'Anmelden',
+            onTap: model.submitForm,
+            isBusy: model.isBusy,
+          ),
+          validationMessage: model.validationMessage,
+        ),
+      );
 }

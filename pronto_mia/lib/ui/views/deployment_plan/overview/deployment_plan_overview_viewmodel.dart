@@ -3,7 +3,6 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
-import 'package:pronto_mia/app/app.router.dart';
 import 'package:pronto_mia/core/models/deployment_plan.dart';
 import 'package:pronto_mia/core/services/deployment_plan_service.dart';
 import 'package:pronto_mia/core/factories/error_message_factory.dart';
@@ -64,11 +63,11 @@ class DeploymentPlanOverviewViewModel
 
       dataHasChanged = dialogResponse.confirmed;
     } else {
-      final response = await _navigationService.navigateTo(
-        Routes.deploymentPlanEditView,
-        arguments: DeploymentPlanEditViewArguments(
+      final response = await _navigationService.navigateWithTransition(
+        DeploymentPlanEditView(
           deploymentPlan: deploymentPlan,
         ),
+        transition: NavigationTransition.LeftToRight,
       );
 
       if (response is bool && response == true) {

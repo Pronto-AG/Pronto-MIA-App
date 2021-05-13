@@ -47,10 +47,12 @@ class DeploymentPlanEditView extends StatelessWidget
       SimpleFile fileUpload;
 
       if (kIsWeb) {
-        fileUpload = SimpleFile(result.names.single, result.files.single.bytes);
+        fileUpload = SimpleFile(
+            name: result.names.single, bytes: result.files.single.bytes);
       } else {
         final file = File(result.files.single.path);
-        fileUpload = SimpleFile(result.names.single, file.readAsBytesSync());
+        fileUpload = SimpleFile(
+            name: result.names.single, bytes: file.readAsBytesSync());
       }
       model.setPdfUpload(fileUpload);
     }

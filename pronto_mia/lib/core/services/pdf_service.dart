@@ -17,7 +17,7 @@ class PdfService {
     final httpHeaders = {"Authorization": "Bearer $token"};
 
     final file = await _cacheManager.getSingleFile(path, headers: httpHeaders);
-    return SimpleFile('upload.pdf', file.readAsBytesSync());
+    return SimpleFile(name: 'upload.pdf', bytes: file.readAsBytesSync());
   }
 
   void openPdfWeb(SimpleFile pdf) {

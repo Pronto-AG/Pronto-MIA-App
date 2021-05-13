@@ -12,6 +12,24 @@ class DeploymentPlanQueries {
     }
   """;
 
+  static const deploymentPlanById = """
+    query deploymentPlans(\$id: Int!) {
+      deploymentPlans (
+        where: { 
+          id: { 
+            eq: \$id
+          }
+        }
+      ) {
+        id
+        description
+        availableFrom
+        availableUntil
+        link
+      }
+    }
+  """;
+
   static const deploymentPlansAvailableUntil = """
     query deploymentPlansAvailableUntil(\$availableUntil: DateTime!) {
       deploymentPlans(

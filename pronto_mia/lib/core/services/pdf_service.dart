@@ -7,16 +7,23 @@ import 'package:pronto_mia/core/services/jwt_token_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PdfService {
-  // TODO: Review cache options
-  final _cacheManager = DefaultCacheManager();
+  static const String cacheKey = 'cacheManagerCacheKey';
+
+  final _cacheManager = CacheManager(
+    Config(
+      cacheKey,
+      stalePeriod: const Duration(days: 7),
+      maxNrOfCacheObjects: 20,
+    ),
+  );
   Future<JwtTokenService> get _jwtTokenService =>
       locator.getAsync<JwtTokenService>();
 
   Future<SimpleFile> downloadPdf(String path) async {
     final token = await (await _jwtTokenService).getToken();
     final httpHeaders = {"Authorization": "Bearer $token"};
-
     final file = await _cacheManager.getSingleFile(path, headers: httpHeaders);
+    
     return SimpleFile(name: 'upload.pdf', bytes: file.readAsBytesSync());
   }
 

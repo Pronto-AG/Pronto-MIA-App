@@ -12,7 +12,7 @@ import 'package:pronto_mia/core/services/graphql_service.dart';
 import 'package:pronto_mia/core/services/pdf_service.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-class DeploymentPlanService {
+class DeploymentPlanService with ChangeNotifier {
   Future<GraphQLService> get _graphQLService =>
       locator.getAsync<GraphQLService>();
   PdfService get _pdfService => locator.get<PdfService>();
@@ -204,5 +204,9 @@ class DeploymentPlanService {
         dateTimeFormat.format(deploymentPlan.availableUntil);
 
     return '$availableFromFormatted - $availableUntilFormatted';
+  }
+
+  void notifyDataChanged() {
+    notifyListeners();
   }
 }

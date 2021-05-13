@@ -24,10 +24,14 @@ class DeploymentPlanOverviewViewModel
   String get errorMessage => _errorMessage;
   String _errorMessage;
 
-  DeploymentPlanOverviewViewModel({this.adminModeEnabled = false});
+  DeploymentPlanOverviewViewModel({this.adminModeEnabled = false}) {
+    _deploymentPlanService.addListener(_notifyDataChanged);
+  }
 
   @override
   Future<List<DeploymentPlan>> futureToRun() async {
+
+
     if (adminModeEnabled) {
       return _getDeploymentPlans();
     } else {
@@ -91,7 +95,6 @@ class DeploymentPlanOverviewViewModel
 
   Future<void> publishDeploymentPlan(DeploymentPlan deploymentPlan) async {
     final deploymentPlanTitle = getDeploymentPlanTitle(deploymentPlan);
-
     final response = await _dialogService.showConfirmationDialog(
         title: "Einsatzplan veröffentlichen",
         description: 'Wollen sie den Einsatzplan "$deploymentPlanTitle" '
@@ -137,5 +140,15 @@ class DeploymentPlanOverviewViewModel
 
   String getDeploymentPlanSubtitle(DeploymentPlan deploymentPlan) {
     return _deploymentPlanService.getDeploymentPlanSubtitle(deploymentPlan);
+  }
+
+  void _notifyDataChanged() {
+    initialise();
+  }
+
+  @override
+  void dispose() {
+    _deploymentPlanService.removeListener(_notifyDataChanged);
+    super.dispose();
   }
 }

@@ -95,9 +95,6 @@ class PushNotificationService {
   }
 
   Future<void> _handleMessage(RemoteMessage message) async {
-    var widgi = ModalRoute.of(StackedService.navigatorKey.currentContext);
-
-
     if (message.data != null) {
       final action = message.data['Action'].toString();
       switch (action) {
@@ -128,6 +125,8 @@ class PushNotificationService {
   }
 
   Future<void> _handleDeploymentPlanPublish(RemoteMessage message) async {
+    _deploymentPlanService.notifyDataChanged();
+
     final targetId = int.parse(message.data['TargetId'].toString());
     final deploymentPlan =
         await _deploymentPlanService.getDeploymentPlan(targetId);

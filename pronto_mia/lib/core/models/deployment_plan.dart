@@ -1,36 +1,24 @@
 class DeploymentPlan {
-  int get id => _id;
-  final int _id;
-
-  String get description => _description;
-  final String _description;
-
-  DateTime get availableFrom => _availableFrom;
-  final DateTime _availableFrom;
-
-  DateTime get availableUntil => _availableUntil;
-  final DateTime _availableUntil;
-
-  String get link => _link;
-  final String _link;
-
-  bool get published => _published;
-  final bool _published;
+  final int id;
+  final String description;
+  final DateTime availableFrom;
+  final DateTime availableUntil;
+  final String link;
+  final bool published;
 
   DeploymentPlan(
-      this._id,
-      this._description,
-      this._availableFrom,
-      this._availableUntil,
-      this._link,
-      // ignore: avoid_positional_boolean_parameters
-      this._published);
+      {this.id,
+        this.description,
+        this.availableFrom,
+        this.availableUntil,
+        this.link,
+        this.published});
 
   DeploymentPlan.fromJson(Map<String, dynamic> json)
-      : _id = json['id'] as int,
-        _description = json['description'] as String,
-        _availableFrom = DateTime.parse(json['availableFrom'] as String),
-        _availableUntil = DateTime.parse(json['availableUntil'] as String),
-        _link = json['link'] as String,
-        _published = json['published'] as bool;
+      : id = json['id'] as int,
+        description = json['description'] as String,
+        availableFrom = DateTime.parse(json['availableFrom'] as String),
+        availableUntil = DateTime.parse(json['availableUntil'] as String),
+        link = json['link'] as String,
+        published = json['published'] as bool;
 }

@@ -1,12 +1,8 @@
 {
-    "name": "pronto_mia",
-    "short_name": "pronto_mia",
+    "name": "Pronto MIA",
+    "short_name": "Pronto MIA",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "Mitarbeiter-Informationsapp der Pronto AG.",
-    "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
         {

@@ -1,4 +1,4 @@
-import 'package:pronto_mia/core/models/error_analyzer.dart';
+import 'package:pronto_mia/core/models/analyzed_error.dart';
 
 // ignore: avoid_classes_with_only_static_members
 class ErrorMessageFactory {
@@ -7,13 +7,13 @@ class ErrorMessageFactory {
   static const String _networkError =
       'Es konnte keine Verbindung zum Server aufgebaut werden.';
 
-  static String getErrorMessage(ErrorAnalyzer analyzer) {
-    if (analyzer.isUnknownError) {
+  static String getErrorMessage(ConstAnalyzedError analyzedError) {
+    if (analyzedError.isUnknownError) {
       return _unknownError;
-    } else if (analyzer.isNetworkError) {
+    } else if (analyzedError.isNetworkError) {
       return _networkError;
     } else {
-      return _getGraphQlErrorMessage(analyzer.graphQLErrorCode);
+      return _getGraphQlErrorMessage(analyzedError.graphQLErrorCode);
     }
   }
 

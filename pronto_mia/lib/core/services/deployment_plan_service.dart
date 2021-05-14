@@ -48,6 +48,7 @@ class DeploymentPlanService with ChangeNotifier {
   }
 
   Future<List<DeploymentPlan>> getAvailableDeploymentPlans() async {
+    // TODO: Remove "toUtc()" when https://github.com/ChilliCream/hotchocolate/issues/3691 is fixed
     final queryVariables = {
       'availableUntil': DateTime.now().toUtc().toIso8601String(),
     };

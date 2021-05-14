@@ -32,6 +32,7 @@ class GraphQLService {
     final authLink = AuthLink(getToken: _getJwtToken);
     final link = authLink.concat(httpLink);
 
+    // TODO: Review cache policies when https://github.com/zino-app/graphql-flutter/issues/871 is fixed
     final policies = Policies(
       fetch: FetchPolicy.noCache,
     );

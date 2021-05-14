@@ -49,7 +49,7 @@ class DeploymentPlanService with ChangeNotifier {
 
   Future<List<DeploymentPlan>> getAvailableDeploymentPlans() async {
     final queryVariables = {
-      'availableUntil': DateTime.now().toIso8601String(),
+      'availableUntil': DateTime.now().toUtc().toIso8601String(),
     };
 
     final data = await (await _graphQLService).query(
@@ -202,7 +202,7 @@ class DeploymentPlanService with ChangeNotifier {
   }
 
   String getDeploymentPlanSubtitle(DeploymentPlan deploymentPlan) {
-    final dateTimeFormat = DateFormat('dd.MM.yyyy hh:mm');
+    final dateTimeFormat = DateFormat('dd.MM.yyyy HH:mm');
     final availableFromFormatted =
         dateTimeFormat.format(deploymentPlan.availableFrom);
     final availableUntilFormatted =

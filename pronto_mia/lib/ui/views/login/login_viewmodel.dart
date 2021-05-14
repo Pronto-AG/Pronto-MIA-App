@@ -1,21 +1,19 @@
-import 'package:logging/logging.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/authentication_service.dart';
+import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/ui/views/login/login_view.form.dart';
-import 'package:pronto_mia/core/factories/error_message_factory.dart';
-import 'package:pronto_mia/core/services/logging_service.dart';
 import 'package:pronto_mia/ui/views/deployment_plan/overview/deployment_plan_overview_view.dart';
 
 class LoginViewModel extends FormViewModel {
+  static String contextIdentifier = "LoginViewModel";
+
   AuthenticationService get _authenticationService =>
       locator.get<AuthenticationService>();
   NavigationService get _navigationService => locator.get<NavigationService>();
-  Future<LoggingService> get _loggingService =>
-      locator.getAsync<LoggingService>();
-
+  ErrorService get _errorService => locator.get<ErrorService>();
   @override
   void setFormStatus() {}
 
@@ -32,8 +30,9 @@ class LoginViewModel extends FormViewModel {
     );
 
     if (hasError) {
-      final errorMessage = ErrorMessageFactory.getErrorMessage(modelError);
-      (await _loggingService).log("LoginViewModel", Level.WARNING, modelError);
+      await _errorService.handleError(
+          LoginViewModel.contextIdentifier, modelError);
+      final errorMessage = _errorService.getErrorMessage(modelError);
 
       setValidationMessage(errorMessage);
       notifyListeners();

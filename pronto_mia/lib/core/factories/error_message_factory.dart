@@ -1,4 +1,4 @@
-import 'package:graphql/client.dart';
+import 'package:pronto_mia/core/models/error_analyzer.dart';
 
 // ignore: avoid_classes_with_only_static_members
 class ErrorMessageFactory {
@@ -7,32 +7,18 @@ class ErrorMessageFactory {
   static const String _networkError =
       'Es konnte keine Verbindung zum Server aufgebaut werden.';
 
-  static String getErrorMessage(dynamic error) {
-    String message = _unknownError;
-
-    if (error is OperationException) {
-      message = _getGraphQlErrorMessage(error);
+  static String getErrorMessage(ErrorAnalyzer analyzer) {
+    if (analyzer.isUnknownError) {
+      return _unknownError;
+    } else if (analyzer.isNetworkError) {
+      return _networkError;
+    } else {
+      return _getGraphQlErrorMessage(analyzer.graphQLErrorCode);
     }
-
-    return message;
   }
 
-  static String _getGraphQlErrorMessage(OperationException error) {
-    if (!_isNetworkAvailable(error)) {
-      return _networkError;
-    }
-
-    final serverException = error.linkException as ServerException;
-
-    if (serverException.parsedResponse == null ||
-        serverException.parsedResponse.errors == null ||
-        serverException.parsedResponse.errors.isEmpty ||
-        serverException.parsedResponse.errors.length > 1) {
-      return _unknownError;
-    }
-
-    switch (serverException.parsedResponse.errors.first.extensions["code"]
-        .toString()) {
+  static String _getGraphQlErrorMessage(String code) {
+    switch (code) {
       case 'PasswordTooWeak':
         return 'Das angegebene Passwort ist zu schwach.';
         break;
@@ -66,27 +52,14 @@ class ErrorMessageFactory {
         return 'Ein Fehler mit Firebase ist aufgetreten. '
             'Bitte wende dich an den Administrator der Anwendung.';
         break;
+      case 'AUTH_NOT_AUTHENTICATED':
+        return 'Der Benutzer ist nicht mehr angemeldet.';
+        break;
       case 'UnknownError':
         return _unknownError;
         break;
       default:
         return _unknownError;
     }
-  }
-
-  // ToDo: Replace with #39 globally.
-  static bool _isNetworkAvailable(OperationException exception) {
-    if (exception.linkException is NetworkException) {
-      return false;
-    }
-
-    if (exception.linkException is ServerException) {
-      final serverException = exception.linkException as ServerException;
-      if (serverException.parsedResponse == null) {
-        return false;
-      }
-    }
-
-    return true;
   }
 }

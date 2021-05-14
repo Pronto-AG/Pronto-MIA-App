@@ -4,16 +4,19 @@ import 'package:stacked_services/stacked_services.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/deployment_plan_service.dart';
+import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/ui/views/deployment_plan/edit/deployment_plan_edit_view.form.dart';
 import 'package:pronto_mia/core/models/simple_file.dart';
-import 'package:pronto_mia/core/factories/error_message_factory.dart';
 import 'package:pronto_mia/core/models/deployment_plan.dart';
 
 class DeploymentPlanEditViewModel extends FormViewModel {
+  static String contextIdentifier = "DeploymentPlanEditViewModel";
+
   DeploymentPlanService get _deploymentPlanService =>
       locator.get<DeploymentPlanService>();
   NavigationService get _navigationService => locator.get<NavigationService>();
   DialogService get _dialogService => locator.get<DialogService>();
+  ErrorService get _errorService => locator.get<ErrorService>();
 
   final String editBusyKey = 'edit-busy-key';
   final String removeBusyKey = 'remove-busy-key';
@@ -88,7 +91,9 @@ class DeploymentPlanEditViewModel extends FormViewModel {
     }
 
     if (hasError) {
-      final errorMessage = ErrorMessageFactory.getErrorMessage(error);
+      await _errorService.handleError(
+          DeploymentPlanEditViewModel.contextIdentifier, error);
+      final errorMessage = _errorService.getErrorMessage(error);
       setValidationMessage(errorMessage);
       notifyListeners();
     } else if (isDialog) {
@@ -107,7 +112,9 @@ class DeploymentPlanEditViewModel extends FormViewModel {
     }
 
     if (hasError) {
-      final errorMessage = ErrorMessageFactory.getErrorMessage(error);
+      await _errorService.handleError(
+          DeploymentPlanEditViewModel.contextIdentifier, error);
+      final errorMessage = _errorService.getErrorMessage(error);
       setValidationMessage(errorMessage);
       notifyListeners();
     } else if (isDialog) {

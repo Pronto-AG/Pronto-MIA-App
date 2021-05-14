@@ -1,17 +1,16 @@
-import 'package:logging/logging.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
+import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/core/services/pdf_service.dart';
-import 'package:pronto_mia/core/services/logging_service.dart';
 import 'package:pronto_mia/core/models/simple_file.dart';
-import 'package:pronto_mia/core/factories/error_message_factory.dart';
 
 class PdfViewModel extends FutureViewModel<SimpleFile> {
+  static String contextIdentifier = "PdfViewModel";
+
   PdfService get _pdfService => locator.get<PdfService>();
-  Future<LoggingService> get _loggingService =>
-      locator.getAsync<LoggingService>();
+  ErrorService get _errorService => locator.get<ErrorService>();
 
   final Object pdfFile;
 
@@ -37,7 +36,7 @@ class PdfViewModel extends FutureViewModel<SimpleFile> {
   @override
   Future<void> onError(dynamic error) async {
     super.onError(error);
-    _errorMessage = ErrorMessageFactory.getErrorMessage(error);
-    (await _loggingService).log('PdfViewModel', Level.WARNING, error);
+    await _errorService.handleError(PdfViewModel.contextIdentifier, modelError);
+    _errorMessage = _errorService.getErrorMessage(modelError);
   }
 }

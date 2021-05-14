@@ -1,23 +1,22 @@
-import 'package:logging/logging.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/models/deployment_plan.dart';
 import 'package:pronto_mia/core/services/deployment_plan_service.dart';
-import 'package:pronto_mia/core/factories/error_message_factory.dart';
-import 'package:pronto_mia/core/services/logging_service.dart';
+import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/ui/shared/custom_dialogs.dart';
 import 'package:pronto_mia/ui/views/deployment_plan/edit/deployment_plan_edit_view.dart';
 
 class DeploymentPlanOverviewViewModel
     extends FutureViewModel<List<DeploymentPlan>> {
+  static String contextIdentifier = "DeploymentPlanOverviewViewModel";
+
   DeploymentPlanService get _deploymentPlanService =>
       locator.get<DeploymentPlanService>();
   NavigationService get _navigationService => locator.get<NavigationService>();
   DialogService get _dialogService => locator.get<DialogService>();
-  Future<LoggingService> get _loggingService =>
-      locator.getAsync<LoggingService>();
+  ErrorService get _errorService => locator.get<ErrorService>();
 
   final bool adminModeEnabled;
   String get errorMessage => _errorMessage;
@@ -38,9 +37,9 @@ class DeploymentPlanOverviewViewModel
 
   @override
   Future<void> onError(dynamic error) async {
-    _errorMessage = ErrorMessageFactory.getErrorMessage(error);
-    (await _loggingService)
-        .log("DeploymentPlanOverviewViewModel", Level.WARNING, error);
+    await _errorService.handleError(
+        DeploymentPlanOverviewViewModel.contextIdentifier, error);
+    _errorMessage = _errorService.getErrorMessage(error);
   }
 
   Future<void> openPdf(DeploymentPlan deploymentPlan) async {

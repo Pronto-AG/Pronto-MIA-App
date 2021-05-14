@@ -58,7 +58,7 @@ class JwtTokenService {
 
     if (token != null && token.isNotEmpty) {
       try {
-        tokenValid = !JwtDecoder.isExpired(token);
+        tokenValid = JwtDecoder.isExpired(token);
       } catch (e) {
         (await _loggingService).log(
             "JwtTokenService", Level.WARNING, "JWT token could not be decoded");

@@ -4,6 +4,7 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:pronto_mia/core/factories/error_message_factory.dart';
 import 'package:pronto_mia/core/services/authentication_service.dart';
 import 'package:pronto_mia/core/services/deployment_plan_service.dart';
+import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
 import 'package:pronto_mia/core/services/jwt_token_service.dart';
 import 'package:pronto_mia/core/services/pdf_service.dart';
@@ -54,6 +55,5 @@ void setupLocator() {
   locator.registerLazySingleton<DeploymentPlanService>(
       () => DeploymentPlanService());
   locator.registerLazySingleton<PdfService>(() => PdfService());
-  locator
-      .registerLazySingleton<ErrorMessageFactory>(() => ErrorMessageFactory());
+  locator.registerLazySingleton<ErrorService>(() => ErrorService());
 }

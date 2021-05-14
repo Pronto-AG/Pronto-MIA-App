@@ -5,18 +5,21 @@ import 'package:stacked_services/stacked_services.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/authentication_service.dart';
-import 'package:pronto_mia/core/factories/error_message_factory.dart';
+import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/core/services/logging_service.dart';
 import 'package:pronto_mia/core/services/push_notification_service.dart';
 import 'package:pronto_mia/ui/views/deployment_plan/overview/deployment_plan_overview_view.dart';
 import 'package:pronto_mia/ui/views/login/login_view.dart';
 
 class StartUpViewModel extends BaseViewModel {
+  static String contextIdentifier = "StartUpViewModel";
+
   AuthenticationService get _authenticationService =>
       locator.get<AuthenticationService>();
   NavigationService get _navigationService => locator.get<NavigationService>();
   Future<LoggingService> get _loggingService =>
       locator.getAsync<LoggingService>();
+  ErrorService get _errorService => locator.get<ErrorService>();
   Future<PushNotificationService> get _pushNotificationService =>
       locator.getAsync<PushNotificationService>();
 
@@ -25,8 +28,9 @@ class StartUpViewModel extends BaseViewModel {
 
   @override
   Future<void> onFutureError(dynamic error, Object key) async {
-    _errorMessage = ErrorMessageFactory.getErrorMessage(modelError);
-    (await _loggingService).log("LoginViewModel", Level.WARNING, modelError);
+    await _errorService.handleError(
+        StartUpViewModel.contextIdentifier, modelError);
+    _errorMessage = _errorService.getErrorMessage(modelError);
   }
 
   Future<void> handleStartUp() async {

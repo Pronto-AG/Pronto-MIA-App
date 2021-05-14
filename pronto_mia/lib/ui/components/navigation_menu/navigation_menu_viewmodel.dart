@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:logging/logging.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
-import 'package:pronto_mia/core/services/user_service.dart';
 import 'package:pronto_mia/core/models/user.dart';
-import 'package:pronto_mia/core/factories/error_message_factory.dart';
-import 'package:pronto_mia/core/services/logging_service.dart';
+import 'package:pronto_mia/core/services/error_service.dart';
+import 'package:pronto_mia/core/services/user_service.dart';
 
 class NavigationMenuViewModel extends FutureViewModel<User> {
+  static String contextIdentifier = "NavigationMenuViewModel";
+
   NavigationService get _navigationService => locator.get<NavigationService>();
+  ErrorService get _errorService => locator.get<ErrorService>();
   UserService get _userService => locator.get<UserService>();
-  Future<LoggingService> get _loggingService =>
-      locator.getAsync<LoggingService>();
 
   String get errorMessage => _errorMessage;
   String _errorMessage;
@@ -23,8 +22,9 @@ class NavigationMenuViewModel extends FutureViewModel<User> {
 
   @override
   Future<void> onError(dynamic error) async {
-    _errorMessage = ErrorMessageFactory.getErrorMessage(error);
-    (await _loggingService).log('SideMenuViewModel', Level.WARNING, error);
+    await _errorService.handleError(
+        NavigationMenuViewModel.contextIdentifier, error);
+    _errorMessage = _errorService.getErrorMessage(error);
   }
 
   void navigateTo(Widget page) {

@@ -6,17 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
-- Ability to manage users
-- Ability to publish department-specific deployment plans
-- Ability to search and filter the deployment plan list
-
 ## [0.2.0] - 2021-05-18
 
 ### Added
 - Ability to view deployment plans as a list
 - Ability to create, submit and delete deployment plans
-- Ability to publish deployment plans via push notifications
+- Ability to publish deployment plans with push notifications
 - Platform specific pdf handling on web
 - Runnable on iOS
 - Logging that correlates to server logs

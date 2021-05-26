@@ -10,6 +10,8 @@ class UserService {
       locator.getAsync<JwtTokenService>();
   Future<LoggingService> get _loggingService =>
       locator.getAsync<LoggingService>();
+  Future<GraphQLService> get _graphQLService =>
+      locator.getAsync<GraphQLService>();
 
   Future<User> getCurrentUser() async {
     final userId = await (await _jwtTokenService).getUserId();
@@ -22,5 +24,15 @@ class UserService {
     }
 
     return User(id: userId, username: username);
+  }
+
+  Future<List<User>> getUsers() async {
+    final data = await (await _graphQLService).query(UserQueries.users);
+    final dtoList = data['users'] as List<Object>;
+    final userList = dtoList
+        .map((dto) => User.fromJson(dto as Map<String, dynamic>))
+        .toList();
+
+    return userList;
   }
 }

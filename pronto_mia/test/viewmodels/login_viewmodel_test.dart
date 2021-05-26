@@ -11,8 +11,8 @@ void main() {
 
     group('login()', () {
       test('When login show validation message', () async {
-        getAndRegisterAuthenticationServiceMock();
-        getAndRegisterNavigationServiceMock();
+        // getAndRegisterAuthenticationServiceMock();
+        // getAndRegisterNavigationServiceMock();
 
         final model = LoginViewModel();
         await model.submitForm();

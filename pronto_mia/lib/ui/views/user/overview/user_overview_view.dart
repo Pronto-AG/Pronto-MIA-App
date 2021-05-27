@@ -73,7 +73,8 @@ class UserOverviewView extends StatelessWidget {
                 title: Text(user.userName),
                 subtitle: Text(
                   user.department != null
-                      ? '${user.department.name} - ${Profiles.administrator.description}'
+                      ? '${user.department.name} - '
+                        '${Profiles.administrator.description}'
                       : Profiles.administrator.description,
                 ),
                 onTap: () => model.editUser(

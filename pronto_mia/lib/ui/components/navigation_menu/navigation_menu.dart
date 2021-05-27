@@ -92,8 +92,8 @@ class NavigationMenu extends StatelessWidget {
             title: Text('Newsverwaltung'),
           ),
           ListTile(
-            leading: Icon(Icons.people),
-            title: Text('Benutzerverwaltung'),
+            leading: const Icon(Icons.people),
+            title: const Text('Benutzerverwaltung'),
             onTap: () => model.navigateTo(const UserOverviewView()),
           ),
         ],

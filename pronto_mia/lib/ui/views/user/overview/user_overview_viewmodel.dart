@@ -39,7 +39,8 @@ class UserOverviewViewModel extends FutureViewModel<List<User>> {
       );
       dataHasChanged = dialogResponse.confirmed;
     } else {
-      final navigationResponse = await _navigationService.navigateWithTransition(
+      final navigationResponse =
+          await _navigationService.navigateWithTransition(
         UserEditView(user: user),
       );
 

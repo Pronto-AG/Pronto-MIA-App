@@ -8,13 +8,14 @@ class ErrorMessageFactory {
       'Es konnte keine Verbindung zum Server aufgebaut werden.';
 
   static String getErrorMessage(ConstAnalyzedError analyzedError) {
-    if (analyzedError.isUnknownError) {
-      return _unknownError;
-    } else if (analyzedError.isNetworkError) {
-      return _networkError;
-    } else {
+    if (analyzedError.graphQLErrorCode != null) {
       return _getGraphQlErrorMessage(analyzedError.graphQLErrorCode);
     }
+    if (analyzedError.isNetworkError) {
+      return _networkError;
+    }
+
+    return _unknownError;
   }
 
   static String _getGraphQlErrorMessage(String code) {

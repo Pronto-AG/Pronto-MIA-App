@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-
 class Department {
   final int id;
   final String name;

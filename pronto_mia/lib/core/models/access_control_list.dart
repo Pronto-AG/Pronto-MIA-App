@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-
 class AccessControlList {
   final int id;
   final bool canViewDeploymentPlans;

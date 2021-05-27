@@ -64,28 +64,29 @@ class UserOverviewView extends StatelessWidget {
     BuildContext context,
     UserOverviewViewModel model,
     User user,
-  ) => Card(
-      child: Row(
-        children: [
-          Expanded(
-            child: ListTile(
-              title: Text(user.userName),
-              subtitle: Text(
-                user.department != null
-                    ? '${user.department.name} - ${Profiles.administrator.description}'
-                    : Profiles.administrator.description,
-              ),
-              onTap: () => model.editUser(
-                user: user,
-                asDialog: getValueForScreenType<bool>(
-                  context: context,
-                  mobile: false,
-                  desktop: true,
+  ) =>
+      Card(
+        child: Row(
+          children: [
+            Expanded(
+              child: ListTile(
+                title: Text(user.userName),
+                subtitle: Text(
+                  user.department != null
+                      ? '${user.department.name} - ${Profiles.administrator.description}'
+                      : Profiles.administrator.description,
+                ),
+                onTap: () => model.editUser(
+                  user: user,
+                  asDialog: getValueForScreenType<bool>(
+                    context: context,
+                    mobile: false,
+                    desktop: true,
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
 }

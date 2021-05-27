@@ -8,7 +8,8 @@ const String PasswordConfirmValueKey = 'passwordConfirm';
 mixin $UserEditView on StatelessWidget {
   final TextEditingController userNameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController passwordConfirmController = TextEditingController();
+  final TextEditingController passwordConfirmController =
+      TextEditingController();
   final FocusNode userNameFocusNode = FocusNode();
   final FocusNode passwordFocusNode = FocusNode();
   final FocusNode passwordConfirmFocusNode = FocusNode();
@@ -20,10 +21,10 @@ mixin $UserEditView on StatelessWidget {
   }
 
   void _updateFormData(FormViewModel model) => model.setData({
-    UserNameValueKey: userNameController.text,
-    PasswordValueKey: passwordController.text,
-    PasswordConfirmValueKey: passwordConfirmController.text,
-  });
+        UserNameValueKey: userNameController.text,
+        PasswordValueKey: passwordController.text,
+        PasswordConfirmValueKey: passwordConfirmController.text,
+      });
 
   void disposeForm() {
     userNameController.dispose();

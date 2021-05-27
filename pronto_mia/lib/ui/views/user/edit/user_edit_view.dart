@@ -18,6 +18,8 @@ class UserEditView extends StatelessWidget with $UserEditView {
   }) : super(key: key) {
     if (user != null) {
       userNameController.text = user.userName;
+      passwordController.text = 'XXXXXX';
+      passwordConfirmController.text = 'XXXXXX';
     }
   }
 
@@ -39,26 +41,25 @@ class UserEditView extends StatelessWidget with $UserEditView {
       );
 
   Widget _buildStandaloneLayout(UserEditViewModel model) => Scaffold(
-    appBar: AppBar(title: _buildTitle()),
-    body: _buildForm(model),
-  );
+        appBar: AppBar(title: _buildTitle()),
+        body: _buildForm(model),
+      );
 
+  // ignore: sized_box_for_whitespace
   Widget _buildDialogLayout(UserEditViewModel model) => Container(
-    width: 500.0,
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        _buildTitle(),
-        _buildForm(model),
-      ],
-    ),
-  );
+        width: 500.0,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _buildTitle(),
+            _buildForm(model),
+          ],
+        ),
+      );
 
   Widget _buildTitle() {
-    final title = user == null
-        ? 'Benutzer erstellen'
-        : 'Benutzer bearbeiten';
+    final title = user == null ? 'Benutzer erstellen' : 'Benutzer bearbeiten';
 
     if (isDialog) {
       return Container(
@@ -66,7 +67,7 @@ class UserEditView extends StatelessWidget with $UserEditView {
         child: Text(
           title,
           style: const TextStyle(fontSize: 20.0),
-        )
+        ),
       );
     } else {
       return Text(title);
@@ -74,39 +75,42 @@ class UserEditView extends StatelessWidget with $UserEditView {
   }
 
   Widget _buildForm(UserEditViewModel model) => Form(
-    key: _formKey,
-    child: FormLayout(
-      textFields: [
-        TextFormField(
-          controller: userNameController,
-          onEditingComplete: model.submitForm,
-          decoration: const InputDecoration(labelText: 'Benutzername'),
+        key: _formKey,
+        child: FormLayout(
+          textFields: [
+            TextFormField(
+              controller: userNameController,
+              onEditingComplete: model.submitForm,
+              decoration: const InputDecoration(labelText: 'Benutzername'),
+            ),
+            TextFormField(
+              controller: passwordController,
+              onEditingComplete: model.submitForm,
+              obscureText: true,
+              decoration: const InputDecoration(labelText: 'Passwort'),
+            ),
+            TextFormField(
+              controller: passwordConfirmController,
+              onEditingComplete: model.submitForm,
+              obscureText: true,
+              decoration:
+                  const InputDecoration(labelText: 'Passwort bestätigen'),
+            ),
+          ],
+          primaryButton: ButtonSpecification(
+            title: 'Speichern',
+            onTap: model.submitForm,
+            isBusy: model.busy(UserEditViewModel.editBusyKey),
+          ),
+          secondaryButton: user != null
+              ? ButtonSpecification(
+                  title: 'Löschen',
+                  onTap: model.removeUser,
+                  isBusy: model.busy(UserEditViewModel.removeBusyKey),
+                  isDestructive: true,
+                )
+              : null,
+          validationMessage: model.validationMessage,
         ),
-        TextFormField(
-          controller: passwordController,
-          onEditingComplete: model.submitForm,
-          decoration: const InputDecoration(labelText: 'Passwort'),
-        ),
-        TextFormField(
-          controller: passwordConfirmController,
-          onEditingComplete: model.submitForm,
-          decoration: const InputDecoration(labelText: 'Passwort bestätigen'),
-        ),
-      ],
-      primaryButton: ButtonSpecification(
-        title: 'Speichern',
-        onTap: model.submitForm,
-        isBusy: model.busy(UserEditViewModel.editBusyKey),
-      ),
-      secondaryButton: user != null
-        ? ButtonSpecification(
-            title: 'Löschen',
-            onTap: model.removeUser,
-            isBusy: model.busy(UserEditViewModel.removeBusyKey),
-            isDestructive: true,
-          )
-        : null,
-      validationMessage: model.validationMessage,
-    ),
-  );
+      );
 }

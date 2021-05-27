@@ -45,10 +45,8 @@ class UserEditViewModel extends FormViewModel {
       await runBusyFuture(
         _userService.updateUser(
           user.id,
-          userName: user.userName != userNameValue
-            ? userNameValue
-            : null,
-          password: passwordValue,
+          userName: user.userName != userNameValue ? userNameValue : null,
+          password: passwordValue != 'XXXXXX' ? passwordValue : null,
         ),
         busyObject: editBusyKey,
       );
@@ -73,7 +71,7 @@ class UserEditViewModel extends FormViewModel {
       return 'Bitte Benutzernamen eingeben.';
     }
 
-    if (passwordValue == null || passwordValue.isEmpty) {
+    if (user == null || passwordValue == null || passwordValue.isEmpty) {
       return 'Bitte Passwort eingeben.';
     }
 

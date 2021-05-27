@@ -1,16 +1,22 @@
-AccessControlList {
+import 'package:flutter/foundation.dart';
+
+class AccessControlList {
   final int id;
   final bool canViewDeploymentPlans;
   final bool canEditDeploymentPlans;
   final bool canViewUsers;
-  final bool can EditUsers;
+  final bool canEditUsers;
+  final bool canViewDepartments;
+  final bool canEditDepartments;
 
-  AccessControlList({
-    @required this.id,
-    @required this.canViewDeploymentPlans,
-    @required this.canEditDeploymentPlans,
-    @required this.canViewUsers,
-    @required this.canEditUsers,
+  const AccessControlList({
+    this.id,
+    this.canViewDeploymentPlans,
+    this.canEditDeploymentPlans,
+    this.canViewUsers,
+    this.canEditUsers,
+    this.canViewDepartments,
+    this.canEditDepartments,
   });
 
   AccessControlList.fromJson(Map<String, dynamic> json)
@@ -18,5 +24,7 @@ AccessControlList {
         canViewDeploymentPlans = json['canViewDeploymentPlans'] as bool,
         canEditDeploymentPlans = json['canEditDeploymentPlans'] as bool,
         canViewUsers = json['canViewUsers'] as bool,
-        canEditUsers = json['canEditUsers'] as bool;
+        canEditUsers = json['canEditUsers'] as bool,
+        canViewDepartments = json['canViewDepartments'] as bool,
+        canEditDepartments = json['canEditDepartments'] as bool;
 }

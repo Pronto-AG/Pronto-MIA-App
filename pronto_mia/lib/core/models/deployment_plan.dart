@@ -6,13 +6,14 @@ class DeploymentPlan {
   final String link;
   final bool published;
 
-  DeploymentPlan(
-      {this.id,
-      this.description,
-      this.availableFrom,
-      this.availableUntil,
-      this.link,
-      this.published});
+  DeploymentPlan({
+    this.id,
+    this.description,
+    this.availableFrom,
+    this.availableUntil,
+    this.link,
+    this.published,
+  });
 
   DeploymentPlan.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int,

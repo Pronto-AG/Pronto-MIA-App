@@ -5,6 +5,7 @@ import 'package:stacked/stacked.dart';
 
 import 'package:pronto_mia/ui/views/deployment_plan/overview/deployment_plan_overview_view.dart';
 import 'package:pronto_mia/ui/components/navigation_menu/navigation_menu_viewmodel.dart';
+import 'package:pronto_mia/ui/views/user/overview/user_overview_view.dart';
 
 class NavigationMenu extends StatelessWidget {
   @override
@@ -25,9 +26,9 @@ class NavigationMenu extends StatelessWidget {
       );
 
   Widget _buildProfile(NavigationMenuViewModel model) {
-    final username =
-        model.data != null ? model.data.username : 'Hans Mustermann';
-    final userImage = Jdenticon.toSvg(username);
+    final userName =
+        model.data != null ? model.data.userName : 'Hans Mustermann';
+    final userImage = Jdenticon.toSvg(userName);
 
     return ListTile(
       contentPadding: const EdgeInsets.only(left: 8.0),
@@ -37,7 +38,7 @@ class NavigationMenu extends StatelessWidget {
         width: 48,
       ),
       title: const Text("Benutzerprofil"),
-      subtitle: Text(username),
+      subtitle: Text(userName),
     );
   }
 
@@ -90,9 +91,10 @@ class NavigationMenu extends StatelessWidget {
             leading: Icon(Icons.description),
             title: Text('Newsverwaltung'),
           ),
-          const ListTile(
+          ListTile(
             leading: Icon(Icons.people),
             title: Text('Benutzerverwaltung'),
+            onTap: () => model.navigateTo(const UserOverviewView()),
           ),
         ],
       );

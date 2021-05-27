@@ -1,3 +1,13 @@
+import 'package:flutter/material.dart';
+import 'package:pronto_mia/core/models/profiles.dart';
+import 'package:stacked/stacked.dart';
+import 'package:responsive_builder/responsive_builder.dart';
+
+import 'package:pronto_mia/ui/views/user/overview/user_overview_viewmodel.dart';
+import 'package:pronto_mia/ui/components/navigation_layout.dart';
+import 'package:pronto_mia/ui/components/data_view_layout.dart';
+import 'package:pronto_mia/core/models/user.dart';
+
 class UserOverviewView extends StatelessWidget {
   const UserOverviewView({Key key}) : super(key: key);
 
@@ -59,18 +69,20 @@ class UserOverviewView extends StatelessWidget {
         children: [
           Expanded(
             child: ListTile(
-              title: Text(user.username),
-              subtitle: Text('Administrator'),
-              onTap: () {
-                model.editUser(
-                  user: user,
-                  asDialog: getValueforScreenType<bool>(
-                    context: context,
-                    mobile: false,
-                    desktop: true,
-                  ),
+              title: Text(user.userName),
+              subtitle: Text(
+                user.department != null
+                    ? '${user.department.name} - ${Profiles.administrator.description}'
+                    : Profiles.administrator.description,
+              ),
+              onTap: () => model.editUser(
+                user: user,
+                asDialog: getValueForScreenType<bool>(
+                  context: context,
+                  mobile: false,
+                  desktop: true,
                 ),
-              },
+              ),
             ),
           ),
         ],

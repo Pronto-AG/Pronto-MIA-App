@@ -5,17 +5,41 @@ class UserQueries {
         id
         userName
         department {
-          id
           name
         }
         accessControlList {
-          id
           canViewDeploymentPlans
 		      canEditDeploymentPlans
 		      canViewUsers
 		      canEditUsers
 		      canViewDepartments
 		      canEditDepartments
+        }
+      }
+    }
+  """;
+
+  static const userById = """
+    query userById(\$id: Int!) {
+      users(
+        where: {
+          id: {
+            eq: \$id
+          }
+        }
+      ) {
+        id
+        userName
+        department {
+          name
+        }
+        accessControlList {
+          canViewDeploymentPlans
+          canEditDeploymentPlans
+          canViewUsers
+          canEditUsers
+          canViewDepartments
+          canEditDepartments
         }
       }
     }

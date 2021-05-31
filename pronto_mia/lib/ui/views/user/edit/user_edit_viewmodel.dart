@@ -21,11 +21,11 @@ class UserEditViewModel extends FormViewModel {
 
   final User user;
   final bool isDialog;
-  AccessControlList accessControlList = Profiles.empty.accessControlList;
+  AccessControlList accessControlList = profiles['empty'].accessControlList;
 
   UserEditViewModel({this.user, this.isDialog = false}) {
     if (user != null) {
-      accessControlList = user.accessControlList;
+      accessControlList = user.profile.accessControlList;
     }
   }
 
@@ -86,7 +86,7 @@ class UserEditViewModel extends FormViewModel {
           user.id,
           userName: user.userName != userNameValue ? userNameValue : null,
           password: passwordValue != 'XXXXXX' ? passwordValue : null,
-          accessControlList: accessControlList.isEqual(user.accessControlList) ? accessControlList : null,
+          accessControlList: accessControlList.isEqual(user.profile.accessControlList) ? accessControlList : null,
         ),
         busyObject: editBusyKey,
       );

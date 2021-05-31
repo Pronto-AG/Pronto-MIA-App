@@ -101,23 +101,14 @@ class UserEditView extends StatelessWidget with $UserEditView {
             ),
             _buildFormSectionHeader('Berechtigungen'),
             DropdownButtonFormField<Profile>(
-              // value: Profiles.administrator,
               onChanged: model.setProfile,
               decoration: const InputDecoration(labelText: 'Profil'),
-              items: [
-                DropdownMenuItem(
-                  value: Profiles.empty,
-                  child: Text(Profiles.empty.description),
+              items: profiles.entries.map<DropdownMenuItem<Profile>>(
+                (profile) => DropdownMenuItem<Profile>(
+                  value: profile.value,
+                  child: Text(profile.value.description)
                 ),
-                DropdownMenuItem(
-                  value: Profiles.cleaner,
-                  child: Text(Profiles.cleaner.description),
-                ),
-                DropdownMenuItem(
-                  value: Profiles.administrator,
-                  child: Text(Profiles.administrator.description),
-                ),
-              ],
+              ).toList(),
             ),
             _buildSwitchGroupLayout(model),
           ],

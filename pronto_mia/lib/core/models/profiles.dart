@@ -5,28 +5,22 @@ class Profile {
   final AccessControlList accessControlList;
 
   const Profile({this.description, this.accessControlList});
+
+  Profile.fromJson(Map<String, dynamic> json)
+      : description = profiles.entries.firstWhere(
+        (entry) => entry.value.accessControlList.isEqual(AccessControlList.fromJson(json)),
+        orElse: () => const MapEntry('custom', Profile(description: 'Benutzerdefiniert')),
+        ).value.description,
+        accessControlList = AccessControlList.fromJson(json);
 }
 
-// ignore: avoid_classes_with_only_static_members
-class Profiles {
-  static Profile empty = Profile(
+final profiles = {
+  'empty': Profile(
     description: 'Leer',
     accessControlList: AccessControlList(),
-  );
+  ),
 
-  static Profile administrator = Profile(
-    description: 'Administrator',
-    accessControlList: AccessControlList(
-      canViewDeploymentPlans: true,
-      canEditDeploymentPlans: true,
-      canViewUsers: true,
-      canEditUsers: true,
-      canViewDepartments: true,
-      canEditDepartments: true,
-    ),
-  );
-
-  static Profile cleaner = Profile(
+  'cleaner': Profile(
     description: 'Reinigungskraft',
     accessControlList: AccessControlList(
       canViewDeploymentPlans: true,
@@ -36,5 +30,17 @@ class Profiles {
       canViewDepartments: false,
       canEditDepartments: false,
     ),
-  );
-}
+  ),
+
+  'administrator': Profile(
+    description: 'Administrator',
+    accessControlList: AccessControlList(
+      canViewDeploymentPlans: true,
+      canEditDeploymentPlans: true,
+      canViewUsers: true,
+      canEditUsers: true,
+      canViewDepartments: true,
+      canEditDepartments: true,
+    ),
+  ),
+};

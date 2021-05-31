@@ -7,8 +7,14 @@ class Profile {
   const Profile({this.description, this.accessControlList});
 }
 
+// ignore: avoid_classes_with_only_static_members
 class Profiles {
-  static const Profile administrator = Profile(
+  static Profile empty = Profile(
+    description: 'Leer',
+    accessControlList: AccessControlList(),
+  );
+
+  static Profile administrator = Profile(
     description: 'Administrator',
     accessControlList: AccessControlList(
       canViewDeploymentPlans: true,
@@ -17,6 +23,18 @@ class Profiles {
       canEditUsers: true,
       canViewDepartments: true,
       canEditDepartments: true,
+    ),
+  );
+
+  static Profile cleaner = Profile(
+    description: 'Reinigungskraft',
+    accessControlList: AccessControlList(
+      canViewDeploymentPlans: true,
+      canEditDeploymentPlans: false,
+      canViewUsers: false,
+      canEditUsers: false,
+      canViewDepartments: false,
+      canEditDepartments: false,
     ),
   );
 }

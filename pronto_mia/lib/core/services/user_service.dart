@@ -1,6 +1,7 @@
 import 'package:logging/logging.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
+import 'package:pronto_mia/core/models/access_control_list.dart';
 import 'package:pronto_mia/core/queries/user_queries.dart';
 import 'package:pronto_mia/core/services/logging_service.dart';
 import 'package:pronto_mia/core/models/user.dart';
@@ -38,10 +39,11 @@ class UserService {
     return userList;
   }
 
-  Future<void> createUser(String userName, String password) async {
+  Future<void> createUser(String userName, String password, AccessControlList accessControlList) async {
     final queryVariables = {
       'userName': userName,
       'password': password,
+      'accessControlList': accessControlList.toJson(),
     };
     await (await _graphQLService).mutate(
       UserQueries.createUser,
@@ -49,11 +51,12 @@ class UserService {
     );
   }
 
-  Future<void> updateUser(int id, {String userName, String password}) async {
+  Future<void> updateUser(int id, {String userName, String password, AccessControlList accessControlList}) async {
     final queryVariables = {
       'id': id,
       'userName': userName,
       'password': password,
+      'accessControlList': accessControlList?.toJson(),
     };
     await (await _graphQLService).mutate(
       UserQueries.updateUser,

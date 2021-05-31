@@ -10,29 +10,28 @@ class UserQueries {
         }
         accessControlList {
           id
-          canEditDeploymentPlans
-          canEditUsers
           canViewDeploymentPlans
-          canViewUsers
+		      canEditDeploymentPlans
+		      canViewUsers
+		      canEditUsers
+		      canViewDepartments
+		      canEditDepartments
         }
       }
     }
   """;
 
   static const createUser = """
-    mutation createUser(\$userName: String!, \$password: String!) {
+    mutation createUser(
+      \$userName: String!, 
+      \$password: String!, 
+      \$accessControlList: AccessControlListInput!
+    ) {
       createUser(
         userName: \$userName,
         password: \$password,
         departmentId: 1,
-        accessControlList: {
-          canViewDeploymentPlans: true,
-		      canEditDeploymentPlans: true,
-		      canViewUsers: true,
-		      canEditUsers: true,
-		      canViewDepartments: true,
-		      canEditDepartments: true
-        }
+        accessControlList: \$accessControlList
       ) {
         id
       }
@@ -40,11 +39,17 @@ class UserQueries {
   """;
 
   static const updateUser = """
-     mutation updateUser(\$id: Int!, \$userName: String!, \$password: String!) {
+     mutation updateUser(
+      \$id: Int!, 
+      \$userName: String!, 
+      \$password: String!,
+      \$accessControlList: AccessControlListInput!
+    ) {
       updateUser(
         id: \$id,
         userName: \$userName,
         password: \$password,
+        accessControlList: \$accessControlList
       ) {
         id
       }

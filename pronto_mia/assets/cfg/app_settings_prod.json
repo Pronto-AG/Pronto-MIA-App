@@ -1,4 +1,4 @@
 {
-  "apiPath": "<uri>",
-  "enforceValidCertificate": true
+  "apiPath": "https://api.mia.pronto-ag.ch/graphql/",
+  "enforceValidCertificate": false
 }

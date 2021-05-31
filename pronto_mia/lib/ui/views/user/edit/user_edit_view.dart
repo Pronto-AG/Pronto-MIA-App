@@ -103,12 +103,13 @@ class UserEditView extends StatelessWidget with $UserEditView {
             DropdownButtonFormField<Profile>(
               onChanged: model.setProfile,
               decoration: const InputDecoration(labelText: 'Profil'),
-              items: profiles.entries.map<DropdownMenuItem<Profile>>(
-                (profile) => DropdownMenuItem<Profile>(
-                  value: profile.value,
-                  child: Text(profile.value.description)
-                ),
-              ).toList(),
+              items: profiles.entries
+                  .map<DropdownMenuItem<Profile>>(
+                    (profile) => DropdownMenuItem<Profile>(
+                        value: profile.value,
+                        child: Text(profile.value.description)),
+                  )
+                  .toList(),
             ),
             _buildSwitchGroupLayout(model),
           ],
@@ -130,40 +131,56 @@ class UserEditView extends StatelessWidget with $UserEditView {
       );
 
   Widget _buildFormSectionHeader(String title) => Row(
-    children: [
-      Text(
-        title,
-        style: const TextStyle(fontWeight: FontWeight.w600),
-      ),
-      const Expanded(
-        child: Padding(
-          padding: EdgeInsets.only(left: 8.0),
-          child: Divider(),
-        ),
-      ),
-    ],
-  );
+        children: [
+          Text(
+            title,
+            style: const TextStyle(fontWeight: FontWeight.w600),
+          ),
+          const Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(left: 8.0),
+              child: Divider(),
+            ),
+          ),
+        ],
+      );
 
-  Widget _buildSwitchGroupLayout(UserEditViewModel model) => Column(
-    children: [
-      _buildLabeledSwitch(model, 'Einsatzpläne ansehen', 'canViewDeploymentPlans', model.accessControlList.canViewDeploymentPlans),
-      _buildLabeledSwitch(model, 'Einsatzpläne verwalten', 'canEditDeploymentPlans', model.accessControlList.canEditDeploymentPlans),
-      _buildLabeledSwitch(model, 'Abteilungen ansehen', 'canViewDepartments', model.accessControlList.canViewDepartments),
-      _buildLabeledSwitch(model, 'Abteilungen verwalten', 'canEditDepartments', model.accessControlList.canEditDepartments),
-      _buildLabeledSwitch(model, 'Benutzer ansehen', 'canViewUsers', model.accessControlList.canViewUsers),
-      _buildLabeledSwitch(model, 'Benutzer verwalten', 'canEditUsers', model.accessControlList.canEditUsers),
-    ]
-  );
+  Widget _buildSwitchGroupLayout(UserEditViewModel model) => Column(children: [
+        _buildLabeledSwitch(
+            model,
+            'Einsatzpläne ansehen',
+            'canViewDeploymentPlans',
+            model.accessControlList.canViewDeploymentPlans),
+        _buildLabeledSwitch(
+            model,
+            'Einsatzpläne verwalten',
+            'canEditDeploymentPlans',
+            model.accessControlList.canEditDeploymentPlans),
+        _buildLabeledSwitch(model, 'Abteilungen ansehen', 'canViewDepartments',
+            model.accessControlList.canViewDepartments),
+        _buildLabeledSwitch(model, 'Abteilungen verwalten',
+            'canEditDepartments', model.accessControlList.canEditDepartments),
+        _buildLabeledSwitch(model, 'Benutzer ansehen', 'canViewUsers',
+            model.accessControlList.canViewUsers),
+        _buildLabeledSwitch(model, 'Benutzer verwalten', 'canEditUsers',
+            model.accessControlList.canEditUsers),
+      ]);
 
-  Widget _buildLabeledSwitch(UserEditViewModel model, String label, String key, bool value,) => Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      Text(label),
-      Switch(
-        value: value,
-        onChanged: (value) => model.modifyAccessControlList(key, value),
-        activeColor: CustomColors.secondary,
-      ),
-    ],
-  );
+  Widget _buildLabeledSwitch(
+    UserEditViewModel model,
+    String label,
+    String key,
+    bool value,
+  ) =>
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label),
+          Switch(
+            value: value,
+            onChanged: (value) => model.modifyAccessControlList(key, value),
+            activeColor: CustomColors.secondary,
+          ),
+        ],
+      );
 }

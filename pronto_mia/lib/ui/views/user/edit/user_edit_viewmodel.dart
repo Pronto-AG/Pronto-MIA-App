@@ -61,7 +61,8 @@ class UserEditViewModel extends FormViewModel {
         accessControlList.canEditUsers = value;
         break;
       default:
-        throw AssertionError('The provided access control list property is not supported.');
+        throw AssertionError(
+            'The provided access control list property is not supported.');
     }
     notifyListeners();
   }
@@ -77,7 +78,8 @@ class UserEditViewModel extends FormViewModel {
 
     if (user == null) {
       await runBusyFuture(
-        _userService.createUser(userNameValue, passwordValue, accessControlList),
+        _userService.createUser(
+            userNameValue, passwordValue, accessControlList),
         busyObject: editBusyKey,
       );
     } else {
@@ -86,7 +88,10 @@ class UserEditViewModel extends FormViewModel {
           user.id,
           userName: user.userName != userNameValue ? userNameValue : null,
           password: passwordValue != 'XXXXXX' ? passwordValue : null,
-          accessControlList: accessControlList.isEqual(user.profile.accessControlList) ? accessControlList : null,
+          accessControlList:
+              accessControlList.isEqual(user.profile.accessControlList)
+                  ? accessControlList
+                  : null,
         ),
         busyObject: editBusyKey,
       );

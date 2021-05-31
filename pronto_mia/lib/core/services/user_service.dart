@@ -23,7 +23,8 @@ class UserService {
     final queryVariables = {
       'id': userId,
     };
-    final data = await (await _graphQLService).query(UserQueries.userById, variables: queryVariables);
+    final data = await (await _graphQLService)
+        .query(UserQueries.userById, variables: queryVariables);
     final dtoList = data['users'] as List<Object>;
     final user = User.fromJson(dtoList.first as Map<String, dynamic>);
 
@@ -46,7 +47,8 @@ class UserService {
     return userList;
   }
 
-  Future<void> createUser(String userName, String password, AccessControlList accessControlList) async {
+  Future<void> createUser(String userName, String password,
+      AccessControlList accessControlList) async {
     final queryVariables = {
       'userName': userName,
       'password': password,
@@ -58,7 +60,10 @@ class UserService {
     );
   }
 
-  Future<void> updateUser(int id, {String userName, String password, AccessControlList accessControlList}) async {
+  Future<void> updateUser(int id,
+      {String userName,
+      String password,
+      AccessControlList accessControlList}) async {
     final queryVariables = {
       'id': id,
       'userName': userName,

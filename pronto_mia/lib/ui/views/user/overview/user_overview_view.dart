@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jdenticon_dart/jdenticon_dart.dart';
-import 'package:pronto_mia/core/models/profiles.dart';
 import 'package:stacked/stacked.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
@@ -78,12 +77,10 @@ class UserOverviewView extends StatelessWidget {
                   width: 48,
                 ),
                 title: Text(user.userName),
-                subtitle: Text(
-                  user.department != null
-                      ? '${user.department.name} - '
+                subtitle: Text(user.department != null
+                    ? '${user.department.name} - '
                         '${user.profile.description}'
-                      : user.profile.description
-                ),
+                    : user.profile.description),
                 onTap: () => model.editUser(
                   user: user,
                   asDialog: getValueForScreenType<bool>(

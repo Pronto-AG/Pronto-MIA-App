@@ -19,8 +19,10 @@ class AccessControlList {
 
   AccessControlList.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int,
-        canViewDeploymentPlans = json['canViewDeploymentPlans'] as bool ?? false,
-        canEditDeploymentPlans = json['canEditDeploymentPlans'] as bool ?? false,
+        canViewDeploymentPlans =
+            json['canViewDeploymentPlans'] as bool ?? false,
+        canEditDeploymentPlans =
+            json['canEditDeploymentPlans'] as bool ?? false,
         canViewUsers = json['canViewUsers'] as bool ?? false,
         canEditUsers = json['canEditUsers'] as bool ?? false,
         canViewDepartments = json['canViewDepartments'] as bool ?? false,
@@ -38,12 +40,12 @@ class AccessControlList {
   }
 
   bool isEqual(AccessControlList other) {
-    if (canViewDeploymentPlans == other.canViewDeploymentPlans
-    && canEditDeploymentPlans == other.canEditDeploymentPlans
-    && canViewDepartments == other.canViewDepartments
-    && canEditDepartments == other.canEditDepartments
-    && canViewUsers == other.canViewUsers
-    && canEditUsers == other.canEditUsers) {
+    if (canViewDeploymentPlans == other.canViewDeploymentPlans &&
+        canEditDeploymentPlans == other.canEditDeploymentPlans &&
+        canViewDepartments == other.canViewDepartments &&
+        canEditDepartments == other.canEditDepartments &&
+        canViewUsers == other.canViewUsers &&
+        canEditUsers == other.canEditUsers) {
       return true;
     } else {
       return false;

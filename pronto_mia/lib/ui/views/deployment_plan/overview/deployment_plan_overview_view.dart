@@ -44,11 +44,6 @@ class DeploymentPlanOverviewView extends StatelessWidget {
               icon: const Icon(Icons.search),
               onPressed: () {},
             ),
-            ActionSpecification(
-              tooltip: 'Filteroptionen anzeigen',
-              icon: const Icon(Icons.filter_list),
-              onPressed: () {},
-            ),
           ],
         ),
       );

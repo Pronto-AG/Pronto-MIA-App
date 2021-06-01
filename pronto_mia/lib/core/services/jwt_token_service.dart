@@ -68,16 +68,16 @@ class JwtTokenService {
     return tokenValid;
   }
 
-  Future<String> getUsername() async {
+  Future<String> getUserName() async {
     final token = await getToken();
-    String username;
+    String userName;
 
     if (await hasValidToken()) {
       final map = JwtDecoder.decode(token);
-      username = map[_nameClaimIdentifier] as String;
+      userName = map[_nameClaimIdentifier] as String;
     }
 
-    return username;
+    return userName;
   }
 
   Future<int> getUserId() async {

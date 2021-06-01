@@ -28,16 +28,16 @@ class AnalyzedErrorFactory {
       AnalyzedError analyzedError, OperationException error) {
     final serverException = error.linkException as ServerException;
 
-    if (serverException.parsedResponse == null ||
+    if (serverException == null ||
+        serverException.parsedResponse == null ||
         serverException.parsedResponse.errors == null ||
         serverException.parsedResponse.errors.isEmpty ||
         serverException.parsedResponse.errors.length > 1) {
       analyzedError.isUnknownError = true;
     }
 
-    analyzedError.graphQLErrorCode = serverException
-        .parsedResponse.errors.first.extensions["code"]
-        .toString();
+    analyzedError.graphQLErrorCode =
+        error.graphqlErrors.first.extensions["code"].toString();
 
     if (analyzedError.graphQLErrorCode == "AUTH_NOT_AUTHENTICATED") {
       analyzedError.isAuthenticationError = true;

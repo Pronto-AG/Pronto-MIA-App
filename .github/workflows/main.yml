@@ -131,7 +131,6 @@ jobs:
       run: flutter pub get
 
     - name: Import binary secrets
-      env:
       uses: timheuer/base64-to-file@v1
       with:
         fileName: 'android/upload-keystore.jks'

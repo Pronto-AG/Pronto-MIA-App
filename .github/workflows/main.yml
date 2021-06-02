@@ -125,22 +125,26 @@ jobs:
     - name: Import secrets
       env:
         ANDROID_GOOGLE_SERVICES: ${{ secrets.ANDROID_GOOGLE_SERVICES }}
+        ANDROID_UPLOAD_KEYSTORE: ${{ secrets.ANDROID_UPLOAD_KEYSTORE }}
+        ANDROID_KEY_PROPERTIES: ${{ secrets.ANDROID_KEY_PROPERTIES }}
         APP_SETTINGS: ${{ secrets.APP_SETTINGS }}
         APP_SETTINGS_PROD: ${{ secrets.APP_SETTINGS_PROD }}
       run: |
         echo "$ANDROID_GOOGLE_SERVICES" > android/app/google-services.json
+        echo "$ANDROID_UPLOAD_KEYSTORE" > android/upload-keystore.jks
+        echo "$ANDROID_KEY_PROPERTIES" > android/key.properties
         echo "$APP_SETTINGS" > assets/cfg/app_settings.json
         echo "$APP_SETTINGS_PROD" > assets/cfg/app_settings_prod.json
       
     - name: Build for android
-      run: flutter build apk
+      run: flutter build appbundle
 
     - name: Upload android build
       if: startsWith(github.ref, 'refs/tags/')
       uses: actions/upload-artifact@v2
       with:
         name: android-build
-        path: pronto_mia/build/app/outputs/apk/release/app-release.apk
+        path: pronto_mia/build/app/outputs/bundle\release\app-release.aab
         retention-days: 1
 
   build-web-docker-master:
@@ -287,7 +291,7 @@ jobs:
       with:
         body_path: CHANGELOG.md
         files: |
-          android-build/app-release.apk
+          android-build/app-release.aab
           test-coverage.zip
           code-documentation.zip
       env:

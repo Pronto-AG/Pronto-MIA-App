@@ -144,7 +144,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: android-build
-        path: pronto_mia/build/app/outputs/bundle\release\app-release.aab
+        path: pronto_mia/build/app/outputs/bundle/release/app-release.aab
         retention-days: 1
 
   build-web-docker-master:

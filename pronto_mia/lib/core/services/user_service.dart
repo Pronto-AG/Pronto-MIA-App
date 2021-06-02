@@ -1,6 +1,7 @@
 import 'package:logging/logging.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
+import 'package:pronto_mia/core/models/access_control_list.dart';
 import 'package:pronto_mia/core/queries/user_queries.dart';
 import 'package:pronto_mia/core/services/logging_service.dart';
 import 'package:pronto_mia/core/models/user.dart';
@@ -17,15 +18,23 @@ class UserService {
 
   Future<User> getCurrentUser() async {
     final userId = await (await _jwtTokenService).getUserId();
-    final userName = await (await _jwtTokenService).getUserName();
+    // final userName = await (await _jwtTokenService).getUserName();
 
-    if (userId == null || userName == null) {
+    final queryVariables = {
+      'id': userId,
+    };
+    final data = await (await _graphQLService)
+        .query(UserQueries.userById, variables: queryVariables);
+    final dtoList = data['users'] as List<Object>;
+    final user = User.fromJson(dtoList.first as Map<String, dynamic>);
+
+    if (userId == null) {
       (await _loggingService)
           .log("UserService", Level.WARNING, "No user could be fetched.");
       return null;
     }
 
-    return User(id: userId, userName: userName);
+    return user;
   }
 
   Future<List<User>> getUsers() async {
@@ -38,10 +47,12 @@ class UserService {
     return userList;
   }
 
-  Future<void> createUser(String userName, String password) async {
+  Future<void> createUser(String userName, String password,
+      AccessControlList accessControlList) async {
     final queryVariables = {
       'userName': userName,
       'password': password,
+      'accessControlList': accessControlList.toJson(),
     };
     await (await _graphQLService).mutate(
       UserQueries.createUser,
@@ -49,11 +60,15 @@ class UserService {
     );
   }
 
-  Future<void> updateUser(int id, {String userName, String password}) async {
+  Future<void> updateUser(int id,
+      {String userName,
+      String password,
+      AccessControlList accessControlList}) async {
     final queryVariables = {
       'id': id,
       'userName': userName,
       'password': password,
+      'accessControlList': accessControlList?.toJson(),
     };
     await (await _graphQLService).mutate(
       UserQueries.updateUser,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pronto_mia/core/models/profiles.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:jdenticon_dart/jdenticon_dart.dart';
 import 'package:stacked/stacked.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
@@ -70,13 +71,16 @@ class UserOverviewView extends StatelessWidget {
           children: [
             Expanded(
               child: ListTile(
-                title: Text(user.userName),
-                subtitle: Text(
-                  user.department != null
-                      ? '${user.department.name} - '
-                          '${Profiles.administrator.description}'
-                      : Profiles.administrator.description,
+                leading: SvgPicture.string(
+                  Jdenticon.toSvg(user.userName),
+                  height: 48,
+                  width: 48,
                 ),
+                title: Text(user.userName),
+                subtitle: Text(user.department != null
+                    ? '${user.department.name} - '
+                        '${user.profile.description}'
+                    : user.profile.description),
                 onTap: () => model.editUser(
                   user: user,
                   asDialog: getValueForScreenType<bool>(

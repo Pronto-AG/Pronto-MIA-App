@@ -29,6 +29,8 @@ class NavigationMenu extends StatelessWidget {
     final userName =
         model.data != null ? model.data.userName : 'Hans Mustermann';
     final userImage = Jdenticon.toSvg(userName);
+    final userProfile =
+        model.data != null ? model.data.profile.description : 'Benutzer';
 
     return ListTile(
       contentPadding: const EdgeInsets.only(left: 8.0),
@@ -38,7 +40,7 @@ class NavigationMenu extends StatelessWidget {
         width: 48,
       ),
       title: const Text("Benutzerprofil"),
-      subtitle: Text(userName),
+      subtitle: Text('$userName - $userProfile'),
     );
   }
 

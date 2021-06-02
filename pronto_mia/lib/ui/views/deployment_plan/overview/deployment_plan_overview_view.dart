@@ -8,6 +8,7 @@ import 'package:pronto_mia/ui/views/deployment_plan/overview/deployment_plan_ove
 import 'package:pronto_mia/core/models/deployment_plan.dart';
 import 'package:pronto_mia/ui/components/data_view_layout.dart';
 import 'package:pronto_mia/ui/components/navigation_layout.dart';
+import 'package:pronto_mia/ui/shared/custom_colors.dart';
 
 class DeploymentPlanOverviewView extends StatelessWidget {
   final bool adminModeEnabled;
@@ -126,6 +127,7 @@ class DeploymentPlanOverviewView extends StatelessWidget {
                 model.hideDeploymentPlan(deploymentPlan);
               }
             },
+            activeColor: CustomColors.secondary,
           )
         ]));
   }

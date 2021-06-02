@@ -5,10 +5,32 @@ class Profile {
   final AccessControlList accessControlList;
 
   const Profile({this.description, this.accessControlList});
+
+  Profile.fromJson(Map<String, dynamic> json)
+      : description = profiles.entries
+            .firstWhere(
+              (entry) => entry.value.accessControlList
+                  .isEqual(AccessControlList.fromJson(json)),
+              orElse: () => const MapEntry(
+                  'custom', Profile(description: 'Benutzerdefiniert')),
+            )
+            .value
+            .description,
+        accessControlList = AccessControlList.fromJson(json);
 }
 
-class Profiles {
-  static const Profile administrator = Profile(
+final profiles = {
+  'empty': Profile(
+    description: 'Leer',
+    accessControlList: AccessControlList(),
+  ),
+  'cleaner': Profile(
+    description: 'Reinigungskraft',
+    accessControlList: AccessControlList(
+      canViewDeploymentPlans: true,
+    ),
+  ),
+  'administrator': Profile(
     description: 'Administrator',
     accessControlList: AccessControlList(
       canViewDeploymentPlans: true,
@@ -18,5 +40,5 @@ class Profiles {
       canViewDepartments: true,
       canEditDepartments: true,
     ),
-  );
-}
+  ),
+};

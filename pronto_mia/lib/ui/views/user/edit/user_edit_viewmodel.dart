@@ -1,11 +1,13 @@
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/models/user.dart';
 import 'package:pronto_mia/ui/views/user/edit/user_edit_view.form.dart';
 import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/core/services/user_service.dart';
-import 'package:stacked_services/stacked_services.dart';
+import 'package:pronto_mia/core/models/access_control_list.dart';
+import 'package:pronto_mia/core/models/profiles.dart';
 
 class UserEditViewModel extends FormViewModel {
   static const contextIdentifier = 'UserEditViewModel';
@@ -19,12 +21,51 @@ class UserEditViewModel extends FormViewModel {
 
   final User user;
   final bool isDialog;
+  AccessControlList accessControlList =
+      AccessControlList.copy(profiles['empty'].accessControlList);
 
-  UserEditViewModel({this.user, this.isDialog = false});
+  UserEditViewModel({this.user, this.isDialog = false}) {
+    if (user != null) {
+      accessControlList = user.profile.accessControlList;
+    }
+  }
 
   @override
   void setFormStatus() {
     clearErrors();
+  }
+
+  void setAccessControlList(AccessControlList accessControlList) {
+    this.accessControlList = AccessControlList.copy(accessControlList);
+    notifyListeners();
+  }
+
+  // ignore: avoid_positional_boolean_parameters
+  void modifyAccessControlList(String key, bool value) {
+    switch (key) {
+      case 'canViewDeploymentPlans':
+        accessControlList.canViewDeploymentPlans = value;
+        break;
+      case 'canEditDeploymentPlans':
+        accessControlList.canEditDeploymentPlans = value;
+        break;
+      case 'canViewDepartments':
+        accessControlList.canViewDepartments = value;
+        break;
+      case 'canEditDepartments':
+        accessControlList.canEditDepartments = value;
+        break;
+      case 'canViewUsers':
+        accessControlList.canViewUsers = value;
+        break;
+      case 'canEditUsers':
+        accessControlList.canEditUsers = value;
+        break;
+      default:
+        throw AssertionError(
+            'The provided access control list property is not supported.');
+    }
+    notifyListeners();
   }
 
   Future<void> submitForm() async {
@@ -38,7 +79,8 @@ class UserEditViewModel extends FormViewModel {
 
     if (user == null) {
       await runBusyFuture(
-        _userService.createUser(userNameValue, passwordValue),
+        _userService.createUser(
+            userNameValue, passwordValue, accessControlList),
         busyObject: editBusyKey,
       );
     } else {
@@ -47,6 +89,10 @@ class UserEditViewModel extends FormViewModel {
           user.id,
           userName: user.userName != userNameValue ? userNameValue : null,
           password: passwordValue != 'XXXXXX' ? passwordValue : null,
+          accessControlList:
+              accessControlList.isEqual(user.profile.accessControlList)
+                  ? accessControlList
+                  : null,
         ),
         busyObject: editBusyKey,
       );
@@ -71,7 +117,7 @@ class UserEditViewModel extends FormViewModel {
       return 'Bitte Benutzernamen eingeben.';
     }
 
-    if (user == null || passwordValue == null || passwordValue.isEmpty) {
+    if (user == null && (passwordValue == null || passwordValue.isEmpty)) {
       return 'Bitte Passwort eingeben.';
     }
 

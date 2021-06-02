@@ -130,16 +130,21 @@ jobs:
     - name: Install dependencies
       run: flutter pub get
 
+    - name: Import binary secrets
+      env:
+      uses: timheuer/base64-to-file@v1
+      with:
+        fileName: 'android/upload-keystore.jks'
+        encodedString: ${{ secrets.ANDROID_UPLOAD_KEYSTORE }}
+
     - name: Import secrets
       env:
         ANDROID_GOOGLE_SERVICES: ${{ secrets.ANDROID_GOOGLE_SERVICES }}
-        ANDROID_UPLOAD_KEYSTORE: ${{ secrets.ANDROID_UPLOAD_KEYSTORE }}
         ANDROID_KEY_PROPERTIES: ${{ secrets.ANDROID_KEY_PROPERTIES }}
         APP_SETTINGS: ${{ secrets.APP_SETTINGS }}
         APP_SETTINGS_PROD: ${{ secrets.APP_SETTINGS_PROD }}
       run: |
         echo "$ANDROID_GOOGLE_SERVICES" > android/app/google-services.json
-        echo "$ANDROID_UPLOAD_KEYSTORE" > android/upload-keystore.jks
         echo "$ANDROID_KEY_PROPERTIES" > android/key.properties
         echo "$APP_SETTINGS" > assets/cfg/app_settings.json
         echo "$APP_SETTINGS_PROD" > assets/cfg/app_settings_prod.json

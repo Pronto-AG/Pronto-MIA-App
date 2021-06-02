@@ -102,15 +102,16 @@ class UserEditView extends StatelessWidget with $UserEditView {
             _buildFormSectionHeader('Berechtigungen'),
             DropdownButtonFormField<Profile>(
               value: user != null
-                ? profiles.entries.firstWhere(
-                    (element) => element
-                        .value
-                        .accessControlList
-                        .isEqual(user.profile.accessControlList),
-                    orElse: () => null,
-                  )?.value
-                : null,
-              onChanged: (profile) => model.setAccessControlList(profile.accessControlList),
+                  ? profiles.entries
+                      .firstWhere(
+                        (element) => element.value.accessControlList
+                            .isEqual(user.profile.accessControlList),
+                        orElse: () => null,
+                      )
+                      ?.value
+                  : null,
+              onChanged: (profile) =>
+                  model.setAccessControlList(profile.accessControlList),
               decoration: const InputDecoration(labelText: 'Profil'),
               items: profiles.entries
                   .map<DropdownMenuItem<Profile>>(

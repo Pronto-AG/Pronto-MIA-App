@@ -21,7 +21,8 @@ class UserEditViewModel extends FormViewModel {
 
   final User user;
   final bool isDialog;
-  AccessControlList accessControlList = AccessControlList.copy(profiles['empty'].accessControlList);
+  AccessControlList accessControlList =
+      AccessControlList.copy(profiles['empty'].accessControlList);
 
   UserEditViewModel({this.user, this.isDialog = false}) {
     if (user != null) {

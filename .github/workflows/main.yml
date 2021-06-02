@@ -129,11 +129,11 @@ jobs:
 
     - name: Install dependencies
       run: flutter pub get
-
+      
     - name: Import binary secrets
-      uses: timheuer/base64-to-file@v1
+      uses: RollyPeres/base64-to-path@v1
       with:
-        fileName: 'pronto_mia/android/upload-keystore.jks'
+        filePath: ${{ github.workspace }}/pronto_mia/android/upload-keystore.jks
         encodedString: ${{ secrets.ANDROID_UPLOAD_KEYSTORE }}
     
     - name: Show directory structure

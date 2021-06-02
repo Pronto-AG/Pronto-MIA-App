@@ -21,7 +21,7 @@ class UserEditViewModel extends FormViewModel {
 
   final User user;
   final bool isDialog;
-  AccessControlList accessControlList = profiles['empty'].accessControlList;
+  AccessControlList accessControlList = AccessControlList.copy(profiles['empty'].accessControlList);
 
   UserEditViewModel({this.user, this.isDialog = false}) {
     if (user != null) {
@@ -34,8 +34,8 @@ class UserEditViewModel extends FormViewModel {
     clearErrors();
   }
 
-  void setProfile(Profile profile) {
-    accessControlList = profile.accessControlList;
+  void setAccessControlList(AccessControlList accessControlList) {
+    this.accessControlList = AccessControlList.copy(accessControlList);
     notifyListeners();
   }
 

@@ -17,6 +17,15 @@ class AccessControlList {
     this.canEditDepartments = false,
   });
 
+  AccessControlList.copy(AccessControlList toCopy)
+    : id = toCopy.id,
+      canViewDeploymentPlans = toCopy.canViewDeploymentPlans,
+      canEditDeploymentPlans = toCopy.canEditDeploymentPlans,
+      canViewUsers = toCopy.canViewUsers,
+      canEditUsers = toCopy.canEditUsers,
+      canViewDepartments = toCopy.canViewDepartments,
+      canEditDepartments = toCopy.canEditDepartments;
+
   AccessControlList.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int,
         canViewDeploymentPlans =

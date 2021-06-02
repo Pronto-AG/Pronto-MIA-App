@@ -135,6 +135,11 @@ jobs:
       with:
         fileName: 'pronto_mia/android/upload-keystore.jks'
         encodedString: ${{ secrets.ANDROID_UPLOAD_KEYSTORE }}
+    
+    - name: Show directory structure
+      run: |
+        cd ..
+        ls -R
 
     - name: Import secrets
       env:

@@ -133,7 +133,7 @@ jobs:
     - name: Import binary secrets
       uses: timheuer/base64-to-file@v1
       with:
-        fileName: 'android/upload-keystore.jks'
+        fileName: 'pronto_mia/android/upload-keystore.jks'
         encodedString: ${{ secrets.ANDROID_UPLOAD_KEYSTORE }}
 
     - name: Import secrets

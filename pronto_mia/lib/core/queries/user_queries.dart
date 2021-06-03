@@ -5,15 +5,22 @@ class UserQueries {
         id
         userName
         department {
+          id
           name
         }
         accessControlList {
           canViewDeploymentPlans
+          canViewDepartmentDeploymentPlans
 		      canEditDeploymentPlans
+		      canEditDepartmentDeploymentPlans
 		      canViewUsers
+		      canViewDepartmentUsers
 		      canEditUsers
+		      canEditDepartmentUsers
 		      canViewDepartments
+		      canViewOwnDepartment
 		      canEditDepartments
+		      canEditOwnDepartment
         }
       }
     }
@@ -31,15 +38,22 @@ class UserQueries {
         id
         userName
         department {
+          id
           name
         }
         accessControlList {
           canViewDeploymentPlans
-          canEditDeploymentPlans
-          canViewUsers
-          canEditUsers
-          canViewDepartments
-          canEditDepartments
+          canViewDepartmentDeploymentPlans
+		      canEditDeploymentPlans
+		      canEditDepartmentDeploymentPlans
+		      canViewUsers
+		      canViewDepartmentUsers
+		      canEditUsers
+		      canEditDepartmentUsers
+		      canViewDepartments
+		      canViewOwnDepartment
+		      canEditDepartments
+		      canEditOwnDepartment
         }
       }
     }
@@ -49,12 +63,13 @@ class UserQueries {
     mutation createUser(
       \$userName: String!, 
       \$password: String!, 
+      \$departmentId: Int!,
       \$accessControlList: AccessControlListInput!
     ) {
       createUser(
         userName: \$userName,
         password: \$password,
-        departmentId: 1,
+        departmentId: \$departmentId,
         accessControlList: \$accessControlList
       ) {
         id
@@ -65,14 +80,16 @@ class UserQueries {
   static const updateUser = """
      mutation updateUser(
       \$id: Int!, 
-      \$userName: String!, 
-      \$password: String!,
-      \$accessControlList: AccessControlListInput!
+      \$userName: String, 
+      \$password: String,
+      \$departmentId: Int,
+      \$accessControlList: AccessControlListInput
     ) {
       updateUser(
         id: \$id,
         userName: \$userName,
         password: \$password,
+        departmentId: \$departmentId,
         accessControlList: \$accessControlList
       ) {
         id

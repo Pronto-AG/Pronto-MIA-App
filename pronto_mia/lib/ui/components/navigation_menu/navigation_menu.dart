@@ -6,6 +6,7 @@ import 'package:stacked/stacked.dart';
 import 'package:pronto_mia/ui/views/deployment_plan/overview/deployment_plan_overview_view.dart';
 import 'package:pronto_mia/ui/components/navigation_menu/navigation_menu_viewmodel.dart';
 import 'package:pronto_mia/ui/views/user/overview/user_overview_view.dart';
+import 'package:pronto_mia/ui/views/department/overview/department_overview_view.dart';
 
 class NavigationMenu extends StatelessWidget {
   @override
@@ -75,6 +76,11 @@ class NavigationMenu extends StatelessWidget {
         'Administration',
         [
           ListTile(
+            leading: const Icon(Icons.people),
+            title: const Text('Abteilungsverwaltung'),
+            onTap: () => model.navigateTo(const DepartmentOverviewView()),
+          ),
+          ListTile(
             leading: const Icon(Icons.today),
             title: const Text('Einsatzplanverwaltung'),
             onTap: () => model.navigateTo(
@@ -94,7 +100,7 @@ class NavigationMenu extends StatelessWidget {
             title: Text('Newsverwaltung'),
           ),
           ListTile(
-            leading: const Icon(Icons.people),
+            leading: const Icon(Icons.person),
             title: const Text('Benutzerverwaltung'),
             onTap: () => model.navigateTo(const UserOverviewView()),
           ),

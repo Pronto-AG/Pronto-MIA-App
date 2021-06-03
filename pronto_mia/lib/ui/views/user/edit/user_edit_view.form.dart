@@ -18,6 +18,7 @@ mixin $UserEditView on StatelessWidget {
     userNameController.addListener(() => _updateFormData(model));
     passwordController.addListener(() => _updateFormData(model));
     passwordConfirmController.addListener(() => _updateFormData(model));
+    _updateFormData(model);
   }
 
   void _updateFormData(FormViewModel model) => model.setData({

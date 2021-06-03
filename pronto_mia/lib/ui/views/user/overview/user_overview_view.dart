@@ -67,31 +67,25 @@ class UserOverviewView extends StatelessWidget {
     User user,
   ) =>
       Card(
-        child: Row(
-          children: [
-            Expanded(
-              child: ListTile(
-                leading: SvgPicture.string(
-                  Jdenticon.toSvg(user.userName),
-                  height: 48,
-                  width: 48,
-                ),
-                title: Text(user.userName),
-                subtitle: Text(user.department != null
-                    ? '${user.department.name} - '
-                        '${user.profile.description}'
-                    : user.profile.description),
-                onTap: () => model.editUser(
-                  user: user,
-                  asDialog: getValueForScreenType<bool>(
-                    context: context,
-                    mobile: false,
-                    desktop: true,
-                  ),
-                ),
-              ),
+        child: ListTile(
+          leading: SvgPicture.string(
+            Jdenticon.toSvg(user.userName),
+            height: 48,
+            width: 48,
+          ),
+          title: Text(user.userName),
+          subtitle: Text(user.department != null
+              ? '${user.department.name} - '
+                  '${user.profile.description}'
+              : user.profile.description),
+          onTap: () => model.editUser(
+            user: user,
+            asDialog: getValueForScreenType<bool>(
+              context: context,
+              mobile: false,
+              desktop: true,
             ),
-          ],
+          ),
         ),
       );
 }

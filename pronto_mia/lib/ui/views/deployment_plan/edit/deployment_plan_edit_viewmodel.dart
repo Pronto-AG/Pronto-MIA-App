@@ -8,22 +8,28 @@ import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/ui/views/deployment_plan/edit/deployment_plan_edit_view.form.dart';
 import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/core/models/deployment_plan.dart';
+import 'package:pronto_mia/core/models/department.dart';
+import 'package:pronto_mia/core/services/department_service.dart';
 
 class DeploymentPlanEditViewModel extends FormViewModel {
-  static String contextIdentifier = "DeploymentPlanEditViewModel";
+  static const contextIdentifier = "DeploymentPlanEditViewModel";
+  static const editBusyKey = 'edit-busy-key';
+  static const removeBusyKey = 'remove-busy-key';
 
+  DepartmentService get _departmentService => locator.get<DepartmentService>();
   DeploymentPlanService get _deploymentPlanService =>
       locator.get<DeploymentPlanService>();
   NavigationService get _navigationService => locator.get<NavigationService>();
   DialogService get _dialogService => locator.get<DialogService>();
   ErrorService get _errorService => locator.get<ErrorService>();
 
-  final String editBusyKey = 'edit-busy-key';
-  final String removeBusyKey = 'remove-busy-key';
-
-  final DeploymentPlan deploymentPlan;
   final bool isDialog;
+  final DeploymentPlan deploymentPlan;
 
+  List<Department> get availableDepartments => _availableDepartments;
+  List<Department> _availableDepartments;
+  Department get department => _department;
+  Department _department;
   SimpleFile get pdfFile => _pdfFile;
   SimpleFile _pdfFile;
 
@@ -34,6 +40,16 @@ class DeploymentPlanEditViewModel extends FormViewModel {
 
   @override
   void setFormStatus() {}
+
+  Future<void> fetchDepartments() async {
+    _availableDepartments = await _departmentService.getDepartments();
+    notifyListeners();
+  }
+
+  void setDepartment(Department department) {
+    _department = department;
+    notifyListeners();
+  }
 
   void setPdfUpload(SimpleFile fileUpload) {
     _pdfFile = fileUpload;
@@ -61,12 +77,8 @@ class DeploymentPlanEditViewModel extends FormViewModel {
 
     if (deploymentPlan == null) {
       await runBusyFuture(
-        _deploymentPlanService.createDeploymentPlan(
-          descriptionValue,
-          availableFrom,
-          availableUntil,
-          _pdfFile,
-        ),
+        _deploymentPlanService.createDeploymentPlan(descriptionValue,
+            availableFrom, availableUntil, _pdfFile, _department.id),
         busyObject: editBusyKey,
       );
     } else {
@@ -85,6 +97,9 @@ class DeploymentPlanEditViewModel extends FormViewModel {
                   ? availableUntil
                   : null,
           pdfFile: _pdfFile,
+          departmentId: department.id != deploymentPlan.department.id
+              ? department.id
+              : null,
         ),
         busyObject: editBusyKey,
       );
@@ -139,6 +154,10 @@ class DeploymentPlanEditViewModel extends FormViewModel {
       return 'Das Startdatum muss vor dem Enddatum liegen.';
     }
 
+    if (department == null) {
+      return 'Bitte Abteilung auswählen.';
+    }
+
     if (pdfPathValue == null || pdfPathValue.isEmpty) {
       return 'Bitte Einsatzplan als PDF-Datei hochladen.';
     }
@@ -151,6 +170,6 @@ class DeploymentPlanEditViewModel extends FormViewModel {
   }
 
   String getDeploymentPlanSubtitle(DeploymentPlan deploymentPlan) {
-    return _deploymentPlanService.getDeploymentPlanSubtitle(deploymentPlan);
+    return _deploymentPlanService.getDeploymentPlanAvailability(deploymentPlan);
   }
 }

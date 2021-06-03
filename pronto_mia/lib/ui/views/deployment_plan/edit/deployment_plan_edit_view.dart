@@ -11,6 +11,7 @@ import 'package:pronto_mia/ui/shared/custom_colors.dart';
 import 'package:pronto_mia/core/models/deployment_plan.dart';
 import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/ui/components/form_layout.dart';
+import 'package:pronto_mia/core/models/department.dart';
 
 class DeploymentPlanEditView extends StatelessWidget
     with $DeploymentPlanEditView {
@@ -59,7 +60,14 @@ class DeploymentPlanEditView extends StatelessWidget
           deploymentPlan: deploymentPlan,
           isDialog: isDialog,
         ),
-        onModelReady: (model) => listenToFormUpdated(model),
+        onModelReady: (model) {
+          listenToFormUpdated(model);
+          model.fetchDepartments();
+
+          if (deploymentPlan != null) {
+            model.setDepartment(deploymentPlan.department);
+          }
+        },
         builder: (context, model, child) {
           if (isDialog) {
             return _buildDialogLayout(model);
@@ -136,6 +144,24 @@ class DeploymentPlanEditView extends StatelessWidget
               dateMask: 'dd.MM.yyyy HH:mm',
               dateLabelText: 'Gültig bis*',
             ),
+            DropdownButtonFormField<Department>(
+                value:
+                    deploymentPlan != null && model.availableDepartments != null
+                        ? model.availableDepartments.firstWhere(
+                            (department) =>
+                                department.id == deploymentPlan.department.id,
+                            orElse: () => null)
+                        : null,
+                onChanged: model.setDepartment,
+                decoration: const InputDecoration(labelText: 'Abteilung'),
+                items: model.availableDepartments
+                    ?.map<DropdownMenuItem<Department>>(
+                      (department) => DropdownMenuItem<Department>(
+                        value: department,
+                        child: Text(department.name),
+                      ),
+                    )
+                    ?.toList()),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -164,14 +190,14 @@ class DeploymentPlanEditView extends StatelessWidget
           primaryButton: ButtonSpecification(
             title: 'Speichern',
             onTap: model.submitForm,
-            isBusy: model.busy(model.editBusyKey),
+            isBusy: model.busy(DeploymentPlanEditViewModel.editBusyKey),
           ),
           secondaryButton: (() {
             if (deploymentPlan != null) {
               return ButtonSpecification(
                 title: 'Löschen',
                 onTap: model.removeDeploymentPlan,
-                isBusy: model.busy(model.removeBusyKey),
+                isBusy: model.busy(DeploymentPlanEditViewModel.removeBusyKey),
                 isDestructive: true,
               );
             }

@@ -135,7 +135,7 @@ class DeploymentPlanOverviewViewModel
   }
 
   String getDeploymentPlanSubtitle(DeploymentPlan deploymentPlan) {
-    return _deploymentPlanService.getDeploymentPlanSubtitle(deploymentPlan);
+    return _deploymentPlanService.getDeploymentPlanAvailability(deploymentPlan);
   }
 
   void _notifyDataChanged() {

@@ -8,6 +8,10 @@ class DeploymentPlanQueries {
         availableUntil
         link
         published
+        department {
+          id
+          name
+        }
       }
     }
   """;
@@ -26,6 +30,11 @@ class DeploymentPlanQueries {
         availableFrom
         availableUntil
         link
+        published
+        department {
+          id
+          name
+        }
       }
     }
   """;
@@ -48,22 +57,28 @@ class DeploymentPlanQueries {
         availableUntil
         link
         published
+        department {
+          id
+          name
+        }
       }
     }
   """;
 
-  static const addDeploymentPlan = """
-    mutation addDeploymentPlan(
+  static const createDeploymentPlan = """
+    mutation createDeploymentPlan(
       \$description: String,
       \$file: Upload!,
       \$availableFrom: DateTime!,
       \$availableUntil: DateTime!
+      \$departmentId: Int!,
     ) {
-      addDeploymentPlan(
+      createDeploymentPlan(
         description: \$description,
         file: \$file,
         availableFrom: \$availableFrom,
         availableUntil: \$availableUntil
+        departmentId: \$departmentId,
       ) {
         id
       }
@@ -77,6 +92,7 @@ class DeploymentPlanQueries {
       \$file: Upload,
       \$availableFrom: DateTime,
       \$availableUntil: DateTime
+      \$departmentId: Int,
     ) {
       updateDeploymentPlan(
         id: \$id,
@@ -84,6 +100,7 @@ class DeploymentPlanQueries {
         file: \$file,
         availableFrom: \$availableFrom,
         availableUntil: \$availableUntil,
+        departmentId: \$departmentId,
       ) {
         id
       }

@@ -1,9 +1,11 @@
+import 'package:pronto_mia/core/models/department.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/models/user.dart';
 import 'package:pronto_mia/ui/views/user/edit/user_edit_view.form.dart';
+import 'package:pronto_mia/core/services/department_service.dart';
 import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/core/services/user_service.dart';
 import 'package:pronto_mia/core/models/access_control_list.dart';
@@ -14,19 +16,27 @@ class UserEditViewModel extends FormViewModel {
   static const editBusyKey = 'edit-busy-key';
   static const removeBusyKey = 'remove-busy-key';
 
+  DepartmentService get _departmentService => locator.get<DepartmentService>();
   UserService get _userService => locator.get<UserService>();
   ErrorService get _errorService => locator.get<ErrorService>();
   DialogService get _dialogService => locator.get<DialogService>();
   NavigationService get _navigationService => locator.get<NavigationService>();
 
-  final User user;
   final bool isDialog;
-  AccessControlList accessControlList =
+  final User user;
+
+  List<Department> get availableDepartments => _availableDepartments;
+  List<Department> _availableDepartments;
+  Department get department => _department;
+  Department _department;
+  AccessControlList get accessControlList => _accessControlList;
+  AccessControlList _accessControlList =
       AccessControlList.copy(profiles['empty'].accessControlList);
+
 
   UserEditViewModel({this.user, this.isDialog = false}) {
     if (user != null) {
-      accessControlList = user.profile.accessControlList;
+      _accessControlList = user.profile.accessControlList;
     }
   }
 
@@ -35,8 +45,18 @@ class UserEditViewModel extends FormViewModel {
     clearErrors();
   }
 
+  Future<void> fetchDepartments() async {
+    _availableDepartments = await _departmentService.getDepartments();
+    notifyListeners();
+  }
+
+  void setDepartment(Department department) {
+    _department = department;
+    notifyListeners();
+  }
+
   void setAccessControlList(AccessControlList accessControlList) {
-    this.accessControlList = AccessControlList.copy(accessControlList);
+    _accessControlList = AccessControlList.copy(accessControlList);
     notifyListeners();
   }
 
@@ -80,7 +100,11 @@ class UserEditViewModel extends FormViewModel {
     if (user == null) {
       await runBusyFuture(
         _userService.createUser(
-            userNameValue, passwordValue, accessControlList),
+          userNameValue,
+          passwordValue,
+          department.id,
+          accessControlList,
+        ),
         busyObject: editBusyKey,
       );
     } else {
@@ -89,10 +113,11 @@ class UserEditViewModel extends FormViewModel {
           user.id,
           userName: user.userName != userNameValue ? userNameValue : null,
           password: passwordValue != 'XXXXXX' ? passwordValue : null,
+          departmentId: department.id,
           accessControlList:
               accessControlList.isEqual(user.profile.accessControlList)
-                  ? accessControlList
-                  : null,
+                  ? null
+                  : accessControlList,
         ),
         busyObject: editBusyKey,
       );
@@ -117,12 +142,16 @@ class UserEditViewModel extends FormViewModel {
       return 'Bitte Benutzernamen eingeben.';
     }
 
-    if (user == null && (passwordValue == null || passwordValue.isEmpty)) {
+    if (passwordValue == null || passwordValue.isEmpty) {
       return 'Bitte Passwort eingeben.';
     }
 
     if (passwordValue != passwordConfirmValue) {
       return 'Die angegebenen Passwörter stimmen nicht überein.';
+    }
+
+    if (department == null) {
+      return 'Bitte Abteilung auswählen.';
     }
 
     return null;

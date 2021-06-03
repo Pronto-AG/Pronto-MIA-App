@@ -24,6 +24,7 @@ mixin $DeploymentPlanEditView on StatelessWidget {
     availableFromController.addListener(() => _updateFormData(model));
     availableUntilController.addListener(() => _updateFormData(model));
     pdfPathController.addListener(() => _updateFormData(model));
+    _updateFormData(model);
   }
 
   /// Updates the formData on the FormViewModel
@@ -38,8 +39,6 @@ mixin $DeploymentPlanEditView on StatelessWidget {
 
   /// Calls dispose on all the generated controllers and focus nodes
   void disposeForm() {
-    // The dispose function for a TextEditingController sets all listeners to null
-
     descriptionController.dispose();
     availableFromController.dispose();
     availableUntilController.dispose();

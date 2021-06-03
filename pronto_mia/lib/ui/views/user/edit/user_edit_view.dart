@@ -7,6 +7,7 @@ import 'package:pronto_mia/ui/views/user/edit/user_edit_viewmodel.dart';
 import 'package:pronto_mia/ui/components/form_layout.dart';
 import 'package:pronto_mia/core/models/profiles.dart';
 import 'package:pronto_mia/ui/shared/custom_colors.dart';
+import 'package:pronto_mia/core/models/department.dart';
 
 class UserEditView extends StatelessWidget with $UserEditView {
   final _formKey = GlobalKey<FormState>();
@@ -32,7 +33,10 @@ class UserEditView extends StatelessWidget with $UserEditView {
           user: user,
           isDialog: isDialog,
         ),
-        onModelReady: (model) => listenToFormUpdated(model),
+        onModelReady: (model) {
+          listenToFormUpdated(model);
+          model.fetchDepartments();
+        },
         builder: (context, model, child) {
           if (isDialog) {
             return _buildDialogLayout(model);
@@ -99,12 +103,29 @@ class UserEditView extends StatelessWidget with $UserEditView {
               decoration:
                   const InputDecoration(labelText: 'Passwort bestätigen'),
             ),
+            DropdownButtonFormField<Department>(
+              value: user != null && user.department != null && model.availableDepartments != null
+                ? model.availableDepartments
+                  .firstWhere(
+                    (department) => department.id == user.department.id,
+                    orElse: () => null,
+                  )
+                : null,
+              onChanged: model.setDepartment,
+              decoration: const InputDecoration(labelText: 'Abteilung'),
+              items: model.availableDepartments?.map<DropdownMenuItem<Department>>(
+                  (department) => DropdownMenuItem<Department>(
+                    value: department,
+                    child: Text(department.name),
+                  ),
+              )?.toList()
+            ),
             _buildFormSectionHeader('Berechtigungen'),
             DropdownButtonFormField<Profile>(
               value: user != null
                   ? profiles.entries
                       .firstWhere(
-                        (element) => element.value.accessControlList
+                        (profile) => profile.value.accessControlList
                             .isEqual(user.profile.accessControlList),
                         orElse: () => null,
                       )
@@ -117,9 +138,9 @@ class UserEditView extends StatelessWidget with $UserEditView {
                   .map<DropdownMenuItem<Profile>>(
                     (profile) => DropdownMenuItem<Profile>(
                         value: profile.value,
-                        child: Text(profile.value.description)),
-                  )
-                  .toList(),
+                        child: Text(profile.value.description),
+                    ),
+                  ).toList(),
             ),
             _buildSwitchGroupLayout(model),
           ],

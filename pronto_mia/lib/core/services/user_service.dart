@@ -18,7 +18,6 @@ class UserService {
 
   Future<User> getCurrentUser() async {
     final userId = await (await _jwtTokenService).getUserId();
-    // final userName = await (await _jwtTokenService).getUserName();
 
     final queryVariables = {
       'id': userId,
@@ -47,11 +46,16 @@ class UserService {
     return userList;
   }
 
-  Future<void> createUser(String userName, String password,
-      AccessControlList accessControlList) async {
+  Future<void> createUser(
+    String userName,
+    String password,
+    int departmentId,
+    AccessControlList accessControlList,
+  ) async {
     final queryVariables = {
       'userName': userName,
       'password': password,
+      'departmentId': departmentId,
       'accessControlList': accessControlList.toJson(),
     };
     await (await _graphQLService).mutate(
@@ -63,11 +67,13 @@ class UserService {
   Future<void> updateUser(int id,
       {String userName,
       String password,
-      AccessControlList accessControlList}) async {
+      int departmentId,
+      AccessControlList accessControlList,}) async {
     final queryVariables = {
       'id': id,
       'userName': userName,
       'password': password,
+      'departmentId': departmentId,
       'accessControlList': accessControlList?.toJson(),
     };
     await (await _graphQLService).mutate(

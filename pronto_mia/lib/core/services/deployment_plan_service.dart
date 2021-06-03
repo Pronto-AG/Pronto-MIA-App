@@ -71,11 +71,13 @@ class DeploymentPlanService with ChangeNotifier {
     DateTime availableFrom,
     DateTime availableUntil,
     SimpleFile pdfFile,
+    int departmentId,
   ) async {
     final Map<String, dynamic> queryVariables = {
       'description': description,
       'availableFrom': availableFrom.toIso8601String(),
       'availableUntil': availableUntil.toIso8601String(),
+      'departmentId': departmentId,
     };
 
     queryVariables['file'] = MultipartFile.fromBytes(
@@ -86,7 +88,7 @@ class DeploymentPlanService with ChangeNotifier {
     );
 
     await (await _graphQLService).mutate(
-      DeploymentPlanQueries.addDeploymentPlan,
+      DeploymentPlanQueries.createDeploymentPlan,
       variables: queryVariables,
     );
   }
@@ -97,12 +99,14 @@ class DeploymentPlanService with ChangeNotifier {
     DateTime availableFrom,
     DateTime availableUntil,
     SimpleFile pdfFile,
+    int departmentId,
   }) async {
     final queryVariables = {
       'id': id,
       'description': description,
       'availableFrom': availableFrom,
       'availableUntil': availableUntil,
+      'departmentId': departmentId,
     };
 
     if (pdfFile != null) {
@@ -190,7 +194,7 @@ class DeploymentPlanService with ChangeNotifier {
     return PdfView(
       pdfFile: deploymentPlan.link,
       title: getDeploymentPlanTitle(deploymentPlan),
-      subTitle: getDeploymentPlanSubtitle(deploymentPlan),
+      subTitle: getDeploymentPlanAvailability(deploymentPlan),
     );
   }
 
@@ -202,7 +206,7 @@ class DeploymentPlanService with ChangeNotifier {
         'Einsatzplan $availableFromDateFormatted';
   }
 
-  String getDeploymentPlanSubtitle(DeploymentPlan deploymentPlan) {
+  String getDeploymentPlanAvailability(DeploymentPlan deploymentPlan) {
     final dateTimeFormat = DateFormat('dd.MM.yyyy HH:mm');
     final availableFromFormatted =
         dateTimeFormat.format(deploymentPlan.availableFrom);

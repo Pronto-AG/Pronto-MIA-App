@@ -77,13 +77,8 @@ class DeploymentPlanEditViewModel extends FormViewModel {
 
     if (deploymentPlan == null) {
       await runBusyFuture(
-        _deploymentPlanService.createDeploymentPlan(
-          descriptionValue,
-          availableFrom,
-          availableUntil,
-          _pdfFile,
-          _department.id
-        ),
+        _deploymentPlanService.createDeploymentPlan(descriptionValue,
+            availableFrom, availableUntil, _pdfFile, _department.id),
         busyObject: editBusyKey,
       );
     } else {
@@ -102,7 +97,9 @@ class DeploymentPlanEditViewModel extends FormViewModel {
                   ? availableUntil
                   : null,
           pdfFile: _pdfFile,
-          departmentId: department.id != deploymentPlan.department.id ? department.id : null,
+          departmentId: department.id != deploymentPlan.department.id
+              ? department.id
+              : null,
         ),
         busyObject: editBusyKey,
       );

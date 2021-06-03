@@ -64,11 +64,13 @@ class UserService {
     );
   }
 
-  Future<void> updateUser(int id,
-      {String userName,
-      String password,
-      int departmentId,
-      AccessControlList accessControlList,}) async {
+  Future<void> updateUser(
+    int id, {
+    String userName,
+    String password,
+    int departmentId,
+    AccessControlList accessControlList,
+  }) async {
     final queryVariables = {
       'id': id,
       'userName': userName,

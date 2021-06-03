@@ -29,7 +29,8 @@ class DepartmentOverviewViewModel extends FutureViewModel<List<Department>> {
     notifyListeners();
   }
 
-  Future<void> editDepartment({Department department, bool asDialog = false}) async {
+  Future<void> editDepartment(
+      {Department department, bool asDialog = false}) async {
     bool dataHasChanged;
 
     if (asDialog) {
@@ -39,7 +40,8 @@ class DepartmentOverviewViewModel extends FutureViewModel<List<Department>> {
       );
       dataHasChanged = dialogResponse.confirmed;
     } else {
-      final navigationResponse = await _navigationService.navigateWithTransition(
+      final navigationResponse =
+          await _navigationService.navigateWithTransition(
         DepartmentEditView(department: department),
       );
       dataHasChanged = navigationResponse is bool && navigationResponse == true;

@@ -39,24 +39,26 @@ class DepartmentEditView extends StatelessWidget with $DepartmentEditView {
       );
 
   Widget _buildStandaloneLayout(DepartmentEditViewModel model) => Scaffold(
-    appBar: AppBar(title: _buildTitle()),
-    body: _buildForm(model),
-  );
+        appBar: AppBar(title: _buildTitle()),
+        body: _buildForm(model),
+      );
 
+  // ignore: sized_box_for_whitespace
   Widget _buildDialogLayout(DepartmentEditViewModel model) => Container(
-    width: 500.0,
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        _buildTitle(),
-        _buildForm(model),
-      ],
-    ),
-  );
+        width: 500.0,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _buildTitle(),
+            _buildForm(model),
+          ],
+        ),
+      );
 
   Widget _buildTitle() {
-    final title = department == null ? 'Abteilung erstellen' : 'Abteilung bearbeiten';
+    final title =
+        department == null ? 'Abteilung erstellen' : 'Abteilung bearbeiten';
 
     if (isDialog) {
       return Container(
@@ -72,31 +74,29 @@ class DepartmentEditView extends StatelessWidget with $DepartmentEditView {
   }
 
   Widget _buildForm(DepartmentEditViewModel model) => Form(
-    key: _formKey,
-    child: FormLayout(
-      textFields: [
-        TextFormField(
-          controller: nameController,
-          onEditingComplete: model.submitForm,
-          decoration: const InputDecoration(labelText: 'Name'),
+        key: _formKey,
+        child: FormLayout(
+          textFields: [
+            TextFormField(
+              controller: nameController,
+              onEditingComplete: model.submitForm,
+              decoration: const InputDecoration(labelText: 'Name'),
+            ),
+          ],
+          primaryButton: ButtonSpecification(
+            title: 'Speichern',
+            onTap: model.submitForm,
+            isBusy: model.busy(DepartmentEditViewModel.editBusyKey),
+          ),
+          secondaryButton: department != null
+              ? ButtonSpecification(
+                  title: 'Löschen',
+                  onTap: model.removeDepartment,
+                  isBusy: model.busy(DepartmentEditViewModel.removeBusyKey),
+                  isDestructive: true,
+                )
+              : null,
+          validationMessage: model.validationMessage,
         ),
-      ],
-      primaryButton: ButtonSpecification(
-        title: 'Speichern',
-        onTap: model.submitForm,
-        isBusy: model.busy(DepartmentEditViewModel.editBusyKey),
-      ),
-      secondaryButton: department != null
-        ? ButtonSpecification(
-          title: 'Löschen',
-          onTap: model.removeDepartment,
-          isBusy: model.busy(DepartmentEditViewModel.removeBusyKey),
-          isDestructive: true,
-        )
-        : null,
-      validationMessage: model.validationMessage,
-    ),
-  );
-
-
+      );
 }

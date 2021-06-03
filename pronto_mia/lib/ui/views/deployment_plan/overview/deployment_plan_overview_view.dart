@@ -80,62 +80,64 @@ class DeploymentPlanOverviewView extends StatelessWidget {
     BuildContext context,
     DeploymentPlanOverviewViewModel model,
     DeploymentPlan deploymentPlan,
-  ) => Card(
-    child: Row(
-      children: [
-        Expanded(
-          child: ListTile(
-            title: Text(model.getDeploymentPlanTitle(deploymentPlan)),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(deploymentPlan.department.name),
-                Text(model.getDeploymentPlanSubtitle(deploymentPlan)),
-              ],
+  ) =>
+      Card(
+        child: Row(
+          children: [
+            Expanded(
+              child: ListTile(
+                title: Text(model.getDeploymentPlanTitle(deploymentPlan)),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(deploymentPlan.department.name),
+                    Text(model.getDeploymentPlanSubtitle(deploymentPlan)),
+                  ],
+                ),
+                onTap: () {
+                  if (adminModeEnabled) {
+                    model.editDeploymentPlan(
+                      deploymentPlan: deploymentPlan,
+                      asDialog: getValueForScreenType<bool>(
+                        context: context,
+                        mobile: false,
+                        desktop: true,
+                      ),
+                    );
+                  } else {
+                    model.openPdf(deploymentPlan);
+                  }
+                },
+              ),
             ),
-            onTap: () {
-              if (adminModeEnabled) {
-                model.editDeploymentPlan(
-                  deploymentPlan: deploymentPlan,
-                  asDialog: getValueForScreenType<bool>(
-                    context: context,
-                    mobile: false,
-                    desktop: true,
-                  ),
-                );
-              } else {
-                model.openPdf(deploymentPlan);
-              }
-            },
-          ),
+            if (adminModeEnabled)
+              _buildPublishToggle(context, model, deploymentPlan)
+          ],
         ),
-        if (adminModeEnabled)
-          _buildPublishToggle(context, model, deploymentPlan)
-      ],
-    ),
-  );
+      );
 
   Widget _buildPublishToggle(
     BuildContext context,
     DeploymentPlanOverviewViewModel model,
     DeploymentPlan deploymentPlan,
-  ) => Container(
-    padding: const EdgeInsets.all(12),
-    child: Column(
-      children: [
-        const Text("Veröffentlicht?"),
-        Switch(
-          value: deploymentPlan.published,
-          onChanged: (bool newValue) {
-            if (newValue) {
-              model.publishDeploymentPlan(deploymentPlan);
-            } else {
-              model.hideDeploymentPlan(deploymentPlan);
-            }
-          },
-          activeColor: CustomColors.secondary,
+  ) =>
+      Container(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          children: [
+            const Text("Veröffentlicht?"),
+            Switch(
+              value: deploymentPlan.published,
+              onChanged: (bool newValue) {
+                if (newValue) {
+                  model.publishDeploymentPlan(deploymentPlan);
+                } else {
+                  model.hideDeploymentPlan(deploymentPlan);
+                }
+              },
+              activeColor: CustomColors.secondary,
+            ),
+          ],
         ),
-      ],
-    ),
-  );
+      );
 }

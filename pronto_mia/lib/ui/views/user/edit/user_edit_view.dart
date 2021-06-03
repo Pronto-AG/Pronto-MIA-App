@@ -108,22 +108,24 @@ class UserEditView extends StatelessWidget with $UserEditView {
                   const InputDecoration(labelText: 'Passwort bestätigen'),
             ),
             DropdownButtonFormField<Department>(
-              value: user != null && user.department != null && model.availableDepartments != null
-                ? model.availableDepartments
-                  .firstWhere(
-                    (department) => department.id == user.department.id,
-                    orElse: () => null,
-                  )
-                : null,
-              onChanged: model.setDepartment,
-              decoration: const InputDecoration(labelText: 'Abteilung'),
-              items: model.availableDepartments?.map<DropdownMenuItem<Department>>(
-                  (department) => DropdownMenuItem<Department>(
-                    value: department,
-                    child: Text(department.name),
-                  ),
-              )?.toList()
-            ),
+                value: user != null &&
+                        user.department != null &&
+                        model.availableDepartments != null
+                    ? model.availableDepartments.firstWhere(
+                        (department) => department.id == user.department.id,
+                        orElse: () => null,
+                      )
+                    : null,
+                onChanged: model.setDepartment,
+                decoration: const InputDecoration(labelText: 'Abteilung'),
+                items: model.availableDepartments
+                    ?.map<DropdownMenuItem<Department>>(
+                      (department) => DropdownMenuItem<Department>(
+                        value: department,
+                        child: Text(department.name),
+                      ),
+                    )
+                    ?.toList()),
             _buildFormSectionHeader('Berechtigungen'),
             DropdownButtonFormField<Profile>(
               value: user != null
@@ -141,10 +143,11 @@ class UserEditView extends StatelessWidget with $UserEditView {
               items: profiles.entries
                   .map<DropdownMenuItem<Profile>>(
                     (profile) => DropdownMenuItem<Profile>(
-                        value: profile.value,
-                        child: Text(profile.value.description),
+                      value: profile.value,
+                      child: Text(profile.value.description),
                     ),
-                  ).toList(),
+                  )
+                  .toList(),
             ),
             _buildSwitchGroupLayout(model),
           ],
@@ -180,9 +183,8 @@ class UserEditView extends StatelessWidget with $UserEditView {
         ],
       );
 
-  Widget _buildSwitchGroupLayout(UserEditViewModel model) => ExpansionTile(
-      title: const Text('Berechtigungen bearbeiten'),
-      children: [
+  Widget _buildSwitchGroupLayout(UserEditViewModel model) =>
+      ExpansionTile(title: const Text('Berechtigungen bearbeiten'), children: [
         _buildLabeledSwitch(
           model,
           'Einsatzpläne ansehen',

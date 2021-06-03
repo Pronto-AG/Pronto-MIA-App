@@ -32,9 +32,11 @@ class AccessControlList {
   AccessControlList.copy(AccessControlList toCopy)
       : id = toCopy.id,
         canViewDeploymentPlans = toCopy.canViewDeploymentPlans,
-        canViewDepartmentDeploymentPlans = toCopy.canViewDepartmentDeploymentPlans,
+        canViewDepartmentDeploymentPlans =
+            toCopy.canViewDepartmentDeploymentPlans,
         canEditDeploymentPlans = toCopy.canEditDeploymentPlans,
-        canEditDepartmentDeploymentPlans = toCopy.canEditDepartmentDeploymentPlans,
+        canEditDepartmentDeploymentPlans =
+            toCopy.canEditDepartmentDeploymentPlans,
         canViewUsers = toCopy.canViewUsers,
         canViewDepartmentUsers = toCopy.canViewDepartmentUsers,
         canEditUsers = toCopy.canEditUsers,
@@ -48,14 +50,18 @@ class AccessControlList {
       : id = json['id'] as int,
         canViewDeploymentPlans =
             json['canViewDeploymentPlans'] as bool ?? false,
-        canViewDepartmentDeploymentPlans = json['canViewDepartmentDeploymentPlans'] as bool ?? false,
+        canViewDepartmentDeploymentPlans =
+            json['canViewDepartmentDeploymentPlans'] as bool ?? false,
         canEditDeploymentPlans =
             json['canEditDeploymentPlans'] as bool ?? false,
-        canEditDepartmentDeploymentPlans = json['canEditDepartmentDeploymentPlans'] as bool ?? false,
+        canEditDepartmentDeploymentPlans =
+            json['canEditDepartmentDeploymentPlans'] as bool ?? false,
         canViewUsers = json['canViewUsers'] as bool ?? false,
-        canViewDepartmentUsers = json['canViewDepartmentUsers'] as bool ?? false,
+        canViewDepartmentUsers =
+            json['canViewDepartmentUsers'] as bool ?? false,
         canEditUsers = json['canEditUsers'] as bool ?? false,
-        canEditDepartmentUsers = json['canEditDepartmentUsers'] as bool ?? false,
+        canEditDepartmentUsers =
+            json['canEditDepartmentUsers'] as bool ?? false,
         canViewDepartments = json['canViewDepartments'] as bool ?? false,
         canViewOwnDepartment = json['canViewOwnDepartment'] as bool ?? false,
         canEditDepartments = json['canEditDepartments'] as bool ?? false,
@@ -80,9 +86,11 @@ class AccessControlList {
 
   bool isEqual(AccessControlList other) {
     if (canViewDeploymentPlans == other.canViewDeploymentPlans &&
-        canViewDepartmentDeploymentPlans == other.canViewDepartmentDeploymentPlans &&
+        canViewDepartmentDeploymentPlans ==
+            other.canViewDepartmentDeploymentPlans &&
         canEditDeploymentPlans == other.canEditDeploymentPlans &&
-        canEditDepartmentDeploymentPlans == other.canEditDepartmentDeploymentPlans &&
+        canEditDepartmentDeploymentPlans ==
+            other.canEditDepartmentDeploymentPlans &&
         canViewUsers == other.canViewUsers &&
         canViewDepartmentUsers == other.canViewDepartmentUsers &&
         canEditUsers == other.canEditUsers &&

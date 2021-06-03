@@ -145,22 +145,23 @@ class DeploymentPlanEditView extends StatelessWidget
               dateLabelText: 'Gültig bis*',
             ),
             DropdownButtonFormField<Department>(
-              value: deploymentPlan != null && model.availableDepartments != null
-                  ? model.availableDepartments
-                    .firstWhere(
-                      (department) => department.id == deploymentPlan.department.id,
-                      orElse: () => null
+                value:
+                    deploymentPlan != null && model.availableDepartments != null
+                        ? model.availableDepartments.firstWhere(
+                            (department) =>
+                                department.id == deploymentPlan.department.id,
+                            orElse: () => null)
+                        : null,
+                onChanged: model.setDepartment,
+                decoration: const InputDecoration(labelText: 'Abteilung'),
+                items: model.availableDepartments
+                    ?.map<DropdownMenuItem<Department>>(
+                      (department) => DropdownMenuItem<Department>(
+                        value: department,
+                        child: Text(department.name),
+                      ),
                     )
-                  : null,
-              onChanged: model.setDepartment,
-              decoration: const InputDecoration(labelText: 'Abteilung'),
-              items: model.availableDepartments?.map<DropdownMenuItem<Department>>(
-                  (department) => DropdownMenuItem<Department>(
-                    value: department,
-                    child: Text(department.name),
-                  ),
-              )?.toList()
-            ),
+                    ?.toList()),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.baseline,

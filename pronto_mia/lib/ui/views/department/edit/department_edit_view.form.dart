@@ -13,8 +13,8 @@ mixin $DepartmentEditView on StatelessWidget {
   }
 
   void _updateFormData(FormViewModel model) => model.setData({
-    NameValueKey: nameController.text,
-  });
+        NameValueKey: nameController.text,
+      });
 
   void disposeForm() {
     nameController.dispose();

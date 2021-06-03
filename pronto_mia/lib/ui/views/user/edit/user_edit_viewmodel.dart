@@ -33,7 +33,6 @@ class UserEditViewModel extends FormViewModel {
   AccessControlList _accessControlList =
       AccessControlList.copy(profiles['empty'].accessControlList);
 
-
   UserEditViewModel({this.user, this.isDialog = false}) {
     if (user != null) {
       _accessControlList = user.profile.accessControlList;
@@ -94,7 +93,7 @@ class UserEditViewModel extends FormViewModel {
         }
         break;
       case 'canViewOwnDepartment':
-        accessControlList. canViewOwnDepartment = value;
+        accessControlList.canViewOwnDepartment = value;
         if (value) {
           accessControlList.canViewDepartments = false;
         }
@@ -167,7 +166,8 @@ class UserEditViewModel extends FormViewModel {
           user.id,
           userName: user.userName != userNameValue ? userNameValue : null,
           password: passwordValue != 'XXXXXX' ? passwordValue : null,
-          departmentId: department.id != user.department.id ? department.id : null,
+          departmentId:
+              department.id != user.department.id ? department.id : null,
           accessControlList:
               accessControlList.isEqual(user.profile.accessControlList)
                   ? null

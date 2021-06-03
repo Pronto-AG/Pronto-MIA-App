@@ -8,7 +8,8 @@ class DepartmentService {
       locator.getAsync<GraphQLService>();
 
   Future<List<Department>> getDepartments() async {
-    final data = await (await _graphQLService).query(DepartmentQueries.departments);
+    final data =
+        await (await _graphQLService).query(DepartmentQueries.departments);
     final dtoList = data['departments'] as List<Object>;
     final departmentList = dtoList
         .map((dto) => Department.fromJson(dto as Map<String, dynamic>))
@@ -19,10 +20,8 @@ class DepartmentService {
 
   Future<void> createDepartment(String name) async {
     final queryVariables = {'name': name};
-    await (await _graphQLService).mutate(
-      DepartmentQueries.createDepartment,
-      variables: queryVariables
-    );
+    await (await _graphQLService)
+        .mutate(DepartmentQueries.createDepartment, variables: queryVariables);
   }
 
   Future<void> updateDepartment(int id, {String name}) async {

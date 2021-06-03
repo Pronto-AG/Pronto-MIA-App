@@ -36,6 +36,10 @@ class UserEditView extends StatelessWidget with $UserEditView {
         onModelReady: (model) {
           listenToFormUpdated(model);
           model.fetchDepartments();
+
+          if (user != null) {
+            model.setDepartment(user.department);
+          }
         },
         builder: (context, model, child) {
           if (isDialog) {
@@ -176,25 +180,81 @@ class UserEditView extends StatelessWidget with $UserEditView {
         ],
       );
 
-  Widget _buildSwitchGroupLayout(UserEditViewModel model) => Column(children: [
+  Widget _buildSwitchGroupLayout(UserEditViewModel model) => ExpansionTile(
+      title: const Text('Berechtigungen bearbeiten'),
+      children: [
         _buildLabeledSwitch(
-            model,
-            'Einsatzpläne ansehen',
-            'canViewDeploymentPlans',
-            model.accessControlList.canViewDeploymentPlans),
+          model,
+          'Einsatzpläne ansehen',
+          'canViewDeploymentPlans',
+          model.accessControlList.canViewDeploymentPlans,
+        ),
         _buildLabeledSwitch(
-            model,
-            'Einsatzpläne verwalten',
-            'canEditDeploymentPlans',
-            model.accessControlList.canEditDeploymentPlans),
-        _buildLabeledSwitch(model, 'Abteilungen ansehen', 'canViewDepartments',
-            model.accessControlList.canViewDepartments),
-        _buildLabeledSwitch(model, 'Abteilungen verwalten',
-            'canEditDepartments', model.accessControlList.canEditDepartments),
-        _buildLabeledSwitch(model, 'Benutzer ansehen', 'canViewUsers',
-            model.accessControlList.canViewUsers),
-        _buildLabeledSwitch(model, 'Benutzer verwalten', 'canEditUsers',
-            model.accessControlList.canEditUsers),
+          model,
+          'Einsatzpläne ansehen (Departement)',
+          'canViewDepartmentDeploymentPlans',
+          model.accessControlList.canViewDepartmentDeploymentPlans,
+        ),
+        _buildLabeledSwitch(
+          model,
+          'Einsatzpläne verwalten',
+          'canEditDeploymentPlans',
+          model.accessControlList.canEditDeploymentPlans,
+        ),
+        _buildLabeledSwitch(
+          model,
+          'Einsatzpläne verwalten (Departement)',
+          'canEditDepartmentDeploymentPlans',
+          model.accessControlList.canEditDepartmentDeploymentPlans,
+        ),
+        _buildLabeledSwitch(
+          model,
+          'Benutzer ansehen',
+          'canViewUsers',
+          model.accessControlList.canViewUsers,
+        ),
+        _buildLabeledSwitch(
+          model,
+          'Benutzer ansehen (Departement)',
+          'canViewDepartmentUsers',
+          model.accessControlList.canViewDepartmentUsers,
+        ),
+        _buildLabeledSwitch(
+          model,
+          'Benutzer verwalten',
+          'canEditUsers',
+          model.accessControlList.canEditUsers,
+        ),
+        _buildLabeledSwitch(
+          model,
+          'Benutzer verwalten (Departement)',
+          'canEditDepartmentUsers',
+          model.accessControlList.canEditDepartmentUsers,
+        ),
+        _buildLabeledSwitch(
+          model,
+          'Abteilungen ansehen',
+          'canViewDepartments',
+          model.accessControlList.canViewDepartments,
+        ),
+        _buildLabeledSwitch(
+          model,
+          'Eigene Abteilung ansehen',
+          'canViewOwnDepartment',
+          model.accessControlList.canViewOwnDepartment,
+        ),
+        _buildLabeledSwitch(
+          model,
+          'Abteilungen verwalten',
+          'canEditDepartments',
+          model.accessControlList.canEditDepartments,
+        ),
+        _buildLabeledSwitch(
+          model,
+          'Eigene Abteilung verwalten',
+          'canEditOwnDepartment',
+          model.accessControlList.canEditOwnDepartment,
+        ),
       ]);
 
   Widget _buildLabeledSwitch(

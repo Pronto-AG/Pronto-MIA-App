@@ -102,7 +102,7 @@ class DeploymentPlanEditViewModel extends FormViewModel {
                   ? availableUntil
                   : null,
           pdfFile: _pdfFile,
-          departmentId: _department.id,
+          departmentId: department.id != deploymentPlan.department.id ? department.id : null,
         ),
         busyObject: editBusyKey,
       );

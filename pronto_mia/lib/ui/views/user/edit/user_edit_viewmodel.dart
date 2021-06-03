@@ -65,21 +65,75 @@ class UserEditViewModel extends FormViewModel {
     switch (key) {
       case 'canViewDeploymentPlans':
         accessControlList.canViewDeploymentPlans = value;
+        if (value) {
+          accessControlList.canViewDepartmentDeploymentPlans = false;
+        }
+        break;
+      case 'canViewDepartmentDeploymentPlans':
+        accessControlList.canViewDepartmentDeploymentPlans = value;
+        if (value) {
+          accessControlList.canViewDeploymentPlans = false;
+        }
         break;
       case 'canEditDeploymentPlans':
         accessControlList.canEditDeploymentPlans = value;
+        if (value) {
+          accessControlList.canEditDepartmentDeploymentPlans = false;
+        }
+        break;
+      case 'canEditDepartmentDeploymentPlans':
+        accessControlList.canEditDepartmentDeploymentPlans = value;
+        if (value) {
+          accessControlList.canEditDeploymentPlans = false;
+        }
         break;
       case 'canViewDepartments':
         accessControlList.canViewDepartments = value;
+        if (value) {
+          accessControlList.canViewOwnDepartment = false;
+        }
+        break;
+      case 'canViewOwnDepartment':
+        accessControlList. canViewOwnDepartment = value;
+        if (value) {
+          accessControlList.canViewDepartments = false;
+        }
         break;
       case 'canEditDepartments':
         accessControlList.canEditDepartments = value;
+        if (value) {
+          accessControlList.canEditOwnDepartment = false;
+        }
+        break;
+      case 'canEditOwnDepartment':
+        accessControlList.canEditOwnDepartment = value;
+        if (value) {
+          accessControlList.canEditDepartments = false;
+        }
         break;
       case 'canViewUsers':
         accessControlList.canViewUsers = value;
+        if (value) {
+          accessControlList.canViewDepartmentUsers = false;
+        }
+        break;
+      case 'canViewDepartmentUsers':
+        accessControlList.canViewDepartmentUsers = value;
+        if (value) {
+          accessControlList.canViewUsers = false;
+        }
         break;
       case 'canEditUsers':
         accessControlList.canEditUsers = value;
+        if (value) {
+          accessControlList.canEditDepartmentUsers = false;
+        }
+        break;
+      case 'canEditDepartmentUsers':
+        accessControlList.canEditDepartmentUsers = value;
+        if (value) {
+          accessControlList.canEditUsers = false;
+        }
         break;
       default:
         throw AssertionError(
@@ -113,7 +167,7 @@ class UserEditViewModel extends FormViewModel {
           user.id,
           userName: user.userName != userNameValue ? userNameValue : null,
           password: passwordValue != 'XXXXXX' ? passwordValue : null,
-          departmentId: department.id,
+          departmentId: department.id != user.department.id ? department.id : null,
           accessControlList:
               accessControlList.isEqual(user.profile.accessControlList)
                   ? null

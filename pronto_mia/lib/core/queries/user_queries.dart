@@ -10,11 +10,17 @@ class UserQueries {
         }
         accessControlList {
           canViewDeploymentPlans
+          canViewDepartmentDeploymentPlans
 		      canEditDeploymentPlans
+		      canEditDepartmentDeploymentPlans
 		      canViewUsers
+		      canViewDepartmentUsers
 		      canEditUsers
+		      canEditDepartmentUsers
 		      canViewDepartments
+		      canViewOwnDepartment
 		      canEditDepartments
+		      canEditOwnDepartment
         }
       }
     }
@@ -37,11 +43,17 @@ class UserQueries {
         }
         accessControlList {
           canViewDeploymentPlans
-          canEditDeploymentPlans
-          canViewUsers
-          canEditUsers
-          canViewDepartments
-          canEditDepartments
+          canViewDepartmentDeploymentPlans
+		      canEditDeploymentPlans
+		      canEditDepartmentDeploymentPlans
+		      canViewUsers
+		      canViewDepartmentUsers
+		      canEditUsers
+		      canEditDepartmentUsers
+		      canViewDepartments
+		      canViewOwnDepartment
+		      canEditDepartments
+		      canEditOwnDepartment
         }
       }
     }

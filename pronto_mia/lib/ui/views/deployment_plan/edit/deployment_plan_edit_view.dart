@@ -63,6 +63,10 @@ class DeploymentPlanEditView extends StatelessWidget
         onModelReady: (model) {
           listenToFormUpdated(model);
           model.fetchDepartments();
+
+          if (deploymentPlan != null) {
+            model.setDepartment(deploymentPlan.department);
+          }
         },
         builder: (context, model, child) {
           if (isDialog) {

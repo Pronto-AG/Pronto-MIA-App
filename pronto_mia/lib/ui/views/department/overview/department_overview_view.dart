@@ -21,17 +21,17 @@ class DepartmentOverviewView extends StatelessWidget {
           actions: [
             if (model.currentUser == null ||
                 model.currentUser.profile.accessControlList.canEditDepartments)
-            ActionSpecification(
-              tooltip: 'Abteilung erstellen',
-              icon: const Icon(Icons.post_add),
-              onPressed: () => model.editDepartment(
-                asDialog: getValueForScreenType<bool>(
-                  context: context,
-                  mobile: false,
-                  desktop: true,
+              ActionSpecification(
+                tooltip: 'Abteilung erstellen',
+                icon: const Icon(Icons.post_add),
+                onPressed: () => model.editDepartment(
+                  asDialog: getValueForScreenType<bool>(
+                    context: context,
+                    mobile: false,
+                    desktop: true,
+                  ),
                 ),
               ),
-            ),
             /*
             ActionSpecification(
               tooltip: 'Suche öffnen',
@@ -72,21 +72,22 @@ class DepartmentOverviewView extends StatelessWidget {
   ) =>
       Card(
         child: ListTile(
-          title: Text(department.name),
-          onTap: () {
-            if (model.currentUser == null ||
-                model.currentUser.profile.accessControlList.canEditDepartments ||
-                model.currentUser.profile.accessControlList.canEditOwnDepartment) {
-              model.editDepartment(
-                department: department,
-                asDialog: getValueForScreenType<bool>(
-                  context: context,
-                  mobile: false,
-                  desktop: true,
-                ),
-              );
-            }
-          }
-        ),
+            title: Text(department.name),
+            onTap: () {
+              if (model.currentUser == null ||
+                  model.currentUser.profile.accessControlList
+                      .canEditDepartments ||
+                  model.currentUser.profile.accessControlList
+                      .canEditOwnDepartment) {
+                model.editDepartment(
+                  department: department,
+                  asDialog: getValueForScreenType<bool>(
+                    context: context,
+                    mobile: false,
+                    desktop: true,
+                  ),
+                );
+              }
+            }),
       );
 }

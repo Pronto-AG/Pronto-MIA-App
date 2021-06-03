@@ -23,18 +23,19 @@ class UserOverviewView extends StatelessWidget {
           actions: [
             if (model.currentUser == null ||
                 model.currentUser.profile.accessControlList.canEditUsers ||
-                model.currentUser.profile.accessControlList.canEditDepartmentUsers)
-            ActionSpecification(
-              tooltip: 'Benutzer erstellen',
-              icon: const Icon(Icons.person_add),
-              onPressed: () => model.editUser(
-                asDialog: getValueForScreenType<bool>(
-                  context: context,
-                  mobile: false,
-                  desktop: true,
+                model.currentUser.profile.accessControlList
+                    .canEditDepartmentUsers)
+              ActionSpecification(
+                tooltip: 'Benutzer erstellen',
+                icon: const Icon(Icons.person_add),
+                onPressed: () => model.editUser(
+                  asDialog: getValueForScreenType<bool>(
+                    context: context,
+                    mobile: false,
+                    desktop: true,
+                  ),
                 ),
               ),
-            ),
             /*
             ActionSpecification(
               tooltip: 'Suche öffnen',
@@ -74,30 +75,30 @@ class UserOverviewView extends StatelessWidget {
   ) =>
       Card(
         child: ListTile(
-          leading: SvgPicture.string(
-            Jdenticon.toSvg(user.userName),
-            height: 48,
-            width: 48,
-          ),
-          title: Text(user.userName),
-          subtitle: Text(user.department != null
-              ? '${user.department.name} - '
-                  '${user.profile.description}'
-              : user.profile.description),
-          onTap: () {
-            if (model.currentUser == null ||
-                model.currentUser.profile.accessControlList.canEditUsers ||
-                model.currentUser.profile.accessControlList.canEditDepartmentUsers) {
-              model.editUser(
-                user: user,
-                asDialog: getValueForScreenType<bool>(
-                  context: context,
-                  mobile: false,
-                  desktop: true,
-                ),
-              );
-            }
-          }
-        ),
+            leading: SvgPicture.string(
+              Jdenticon.toSvg(user.userName),
+              height: 48,
+              width: 48,
+            ),
+            title: Text(user.userName),
+            subtitle: Text(user.department != null
+                ? '${user.department.name} - '
+                    '${user.profile.description}'
+                : user.profile.description),
+            onTap: () {
+              if (model.currentUser == null ||
+                  model.currentUser.profile.accessControlList.canEditUsers ||
+                  model.currentUser.profile.accessControlList
+                      .canEditDepartmentUsers) {
+                model.editUser(
+                  user: user,
+                  asDialog: getValueForScreenType<bool>(
+                    context: context,
+                    mobile: false,
+                    desktop: true,
+                  ),
+                );
+              }
+            }),
       );
 }

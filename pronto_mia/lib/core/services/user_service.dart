@@ -5,12 +5,9 @@ import 'package:pronto_mia/core/models/access_control_list.dart';
 import 'package:pronto_mia/core/queries/user_queries.dart';
 import 'package:pronto_mia/core/services/logging_service.dart';
 import 'package:pronto_mia/core/models/user.dart';
-import 'package:pronto_mia/core/services/jwt_token_service.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
 
 class UserService {
-  Future<JwtTokenService> get _jwtTokenService =>
-      locator.getAsync<JwtTokenService>();
   Future<LoggingService> get _loggingService =>
       locator.getAsync<LoggingService>();
   Future<GraphQLService> get _graphQLService =>

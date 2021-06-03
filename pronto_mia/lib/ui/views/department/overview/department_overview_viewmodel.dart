@@ -1,4 +1,3 @@
-
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -35,7 +34,7 @@ class DepartmentOverviewViewModel extends FutureViewModel<List<Department>> {
     notifyListeners();
   }
 
-  Future<User> fetchCurrentUser() async {
+  Future<void> fetchCurrentUser() async {
     _currentUser = await _userService.getCurrentUser();
     notifyListeners();
   }

@@ -51,7 +51,8 @@ class NavigationMenu extends StatelessWidget {
         [
           if (model.data == null ||
               model.data.profile.accessControlList.canViewDeploymentPlans ||
-              model.data.profile.accessControlList.canViewDepartmentDeploymentPlans)
+              model.data.profile.accessControlList
+                  .canViewDepartmentDeploymentPlans)
             ListTile(
               leading: const Icon(Icons.today),
               title: const Text('Einsatzpläne'),
@@ -82,7 +83,8 @@ class NavigationMenu extends StatelessWidget {
         [
           if (model.data == null ||
               model.data.profile.accessControlList.canEditDeploymentPlans ||
-              model.data.profile.accessControlList.canEditDepartmentDeploymentPlans)
+              model.data.profile.accessControlList
+                  .canEditDepartmentDeploymentPlans)
             ListTile(
               leading: const Icon(Icons.today),
               title: const Text('Einsatzplanverwaltung'),

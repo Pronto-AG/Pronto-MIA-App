@@ -120,17 +120,16 @@ class NavigationLayout extends StatelessWidget {
       );
 
   Widget _buildBottomAppBar() => CustomAppBar(
-        actions: actions.length >= 1
+      actions: actions.length > 1
           ? actions
               .sublist(1)
               .map((ActionSpecification action) => IconButton(
-                tooltip: action.tooltip,
-                icon: action.icon,
-                onPressed: action.onPressed,
-              ))
+                    tooltip: action.tooltip,
+                    icon: action.icon,
+                    onPressed: action.onPressed,
+                  ))
               .toList()
-            : null
-      );
+          : null);
 }
 
 class ActionSpecification {

@@ -31,7 +31,7 @@ class UserOverviewViewModel extends FutureViewModel<List<User>> {
     notifyListeners();
   }
 
-  Future<User> fetchCurrentUser() async {
+  Future<void> fetchCurrentUser() async {
     _currentUser = await _userService.getCurrentUser();
     notifyListeners();
   }

@@ -16,10 +16,14 @@ class UserOverviewView extends StatelessWidget {
   Widget build(BuildContext context) =>
       ViewModelBuilder<UserOverviewViewModel>.reactive(
         viewModelBuilder: () => UserOverviewViewModel(),
+        onModelReady: (model) => model.fetchCurrentUser(),
         builder: (context, model, child) => NavigationLayout(
           title: 'Benutzerverwaltung',
           body: _buildDataView(context, model),
           actions: [
+            if (model.currentUser == null ||
+                model.currentUser.profile.accessControlList.canEditUsers ||
+                model.currentUser.profile.accessControlList.canEditDepartmentUsers)
             ActionSpecification(
               tooltip: 'Benutzer erstellen',
               icon: const Icon(Icons.person_add),
@@ -31,11 +35,13 @@ class UserOverviewView extends StatelessWidget {
                 ),
               ),
             ),
+            /*
             ActionSpecification(
               tooltip: 'Suche öffnen',
               icon: const Icon(Icons.search),
               onPressed: () {},
             ),
+             */
           ],
         ),
       );
@@ -78,14 +84,20 @@ class UserOverviewView extends StatelessWidget {
               ? '${user.department.name} - '
                   '${user.profile.description}'
               : user.profile.description),
-          onTap: () => model.editUser(
-            user: user,
-            asDialog: getValueForScreenType<bool>(
-              context: context,
-              mobile: false,
-              desktop: true,
-            ),
-          ),
+          onTap: () {
+            if (model.currentUser == null ||
+                model.currentUser.profile.accessControlList.canEditUsers ||
+                model.currentUser.profile.accessControlList.canEditDepartmentUsers) {
+              model.editUser(
+                user: user,
+                asDialog: getValueForScreenType<bool>(
+                  context: context,
+                  mobile: false,
+                  desktop: true,
+                ),
+              );
+            }
+          }
         ),
       );
 }

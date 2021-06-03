@@ -17,17 +17,10 @@ class UserService {
       locator.getAsync<GraphQLService>();
 
   Future<User> getCurrentUser() async {
-    final userId = await (await _jwtTokenService).getUserId();
+    final data = await (await _graphQLService).query(UserQueries.currentUser);
+    final user = User.fromJson(data['user'] as Map<String, dynamic>);
 
-    final queryVariables = {
-      'id': userId,
-    };
-    final data = await (await _graphQLService)
-        .query(UserQueries.userById, variables: queryVariables);
-    final dtoList = data['users'] as List<Object>;
-    final user = User.fromJson(dtoList.first as Map<String, dynamic>);
-
-    if (userId == null) {
+    if (user.id == null) {
       (await _loggingService)
           .log("UserService", Level.WARNING, "No user could be fetched.");
       return null;

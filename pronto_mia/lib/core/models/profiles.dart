@@ -22,12 +22,15 @@ class Profile {
 final profiles = {
   'empty': Profile(
     description: 'Leer',
-    accessControlList: AccessControlList(),
+    accessControlList: AccessControlList(
+      canViewOwnDepartment: true,
+    ),
   ),
   'cleaner': Profile(
     description: 'Reinigungskraft',
     accessControlList: AccessControlList(
       canViewDeploymentPlans: true,
+      canViewOwnDepartment: true,
     ),
   ),
   'administrator': Profile(

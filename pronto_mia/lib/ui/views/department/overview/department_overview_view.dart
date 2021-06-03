@@ -14,10 +14,13 @@ class DepartmentOverviewView extends StatelessWidget {
   Widget build(BuildContext context) =>
       ViewModelBuilder<DepartmentOverviewViewModel>.reactive(
         viewModelBuilder: () => DepartmentOverviewViewModel(),
+        onModelReady: (model) => model.fetchCurrentUser(),
         builder: (context, model, child) => NavigationLayout(
           title: 'Abteilungsverwaltung',
           body: _buildDataView(context, model),
           actions: [
+            if (model.currentUser == null ||
+                model.currentUser.profile.accessControlList.canEditDepartments)
             ActionSpecification(
               tooltip: 'Abteilung erstellen',
               icon: const Icon(Icons.post_add),
@@ -29,11 +32,13 @@ class DepartmentOverviewView extends StatelessWidget {
                 ),
               ),
             ),
+            /*
             ActionSpecification(
               tooltip: 'Suche öffnen',
               icon: const Icon(Icons.search),
               onPressed: () {},
             ),
+             */
           ],
         ),
       );
@@ -68,14 +73,20 @@ class DepartmentOverviewView extends StatelessWidget {
       Card(
         child: ListTile(
           title: Text(department.name),
-          onTap: () => model.editDepartment(
-            department: department,
-            asDialog: getValueForScreenType<bool>(
-              context: context,
-              mobile: false,
-              desktop: true,
-            ),
-          ),
+          onTap: () {
+            if (model.currentUser == null ||
+                model.currentUser.profile.accessControlList.canEditDepartments ||
+                model.currentUser.profile.accessControlList.canEditOwnDepartment) {
+              model.editDepartment(
+                department: department,
+                asDialog: getValueForScreenType<bool>(
+                  context: context,
+                  mobile: false,
+                  desktop: true,
+                ),
+              );
+            }
+          }
         ),
       );
 }

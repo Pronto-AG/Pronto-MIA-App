@@ -193,7 +193,7 @@ class UserEditView extends StatelessWidget with $UserEditView {
         ),
         _buildLabeledSwitch(
           model,
-          'Einsatzpläne ansehen (Departement)',
+          'Einsatzpläne ansehen (Abteilung)',
           'canViewDepartmentDeploymentPlans',
           model.accessControlList.canViewDepartmentDeploymentPlans,
         ),
@@ -205,7 +205,7 @@ class UserEditView extends StatelessWidget with $UserEditView {
         ),
         _buildLabeledSwitch(
           model,
-          'Einsatzpläne verwalten (Departement)',
+          'Einsatzpläne verwalten (Abteilung)',
           'canEditDepartmentDeploymentPlans',
           model.accessControlList.canEditDepartmentDeploymentPlans,
         ),
@@ -217,7 +217,7 @@ class UserEditView extends StatelessWidget with $UserEditView {
         ),
         _buildLabeledSwitch(
           model,
-          'Benutzer ansehen (Departement)',
+          'Benutzer ansehen (Abteilung)',
           'canViewDepartmentUsers',
           model.accessControlList.canViewDepartmentUsers,
         ),
@@ -229,7 +229,7 @@ class UserEditView extends StatelessWidget with $UserEditView {
         ),
         _buildLabeledSwitch(
           model,
-          'Benutzer verwalten (Departement)',
+          'Benutzer verwalten (Abteilung)',
           'canEditDepartmentUsers',
           model.accessControlList.canEditDepartmentUsers,
         ),

@@ -1,4 +1,3 @@
-import 'package:pronto_mia/ui/views/login/login_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -6,11 +5,12 @@ import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/authentication_service.dart';
 import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/ui/views/settings/settings_view.form.dart';
+import 'package:pronto_mia/ui/views/login/login_view.dart';
 
 class SettingsViewModel extends FormViewModel {
   static const contextIdentifier = 'ProfileViewModel';
-  static const logoutBusyKey = 'logout-busy-key';
-  static const changePasswordBusyKey = 'change-password-busy-key';
+  static const logoutActionKey = 'LogoutActionKey';
+  static const changePasswordActionKey = 'ChangePasswordActionKey';
 
   AuthenticationService get _authenticationService =>
       locator.get<AuthenticationService>();
@@ -38,15 +38,15 @@ class SettingsViewModel extends FormViewModel {
 
     await runBusyFuture(
       _authenticationService.changePassword(oldPasswordValue, newPasswordValue),
-      busyObject: changePasswordBusyKey,
+      busyObject: changePasswordActionKey,
     );
-    _completeFormAction();
+    _completeFormAction(changePasswordActionKey);
   }
 
   Future<void> logout() async {
     await runBusyFuture(
       _authenticationService.logout(),
-      busyObject: logoutBusyKey,
+      busyObject: logoutActionKey,
     );
     _navigationService.replaceWithTransition(
       LoginView(),
@@ -66,13 +66,12 @@ class SettingsViewModel extends FormViewModel {
     return null;
   }
 
-  Future<void> _completeFormAction() async {
-    if (hasError) {
+  Future<void> _completeFormAction(String actionKey) async {
+    if (hasErrorForKey(actionKey)) {
       await _errorService.handleError(
-        SettingsViewModel.contextIdentifier,
-        error,
+        SettingsViewModel.contextIdentifier, error(actionKey),
       );
-      final errorMessage = _errorService.getErrorMessage(error);
+      final errorMessage = _errorService.getErrorMessage(error(actionKey));
       setValidationMessage(errorMessage);
       notifyListeners();
     } else if (isDialog) {

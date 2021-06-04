@@ -190,14 +190,14 @@ class DeploymentPlanEditView extends StatelessWidget
           primaryButton: ButtonSpecification(
             title: 'Speichern',
             onTap: model.submitForm,
-            isBusy: model.busy(DeploymentPlanEditViewModel.editBusyKey),
+            isBusy: model.busy(DeploymentPlanEditViewModel.editActionKey),
           ),
           secondaryButton: (() {
             if (deploymentPlan != null) {
               return ButtonSpecification(
                 title: 'Löschen',
                 onTap: model.removeDeploymentPlan,
-                isBusy: model.busy(DeploymentPlanEditViewModel.removeBusyKey),
+                isBusy: model.busy(DeploymentPlanEditViewModel.removeActionKey),
                 isDestructive: true,
               );
             }

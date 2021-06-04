@@ -9,8 +9,8 @@ import 'package:pronto_mia/ui/views/department/edit/department_edit_view.form.da
 
 class DepartmentEditViewModel extends FormViewModel {
   static const contextIdentifier = 'DepartmentEditViewModel';
-  static const editBusyKey = 'edit-busy-key';
-  static const removeBusyKey = 'remove-busy-key';
+  static const editActionKey = 'EditActionKey';
+  static const removeActionKey = 'RemoveActionKey';
 
   DepartmentService get _departmentService => locator.get<DepartmentService>();
   ErrorService get _errorService => locator.get<ErrorService>();
@@ -39,7 +39,7 @@ class DepartmentEditViewModel extends FormViewModel {
     if (department == null) {
       await runBusyFuture(
         _departmentService.createDepartment(nameValue),
-        busyObject: editBusyKey,
+        busyObject: editActionKey,
       );
     } else {
       await runBusyFuture(
@@ -47,22 +47,22 @@ class DepartmentEditViewModel extends FormViewModel {
           department.id,
           name: department.name != nameValue ? nameValue : null,
         ),
-        busyObject: editBusyKey,
+        busyObject: editActionKey,
       );
     }
 
-    _completeFormAction();
+    _completeFormAction(editActionKey);
   }
 
   Future<void> removeDepartment() async {
     if (department != null) {
       await runBusyFuture(
         _departmentService.removeDepartment(department.id),
-        busyObject: removeBusyKey,
+        busyObject: removeActionKey,
       );
     }
 
-    _completeFormAction();
+    _completeFormAction(removeActionKey);
   }
 
   String _validateForm() {
@@ -73,13 +73,13 @@ class DepartmentEditViewModel extends FormViewModel {
     return null;
   }
 
-  Future<void> _completeFormAction() async {
-    if (hasError) {
+  Future<void> _completeFormAction(String actionKey) async {
+    if (hasErrorForKey(actionKey)) {
       await _errorService.handleError(
         DepartmentEditViewModel.contextIdentifier,
-        error,
+        error(actionKey),
       );
-      final errorMessage = _errorService.getErrorMessage(error);
+      final errorMessage = _errorService.getErrorMessage(error(actionKey));
       setValidationMessage(errorMessage);
       notifyListeners();
     } else if (isDialog) {

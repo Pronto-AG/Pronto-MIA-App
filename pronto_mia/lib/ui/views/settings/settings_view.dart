@@ -81,12 +81,12 @@ class SettingsView extends StatelessWidget with $SettingsView {
           primaryButton: ButtonSpecification(
             title: 'Passwort ändern',
             onTap: model.submitForm,
-            isBusy: model.busy(SettingsViewModel.changePasswordBusyKey),
+            isBusy: model.busy(SettingsViewModel.changePasswordActionKey),
           ),
           secondaryButton: ButtonSpecification(
             title: 'Abmelden',
             onTap: model.logout,
-            isBusy: model.busy(SettingsViewModel.logoutBusyKey),
+            isBusy: model.busy(SettingsViewModel.logoutActionKey),
           ),
           validationMessage: model.validationMessage,
         ),

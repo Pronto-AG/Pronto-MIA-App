@@ -154,13 +154,13 @@ class UserEditView extends StatelessWidget with $UserEditView {
           primaryButton: ButtonSpecification(
             title: 'Speichern',
             onTap: model.submitForm,
-            isBusy: model.busy(UserEditViewModel.editBusyKey),
+            isBusy: model.busy(UserEditViewModel.editActionKey),
           ),
           secondaryButton: user != null
               ? ButtonSpecification(
                   title: 'Löschen',
                   onTap: model.removeUser,
-                  isBusy: model.busy(UserEditViewModel.removeBusyKey),
+                  isBusy: model.busy(UserEditViewModel.removeActionKey),
                   isDestructive: true,
                 )
               : null,

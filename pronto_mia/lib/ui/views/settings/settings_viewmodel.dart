@@ -69,7 +69,8 @@ class SettingsViewModel extends FormViewModel {
   Future<void> _completeFormAction(String actionKey) async {
     if (hasErrorForKey(actionKey)) {
       await _errorService.handleError(
-        SettingsViewModel.contextIdentifier, error(actionKey),
+        SettingsViewModel.contextIdentifier,
+        error(actionKey),
       );
       final errorMessage = _errorService.getErrorMessage(error(actionKey));
       setValidationMessage(errorMessage);

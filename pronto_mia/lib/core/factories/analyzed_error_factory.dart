@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:graphql/client.dart';
 import 'package:pronto_mia/core/models/analyzed_error.dart';
 

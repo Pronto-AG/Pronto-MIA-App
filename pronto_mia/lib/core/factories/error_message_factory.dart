@@ -9,6 +9,12 @@ class ErrorMessageFactory {
 
   static String getErrorMessage(ConstAnalyzedError analyzedError) {
     if (analyzedError.graphQLErrorCode != null) {
+      if (analyzedError.isPasswordError == true &&
+          analyzedError.graphQLErrorCode == "PasswordTooWeak") {
+        return _getPasswordErrorMessage(
+            analyzedError.passwordErrorClarification);
+      }
+
       return _getGraphQlErrorMessage(analyzedError.graphQLErrorCode);
     }
     if (analyzedError.isNetworkError) {
@@ -20,14 +26,21 @@ class ErrorMessageFactory {
 
   static String _getGraphQlErrorMessage(String code) {
     switch (code) {
-      case 'PasswordTooWeak':
-        return 'Das angegebene Passwort ist zu schwach.';
-        break;
       case 'UserAlreadyExists':
         return 'Ein Benutzer mit diesem Benutzernamen existiert bereits.';
         break;
       case 'UserNotFound':
         return 'Der angegebene Benutzer existiert nicht.';
+        break;
+      case 'DepartmentAlreadyExists':
+        return 'Eine Abteilung mit diesem Namen existiert bereits.';
+        break;
+      case 'DepartmentNotFound':
+        return "Die angegebene Abteilung konnte nicht gefunden werden.";
+        break;
+      case 'DepartmentInUse':
+        return "Abteilung kann nicht gelöscht werden, da ihr noch "
+            "Benutzer zugewiesen sind.";
         break;
       case 'DeploymentPlanNotFound':
         return 'Der angegebene Einsatzplan existiert nicht.';
@@ -57,10 +70,36 @@ class ErrorMessageFactory {
         return 'Der Benutzer ist nicht mehr angemeldet.';
         break;
       case 'UnknownError':
-        return _unknownError;
-        break;
       default:
         return _unknownError;
     }
+  }
+
+  static String _getPasswordErrorMessage(String passwordErrorClarification) {
+    String message =
+        'Das neue Passwort entspricht nicht den Passwort-Richtlinien. Es muss '
+        'mindestens 10 Zeichen lang sein, eine Zahl, einen Grossbuchstaben, '
+        'einen Kleinbuchstaben und ein Sonderzeichen enthalten.\n - Problem: ';
+    switch (passwordErrorClarification) {
+      case "Length":
+        message += "Das Passwort ist zu kurz.";
+        break;
+      case "NonAlphanumeric":
+        message += "Das Passwort enthält kein Sonderzeichen.";
+        break;
+      case "Uppercase":
+        message += "Das Passwort enthält keinen Grossbuchstaben.";
+        break;
+      case "Lowercase":
+        message += "Das Passwort enthält keinen Kleinbuchstaben.";
+        break;
+      case "Digit":
+        message += "Das Passwort enthält keine Zahl.";
+        break;
+      default:
+        message += "Unbekannt.";
+    }
+
+    return message;
   }
 }

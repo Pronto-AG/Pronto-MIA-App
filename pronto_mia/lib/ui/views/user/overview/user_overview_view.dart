@@ -21,10 +21,10 @@ class UserOverviewView extends StatelessWidget {
           title: 'Benutzerverwaltung',
           body: _buildDataView(context, model),
           actions: [
-            if (model.currentUser == null ||
-                model.currentUser.profile.accessControlList.canEditUsers ||
-                model.currentUser.profile.accessControlList
-                    .canEditDepartmentUsers)
+            if (model.currentUser != null &&
+                (model.currentUser.profile.accessControlList.canEditUsers ||
+                    model.currentUser.profile.accessControlList
+                        .canEditDepartmentUsers))
               ActionSpecification(
                 tooltip: 'Benutzer erstellen',
                 icon: const Icon(Icons.person_add),
@@ -86,10 +86,10 @@ class UserOverviewView extends StatelessWidget {
                     '${user.profile.description}'
                 : user.profile.description),
             onTap: () {
-              if (model.currentUser == null ||
-                  model.currentUser.profile.accessControlList.canEditUsers ||
-                  model.currentUser.profile.accessControlList
-                      .canEditDepartmentUsers) {
+              if (model.currentUser != null &&
+                  (model.currentUser.profile.accessControlList.canEditUsers ||
+                      model.currentUser.profile.accessControlList
+                          .canEditDepartmentUsers)) {
                 model.editUser(
                   user: user,
                   asDialog: getValueForScreenType<bool>(

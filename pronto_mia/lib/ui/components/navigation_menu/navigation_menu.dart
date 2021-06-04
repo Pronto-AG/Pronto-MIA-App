@@ -57,10 +57,10 @@ class NavigationMenu extends StatelessWidget {
       _buildNavigationCategory(
         'Übersicht',
         [
-          if (model.data == null ||
-              model.data.profile.accessControlList.canViewDeploymentPlans ||
-              model.data.profile.accessControlList
-                  .canViewDepartmentDeploymentPlans)
+          if (model.data != null &&
+              (model.data.profile.accessControlList.canViewDeploymentPlans ||
+                  model.data.profile.accessControlList
+                      .canViewDepartmentDeploymentPlans))
             ListTile(
               leading: const Icon(Icons.today),
               title: const Text('Einsatzpläne'),
@@ -89,10 +89,10 @@ class NavigationMenu extends StatelessWidget {
       _buildNavigationCategory(
         'Administration',
         [
-          if (model.data == null ||
-              model.data.profile.accessControlList.canEditDeploymentPlans ||
-              model.data.profile.accessControlList
-                  .canEditDepartmentDeploymentPlans)
+          if (model.data != null &&
+              (model.data.profile.accessControlList.canEditDeploymentPlans ||
+                  model.data.profile.accessControlList
+                      .canEditDepartmentDeploymentPlans))
             ListTile(
               leading: const Icon(Icons.today),
               title: const Text('Einsatzplanverwaltung'),
@@ -114,17 +114,17 @@ class NavigationMenu extends StatelessWidget {
             title: Text('Newsverwaltung'),
           ),
            */
-          if (model.data == null ||
-              model.data.profile.accessControlList.canViewUsers ||
-              model.data.profile.accessControlList.canViewDepartmentUsers)
+          if (model.data != null &&
+              (model.data.profile.accessControlList.canViewUsers ||
+                  model.data.profile.accessControlList.canViewDepartmentUsers))
             ListTile(
               leading: const Icon(Icons.person),
               title: const Text('Benutzerverwaltung'),
               onTap: () => model.navigateTo(const UserOverviewView()),
             ),
-          if (model.data == null ||
-              model.data.profile.accessControlList.canViewDepartments ||
-              model.data.profile.accessControlList.canEditOwnDepartment)
+          if (model.data != null &&
+              (model.data.profile.accessControlList.canViewDepartments ||
+                  model.data.profile.accessControlList.canEditOwnDepartment))
             ListTile(
               leading: const Icon(Icons.people),
               title: const Text('Abteilungsverwaltung'),

@@ -19,7 +19,7 @@ class DepartmentOverviewView extends StatelessWidget {
           title: 'Abteilungsverwaltung',
           body: _buildDataView(context, model),
           actions: [
-            if (model.currentUser == null ||
+            if (model.currentUser != null &&
                 model.currentUser.profile.accessControlList.canEditDepartments)
               ActionSpecification(
                 tooltip: 'Abteilung erstellen',
@@ -74,11 +74,11 @@ class DepartmentOverviewView extends StatelessWidget {
         child: ListTile(
             title: Text(department.name),
             onTap: () {
-              if (model.currentUser == null ||
-                  model.currentUser.profile.accessControlList
-                      .canEditDepartments ||
-                  model.currentUser.profile.accessControlList
-                      .canEditOwnDepartment) {
+              if (model.currentUser != null &&
+                  (model.currentUser.profile.accessControlList
+                          .canEditDepartments ||
+                      model.currentUser.profile.accessControlList
+                          .canEditOwnDepartment)) {
                 model.editDepartment(
                   department: department,
                   asDialog: getValueForScreenType<bool>(

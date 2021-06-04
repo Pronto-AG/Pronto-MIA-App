@@ -97,8 +97,6 @@ class UserEditViewModel extends FormViewModel {
           accessControlList.canViewDepartments = true;
           accessControlList.canViewOwnDepartment = false;
           accessControlList.canViewDepartmentUsers = false;
-        } else {
-          accessControlList.canViewOwnDepartment = true;
         }
         break;
       case 'canViewDepartmentUsers':
@@ -112,8 +110,7 @@ class UserEditViewModel extends FormViewModel {
         if (value) {
           accessControlList.canViewUsers = true;
           accessControlList.canViewDepartments = true;
-          accessControlList.canEditDepartments = true;
-          accessControlList.canEditOwnDepartment = false;
+          accessControlList.canViewOwnDepartment = false;
           accessControlList.canEditDepartmentUsers = false;
         }
         break;
@@ -125,11 +122,7 @@ class UserEditViewModel extends FormViewModel {
           }
           accessControlList.canViewDepartments = true;
           accessControlList.canViewOwnDepartment = false;
-          accessControlList.canEditDepartments = true;
-          accessControlList.canEditOwnDepartment = false;
           accessControlList.canEditUsers = false;
-        } else {
-          accessControlList.canViewOwnDepartment = true;
         }
         break;
       case 'canViewDepartments':

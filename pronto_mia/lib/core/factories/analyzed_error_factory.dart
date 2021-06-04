@@ -36,11 +36,11 @@ class AnalyzedErrorFactory {
       analyzedError.isUnknownError = true;
     }
 
-    if (serverException.parsedResponse != null) {
+    if (serverException != null && serverException.parsedResponse != null) {
       analyzedError.graphQLErrorCode = serverException
           .parsedResponse.errors.first.extensions["code"]
           .toString();
-    } else {
+    } else if (error.graphqlErrors != null) {
       analyzedError.graphQLErrorCode =
           error.graphqlErrors.first.extensions["code"].toString();
     }

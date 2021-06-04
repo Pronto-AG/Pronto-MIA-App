@@ -29,8 +29,19 @@ final profiles = {
   'cleaner': Profile(
     description: 'Reinigungskraft',
     accessControlList: AccessControlList(
-      canViewDeploymentPlans: true,
+      canViewDepartmentDeploymentPlans: true,
       canViewOwnDepartment: true,
+    ),
+  ),
+  'department-manager': Profile(
+    description: 'Abteilungsleiter',
+    accessControlList: AccessControlList(
+      canViewDepartmentDeploymentPlans: true,
+      canEditDepartmentDeploymentPlans: true,
+      canViewDepartmentUsers: true,
+      canEditDepartmentUsers: true,
+      canViewDepartments: true,
+      canEditOwnDepartment: true,
     ),
   ),
   'administrator': Profile(

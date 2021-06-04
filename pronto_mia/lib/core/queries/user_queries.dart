@@ -26,15 +26,9 @@ class UserQueries {
     }
   """;
 
-  static const userById = """
-    query userById(\$id: Int!) {
-      users(
-        where: {
-          id: {
-            eq: \$id
-          }
-        }
-      ) {
+  static const currentUser = """
+    query currentUser() {
+      user {
         id
         userName
         department {
@@ -44,17 +38,17 @@ class UserQueries {
         accessControlList {
           canViewDeploymentPlans
           canViewDepartmentDeploymentPlans
-		      canEditDeploymentPlans
-		      canEditDepartmentDeploymentPlans
-		      canViewUsers
-		      canViewDepartmentUsers
-		      canEditUsers
-		      canEditDepartmentUsers
-		      canViewDepartments
-		      canViewOwnDepartment
-		      canEditDepartments
-		      canEditOwnDepartment
-        }
+          canEditDeploymentPlans
+          canEditDepartmentDeploymentPlans
+          canViewUsers
+          canViewDepartmentUsers
+          canEditUsers
+          canEditDepartmentUsers
+          canViewDepartments
+          canViewOwnDepartment
+          canEditDepartments
+          canEditOwnDepartment
+        }   
       }
     }
   """;

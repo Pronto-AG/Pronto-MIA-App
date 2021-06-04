@@ -5,29 +5,19 @@ import 'package:pronto_mia/core/models/access_control_list.dart';
 import 'package:pronto_mia/core/queries/user_queries.dart';
 import 'package:pronto_mia/core/services/logging_service.dart';
 import 'package:pronto_mia/core/models/user.dart';
-import 'package:pronto_mia/core/services/jwt_token_service.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
 
 class UserService {
-  Future<JwtTokenService> get _jwtTokenService =>
-      locator.getAsync<JwtTokenService>();
   Future<LoggingService> get _loggingService =>
       locator.getAsync<LoggingService>();
   Future<GraphQLService> get _graphQLService =>
       locator.getAsync<GraphQLService>();
 
   Future<User> getCurrentUser() async {
-    final userId = await (await _jwtTokenService).getUserId();
+    final data = await (await _graphQLService).query(UserQueries.currentUser);
+    final user = User.fromJson(data['user'] as Map<String, dynamic>);
 
-    final queryVariables = {
-      'id': userId,
-    };
-    final data = await (await _graphQLService)
-        .query(UserQueries.userById, variables: queryVariables);
-    final dtoList = data['users'] as List<Object>;
-    final user = User.fromJson(dtoList.first as Map<String, dynamic>);
-
-    if (userId == null) {
+    if (user.id == null) {
       (await _loggingService)
           .log("UserService", Level.WARNING, "No user could be fetched.");
       return null;

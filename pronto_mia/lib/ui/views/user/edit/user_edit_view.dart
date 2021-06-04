@@ -241,12 +241,6 @@ class UserEditView extends StatelessWidget with $UserEditView {
         ),
         _buildLabeledSwitch(
           model,
-          'Eigene Abteilung ansehen',
-          'canViewOwnDepartment',
-          model.accessControlList.canViewOwnDepartment,
-        ),
-        _buildLabeledSwitch(
-          model,
           'Abteilungen verwalten',
           'canEditDepartments',
           model.accessControlList.canEditDepartments,

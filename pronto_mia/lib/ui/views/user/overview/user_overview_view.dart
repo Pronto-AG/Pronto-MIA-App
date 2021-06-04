@@ -16,26 +16,33 @@ class UserOverviewView extends StatelessWidget {
   Widget build(BuildContext context) =>
       ViewModelBuilder<UserOverviewViewModel>.reactive(
         viewModelBuilder: () => UserOverviewViewModel(),
+        onModelReady: (model) => model.fetchCurrentUser(),
         builder: (context, model, child) => NavigationLayout(
           title: 'Benutzerverwaltung',
           body: _buildDataView(context, model),
           actions: [
-            ActionSpecification(
-              tooltip: 'Benutzer erstellen',
-              icon: const Icon(Icons.person_add),
-              onPressed: () => model.editUser(
-                asDialog: getValueForScreenType<bool>(
-                  context: context,
-                  mobile: false,
-                  desktop: true,
+            if (model.currentUser != null &&
+                (model.currentUser.profile.accessControlList.canEditUsers ||
+                    model.currentUser.profile.accessControlList
+                        .canEditDepartmentUsers))
+              ActionSpecification(
+                tooltip: 'Benutzer erstellen',
+                icon: const Icon(Icons.person_add),
+                onPressed: () => model.editUser(
+                  asDialog: getValueForScreenType<bool>(
+                    context: context,
+                    mobile: false,
+                    desktop: true,
+                  ),
                 ),
               ),
-            ),
+            /*
             ActionSpecification(
               tooltip: 'Suche öffnen',
               icon: const Icon(Icons.search),
               onPressed: () {},
             ),
+             */
           ],
         ),
       );
@@ -68,24 +75,30 @@ class UserOverviewView extends StatelessWidget {
   ) =>
       Card(
         child: ListTile(
-          leading: SvgPicture.string(
-            Jdenticon.toSvg(user.userName),
-            height: 48,
-            width: 48,
-          ),
-          title: Text(user.userName),
-          subtitle: Text(user.department != null
-              ? '${user.department.name} - '
-                  '${user.profile.description}'
-              : user.profile.description),
-          onTap: () => model.editUser(
-            user: user,
-            asDialog: getValueForScreenType<bool>(
-              context: context,
-              mobile: false,
-              desktop: true,
+            leading: SvgPicture.string(
+              Jdenticon.toSvg(user.userName),
+              height: 48,
+              width: 48,
             ),
-          ),
-        ),
+            title: Text(user.userName),
+            subtitle: Text(user.department != null
+                ? '${user.department.name} - '
+                    '${user.profile.description}'
+                : user.profile.description),
+            onTap: () {
+              if (model.currentUser != null &&
+                  (model.currentUser.profile.accessControlList.canEditUsers ||
+                      model.currentUser.profile.accessControlList
+                          .canEditDepartmentUsers)) {
+                model.editUser(
+                  user: user,
+                  asDialog: getValueForScreenType<bool>(
+                    context: context,
+                    mobile: false,
+                    desktop: true,
+                  ),
+                );
+              }
+            }),
       );
 }

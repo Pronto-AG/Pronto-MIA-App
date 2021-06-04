@@ -7,10 +7,13 @@ import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/core/services/department_service.dart';
 import 'package:pronto_mia/ui/shared/custom_dialogs.dart';
 import 'package:pronto_mia/ui/views/department/edit/department_edit_view.dart';
+import 'package:pronto_mia/core/services/user_service.dart';
+import 'package:pronto_mia/core/models/user.dart';
 
 class DepartmentOverviewViewModel extends FutureViewModel<List<Department>> {
   static const String contextIdentifier = "DepartmentOverviewViewModel";
 
+  UserService get _userService => locator.get<UserService>();
   DepartmentService get _departmentService => locator.get<DepartmentService>();
   ErrorService get _errorService => locator.get<ErrorService>();
   DialogService get _dialogService => locator.get<DialogService>();
@@ -18,6 +21,8 @@ class DepartmentOverviewViewModel extends FutureViewModel<List<Department>> {
 
   String get errorMessage => _errorMessage;
   String _errorMessage;
+  User get currentUser => _currentUser;
+  User _currentUser;
 
   @override
   Future<List<Department>> futureToRun() async => _getDepartments();
@@ -26,6 +31,11 @@ class DepartmentOverviewViewModel extends FutureViewModel<List<Department>> {
   Future<void> onError(dynamic error) async {
     await _errorService.handleError(contextIdentifier, error);
     _errorMessage = _errorService.getErrorMessage(error);
+    notifyListeners();
+  }
+
+  Future<void> fetchCurrentUser() async {
+    _currentUser = await _userService.getCurrentUser();
     notifyListeners();
   }
 

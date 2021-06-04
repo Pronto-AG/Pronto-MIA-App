@@ -77,42 +77,25 @@ class UserEditViewModel extends FormViewModel {
       case 'canEditDeploymentPlans':
         accessControlList.canEditDeploymentPlans = value;
         if (value) {
+          accessControlList.canViewDeploymentPlans = true;
+          accessControlList.canViewDepartmentDeploymentPlans = false;
           accessControlList.canEditDepartmentDeploymentPlans = false;
         }
         break;
       case 'canEditDepartmentDeploymentPlans':
         accessControlList.canEditDepartmentDeploymentPlans = value;
         if (value) {
+          if (!accessControlList.canViewDeploymentPlans) {
+            accessControlList.canViewDepartmentDeploymentPlans = true;
+          }
           accessControlList.canEditDeploymentPlans = false;
-        }
-        break;
-      case 'canViewDepartments':
-        accessControlList.canViewDepartments = value;
-        if (value) {
-          accessControlList.canViewOwnDepartment = false;
-        }
-        break;
-      case 'canViewOwnDepartment':
-        accessControlList.canViewOwnDepartment = value;
-        if (value) {
-          accessControlList.canViewDepartments = false;
-        }
-        break;
-      case 'canEditDepartments':
-        accessControlList.canEditDepartments = value;
-        if (value) {
-          accessControlList.canEditOwnDepartment = false;
-        }
-        break;
-      case 'canEditOwnDepartment':
-        accessControlList.canEditOwnDepartment = value;
-        if (value) {
-          accessControlList.canEditDepartments = false;
         }
         break;
       case 'canViewUsers':
         accessControlList.canViewUsers = value;
         if (value) {
+          accessControlList.canViewDepartments = true;
+          accessControlList.canViewOwnDepartment = false;
           accessControlList.canViewDepartmentUsers = false;
         }
         break;
@@ -125,13 +108,38 @@ class UserEditViewModel extends FormViewModel {
       case 'canEditUsers':
         accessControlList.canEditUsers = value;
         if (value) {
+          accessControlList.canViewUsers = true;
+          accessControlList.canViewDepartments = true;
+          accessControlList.canViewOwnDepartment = false;
           accessControlList.canEditDepartmentUsers = false;
         }
         break;
       case 'canEditDepartmentUsers':
         accessControlList.canEditDepartmentUsers = value;
         if (value) {
+          if (!accessControlList.canViewUsers) {
+            accessControlList.canViewDepartmentUsers = true;
+          }
+          accessControlList.canViewDepartments = true;
+          accessControlList.canViewOwnDepartment = false;
           accessControlList.canEditUsers = false;
+        }
+        break;
+      case 'canViewDepartments':
+        accessControlList.canViewDepartments = value;
+        accessControlList.canViewOwnDepartment = !value;
+        break;
+      case 'canEditDepartments':
+        accessControlList.canEditDepartments = value;
+        if (value) {
+          accessControlList.canViewDepartments = true;
+          accessControlList.canEditOwnDepartment = false;
+        }
+        break;
+      case 'canEditOwnDepartment':
+        accessControlList.canEditOwnDepartment = value;
+        if (value) {
+          accessControlList.canEditDepartments = false;
         }
         break;
       default:

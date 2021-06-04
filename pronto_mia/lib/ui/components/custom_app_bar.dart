@@ -28,7 +28,7 @@ class CustomAppBar extends StatelessWidget {
                 onPressed: () async => _showMenu(context),
               ),
               const Spacer(),
-              ...actions,
+              if (actions != null && actions.isNotEmpty) ...actions,
             ],
           ),
         ),

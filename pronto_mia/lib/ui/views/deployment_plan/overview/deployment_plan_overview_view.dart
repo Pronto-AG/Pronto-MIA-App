@@ -40,11 +40,13 @@ class DeploymentPlanOverviewView extends StatelessWidget {
                   ),
                 ),
               ),
+            /*
             ActionSpecification(
               tooltip: 'Suche öffnen',
               icon: const Icon(Icons.search),
               onPressed: () {},
             ),
+             */
           ],
         ),
       );

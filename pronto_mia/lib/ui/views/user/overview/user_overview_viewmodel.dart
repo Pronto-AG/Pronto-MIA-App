@@ -18,6 +18,8 @@ class UserOverviewViewModel extends FutureViewModel<List<User>> {
 
   String get errorMessage => _errorMessage;
   String _errorMessage;
+  User get currentUser => _currentUser;
+  User _currentUser;
 
   @override
   Future<List<User>> futureToRun() async => _getUsers();
@@ -26,6 +28,11 @@ class UserOverviewViewModel extends FutureViewModel<List<User>> {
   Future<void> onError(dynamic error) async {
     await _errorService.handleError(contextIdentifier, error);
     _errorMessage = _errorService.getErrorMessage(error);
+    notifyListeners();
+  }
+
+  Future<void> fetchCurrentUser() async {
+    _currentUser = await _userService.getCurrentUser();
     notifyListeners();
   }
 

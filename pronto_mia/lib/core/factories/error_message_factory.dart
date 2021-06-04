@@ -21,13 +21,23 @@ class ErrorMessageFactory {
   static String _getGraphQlErrorMessage(String code) {
     switch (code) {
       case 'PasswordTooWeak':
-        return 'Das angegebene Passwort ist zu schwach.';
+        return 'Das neue Passwort entspricht nicht den Passwort-Richtlinien.';
         break;
       case 'UserAlreadyExists':
         return 'Ein Benutzer mit diesem Benutzernamen existiert bereits.';
         break;
       case 'UserNotFound':
         return 'Der angegebene Benutzer existiert nicht.';
+        break;
+      case 'DepartmentAlreadyExists':
+        return 'Eine Abteilung mit diesem Namen existiert bereits.';
+        break;
+      case 'DepartmentNotFound':
+        return "Die angegebene Abteilung konnte nicht gefunden werden.";
+        break;
+      case 'DepartmentInUse':
+        return "Abteilung kann nicht gelöscht werden, da ihr noch "
+            "Benutzer zugewiesen sind.";
         break;
       case 'DeploymentPlanNotFound':
         return 'Der angegebene Einsatzplan existiert nicht.';
@@ -57,8 +67,6 @@ class ErrorMessageFactory {
         return 'Der Benutzer ist nicht mehr angemeldet.';
         break;
       case 'UnknownError':
-        return _unknownError;
-        break;
       default:
         return _unknownError;
     }

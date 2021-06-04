@@ -43,11 +43,9 @@ class AnalyzedErrorFactory {
             .parsedResponse.errors.first.extensions["passwordPolicyViolation"]
             .toString();
       }
-    } else if(
-      error.graphqlErrors != null &&
-      error.graphqlErrors.isNotEmpty &&
-      error.graphqlErrors.length == 1)
-    {
+    } else if (error.graphqlErrors != null &&
+        error.graphqlErrors.isNotEmpty &&
+        error.graphqlErrors.length == 1) {
       analyzedError.graphQLErrorCode =
           error.graphqlErrors.first.extensions["code"].toString();
 

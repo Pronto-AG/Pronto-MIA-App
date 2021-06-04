@@ -80,7 +80,7 @@ class ErrorMessageFactory {
         'Das neue Passwort entspricht nicht den Passwort-Richtlinien. Es muss '
         'mindestens 10 Zeichen lang sein, eine Zahl, einen Grossbuchstaben, '
         'einen Kleinbuchstaben und ein Sonderzeichen enthalten.\n - Problem: ';
-    switch(passwordErrorClarification) {
+    switch (passwordErrorClarification) {
       case "Length":
         message += "Das Passwort ist zu kurz.";
         break;

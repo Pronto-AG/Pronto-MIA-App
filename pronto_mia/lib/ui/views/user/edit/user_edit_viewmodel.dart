@@ -1,4 +1,3 @@
-import 'package:pronto_mia/core/models/department.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -10,6 +9,7 @@ import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/core/services/user_service.dart';
 import 'package:pronto_mia/core/models/access_control_list.dart';
 import 'package:pronto_mia/core/models/profiles.dart';
+import 'package:pronto_mia/core/models/department.dart';
 
 class UserEditViewModel extends FormViewModel {
   static const contextIdentifier = 'UserEditViewModel';

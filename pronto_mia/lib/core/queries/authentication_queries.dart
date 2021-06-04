@@ -4,4 +4,16 @@ class AuthenticationQueries {
       authenticate(userName: \$userName, password: \$password)
     }
   """;
+
+  static const changePassword = """
+    mutation changePassword(
+      \$oldPassword: String!, 
+      \$newPassword: String!
+    ) {
+      changePassword(
+        oldPassword: \$oldPassword, 
+        newPassword: \$newPassword
+      )
+    }
+  """;
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jdenticon_dart/jdenticon_dart.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 
 import 'package:pronto_mia/ui/views/deployment_plan/overview/deployment_plan_overview_view.dart';
@@ -18,7 +19,7 @@ class NavigationMenu extends StatelessWidget {
           child: ListView(
             shrinkWrap: true,
             children: [
-              _buildProfile(model),
+              _buildProfile(context, model),
               ..._buildOverview(model),
               ..._buildAdministration(model),
             ],
@@ -26,7 +27,7 @@ class NavigationMenu extends StatelessWidget {
         ),
       );
 
-  Widget _buildProfile(NavigationMenuViewModel model) {
+  Widget _buildProfile(BuildContext context, NavigationMenuViewModel model) {
     final userName =
         model.data != null ? model.data.userName : 'Hans Mustermann';
     final userImage = Jdenticon.toSvg(userName);
@@ -42,6 +43,13 @@ class NavigationMenu extends StatelessWidget {
       ),
       title: const Text("Benutzerprofil"),
       subtitle: Text('$userName - $userProfile'),
+      onTap: () => model.openSettings(
+        asDialog: getValueForScreenType<bool>(
+          context: context,
+          mobile: false,
+          desktop: true,
+        ),
+      ),
     );
   }
 

@@ -37,4 +37,19 @@ class AuthenticationService {
     await (await _jwtTokenService).setToken(token);
     await (await _pushNotificationService).enableNotifications();
   }
+
+  Future<void> changePassword(String oldPassword, String newPassword) async {
+    final queryVariables = {
+      'oldPassword': oldPassword,
+      'newPassword': newPassword,
+    };
+
+    final data = await (await _graphQLService).query(
+      AuthenticationQueries.changePassword,
+      variables: queryVariables,
+    );
+
+    final token = data['changePassword'] as String;
+    await (await _jwtTokenService).setToken(token);
+  }
 }

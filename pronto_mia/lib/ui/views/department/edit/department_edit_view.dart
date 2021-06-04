@@ -86,13 +86,13 @@ class DepartmentEditView extends StatelessWidget with $DepartmentEditView {
           primaryButton: ButtonSpecification(
             title: 'Speichern',
             onTap: model.submitForm,
-            isBusy: model.busy(DepartmentEditViewModel.editBusyKey),
+            isBusy: model.busy(DepartmentEditViewModel.removeActionKey),
           ),
           secondaryButton: department != null
               ? ButtonSpecification(
                   title: 'Löschen',
                   onTap: model.removeDepartment,
-                  isBusy: model.busy(DepartmentEditViewModel.removeBusyKey),
+                  isBusy: model.busy(DepartmentEditViewModel.removeActionKey),
                   isDestructive: true,
                 )
               : null,

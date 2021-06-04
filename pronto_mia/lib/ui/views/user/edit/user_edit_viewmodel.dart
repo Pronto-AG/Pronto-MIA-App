@@ -1,4 +1,3 @@
-import 'package:pronto_mia/core/models/department.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -10,11 +9,12 @@ import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/core/services/user_service.dart';
 import 'package:pronto_mia/core/models/access_control_list.dart';
 import 'package:pronto_mia/core/models/profiles.dart';
+import 'package:pronto_mia/core/models/department.dart';
 
 class UserEditViewModel extends FormViewModel {
   static const contextIdentifier = 'UserEditViewModel';
-  static const editBusyKey = 'edit-busy-key';
-  static const removeBusyKey = 'remove-busy-key';
+  static const editActionKey = 'EditActionKey';
+  static const removeActionKey = 'RemoveActionKey';
 
   DepartmentService get _departmentService => locator.get<DepartmentService>();
   UserService get _userService => locator.get<UserService>();
@@ -166,7 +166,7 @@ class UserEditViewModel extends FormViewModel {
           department.id,
           accessControlList,
         ),
-        busyObject: editBusyKey,
+        busyObject: editActionKey,
       );
     } else {
       await runBusyFuture(
@@ -181,22 +181,22 @@ class UserEditViewModel extends FormViewModel {
                   ? null
                   : accessControlList,
         ),
-        busyObject: editBusyKey,
+        busyObject: editActionKey,
       );
     }
 
-    _completeFormAction();
+    _completeFormAction(editActionKey);
   }
 
   Future<void> removeUser() async {
     if (user != null) {
       await runBusyFuture(
         _userService.removeUser(user.id),
-        busyObject: removeBusyKey,
+        busyObject: removeActionKey,
       );
     }
 
-    _completeFormAction();
+    _completeFormAction(removeActionKey);
   }
 
   String _validateForm() {
@@ -219,13 +219,13 @@ class UserEditViewModel extends FormViewModel {
     return null;
   }
 
-  Future<void> _completeFormAction() async {
-    if (hasError) {
+  Future<void> _completeFormAction(String actionKey) async {
+    if (hasErrorForKey(actionKey)) {
       await _errorService.handleError(
         UserEditViewModel.contextIdentifier,
-        error,
+        error(actionKey),
       );
-      final errorMessage = _errorService.getErrorMessage(error);
+      final errorMessage = _errorService.getErrorMessage(error(actionKey));
       setValidationMessage(errorMessage);
       notifyListeners();
     } else if (isDialog) {

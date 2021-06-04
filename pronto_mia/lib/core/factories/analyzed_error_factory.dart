@@ -36,8 +36,14 @@ class AnalyzedErrorFactory {
       analyzedError.isUnknownError = true;
     }
 
-    analyzedError.graphQLErrorCode =
-        error.graphqlErrors.first.extensions["code"].toString();
+    if (serverException.parsedResponse != null) {
+      analyzedError.graphQLErrorCode = serverException
+          .parsedResponse.errors.first.extensions["code"]
+          .toString();
+    } else {
+      analyzedError.graphQLErrorCode =
+          error.graphqlErrors.first.extensions["code"].toString();
+    }
 
     if (analyzedError.graphQLErrorCode == "AUTH_NOT_AUTHENTICATED") {
       analyzedError.isAuthenticationError = true;

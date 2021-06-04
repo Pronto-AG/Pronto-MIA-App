@@ -13,8 +13,8 @@ import 'package:pronto_mia/core/services/department_service.dart';
 
 class DeploymentPlanEditViewModel extends FormViewModel {
   static const contextIdentifier = "DeploymentPlanEditViewModel";
-  static const editBusyKey = 'edit-busy-key';
-  static const removeBusyKey = 'remove-busy-key';
+  static const editActionKey = 'EditActionKey';
+  static const removeActionKey = 'RemoveActionKey';
 
   DepartmentService get _departmentService => locator.get<DepartmentService>();
   DeploymentPlanService get _deploymentPlanService =>
@@ -79,7 +79,7 @@ class DeploymentPlanEditViewModel extends FormViewModel {
       await runBusyFuture(
         _deploymentPlanService.createDeploymentPlan(descriptionValue,
             availableFrom, availableUntil, _pdfFile, _department.id),
-        busyObject: editBusyKey,
+        busyObject: editActionKey,
       );
     } else {
       await runBusyFuture(
@@ -101,42 +101,30 @@ class DeploymentPlanEditViewModel extends FormViewModel {
               ? department.id
               : null,
         ),
-        busyObject: editBusyKey,
+        busyObject: editActionKey,
       );
     }
 
-    if (hasError) {
-      await _errorService.handleError(
-          DeploymentPlanEditViewModel.contextIdentifier, error);
-      final errorMessage = _errorService.getErrorMessage(error);
-      setValidationMessage(errorMessage);
-      notifyListeners();
-    } else if (isDialog) {
-      _dialogService.completeDialog(DialogResponse(confirmed: true));
-    } else {
-      _navigationService.back(result: true);
-    }
+    _completeFormAction(editActionKey);
   }
 
   Future<void> removeDeploymentPlan() async {
     if (deploymentPlan != null) {
       await runBusyFuture(
         _deploymentPlanService.removeDeploymentPlan(deploymentPlan.id),
-        busyObject: removeBusyKey,
+        busyObject: removeActionKey,
       );
     }
 
-    if (hasError) {
-      await _errorService.handleError(
-          DeploymentPlanEditViewModel.contextIdentifier, error);
-      final errorMessage = _errorService.getErrorMessage(error);
-      setValidationMessage(errorMessage);
-      notifyListeners();
-    } else if (isDialog) {
-      _dialogService.completeDialog(DialogResponse(confirmed: true));
-    } else {
-      _navigationService.back(result: true);
-    }
+    _completeFormAction(removeActionKey);
+  }
+
+  String getDeploymentPlanTitle(DeploymentPlan deploymentPlan) {
+    return _deploymentPlanService.getDeploymentPlanTitle(deploymentPlan);
+  }
+
+  String getDeploymentPlanSubtitle(DeploymentPlan deploymentPlan) {
+    return _deploymentPlanService.getDeploymentPlanAvailability(deploymentPlan);
   }
 
   String _validateForm() {
@@ -165,11 +153,17 @@ class DeploymentPlanEditViewModel extends FormViewModel {
     return null;
   }
 
-  String getDeploymentPlanTitle(DeploymentPlan deploymentPlan) {
-    return _deploymentPlanService.getDeploymentPlanTitle(deploymentPlan);
-  }
-
-  String getDeploymentPlanSubtitle(DeploymentPlan deploymentPlan) {
-    return _deploymentPlanService.getDeploymentPlanAvailability(deploymentPlan);
+  Future<void> _completeFormAction(String actionKey) async {
+    if (hasErrorForKey(actionKey)) {
+      await _errorService.handleError(
+          DeploymentPlanEditViewModel.contextIdentifier, error(actionKey));
+      final errorMessage = _errorService.getErrorMessage(error(actionKey));
+      setValidationMessage(errorMessage);
+      notifyListeners();
+    } else if (isDialog) {
+      _dialogService.completeDialog(DialogResponse(confirmed: true));
+    } else {
+      _navigationService.back(result: true);
+    }
   }
 }

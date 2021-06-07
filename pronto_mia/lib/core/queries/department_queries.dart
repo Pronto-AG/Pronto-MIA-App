@@ -17,7 +17,7 @@ class DepartmentQueries {
   """;
 
   static const updateDepartment = """
-    mutation updateDepartment(\$id: Int!, \$name: String!) {
+    mutation updateDepartment(\$id: Int!, \$name: String) {
       updateDepartment(id: \$id, name: \$name) {
         id
       }

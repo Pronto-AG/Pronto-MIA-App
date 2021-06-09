@@ -25,7 +25,7 @@ class DeploymentPlanOverviewView extends StatelessWidget {
           adminModeEnabled: adminModeEnabled,
         ),
         builder: (context, model, child) => NavigationLayout(
-          title: adminModeEnabled ? 'Einsatplanverwaltung' : 'Einsatzpläne',
+          title: adminModeEnabled ? 'Einsatzplanverwaltung' : 'Einsatzpläne',
           body: _buildDataView(context, model),
           actions: [
             if (adminModeEnabled)

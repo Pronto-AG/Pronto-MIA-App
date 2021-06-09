@@ -6,6 +6,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2021-06-09
+
+### Added
+- Ability to create, edit and delete departments
+- Ability to create, edit and delete users
+- Ability for users to logout
+- Ability for users to change their password
+- Authorization that limits what users can do and view
+
+### Changed
+- Improved error handling
+
+### Removed
+- Items in the navigation that are not yet implemented
+
+### Fixed
+- Several bugs
+
 ## [0.2.0] - 2021-05-18
 
 ### Added

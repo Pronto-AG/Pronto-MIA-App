@@ -1,11 +1,7 @@
-import 'dart:math';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:pronto_mia/core/services/jwt_token_service.dart';
 
-import 'package:pronto_mia/core/services/pdf_service.dart';
+import 'package:pronto_mia/core/services/jwt_token_service.dart';
 
 import '../setup/test_helpers.dart';
 import '../setup/test_helpers.mocks.dart';

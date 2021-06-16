@@ -6,6 +6,7 @@ analyzer:
     lib/app/app.router.dart,
     lib/ui/**.form.dart,
     lib/generated_plugin_registrant.dart,
+    test/**
   ]
 
 linter:

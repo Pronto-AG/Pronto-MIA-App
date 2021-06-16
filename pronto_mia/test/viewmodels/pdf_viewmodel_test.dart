@@ -36,7 +36,7 @@ void main() {
       test('throws error on unknown argument', () async {
         pdfViewModel = PdfViewModel(pdfFile: 1);
         expect(
-          () async => await pdfViewModel.futureToRun(),
+          () async => pdfViewModel.futureToRun(),
           throwsA(isA<AssertionError>()),
         );
       });

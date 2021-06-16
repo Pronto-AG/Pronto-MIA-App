@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:pronto_mia/core/models/access_control_list.dart';
 
 import 'package:pronto_mia/core/models/department.dart';
 import 'package:pronto_mia/core/models/profiles.dart';

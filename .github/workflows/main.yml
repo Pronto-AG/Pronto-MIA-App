@@ -59,7 +59,7 @@ jobs:
       run: sudo apt-get install lcov -y
 
     - name: Exclude files from test coverage
-      run: lcov --remove .\coverage\lcov.info -o .\coverage\lcov-filtered.info \ 
+      run: lcov --remove coverage/lcov.info -o coverage/lcov-filtered.info \ 
             'lib/app/service_locator.dart' \ 
             'lib/core/models/*' \ 
             'lib/ui/components/*' \ 

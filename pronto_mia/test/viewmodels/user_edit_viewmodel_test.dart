@@ -260,7 +260,7 @@ void main() {
         );
       });
 
-      test('sets message on empty username', () async {
+      test('sets message on empty password', () async {
         userEditViewModel.formValueMap['userName'] = 'test';
 
         await userEditViewModel.submitForm();

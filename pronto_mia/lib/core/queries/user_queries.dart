@@ -1,3 +1,4 @@
+/// Group all queries and mutations, which access the User GraphQL type
 class UserQueries {
   static const users = """
     query users() {

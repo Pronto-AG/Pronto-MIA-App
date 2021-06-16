@@ -29,6 +29,7 @@ class DepartmentOverviewViewModel extends FutureViewModel<List<Department>> {
 
   @override
   Future<void> onError(dynamic error) async {
+    super.onError(error);
     await _errorService.handleError(contextIdentifier, error);
     _errorMessage = _errorService.getErrorMessage(error);
     notifyListeners();
@@ -42,17 +43,17 @@ class DepartmentOverviewViewModel extends FutureViewModel<List<Department>> {
   Future<void> editDepartment(
       {Department department, bool asDialog = false}) async {
     bool dataHasChanged;
-
     if (asDialog) {
       final dialogResponse = await _dialogService.showCustomDialog(
         variant: DialogType.custom,
         customData: DepartmentEditView(department: department, isDialog: true),
       );
-      dataHasChanged = dialogResponse.confirmed;
+      dataHasChanged = dialogResponse?.confirmed ?? false;
     } else {
       final navigationResponse =
           await _navigationService.navigateWithTransition(
         DepartmentEditView(department: department),
+        transition: NavigationTransition.LeftToRight,
       );
       dataHasChanged = navigationResponse is bool && navigationResponse == true;
     }

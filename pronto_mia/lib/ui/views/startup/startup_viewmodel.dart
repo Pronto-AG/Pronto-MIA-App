@@ -1,4 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:logging/logging.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -28,14 +27,13 @@ class StartUpViewModel extends BaseViewModel {
 
   @override
   Future<void> onFutureError(dynamic error, Object key) async {
-    await _errorService.handleError(
-        StartUpViewModel.contextIdentifier, modelError);
-    _errorMessage = _errorService.getErrorMessage(modelError);
+    super.onFutureError(error, key);
+    await _errorService.handleError(StartUpViewModel.contextIdentifier, error);
+    _errorMessage = _errorService.getErrorMessage(error);
+    notifyListeners();
   }
 
   Future<void> handleStartUp() async {
-    await Firebase.initializeApp();
-
     final isAuthenticated = await runErrorFuture(
       _authenticationService.isAuthenticated(),
     ) as bool;

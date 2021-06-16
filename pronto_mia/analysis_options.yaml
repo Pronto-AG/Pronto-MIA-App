@@ -6,6 +6,7 @@ analyzer:
     lib/app/app.router.dart,
     lib/ui/**.form.dart,
     lib/generated_plugin_registrant.dart,
+    test/**
   ]
 
 linter:
@@ -14,3 +15,11 @@ linter:
     - always_use_package_imports
     # - package_api_docs
     # - public_member_api_docs
+
+dart_code_metrics:
+  metrics:
+    cyclomatic-complexity: 10
+    lines-of-executable-code: 1000
+    number-of-arguments: 6
+  metrics-exclude:
+    - test/**

@@ -15,36 +15,41 @@ class GraphQLService {
 
   GraphQLClient _graphQLClient;
 
+  GraphQLService({GraphQLClient graphQLClient})
+      : _graphQLClient = graphQLClient;
+
   Future<void> init() async {
-    IOClient ioClient;
-    final apiPath = (await _configurationService).getValue<String>('apiPath');
-    final enforceValidCertificate =
-        (await _configurationService).getValue<bool>('enforceValidCertificate');
+    if (_graphQLClient == null) {
+      IOClient ioClient;
+      final apiPath = (await _configurationService).getValue<String>('apiPath');
+      final enforceValidCertificate = (await _configurationService)
+          .getValue<bool>('enforceValidCertificate');
 
-    if (!kIsWeb && !enforceValidCertificate) {
-      final httpClient = HttpClient();
-      httpClient.badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
-      ioClient = IOClient(httpClient);
+      if (!kIsWeb && !enforceValidCertificate) {
+        final httpClient = HttpClient();
+        httpClient.badCertificateCallback =
+            (X509Certificate cert, String host, int port) => true;
+        ioClient = IOClient(httpClient);
+      }
+
+      final httpLink = HttpLink(apiPath, httpClient: ioClient);
+      final authLink = AuthLink(getToken: _getJwtToken);
+      final link = authLink.concat(httpLink);
+
+      // TODO: Review cache policies when https://github.com/zino-app/graphql-flutter/issues/871 is fixed
+      final policies = Policies(
+        fetch: FetchPolicy.noCache,
+      );
+
+      _graphQLClient = GraphQLClient(
+        link: link,
+        cache: GraphQLCache(),
+        defaultPolicies: DefaultPolicies(
+          query: policies,
+          mutate: policies,
+        ),
+      );
     }
-
-    final httpLink = HttpLink(apiPath, httpClient: ioClient);
-    final authLink = AuthLink(getToken: _getJwtToken);
-    final link = authLink.concat(httpLink);
-
-    // TODO: Review cache policies when https://github.com/zino-app/graphql-flutter/issues/871 is fixed
-    final policies = Policies(
-      fetch: FetchPolicy.noCache,
-    );
-
-    _graphQLClient = GraphQLClient(
-      link: link,
-      cache: GraphQLCache(),
-      defaultPolicies: DefaultPolicies(
-        query: policies,
-        mutate: policies,
-      ),
-    );
   }
 
   Future<Map<String, dynamic>> query(

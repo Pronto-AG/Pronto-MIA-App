@@ -9,13 +9,18 @@ import 'package:url_launcher/url_launcher.dart';
 class PdfService {
   static const String cacheKey = 'cacheManagerCacheKey';
 
-  final _cacheManager = CacheManager(
-    Config(
-      cacheKey,
-      stalePeriod: const Duration(days: 7),
-      maxNrOfCacheObjects: 20,
-    ),
-  );
+  final CacheManager _cacheManager;
+
+  PdfService({CacheManager cacheManager})
+      : _cacheManager = cacheManager ??
+            CacheManager(
+              Config(
+                cacheKey,
+                stalePeriod: const Duration(days: 7),
+                maxNrOfCacheObjects: 20,
+              ),
+            );
+
   Future<JwtTokenService> get _jwtTokenService =>
       locator.getAsync<JwtTokenService>();
 
@@ -24,7 +29,7 @@ class PdfService {
     final httpHeaders = {"Authorization": "Bearer $token"};
     final file = await _cacheManager.getSingleFile(path, headers: httpHeaders);
 
-    return SimpleFile(name: 'upload.pdf', bytes: file.readAsBytesSync());
+    return SimpleFile(name: 'upload.pdf', bytes: file?.readAsBytesSync());
   }
 
   void openPdfWeb(SimpleFile pdf) {

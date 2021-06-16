@@ -1,23 +1,54 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 import 'package:pronto_mia/ui/views/login/login_viewmodel.dart';
 
 import '../setup/test_helpers.dart';
 
 void main() {
-  group('LoginViewModelTest', () {
-    setUp(() => registerServices());
+  group('LoginViewModel', () {
+    LoginViewModel loginViewModel;
+    setUp(() {
+      registerServices();
+      loginViewModel = LoginViewModel();
+    });
     tearDown(() => unregisterServices());
 
-    group('login()', () {
-      test('When login show validation message', () async {
-        getAndRegisterAuthenticationServiceMock();
-        getAndRegisterNavigationServiceMock();
+    group('submitForm', () {
+      test('sets message on empty username', () async {
+        await loginViewModel.submitForm();
+        expect(
+          loginViewModel.validationMessage,
+          equals('Bitte Benutzernamen eingeben.'),
+        );
+      });
 
-        final model = LoginViewModel();
-        await model.submitForm();
+      test('sets message on empty password', () async {
+        loginViewModel.formValueMap['userName'] = 'test';
 
-        expect(model.validationMessage, 'Bitte Benutzernamen eingeben.');
+        await loginViewModel.submitForm();
+        expect(
+          loginViewModel.validationMessage,
+          equals('Bitte Passwort eingeben.'),
+        );
+      });
+
+      test('navigates on successful login', () async {
+        final authenticationService = getAndRegisterMockAuthenticationService();
+        final navigationService = getAndRegisterMockNavigationService();
+        loginViewModel.formValueMap['userName'] = 'foo';
+        loginViewModel.formValueMap['password'] = 'bar';
+
+        await loginViewModel.submitForm();
+        expect(loginViewModel.validationMessage, isNull);
+        verify(authenticationService.login('foo', 'bar')).called(1);
+        verify(
+          navigationService.replaceWithTransition(
+            argThat(anything),
+            transition: NavigationTransition.UpToDown,
+          ),
+        );
       });
     });
   });

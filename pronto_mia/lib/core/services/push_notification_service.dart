@@ -21,17 +21,18 @@ class PushNotificationService {
   DeploymentPlanService get _deploymentPlanService =>
       locator.get<DeploymentPlanService>();
   DialogService get _dialogService => locator.get<DialogService>();
+  Future<ConfigurationService> get _configurationService =>
+      locator.getAsync<ConfigurationService>();
 
   String _pushMessageServerVapidPublicKey;
   bool _notificationsEnabled = false;
   bool _pushDialogOpen = false;
 
-  Future<ConfigurationService> get _configurationService =>
-      locator.getAsync<ConfigurationService>();
+  PushNotificationService({FirebaseMessaging fcm}) : _fcm = fcm;
 
   Future<void> init() async {
     await Firebase.initializeApp();
-    _fcm = FirebaseMessaging.instance;
+    _fcm = _fcm ?? FirebaseMessaging.instance;
     _pushMessageServerVapidPublicKey = (await _configurationService)
         .getValue<String>('pushMessageServerVapidPublicKey');
   }

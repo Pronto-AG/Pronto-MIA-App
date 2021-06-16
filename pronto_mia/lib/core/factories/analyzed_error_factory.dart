@@ -1,8 +1,13 @@
 import 'package:graphql/client.dart';
 import 'package:pronto_mia/core/models/analyzed_error.dart';
 
+/// A factory, that is globally responsible for analyzing errors.
 // ignore: avoid_classes_with_only_static_members
 class AnalyzedErrorFactory {
+  /// Creates a [ConstAnalyzedError] from an error of any type.
+  ///
+  /// Takes an error of [dynamic] type as an input.
+  /// Returns the [ConstAnalyzedError] representation of the error.
   static ConstAnalyzedError create(dynamic error) {
     final analyzedError = AnalyzedError();
     analyzedError.error = error;
@@ -68,7 +73,7 @@ class AnalyzedErrorFactory {
     }
   }
 
-  // ToDo: Replace with #39 globally.
+  // TODO: Replace with Issue #39 globally.
   static bool _isNetworkAvailable(OperationException exception) {
     if (exception.linkException is NetworkException) {
       return false;

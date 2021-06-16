@@ -28,7 +28,6 @@ mixin $LoginView on StatelessWidget {
   /// Calls dispose on all the generated controllers and focus nodes
   void disposeForm() {
     // The dispose function for a TextEditingController sets all listeners to null
-
     userNameController.dispose();
     passwordController.dispose();
   }

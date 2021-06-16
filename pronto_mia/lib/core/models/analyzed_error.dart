@@ -1,3 +1,8 @@
+import 'package:pronto_mia/core/factories/analyzed_error_factory.dart';
+
+/// A representation of an error analyzed through [AnalyzedErrorFactory].
+///
+/// It contains properties showing different attributes the error has.
 class AnalyzedError {
   bool isUnknownError = false;
   bool isNetworkError = false;
@@ -10,6 +15,7 @@ class AnalyzedError {
   dynamic error;
 }
 
+/// An immutable representation of [AnalyzedError].
 class ConstAnalyzedError {
   bool _isUnknownError = false;
   bool get isUnknownError => _isUnknownError;
@@ -30,6 +36,10 @@ class ConstAnalyzedError {
   dynamic _error;
   dynamic get error => _error;
 
+  /// Initializes a new instance of [ConstAnalyzedError].
+  ///
+  /// Takes different [bool] and [String] error properties, including the
+  /// original error as an input.
   ConstAnalyzedError(AnalyzedError error) {
     _isUnknownError = error.isUnknownError;
     _isNetworkError = error.isNetworkError;

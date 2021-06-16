@@ -1,3 +1,5 @@
+/// A representation of an access control list, containing all permissions an
+/// user can have.
 class AccessControlList {
   final int id;
   bool canViewDeploymentPlans;
@@ -13,6 +15,9 @@ class AccessControlList {
   bool canEditDepartments;
   bool canEditOwnDepartment;
 
+  /// Initializes a new instance of [AccessControlList].
+  ///
+  /// Takes an [int] id and [bool] permissions options as an input.
   AccessControlList({
     this.id,
     this.canViewDeploymentPlans = false,
@@ -29,6 +34,9 @@ class AccessControlList {
     this.canEditOwnDepartment = false,
   });
 
+  /// Initializes a new [AccessControlList] from the values of another.
+  ///
+  /// Takes the [AccessControlList] to copy as an input.
   AccessControlList.copy(AccessControlList toCopy)
       : id = toCopy.id,
         canViewDeploymentPlans = toCopy.canViewDeploymentPlans,
@@ -46,6 +54,9 @@ class AccessControlList {
         canEditDepartments = toCopy.canEditDepartments,
         canEditOwnDepartment = toCopy.canEditOwnDepartment;
 
+  /// Initializes a new [AccessControlList] from a JSON format object.
+  ///
+  /// Takes a [Map] representing a JSON object as an input.
   AccessControlList.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int,
         canViewDeploymentPlans =
@@ -67,6 +78,10 @@ class AccessControlList {
         canEditDepartments = json['canEditDepartments'] as bool ?? false,
         canEditOwnDepartment = json['canEditOwnDepartment'] as bool ?? false;
 
+  /// Converts an [AccessControlList] to a JSON format object.
+  ///
+  /// Returns the current instances values as a [Map] JSON object
+  /// representation.
   Map<String, dynamic> toJson() {
     return {
       'canViewDeploymentPlans': canViewDeploymentPlans,
@@ -84,6 +99,11 @@ class AccessControlList {
     };
   }
 
+  /// Determines if the current instances values are equal to another
+  /// [AccessControlList].
+  ///
+  /// Takes the [AccessControlList] to compare as an input.
+  /// Returns wether the compared values are equal as [bool].
   bool isEqual(AccessControlList other) {
     if (canViewDeploymentPlans == other.canViewDeploymentPlans &&
         canViewDepartmentDeploymentPlans ==

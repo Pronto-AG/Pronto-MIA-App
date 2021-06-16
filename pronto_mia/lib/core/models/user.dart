@@ -1,12 +1,17 @@
 import 'package:pronto_mia/core/models/department.dart';
 import 'package:pronto_mia/core/models/profiles.dart';
 
+/// A representation of a user, which used the application.
 class User {
   final int id;
   final String userName;
   final Department department;
   final Profile profile;
 
+  /// Initializes a new instance of [User].
+  ///
+  /// Takes an [int] id a [String] username, alongside the [Department] the user
+  /// works for and a [Profile] set of permissions as an input.
   User({
     this.id,
     this.userName,
@@ -14,6 +19,9 @@ class User {
     this.profile,
   });
 
+  /// Initializes a new [User] from a JSON format object.
+  ///
+  /// Takes a [Map] representing a JSON object as an input.
   User.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int,
         userName = json['userName'] as String,

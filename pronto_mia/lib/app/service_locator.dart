@@ -15,8 +15,10 @@ import 'package:pronto_mia/core/services/user_service.dart';
 import 'package:pronto_mia/core/services/department_service.dart';
 import 'package:pronto_mia/ui/shared/custom_dialogs.dart';
 
+/// Exposes the [StackedLocator] instance.
 final locator = StackedLocator.instance;
 
+/// Registers all services lazily, either sync or async.
 void setupLocator() {
   locator.registerLazySingletonAsync<ConfigurationService>(() async {
     final configurationService = ConfigurationService();

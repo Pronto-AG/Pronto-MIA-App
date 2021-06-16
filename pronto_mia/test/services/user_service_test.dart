@@ -1,4 +1,3 @@
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pronto_mia/core/models/access_control_list.dart';
@@ -26,10 +25,12 @@ void main() {
             variables: captureAnyNamed('variables'),
             useCache: captureAnyNamed('useCache'),
           ),
-        ).thenAnswer((realInvocation) => Future.value({'user': {
-          'id': 1,
-          'userName': 'test',
-        }}));
+        ).thenAnswer((realInvocation) => Future.value({
+              'user': {
+                'id': 1,
+                'userName': 'test',
+              }
+            }));
 
         expect(await userService.getCurrentUser(), isNotNull);
         verify(graphQLService.query(UserQueries.currentUser)).called(1);
@@ -44,9 +45,11 @@ void main() {
             variables: captureAnyNamed('variables'),
             useCache: captureAnyNamed('useCache'),
           ),
-        ).thenAnswer((realInvocation) => Future.value({'user': {
-          'id': null,
-        }}));
+        ).thenAnswer((realInvocation) => Future.value({
+              'user': {
+                'id': null,
+              }
+            }));
 
         expect(await userService.getCurrentUser(), isNull);
         verify(graphQLService.query(UserQueries.currentUser)).called(1);
@@ -68,10 +71,14 @@ void main() {
             useCache: captureAnyNamed('useCache'),
           ),
         ).thenAnswer(
-              (realInvocation) => Future.value({'users': [{
+          (realInvocation) => Future.value({
+            'users': [
+              {
                 'id': 1,
                 'name': 'test',
-              }]}),
+              }
+            ]
+          }),
         );
 
         expect(await userService.getUsers(), hasLength(1));

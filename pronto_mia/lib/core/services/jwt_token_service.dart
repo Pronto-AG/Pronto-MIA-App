@@ -23,8 +23,8 @@ class JwtTokenService {
   JwtTokenService({
     SharedPreferences sharedPreferences,
     FlutterSecureStorage secureStorage,
-  }) : _sharedPreferences = sharedPreferences,
-    _secureStorage = secureStorage;
+  })  : _sharedPreferences = sharedPreferences,
+        _secureStorage = secureStorage;
 
   Future<void> init() async {
     if (kIsWeb) {

@@ -28,8 +28,7 @@ class PushNotificationService {
   bool _notificationsEnabled = false;
   bool _pushDialogOpen = false;
 
-  PushNotificationService({FirebaseMessaging fcm})
-    : _fcm = fcm;
+  PushNotificationService({FirebaseMessaging fcm}) : _fcm = fcm;
 
   Future<void> init() async {
     await Firebase.initializeApp();

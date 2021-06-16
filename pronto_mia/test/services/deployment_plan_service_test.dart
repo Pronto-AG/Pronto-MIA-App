@@ -11,8 +11,7 @@ import 'package:stacked_services/stacked_services.dart';
 import '../setup/test_helpers.dart';
 
 void main() {
-  group('DeploymentPlanService', ()
-  {
+  group('DeploymentPlanService', () {
     DeploymentPlanService deploymentPlanService;
     setUp(() {
       registerServices();
@@ -30,12 +29,16 @@ void main() {
             useCache: captureAnyNamed('useCache'),
           ),
         ).thenAnswer(
-              (realInvocation) => Future.value({'deploymentPlans': [{
-            'id': 1,
-            'description': 'test',
-            'availableFrom': DateTime.now().toIso8601String(),
-            'availableUntil': DateTime.now().toIso8601String(),
-          }]}),
+          (realInvocation) => Future.value({
+            'deploymentPlans': [
+              {
+                'id': 1,
+                'description': 'test',
+                'availableFrom': DateTime.now().toIso8601String(),
+                'availableUntil': DateTime.now().toIso8601String(),
+              }
+            ]
+          }),
         );
 
         expect(await deploymentPlanService.getDeploymentPlans(), hasLength(1));
@@ -55,12 +58,16 @@ void main() {
             useCache: captureAnyNamed('useCache'),
           ),
         ).thenAnswer(
-              (realInvocation) => Future.value({'deploymentPlans': [{
-            'id': 1,
-            'description': 'test',
-            'availableFrom': DateTime.now().toIso8601String(),
-            'availableUntil': DateTime.now().toIso8601String(),
-          }]}),
+          (realInvocation) => Future.value({
+            'deploymentPlans': [
+              {
+                'id': 1,
+                'description': 'test',
+                'availableFrom': DateTime.now().toIso8601String(),
+                'availableUntil': DateTime.now().toIso8601String(),
+              }
+            ]
+          }),
         );
 
         expect(await deploymentPlanService.getDeploymentPlan(1), isNotNull);
@@ -83,12 +90,16 @@ void main() {
             useCache: captureAnyNamed('useCache'),
           ),
         ).thenAnswer(
-              (realInvocation) => Future.value({'deploymentPlans': [{
-            'id': 1,
-            'description': 'test',
-            'availableFrom': DateTime.now().toIso8601String(),
-            'availableUntil': DateTime.now().toIso8601String(),
-          }]}),
+          (realInvocation) => Future.value({
+            'deploymentPlans': [
+              {
+                'id': 1,
+                'description': 'test',
+                'availableFrom': DateTime.now().toIso8601String(),
+                'availableUntil': DateTime.now().toIso8601String(),
+              }
+            ]
+          }),
         );
 
         expect(
@@ -135,7 +146,8 @@ void main() {
         final graphQLService = getAndRegisterMockGraphQLService();
 
         await deploymentPlanService.updateDeploymentPlan(
-            1, description: 'test',
+          1,
+          description: 'test',
         );
         verify(
           graphQLService.mutate(
@@ -155,7 +167,8 @@ void main() {
         final graphQLService = getAndRegisterMockGraphQLService();
 
         await deploymentPlanService.updateDeploymentPlan(
-          1, pdfFile: SimpleFile(name: 'test.pdf', bytes: Uint8List(5)),
+          1,
+          pdfFile: SimpleFile(name: 'test.pdf', bytes: Uint8List(5)),
         );
         verify(
           graphQLService.mutate(
@@ -273,29 +286,35 @@ void main() {
 
     group('getDeploymentPlanTitle', () {
       test('returns title with description', () {
-        expect(deploymentPlanService.getDeploymentPlanTitle(DeploymentPlan(
-          description: 'test',
-          availableFrom: DateTime(2021),
-          availableUntil: DateTime(2022),
-        )), equals('test'));
+        expect(
+            deploymentPlanService.getDeploymentPlanTitle(DeploymentPlan(
+              description: 'test',
+              availableFrom: DateTime(2021),
+              availableUntil: DateTime(2022),
+            )),
+            equals('test'));
       });
 
       test('returns title without description', () {
-        expect(deploymentPlanService.getDeploymentPlanTitle(DeploymentPlan(
-          availableFrom: DateTime(2021),
-          availableUntil: DateTime(2022),
-        )), equals('Einsatzplan 01.01.2021'));
+        expect(
+            deploymentPlanService.getDeploymentPlanTitle(DeploymentPlan(
+              availableFrom: DateTime(2021),
+              availableUntil: DateTime(2022),
+            )),
+            equals('Einsatzplan 01.01.2021'));
       });
     });
 
     group('getDeploymentPlanAvailability', () {
       test('returns correct availability format', () {
-        expect(deploymentPlanService.getDeploymentPlanAvailability(
-          DeploymentPlan(
-            availableFrom: DateTime(2021),
-            availableUntil: DateTime(2022),
-          ),
-        ), equals('01.01.2021 00:00 - 01.01.2022 00:00'));
+        expect(
+            deploymentPlanService.getDeploymentPlanAvailability(
+              DeploymentPlan(
+                availableFrom: DateTime(2021),
+                availableUntil: DateTime(2022),
+              ),
+            ),
+            equals('01.01.2021 00:00 - 01.01.2022 00:00'));
       });
     });
   });

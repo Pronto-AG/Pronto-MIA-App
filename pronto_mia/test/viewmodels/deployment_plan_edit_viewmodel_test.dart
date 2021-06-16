@@ -20,9 +20,8 @@ void main() {
     group('fetchDepartments', () {
       test('fetches departments', () async {
         final departmentService = getAndRegisterMockDepartmentService();
-        when(
-          departmentService.getDepartments()
-        ).thenAnswer((realInvocation) => Future.value([Department()]));
+        when(departmentService.getDepartments())
+            .thenAnswer((realInvocation) => Future.value([Department()]));
 
         await deploymentPlanEditViewModel.fetchDepartments();
         expect(deploymentPlanEditViewModel.availableDepartments, isNotNull);
@@ -61,7 +60,7 @@ void main() {
 
       test('sets message on empty end date', () async {
         deploymentPlanEditViewModel.formValueMap['availableFrom'] =
-          '2011-10-05T14:48:00.000Z';
+            '2011-10-05T14:48:00.000Z';
 
         await deploymentPlanEditViewModel.submitForm();
         expect(
@@ -72,9 +71,9 @@ void main() {
 
       test('sets message on end date before start date', () async {
         deploymentPlanEditViewModel.formValueMap['availableFrom'] =
-          '2011-10-05T14:48:00.000Z';
+            '2011-10-05T14:48:00.000Z';
         deploymentPlanEditViewModel.formValueMap['availableUntil'] =
-          '2010-10-05T14:48:00.000Z';
+            '2010-10-05T14:48:00.000Z';
 
         await deploymentPlanEditViewModel.submitForm();
         expect(
@@ -85,9 +84,9 @@ void main() {
 
       test('sets message on empty department', () async {
         deploymentPlanEditViewModel.formValueMap['availableFrom'] =
-          '2011-10-05T14:48:00.000Z';
+            '2011-10-05T14:48:00.000Z';
         deploymentPlanEditViewModel.formValueMap['availableUntil'] =
-          '2012-10-05T14:48:00.000Z';
+            '2012-10-05T14:48:00.000Z';
 
         await deploymentPlanEditViewModel.submitForm();
         expect(
@@ -98,9 +97,9 @@ void main() {
 
       test('sets message on empty file upload', () async {
         deploymentPlanEditViewModel.formValueMap['availableFrom'] =
-          '2011-10-05T14:48:00.000Z';
+            '2011-10-05T14:48:00.000Z';
         deploymentPlanEditViewModel.formValueMap['availableUntil'] =
-          '2012-10-05T14:48:00.000Z';
+            '2012-10-05T14:48:00.000Z';
         deploymentPlanEditViewModel.setDepartment(Department());
 
         await deploymentPlanEditViewModel.submitForm();
@@ -115,11 +114,10 @@ void main() {
         final navigationService = getAndRegisterMockNavigationService();
         deploymentPlanEditViewModel.formValueMap['description'] = 'test';
         deploymentPlanEditViewModel.formValueMap['availableFrom'] =
-        '2011-10-05T14:48:00.000Z';
+            '2011-10-05T14:48:00.000Z';
         deploymentPlanEditViewModel.formValueMap['availableUntil'] =
-        '2012-10-05T14:48:00.000Z';
-        deploymentPlanEditViewModel.formValueMap['pdfPath'] =
-        'test';
+            '2012-10-05T14:48:00.000Z';
+        deploymentPlanEditViewModel.formValueMap['pdfPath'] = 'test';
         deploymentPlanEditViewModel.setDepartment(Department(id: 1));
         deploymentPlanEditViewModel.setPdfUpload(SimpleFile());
 
@@ -143,22 +141,21 @@ void main() {
         final dialogService = getAndRegisterMockDialogService();
         deploymentPlanEditViewModel.formValueMap['description'] = 'test';
         deploymentPlanEditViewModel.formValueMap['availableFrom'] =
-        '2011-10-05T14:48:00.000Z';
+            '2011-10-05T14:48:00.000Z';
         deploymentPlanEditViewModel.formValueMap['availableUntil'] =
-        '2012-10-05T14:48:00.000Z';
-        deploymentPlanEditViewModel.formValueMap['pdfPath'] =
-        'test';
+            '2012-10-05T14:48:00.000Z';
+        deploymentPlanEditViewModel.formValueMap['pdfPath'] = 'test';
         deploymentPlanEditViewModel.setDepartment(Department(id: 1));
         deploymentPlanEditViewModel.setPdfUpload(SimpleFile());
 
         await deploymentPlanEditViewModel.submitForm();
         expect(deploymentPlanEditViewModel.validationMessage, isNull);
         verify(deploymentPlanService.createDeploymentPlan(
-            'test',
-            DateTime.parse('2011-10-05T14:48:00.000Z'),
-            DateTime.parse('2012-10-05T14:48:00.000Z'),
-            argThat(isNotNull),
-            1,
+          'test',
+          DateTime.parse('2011-10-05T14:48:00.000Z'),
+          DateTime.parse('2012-10-05T14:48:00.000Z'),
+          argThat(isNotNull),
+          1,
         )).called(1);
         verify(dialogService.completeDialog(argThat(anything)));
       });
@@ -178,11 +175,10 @@ void main() {
         final navigationService = getAndRegisterMockNavigationService();
         deploymentPlanEditViewModel.formValueMap['description'] = 'bar';
         deploymentPlanEditViewModel.formValueMap['availableFrom'] =
-        '2011-10-05T14:48:00.000Z';
+            '2011-10-05T14:48:00.000Z';
         deploymentPlanEditViewModel.formValueMap['availableUntil'] =
-        '2012-10-05T14:48:00.000Z';
-        deploymentPlanEditViewModel.formValueMap['pdfPath'] =
-        'test';
+            '2012-10-05T14:48:00.000Z';
+        deploymentPlanEditViewModel.formValueMap['pdfPath'] = 'test';
         deploymentPlanEditViewModel.setDepartment(Department(id: 1));
 
         await deploymentPlanEditViewModel.submitForm();
@@ -210,11 +206,10 @@ void main() {
         final dialogService = getAndRegisterMockDialogService();
         deploymentPlanEditViewModel.formValueMap['description'] = 'bar';
         deploymentPlanEditViewModel.formValueMap['availableFrom'] =
-        '2011-10-05T14:48:00.000Z';
+            '2011-10-05T14:48:00.000Z';
         deploymentPlanEditViewModel.formValueMap['availableUntil'] =
-        '2012-10-05T14:48:00.000Z';
-        deploymentPlanEditViewModel.formValueMap['pdfPath'] =
-        'test';
+            '2012-10-05T14:48:00.000Z';
+        deploymentPlanEditViewModel.formValueMap['pdfPath'] = 'test';
         deploymentPlanEditViewModel.setDepartment(Department(id: 1));
 
         await deploymentPlanEditViewModel.submitForm();

@@ -21,7 +21,7 @@ void main() {
       test('returns available departments on default mode', () async {
         final deploymentPlanService = getAndRegisterMockDeploymentPlanService();
         when(deploymentPlanService.getAvailableDeploymentPlans()).thenAnswer(
-            (realInvocation) => Future.value([DeploymentPlan()]),
+          (realInvocation) => Future.value([DeploymentPlan()]),
         );
 
         expect(
@@ -37,7 +37,7 @@ void main() {
         );
         final deploymentPlanService = getAndRegisterMockDeploymentPlanService();
         when(deploymentPlanService.getDeploymentPlans()).thenAnswer(
-              (realInvocation) => Future.value([DeploymentPlan()]),
+          (realInvocation) => Future.value([DeploymentPlan()]),
         );
 
         expect(
@@ -65,7 +65,7 @@ void main() {
       });
     });
 
-    group('openPdf', ()  {
+    group('openPdf', () {
       test('opens PDF', () async {
         final deploymentPlanService = getAndRegisterMockDeploymentPlanService();
 
@@ -112,7 +112,9 @@ void main() {
             captureAny,
             transition: captureAnyNamed('transition'),
           ),
-        ).thenAnswer((realInvocation) => Future.value(true),);
+        ).thenAnswer(
+          (realInvocation) => Future.value(true),
+        );
 
         await deploymentPlanOverviewViewModel.editDeploymentPlan(
           deploymentPlan: DeploymentPlan(),
@@ -135,7 +137,7 @@ void main() {
             customData: captureAnyNamed('customData'),
           ),
         ).thenAnswer(
-              (realInvocation) => Future.value(DialogResponse(confirmed: true)),
+          (realInvocation) => Future.value(DialogResponse(confirmed: true)),
         );
 
         await deploymentPlanOverviewViewModel.editDeploymentPlan(
@@ -176,7 +178,7 @@ void main() {
           dialogService.showConfirmationDialog(
             title: 'Einsatzplan veröffentlichen',
             description:
-              'Wollen sie den Einsatzplan "null" wirklich veröffentlichen?',
+                'Wollen sie den Einsatzplan "null" wirklich veröffentlichen?',
             cancelTitle: 'Nein',
             confirmationTitle: 'Ja',
             barrierDismissible: false,
@@ -203,7 +205,7 @@ void main() {
           dialogService.showConfirmationDialog(
             title: 'Einsatzplan veröffentlichen',
             description:
-            'Wollen sie den Einsatzplan "null" wirklich veröffentlichen?',
+                'Wollen sie den Einsatzplan "null" wirklich veröffentlichen?',
             cancelTitle: 'Nein',
             confirmationTitle: 'Ja',
             barrierDismissible: false,
@@ -234,7 +236,7 @@ void main() {
             dialogPlatform: captureAnyNamed('dialogPlatform'),
           ),
         ).thenAnswer(
-              (realInvocation) => Future.value(DialogResponse(confirmed: true)),
+          (realInvocation) => Future.value(DialogResponse(confirmed: true)),
         );
 
         await deploymentPlanOverviewViewModel.hideDeploymentPlan(
@@ -244,7 +246,7 @@ void main() {
           dialogService.showConfirmationDialog(
             title: 'Einsatzplan verstecken',
             description:
-            'Wollen sie den Einsatzplan "null" wirklich verstecken?',
+                'Wollen sie den Einsatzplan "null" wirklich verstecken?',
             cancelTitle: 'Nein',
             confirmationTitle: 'Ja',
             barrierDismissible: false,
@@ -265,7 +267,7 @@ void main() {
           dialogService.showConfirmationDialog(
             title: 'Einsatzplan verstecken',
             description:
-            'Wollen sie den Einsatzplan "null" wirklich verstecken?',
+                'Wollen sie den Einsatzplan "null" wirklich verstecken?',
             cancelTitle: 'Nein',
             confirmationTitle: 'Ja',
             barrierDismissible: false,

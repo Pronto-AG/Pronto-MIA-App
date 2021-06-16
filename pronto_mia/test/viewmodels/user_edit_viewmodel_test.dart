@@ -21,9 +21,8 @@ void main() {
     group('fetchDepartments', () {
       test('fetches departments', () async {
         final departmentService = getAndRegisterMockDepartmentService();
-        when(
-            departmentService.getDepartments()
-        ).thenAnswer((realInvocation) => Future.value([Department()]));
+        when(departmentService.getDepartments())
+            .thenAnswer((realInvocation) => Future.value([Department()]));
 
         await userEditViewModel.fetchDepartments();
         expect(userEditViewModel.availableDepartments, isNotNull);

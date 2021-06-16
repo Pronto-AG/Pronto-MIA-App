@@ -35,7 +35,7 @@ void main() {
         final graphQLClient = MockGraphQLClient();
         final graphQLService = GraphQLService(graphQLClient: graphQLClient);
         when(
-            graphQLClient.query(captureAny),
+          graphQLClient.query(captureAny),
         ).thenAnswer(
           (realInvocation) => Future.value(
             QueryResult(exception: OperationException()),
@@ -71,9 +71,9 @@ void main() {
         final graphQLClient = MockGraphQLClient();
         final graphQLService = GraphQLService(graphQLClient: graphQLClient);
         when(
-            graphQLClient.mutate(captureAny),
+          graphQLClient.mutate(captureAny),
         ).thenAnswer(
-              (realInvocation) => Future.value(
+          (realInvocation) => Future.value(
             QueryResult(exception: OperationException()),
           ),
         );

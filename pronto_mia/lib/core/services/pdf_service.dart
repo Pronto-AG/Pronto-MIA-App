@@ -12,13 +12,14 @@ class PdfService {
   final CacheManager _cacheManager;
 
   PdfService({CacheManager cacheManager})
-    : _cacheManager = cacheManager ?? CacheManager(
-      Config(
-        cacheKey,
-        stalePeriod: const Duration(days: 7),
-        maxNrOfCacheObjects: 20,
-      ),
-    );
+      : _cacheManager = cacheManager ??
+            CacheManager(
+              Config(
+                cacheKey,
+                stalePeriod: const Duration(days: 7),
+                maxNrOfCacheObjects: 20,
+              ),
+            );
 
   Future<JwtTokenService> get _jwtTokenService =>
       locator.getAsync<JwtTokenService>();

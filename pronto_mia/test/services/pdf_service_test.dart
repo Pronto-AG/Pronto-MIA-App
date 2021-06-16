@@ -18,13 +18,13 @@ void main() {
         final cacheManager = MockCacheManager();
         final pdfService = PdfService(cacheManager: cacheManager);
         final jwtTokenService = getAndRegisterMockJwtTokenService();
-        when(
-            jwtTokenService.getToken()
-        ).thenAnswer((realInvocation) => Future.value('12345'));
+        when(jwtTokenService.getToken())
+            .thenAnswer((realInvocation) => Future.value('12345'));
 
         expect(await pdfService.downloadPdf('http://example.com'), isNotNull);
         verify(jwtTokenService.getToken()).called(1);
-        verify(cacheManager.getSingleFile('http://example.com', headers: {"Authorization": "Bearer 12345"}));
+        verify(cacheManager.getSingleFile('http://example.com',
+            headers: {"Authorization": "Bearer 12345"}));
       });
     });
   });

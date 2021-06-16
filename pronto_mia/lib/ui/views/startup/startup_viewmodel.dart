@@ -29,8 +29,7 @@ class StartUpViewModel extends BaseViewModel {
   @override
   Future<void> onFutureError(dynamic error, Object key) async {
     super.onFutureError(error, key);
-    await _errorService.handleError(
-        StartUpViewModel.contextIdentifier, error);
+    await _errorService.handleError(StartUpViewModel.contextIdentifier, error);
     _errorMessage = _errorService.getErrorMessage(error);
     notifyListeners();
   }

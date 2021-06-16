@@ -63,7 +63,8 @@ class DeploymentPlanOverviewViewModel
       );
       dataHasChanged = dialogResponse?.confirmed ?? false;
     } else {
-      final navigationResponse = await _navigationService.navigateWithTransition(
+      final navigationResponse =
+          await _navigationService.navigateWithTransition(
         DeploymentPlanEditView(deploymentPlan: deploymentPlan),
         transition: NavigationTransition.LeftToRight,
       );

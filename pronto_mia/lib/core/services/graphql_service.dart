@@ -22,8 +22,8 @@ class GraphQLService {
     if (_graphQLClient == null) {
       IOClient ioClient;
       final apiPath = (await _configurationService).getValue<String>('apiPath');
-      final enforceValidCertificate =
-      (await _configurationService).getValue<bool>('enforceValidCertificate');
+      final enforceValidCertificate = (await _configurationService)
+          .getValue<bool>('enforceValidCertificate');
 
       if (!kIsWeb && !enforceValidCertificate) {
         final httpClient = HttpClient();

@@ -36,9 +36,9 @@ void main() {
         final fcm = MockFirebaseMessaging();
         final pushNotificationService = PushNotificationService(fcm: fcm);
         when(
-            fcm.getNotificationSettings(),
+          fcm.getNotificationSettings(),
         ).thenAnswer(
-              (realInvocation) => Future.value(
+          (realInvocation) => Future.value(
             const NotificationSettings(
               authorizationStatus: AuthorizationStatus.denied,
             ),
@@ -58,9 +58,9 @@ void main() {
         final fcm = MockFirebaseMessaging();
         final pushNotificationService = PushNotificationService(fcm: fcm);
         when(
-            fcm.requestPermission(),
+          fcm.requestPermission(),
         ).thenAnswer(
-              (realInvocation) => Future.value(
+          (realInvocation) => Future.value(
             const NotificationSettings(
               authorizationStatus: AuthorizationStatus.authorized,
             ),
@@ -74,10 +74,8 @@ void main() {
       test('returns false when not authorized', () async {
         final fcm = MockFirebaseMessaging();
         final pushNotificationService = PushNotificationService(fcm: fcm);
-        when(
-            fcm.requestPermission()
-        ).thenAnswer(
-              (realInvocation) => Future.value(
+        when(fcm.requestPermission()).thenAnswer(
+          (realInvocation) => Future.value(
             const NotificationSettings(
               authorizationStatus: AuthorizationStatus.denied,
             ),

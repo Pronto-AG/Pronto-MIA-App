@@ -34,7 +34,6 @@ import 'test_helpers.mocks.dart';
   MockSpec<UserService>(returnNullOnMissingStub: true),
   MockSpec<DialogService>(returnNullOnMissingStub: true),
   MockSpec<DeploymentPlanService>(returnNullOnMissingStub: true),
-
   MockSpec<GraphQLClient>(returnNullOnMissingStub: true),
   MockSpec<SharedPreferences>(returnNullOnMissingStub: true),
   MockSpec<FlutterSecureStorage>(returnNullOnMissingStub: true),
@@ -42,7 +41,6 @@ import 'test_helpers.mocks.dart';
   MockSpec<CacheManager>(returnNullOnMissingStub: true),
   MockSpec<FirebaseMessaging>(returnNullOnMissingStub: true),
 ])
-
 GraphQLService getAndRegisterMockGraphQLService() {
   _removeRegistrationIfExists<GraphQLService>();
   final service = MockGraphQLService();
@@ -61,7 +59,7 @@ PushNotificationService getAndRegisterMockPushNotificationService() {
   _removeRegistrationIfExists<PushNotificationService>();
   final service = MockPushNotificationService();
   locator.registerSingletonAsync<PushNotificationService>(
-      () => Future.value(service),
+    () => Future.value(service),
   );
   return service;
 }

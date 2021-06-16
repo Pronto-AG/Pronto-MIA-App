@@ -52,9 +52,9 @@ class DepartmentOverviewViewModel extends FutureViewModel<List<Department>> {
     } else {
       final navigationResponse =
           await _navigationService.navigateWithTransition(
-            DepartmentEditView(department: department),
-            transition: NavigationTransition.LeftToRight,
-          );
+        DepartmentEditView(department: department),
+        transition: NavigationTransition.LeftToRight,
+      );
       dataHasChanged = navigationResponse is bool && navigationResponse == true;
     }
 

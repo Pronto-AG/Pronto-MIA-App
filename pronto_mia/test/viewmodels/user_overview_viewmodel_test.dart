@@ -21,7 +21,7 @@ void main() {
       test('returns users', () async {
         final userService = getAndRegisterMockUserService();
         when(userService.getUsers()).thenAnswer(
-              (realInvocation) => Future.value([User()]),
+          (realInvocation) => Future.value([User()]),
         );
 
         expect(await userOverviewViewModel.futureToRun(), hasLength(1));
@@ -50,7 +50,7 @@ void main() {
       test('fetches current user', () async {
         final userService = getAndRegisterMockUserService();
         when(userService.getCurrentUser()).thenAnswer(
-              (realInvocation) => Future.value(User()),
+          (realInvocation) => Future.value(User()),
         );
 
         await userOverviewViewModel.fetchCurrentUser();
@@ -120,7 +120,7 @@ void main() {
             customData: captureAnyNamed('customData'),
           ),
         ).thenAnswer(
-              (realInvocation) => Future.value(DialogResponse(confirmed: true)),
+          (realInvocation) => Future.value(DialogResponse(confirmed: true)),
         );
 
         await userOverviewViewModel.editUser(

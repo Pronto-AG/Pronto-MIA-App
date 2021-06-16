@@ -36,18 +36,17 @@ void main() {
     });
 
     group('handleStartup', () {
-      test('navigates to deployment plan overview on user authenticated', () async {
+      test('navigates to deployment plan overview on user authenticated',
+          () async {
         final authenticationService = getAndRegisterMockAuthenticationService();
         final pushNotificationservice =
-          getAndRegisterMockPushNotificationService();
+            getAndRegisterMockPushNotificationService();
         final loggingService = getAndRegisterMockLoggingService();
         final navigationService = getAndRegisterMockNavigationService();
-        when(
-          authenticationService.isAuthenticated()
-        ).thenAnswer((realInvocation) => Future.value(true));
-        when(
-          pushNotificationservice.requestPermissions()
-        ).thenAnswer((realInvocation) => Future.value(true));
+        when(authenticationService.isAuthenticated())
+            .thenAnswer((realInvocation) => Future.value(true));
+        when(pushNotificationservice.requestPermissions())
+            .thenAnswer((realInvocation) => Future.value(true));
 
         await startupViewModel.handleStartUp();
         verify(
@@ -68,15 +67,13 @@ void main() {
       test('navigates to login on user not authenticated', () async {
         final authenticationService = getAndRegisterMockAuthenticationService();
         final pushNotificationservice =
-        getAndRegisterMockPushNotificationService();
+            getAndRegisterMockPushNotificationService();
         final loggingService = getAndRegisterMockLoggingService();
         final navigationService = getAndRegisterMockNavigationService();
-        when(
-            authenticationService.isAuthenticated()
-        ).thenAnswer((realInvocation) => Future.value(false));
-        when(
-            pushNotificationservice.requestPermissions()
-        ).thenAnswer((realInvocation) => Future.value(false));
+        when(authenticationService.isAuthenticated())
+            .thenAnswer((realInvocation) => Future.value(false));
+        when(pushNotificationservice.requestPermissions())
+            .thenAnswer((realInvocation) => Future.value(false));
 
         await startupViewModel.handleStartUp();
         verify(

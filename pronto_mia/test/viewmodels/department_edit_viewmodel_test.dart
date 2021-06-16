@@ -7,8 +7,7 @@ import 'package:pronto_mia/core/models/department.dart';
 import '../setup/test_helpers.dart';
 
 void main() {
-  group('DepartmentEditViewModel', ()
-  {
+  group('DepartmentEditViewModel', () {
     DepartmentEditViewModel departmentEditViewModel;
     setUp(() {
       registerServices();

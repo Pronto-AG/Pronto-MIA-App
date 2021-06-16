@@ -9,8 +9,7 @@ import 'package:pronto_mia/core/services/error_service.dart';
 import '../setup/test_helpers.dart';
 
 void main() {
-  group('ErrorService', ()
-  {
+  group('ErrorService', () {
     ErrorService errorService;
     setUp(() {
       registerServices();
@@ -68,12 +67,11 @@ void main() {
 
     group('getErrorMessage', () {
       test('returns correct error message', () {
-        expect(errorService.getErrorMessage(
-          Exception()),
+        expect(
+          errorService.getErrorMessage(Exception()),
           equals('Es ist ein unerwarteter Fehler aufgetreten.'),
         );
       });
     });
   });
 }
-

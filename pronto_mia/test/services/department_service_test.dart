@@ -25,12 +25,16 @@ void main() {
             useCache: captureAnyNamed('useCache'),
           ),
         ).thenAnswer(
-              (realInvocation) => Future.value({'departments': [{
+          (realInvocation) => Future.value({
+            'departments': [
+              {
                 'id': 1,
                 'name': 'test',
-              }]}),
+              }
+            ]
+          }),
         );
-        
+
         expect(await departmentService.getDepartments(), hasLength(1));
         verify(graphQLService.query(DepartmentQueries.departments)).called(1);
       });

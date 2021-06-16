@@ -49,9 +49,9 @@ class UserOverviewViewModel extends FutureViewModel<List<User>> {
     } else {
       final navigationResponse =
           await _navigationService.navigateWithTransition(
-            UserEditView(user: user),
-            transition: NavigationTransition.LeftToRight,
-          );
+        UserEditView(user: user),
+        transition: NavigationTransition.LeftToRight,
+      );
       dataHasChanged = navigationResponse is bool && navigationResponse == true;
     }
 

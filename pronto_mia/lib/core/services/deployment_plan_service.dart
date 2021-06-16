@@ -104,8 +104,8 @@ class DeploymentPlanService with ChangeNotifier {
     final queryVariables = {
       'id': id,
       'description': description,
-      'availableFrom': availableFrom,
-      'availableUntil': availableUntil,
+      'availableFrom': availableFrom?.toIso8601String(),
+      'availableUntil': availableUntil?.toIso8601String(),
       'departmentId': departmentId,
     };
 

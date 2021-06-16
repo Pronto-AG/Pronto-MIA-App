@@ -26,6 +26,7 @@ class UserOverviewViewModel extends FutureViewModel<List<User>> {
 
   @override
   Future<void> onError(dynamic error) async {
+    super.onError(error);
     await _errorService.handleError(contextIdentifier, error);
     _errorMessage = _errorService.getErrorMessage(error);
     notifyListeners();
@@ -44,12 +45,13 @@ class UserOverviewViewModel extends FutureViewModel<List<User>> {
         variant: DialogType.custom,
         customData: UserEditView(user: user, isDialog: true),
       );
-      dataHasChanged = dialogResponse.confirmed;
+      dataHasChanged = dialogResponse?.confirmed ?? false;
     } else {
       final navigationResponse =
           await _navigationService.navigateWithTransition(
-        UserEditView(user: user),
-      );
+            UserEditView(user: user),
+            transition: NavigationTransition.LeftToRight,
+          );
       dataHasChanged = navigationResponse is bool && navigationResponse == true;
     }
 

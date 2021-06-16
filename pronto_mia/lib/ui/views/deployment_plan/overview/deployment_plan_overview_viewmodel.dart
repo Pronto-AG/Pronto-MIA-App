@@ -37,9 +37,11 @@ class DeploymentPlanOverviewViewModel
 
   @override
   Future<void> onError(dynamic error) async {
+    super.onError(error);
     await _errorService.handleError(
         DeploymentPlanOverviewViewModel.contextIdentifier, error);
     _errorMessage = _errorService.getErrorMessage(error);
+    notifyListeners();
   }
 
   Future<void> openPdf(DeploymentPlan deploymentPlan) async {
@@ -59,21 +61,13 @@ class DeploymentPlanOverviewViewModel
           isDialog: true,
         ),
       );
-
-      dataHasChanged = dialogResponse.confirmed;
+      dataHasChanged = dialogResponse?.confirmed ?? false;
     } else {
-      final response = await _navigationService.navigateWithTransition(
-        DeploymentPlanEditView(
-          deploymentPlan: deploymentPlan,
-        ),
+      final navigationResponse = await _navigationService.navigateWithTransition(
+        DeploymentPlanEditView(deploymentPlan: deploymentPlan),
         transition: NavigationTransition.LeftToRight,
       );
-
-      if (response is bool && response == true) {
-        dataHasChanged = true;
-      } else {
-        dataHasChanged = false;
-      }
+      dataHasChanged = navigationResponse is bool && navigationResponse == true;
     }
 
     if (dataHasChanged) {
@@ -99,7 +93,7 @@ class DeploymentPlanOverviewViewModel
         confirmationTitle: "Ja",
         dialogPlatform: DialogPlatform.Material);
 
-    if (!response.confirmed) {
+    if (!(response?.confirmed ?? false)) {
       return;
     }
 
@@ -122,7 +116,7 @@ class DeploymentPlanOverviewViewModel
         confirmationTitle: "Ja",
         dialogPlatform: DialogPlatform.Material);
 
-    if (!response.confirmed) {
+    if (!(response?.confirmed ?? false)) {
       return;
     }
 

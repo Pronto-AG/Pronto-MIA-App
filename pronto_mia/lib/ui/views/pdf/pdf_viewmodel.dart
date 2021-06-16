@@ -36,7 +36,8 @@ class PdfViewModel extends FutureViewModel<SimpleFile> {
   @override
   Future<void> onError(dynamic error) async {
     super.onError(error);
-    await _errorService.handleError(PdfViewModel.contextIdentifier, modelError);
-    _errorMessage = _errorService.getErrorMessage(modelError);
+    await _errorService.handleError(PdfViewModel.contextIdentifier, error);
+    _errorMessage = _errorService.getErrorMessage(error);
+    notifyListeners();
   }
 }

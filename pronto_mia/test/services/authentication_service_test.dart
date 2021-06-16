@@ -22,11 +22,13 @@ void main() {
         final jwtTokenService = getAndRegisterMockJwtTokenService();
         final pushNotificationService =
             getAndRegisterMockPushNotificationService();
-        when(graphQLService.query(
-          captureAny,
-          variables: captureAnyNamed('variables'),
-          useCache: captureAnyNamed('useCache'),
-        )).thenAnswer(
+        when(
+          graphQLService.query(
+            captureAny,
+            variables: captureAnyNamed('variables'),
+            useCache: captureAnyNamed('useCache'),
+          ),
+        ).thenAnswer(
           (realInvocation) => Future.value({'authenticate': '12345'}),
         );
 
@@ -50,14 +52,16 @@ void main() {
         final jwtTokenService = getAndRegisterMockJwtTokenService();
         final pushNotificationService =
             getAndRegisterMockPushNotificationService();
-        when(graphQLService.query(
-          AuthenticationQueries.authenticate,
-          variables: {
-            'userName': 'admin',
-            'password': '12345',
-          },
-          useCache: false,
-        )).thenThrow(Exception());
+        when(
+          graphQLService.query(
+            AuthenticationQueries.authenticate,
+            variables: {
+              'userName': 'admin',
+              'password': '12345',
+            },
+            useCache: false,
+          ),
+        ).thenThrow(Exception());
 
         expect(authenticationService.login('admin', '12345'), throwsException);
         verifyNever(jwtTokenService.setToken(argThat(anything)));
@@ -74,7 +78,7 @@ void main() {
 
         await authenticationService.logout();
         verify(jwtTokenService.setToken('')).called(1);
-        verify(pushNotificationService.disableNotifications());
+        verify(pushNotificationService.disableNotifications()).called(1);
       });
     });
 
@@ -86,6 +90,34 @@ void main() {
 
         expect(await authenticationService.isAuthenticated(), equals(true));
         verify(jwtTokenService.hasValidToken()).called(1);
+      });
+    });
+
+    group('changePassword', () {
+      test('sends changePassword query', () async {
+        final graphQLService = getAndRegisterMockGraphQLService();
+        final jwtTokenService = getAndRegisterMockJwtTokenService();
+        when(
+          graphQLService.query(
+            captureAny,
+            variables: captureAnyNamed('variables'),
+            useCache: captureAnyNamed('useCache'),
+          ),
+        ).thenAnswer(
+          (realInvocation) => Future.value({'changePassword': '12345'}),
+        );
+
+        await authenticationService.changePassword('foo', 'bar');
+        verify(
+          graphQLService.query(
+            AuthenticationQueries.changePassword,
+            variables: {
+              'oldPassword': 'foo',
+              'newPassword': 'bar',
+            },
+          ),
+        ).called(1);
+        verify(jwtTokenService.setToken('12345')).called(1);
       });
     });
   });

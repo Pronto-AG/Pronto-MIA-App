@@ -2,9 +2,10 @@ import 'package:global_configuration/global_configuration.dart';
 import 'package:flutter/foundation.dart';
 
 class ConfigurationService {
-  final _configuration = GlobalConfiguration();
+  GlobalConfiguration _configuration = GlobalConfiguration();
 
-  Future<void> init() async {
+  Future<void> init({GlobalConfiguration configuration}) async {
+    _configuration ??= configuration;
     await _configuration.loadFromAsset('app_settings.json');
 
     if (kReleaseMode) {

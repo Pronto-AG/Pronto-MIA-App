@@ -25,9 +25,11 @@ class NavigationMenuViewModel extends FutureViewModel<User> {
 
   @override
   Future<void> onError(dynamic error) async {
+    super.onError(error);
     await _errorService.handleError(
         NavigationMenuViewModel.contextIdentifier, error);
     _errorMessage = _errorService.getErrorMessage(error);
+    notifyListeners();
   }
 
   void navigateTo(Widget page) {

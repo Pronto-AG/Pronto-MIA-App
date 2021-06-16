@@ -1,4 +1,10 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:graphql/client.dart';
+import 'package:logging/logging.dart';
 import 'package:mockito/annotations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/authentication_service.dart';
@@ -28,6 +34,13 @@ import 'test_helpers.mocks.dart';
   MockSpec<UserService>(returnNullOnMissingStub: true),
   MockSpec<DialogService>(returnNullOnMissingStub: true),
   MockSpec<DeploymentPlanService>(returnNullOnMissingStub: true),
+
+  MockSpec<GraphQLClient>(returnNullOnMissingStub: true),
+  MockSpec<SharedPreferences>(returnNullOnMissingStub: true),
+  MockSpec<FlutterSecureStorage>(returnNullOnMissingStub: true),
+  MockSpec<Logger>(returnNullOnMissingStub: true),
+  MockSpec<CacheManager>(returnNullOnMissingStub: true),
+  MockSpec<FirebaseMessaging>(returnNullOnMissingStub: true),
 ])
 
 GraphQLService getAndRegisterMockGraphQLService() {

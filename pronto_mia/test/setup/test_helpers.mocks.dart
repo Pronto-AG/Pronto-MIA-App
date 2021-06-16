@@ -11,6 +11,12 @@ import 'package:pronto_mia/core/services/department_service.dart' as _i10;
 import 'package:pronto_mia/core/services/user_service.dart' as _i11;
 import 'package:stacked_services/src/dialog/dialog_service.dart' as _i12;
 import 'package:pronto_mia/core/services/deployment_plan_service.dart' as _i13;
+import 'package:graphql/src/graphql_client.dart' as _i14;
+import 'package:shared_preferences/shared_preferences.dart' as _i15;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i16;
+import 'package:logging/src/logger.dart' as _i17;
+import 'package:flutter_cache_manager/src/cache_manager.dart' as _i18;
+import 'package:firebase_messaging/firebase_messaging.dart' as _i19;
 
 /// A class which mocks [GraphQLService].
 ///
@@ -75,3 +81,36 @@ class MockDialogService extends _i1.Mock implements _i12.DialogService {}
 /// See the documentation for Mockito's code generation for more information.
 class MockDeploymentPlanService extends _i1.Mock
     implements _i13.DeploymentPlanService {}
+
+/// A class which mocks [GraphQLClient].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockGraphQLClient extends _i1.Mock implements _i14.GraphQLClient {}
+
+/// A class which mocks [SharedPreferences].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockSharedPreferences extends _i1.Mock implements _i15.SharedPreferences {
+}
+
+/// A class which mocks [FlutterSecureStorage].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockFlutterSecureStorage extends _i1.Mock
+    implements _i16.FlutterSecureStorage {}
+
+/// A class which mocks [Logger].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockLogger extends _i1.Mock implements _i17.Logger {}
+
+/// A class which mocks [CacheManager].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockCacheManager extends _i1.Mock implements _i18.CacheManager {}
+
+/// A class which mocks [FirebaseMessaging].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockFirebaseMessaging extends _i1.Mock implements _i19.FirebaseMessaging {
+}

@@ -20,11 +20,18 @@ class JwtTokenService {
   SharedPreferences _sharedPreferences;
   FlutterSecureStorage _secureStorage;
 
+  JwtTokenService({
+    SharedPreferences sharedPreferences,
+    FlutterSecureStorage secureStorage,
+  }) : _sharedPreferences = sharedPreferences,
+    _secureStorage = secureStorage;
+
   Future<void> init() async {
     if (kIsWeb) {
-      _sharedPreferences = await SharedPreferences.getInstance();
+      _sharedPreferences =
+          _sharedPreferences ?? await SharedPreferences.getInstance();
     } else {
-      _secureStorage = const FlutterSecureStorage();
+      _secureStorage = _secureStorage ?? const FlutterSecureStorage();
     }
   }
 
@@ -44,7 +51,7 @@ class JwtTokenService {
     }
   }
 
-  Future<void> removeToken(String token) async {
+  Future<void> removeToken() async {
     if (kIsWeb) {
       return _sharedPreferences.setString(_tokenIdentifier, null);
     } else {

@@ -35,9 +35,7 @@ class StartUpViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  Future<void> handleStartUp({void Function() firebaseInitialize = Firebase.initializeApp}) async {
-    await firebaseInitialize();
-
+  Future<void> handleStartUp() async {
     final isAuthenticated = await runErrorFuture(
       _authenticationService.isAuthenticated(),
     ) as bool;

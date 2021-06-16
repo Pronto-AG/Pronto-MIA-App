@@ -1,16 +1,11 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:logging/logging.dart';
 import 'package:mockito/mockito.dart';
+import 'package:stacked_services/stacked_services.dart';
 
-import 'package:pronto_mia/core/models/department.dart';
-import 'package:pronto_mia/core/models/user.dart';
-import 'package:pronto_mia/ui/shared/custom_dialogs.dart';
 import 'package:pronto_mia/ui/views/deployment_plan/overview/deployment_plan_overview_view.dart';
 import 'package:pronto_mia/ui/views/login/login_view.dart';
 import 'package:pronto_mia/ui/views/startup/startup_viewmodel.dart';
-import 'package:stacked_services/stacked_services.dart';
 
 import '../setup/test_helpers.dart';
 
@@ -54,7 +49,7 @@ void main() {
           pushNotificationservice.requestPermissions()
         ).thenAnswer((realInvocation) => Future.value(true));
 
-        await startupViewModel.handleStartUp(firebaseInitialize: () {});
+        await startupViewModel.handleStartUp();
         verify(
           loggingService.log(
             'StartUpViewModel',
@@ -83,7 +78,7 @@ void main() {
             pushNotificationservice.requestPermissions()
         ).thenAnswer((realInvocation) => Future.value(false));
 
-        await startupViewModel.handleStartUp(firebaseInitialize: () {});
+        await startupViewModel.handleStartUp();
         verify(
           loggingService.log(
             'StartUpViewModel',

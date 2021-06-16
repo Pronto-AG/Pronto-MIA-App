@@ -59,13 +59,13 @@ jobs:
       run: sudo apt-get install lcov -y
 
     - name: Exclude files from test coverage
-      run: lcov --remove coverage/lcov.info -o coverage/lcov-filtered.info \ 
-          "*lib/app/service_locator.dart" \ 
-          "*lib/core/models/*" \ 
-          "*lib/ui/components/*" \ 
-          "*lib/ui/shared/*" \ 
-          "*lib/ui/views/*/*_view.dart" \ 
-          "*lib/ui/views/*/*_view.form.dart" \
+      run: lcov --remove coverage/lcov.info -o coverage/lcov-filtered.info \
+          "*lib/app/service_locator.dart" \
+          "*lib/core/models/*" \
+          "*lib/ui/components/*" \
+          "*lib/ui/shared/*" \
+          "*lib/ui/views/*/*_view.dart" \
+          "*lib/ui/views/*/*_view.form.dart"
     
     - name: Generate test coverage
       run: genhtml coverage/lcov-filtered.info -o coverage/html

@@ -1,4 +1,3 @@
-import 'package:pronto_mia/ui/views/user/overview/user_overview_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 

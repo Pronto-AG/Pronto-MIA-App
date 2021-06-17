@@ -1,4 +1,3 @@
-import 'package:pronto_mia/ui/components/destructive_button/destructive_button.dart';
 import 'package:stacked/stacked.dart';
 
 /// a view model, providing functionality for [DestructiveButton].

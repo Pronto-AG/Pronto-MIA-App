@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pronto_mia/ui/components/navigation_menu/navigation_menu.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 

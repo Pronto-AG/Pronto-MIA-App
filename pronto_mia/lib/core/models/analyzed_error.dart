@@ -1,5 +1,3 @@
-import 'package:pronto_mia/core/factories/analyzed_error_factory.dart';
-
 /// A representation of an error analyzed through [AnalyzedErrorFactory].
 ///
 /// It contains properties showing different attributes the error has.

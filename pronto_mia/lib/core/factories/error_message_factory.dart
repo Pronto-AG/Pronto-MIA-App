@@ -1,5 +1,9 @@
 import 'package:pronto_mia/core/models/analyzed_error.dart';
 
+/// A factory, that is responsible for determining the corresponding error
+/// message from an [AnalyzedError].
+///
+/// Currently only available in German.
 // ignore: avoid_classes_with_only_static_members
 class ErrorMessageFactory {
   static const String _unknownError =
@@ -7,6 +11,11 @@ class ErrorMessageFactory {
   static const String _networkError =
       'Es konnte keine Verbindung zum Server aufgebaut werden.';
 
+  /// Determines error message as [String] for an [ConstAnalyzedError] from
+  /// [AnalyzedErrorFactory].
+  ///
+  /// Takes an [AnalyzedError] as input.
+  /// Returns the corresponding error message as [String].
   static String getErrorMessage(ConstAnalyzedError analyzedError) {
     if (analyzedError.graphQLErrorCode != null) {
       if (analyzedError.isPasswordError == true &&

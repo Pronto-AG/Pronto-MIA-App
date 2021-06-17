@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
+/// Groups all user defined colors together.
 class CustomColors {
   static const Color primary = Color(0xFF1A171B);
 

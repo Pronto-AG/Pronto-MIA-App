@@ -7,6 +7,7 @@ import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/ui/views/login/login_view.form.dart';
 import 'package:pronto_mia/ui/views/deployment_plan/overview/deployment_plan_overview_view.dart';
 
+/// A view model, providing functionality for [DeploymentPlanEditView].
 class LoginViewModel extends FormViewModel {
   static String contextIdentifier = "LoginViewModel";
 
@@ -14,12 +15,17 @@ class LoginViewModel extends FormViewModel {
       locator.get<AuthenticationService>();
   NavigationService get _navigationService => locator.get<NavigationService>();
   ErrorService get _errorService => locator.get<ErrorService>();
+
+  /// Resets errors and messages, as soon as form fields update.
   @override
   void setFormStatus() {
-    // Called after the validation message is reset.
     clearErrors();
   }
 
+  /// Validates the form and performs a login for the user.
+  ///
+  /// After the form has been submitted successfully, navigates to
+  /// [DeploymentPlanOverviewView].
   Future<void> submitForm() async {
     final validationMessage = _validateForm();
     if (validationMessage != null) {

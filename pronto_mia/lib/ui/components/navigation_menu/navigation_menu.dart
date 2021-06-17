@@ -9,7 +9,12 @@ import 'package:pronto_mia/ui/components/navigation_menu/navigation_menu_viewmod
 import 'package:pronto_mia/ui/views/user/overview/user_overview_view.dart';
 import 'package:pronto_mia/ui/views/department/overview/department_overview_view.dart';
 
+/// A widget, representing a menu containing the main navigation.
 class NavigationMenu extends StatelessWidget {
+  /// Binds [NavigationMenuViewModel] and builds the widget.
+  ///
+  /// Takes the current [BuildContext] as an input.
+  /// Returns the built [Widget].
   @override
   Widget build(BuildContext context) =>
       ViewModelBuilder<NavigationMenuViewModel>.reactive(

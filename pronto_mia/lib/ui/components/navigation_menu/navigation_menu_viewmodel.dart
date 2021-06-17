@@ -9,6 +9,7 @@ import 'package:pronto_mia/core/services/user_service.dart';
 import 'package:pronto_mia/ui/shared/custom_dialogs.dart';
 import 'package:pronto_mia/ui/views/settings/settings_view.dart';
 
+/// A view model, providing functionality for [NavigationMenu].
 class NavigationMenuViewModel extends FutureViewModel<User> {
   static String contextIdentifier = "NavigationMenuViewModel";
 
@@ -20,9 +21,15 @@ class NavigationMenuViewModel extends FutureViewModel<User> {
   String get errorMessage => _errorMessage;
   String _errorMessage;
 
+  /// Gets the current user and stores it into [data].
+  ///
+  /// Returns the current [User].
   @override
   Future<User> futureToRun() => _getUser();
 
+  /// Handles incoming error and sets [errorMessage] accordingly.
+  ///
+  /// Takes the thrown dynamic error object as an input.
   @override
   Future<void> onError(dynamic error) async {
     super.onError(error);
@@ -32,6 +39,9 @@ class NavigationMenuViewModel extends FutureViewModel<User> {
     notifyListeners();
   }
 
+  /// Navigates to a widget.
+  ///
+  /// Takes the [Widget] to navigate to as an input.
   void navigateTo(Widget page) {
     _navigationService.replaceWithTransition(
       page,
@@ -39,6 +49,10 @@ class NavigationMenuViewModel extends FutureViewModel<User> {
     );
   }
 
+  /// Opens the settings view.
+  ///
+  /// Takes a [bool] wether the view should open as a dialog
+  /// or standalone as an input.
   Future<void> openSettings({bool asDialog = false}) async {
     if (asDialog) {
       await _dialogService.showCustomDialog(

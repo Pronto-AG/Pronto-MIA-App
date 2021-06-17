@@ -7,6 +7,7 @@ import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/core/models/department.dart';
 import 'package:pronto_mia/ui/views/department/edit/department_edit_view.form.dart';
 
+/// A view model, providing functionality for [DepartmentEditView].
 class DepartmentEditViewModel extends FormViewModel {
   static const contextIdentifier = 'DepartmentEditViewModel';
   static const editActionKey = 'EditActionKey';
@@ -20,13 +21,22 @@ class DepartmentEditViewModel extends FormViewModel {
   final Department department;
   final bool isDialog;
 
+  /// Initializes a new instance of [DepartmentEditViewModel]
+  ///
+  /// Takes the [Department] to edit and a [bool] wether the form should be
+  /// displayed as a dialog or standalone as an input.
   DepartmentEditViewModel({this.department, this.isDialog = false});
 
+  /// Resets errors and messages, as soon as form fields update.
   @override
   void setFormStatus() {
     clearErrors();
   }
 
+  /// Validates the form and either creates or updates a [Department].
+  ///
+  /// After the form has been submitted successfully, closes dialog when opened
+  /// as a dialog or navigates to the previous view, when opened as standalone.
   Future<void> submitForm() async {
     final validationMessage = _validateForm();
 
@@ -54,6 +64,11 @@ class DepartmentEditViewModel extends FormViewModel {
     _completeFormAction(editActionKey);
   }
 
+  /// Removes the [Department] contained in the form.
+  ///
+  /// After the [Department] has been removed successfully, closes dialog when
+  /// opened as a dialog or navigates to the previous view, when opened as
+  /// standalone.
   Future<void> removeDepartment() async {
     if (department != null) {
       await runBusyFuture(

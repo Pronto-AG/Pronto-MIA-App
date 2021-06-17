@@ -8,6 +8,7 @@ import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/ui/shared/custom_dialogs.dart';
 import 'package:pronto_mia/ui/views/deployment_plan/edit/deployment_plan_edit_view.dart';
 
+/// A view model, providing functionality for [DeploymentPlanOverviewView].
 class DeploymentPlanOverviewViewModel
     extends FutureViewModel<List<DeploymentPlan>> {
   static String contextIdentifier = "DeploymentPlanOverviewViewModel";
@@ -22,10 +23,18 @@ class DeploymentPlanOverviewViewModel
   String get errorMessage => _errorMessage;
   String _errorMessage;
 
+  /// Initializes a new instance of [DeploymentPlanOverviewViewModel].
+  ///
+  /// Takes a [bool] wether to execute admin level functionality as an input.
   DeploymentPlanOverviewViewModel({this.adminModeEnabled = false}) {
     _deploymentPlanService.addListener(_notifyDataChanged);
   }
 
+  /// Gets deployment plans and stores them into [data].
+  ///
+  /// Returns the fetched [List] of departments.
+  /// Fetches either all or only currently available deployment plans, according
+  /// to [adminModeEnabled].
   @override
   Future<List<DeploymentPlan>> futureToRun() async {
     if (adminModeEnabled) {
@@ -35,6 +44,9 @@ class DeploymentPlanOverviewViewModel
     }
   }
 
+  /// Handles incoming error and sets [errorMessage] accordingly.
+  ///
+  /// Takes the thrown dynamic error object as an input.
   @override
   Future<void> onError(dynamic error) async {
     super.onError(error);
@@ -44,10 +56,19 @@ class DeploymentPlanOverviewViewModel
     notifyListeners();
   }
 
+  /// Opens a view, containing a pdf file from a [DeploymentPlan].
+  ///
+  /// Takes a [DeploymentPlan], containing a pdf file as an input.
   Future<void> openPdf(DeploymentPlan deploymentPlan) async {
     _deploymentPlanService.openPdf(deploymentPlan);
   }
 
+  /// Opens the form to create or update departments.
+  ///
+  /// Takes the [DeploymentPlan] to edit and a [bool] as an input wether the
+  /// view should open as a dialog or standalone as an input.
+  /// If the navigation or dialog resolve to data being changed, refetches
+  /// the [List] of deployment plans.
   Future<void> editDeploymentPlan({
     DeploymentPlan deploymentPlan,
     bool asDialog = false,
@@ -84,6 +105,10 @@ class DeploymentPlanOverviewViewModel
     return _deploymentPlanService.getDeploymentPlans();
   }
 
+  /// Opens the dialog to publish deployment plans.
+  ///
+  /// Takes the [DeploymentPlan] to publish as an input.
+  /// Refetches the [List] of deployment plans after the dialog has ended.
   Future<void> publishDeploymentPlan(DeploymentPlan deploymentPlan) async {
     final deploymentPlanTitle = getDeploymentPlanTitle(deploymentPlan);
     final response = await _dialogService.showConfirmationDialog(
@@ -106,6 +131,10 @@ class DeploymentPlanOverviewViewModel
     await initialise();
   }
 
+  /// Opens the dialog to hide deployment plans.
+  ///
+  /// Takes the [DeploymentPlan] to hide as an input.
+  /// Refetches the [List] of deployment plans after the dialog has ended.
   Future<void> hideDeploymentPlan(DeploymentPlan deploymentPlan) async {
     final deploymentPlanTitle = getDeploymentPlanTitle(deploymentPlan);
 
@@ -125,18 +154,28 @@ class DeploymentPlanOverviewViewModel
     await initialise();
   }
 
+  /// Generates a title for a deployment plan
+  ///
+  /// Takes the [DeploymentPlan] to generate the title for as an input.
+  /// Returns the generated [String] title.
   String getDeploymentPlanTitle(DeploymentPlan deploymentPlan) {
     return _deploymentPlanService.getDeploymentPlanTitle(deploymentPlan);
   }
 
+  /// Generates a subtitle for a deployment plan
+  ///
+  /// Takes the [DeploymentPlan] to generate the subtitle for as an input.
+  /// Returns the generated [String] subtitle.
   String getDeploymentPlanSubtitle(DeploymentPlan deploymentPlan) {
     return _deploymentPlanService.getDeploymentPlanAvailability(deploymentPlan);
   }
 
+  /// Refetches the [List] of deployment plans.
   void _notifyDataChanged() {
     initialise();
   }
 
+  /// Removes the listener on [DeploymentPlanService].
   @override
   void dispose() {
     _deploymentPlanService.removeListener(_notifyDataChanged);

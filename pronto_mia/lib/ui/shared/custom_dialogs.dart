@@ -4,10 +4,12 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:pronto_mia/ui/shared/custom_colors.dart';
 import 'package:pronto_mia/app/service_locator.dart';
 
+/// The representation of possible custom dialog types.
 enum DialogType { custom }
 
 final _dialogService = locator.get<DialogService>();
 
+/// Registers all custom dialogs.
 void setupDialogs() {
   final builders = {
     DialogType.custom: (
@@ -26,6 +28,12 @@ class _CustomDialog extends StatelessWidget {
 
   const _CustomDialog({Key key, this.request}) : super(key: key);
 
+  /// Builds the custom dialog widget.
+  ///
+  /// Takes the current [BuildContext] as an input.
+  /// Returns the built [Widget].
+  /// The dialog is wrapped by a [GestureDetector], which allows closing
+  /// the dialog from tapping outside of it.
   @override
   Widget build(BuildContext context) => GestureDetector(
         onTap: () => _dialogService.completeDialog(DialogResponse()),

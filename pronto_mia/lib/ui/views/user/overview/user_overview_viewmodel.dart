@@ -8,6 +8,7 @@ import 'package:pronto_mia/core/services/user_service.dart';
 import 'package:pronto_mia/ui/shared/custom_dialogs.dart';
 import 'package:pronto_mia/ui/views/user/edit/user_edit_view.dart';
 
+/// A view model, providing functionality for [UserOverviewView].
 class UserOverviewViewModel extends FutureViewModel<List<User>> {
   static const String contextIdentifier = "UserOverviewViewModel";
 
@@ -21,9 +22,15 @@ class UserOverviewViewModel extends FutureViewModel<List<User>> {
   User get currentUser => _currentUser;
   User _currentUser;
 
+  /// Gets all users and stores them into [data].
+  ///
+  /// Returns the fetched [List] of users.
   @override
   Future<List<User>> futureToRun() async => _getUsers();
 
+  /// Handles incoming error and sets [errorMessage] accordingly.
+  ///
+  /// Takes the thrown dynamic error object as an input.
   @override
   Future<void> onError(dynamic error) async {
     super.onError(error);
@@ -32,11 +39,18 @@ class UserOverviewViewModel extends FutureViewModel<List<User>> {
     notifyListeners();
   }
 
+  /// Fetches the current user and assigns it to [_currentUser].
   Future<void> fetchCurrentUser() async {
     _currentUser = await _userService.getCurrentUser();
     notifyListeners();
   }
 
+  /// Opens the form to create or update users.
+  ///
+  /// Takes the [User] to edit and a [bool] as an input wether the
+  /// view should open as a dialog or standalone as an input.
+  /// If the navigation or dialog resolve to data being changed, refetches
+  /// the [List] of users.
   Future<void> editUser({User user, bool asDialog = false}) async {
     bool dataHasChanged;
 

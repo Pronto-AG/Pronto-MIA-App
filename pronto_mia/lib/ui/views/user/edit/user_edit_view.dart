@@ -9,11 +9,17 @@ import 'package:pronto_mia/core/models/profiles.dart';
 import 'package:pronto_mia/ui/shared/custom_colors.dart';
 import 'package:pronto_mia/core/models/department.dart';
 
+/// A widget, representing the form to create and update users.
 class UserEditView extends StatelessWidget with $UserEditView {
   final _formKey = GlobalKey<FormState>();
   final User user;
   final bool isDialog;
 
+  /// Initializes a new instance of [UserEditView].
+  ///
+  /// Takes a [Key] to uniquely identify the widget in the widget tree, a
+  /// [User] to edit and a [bool] wether to open it as a dialog or
+  /// standalone as an input.
   UserEditView({
     Key key,
     this.user,
@@ -26,6 +32,10 @@ class UserEditView extends StatelessWidget with $UserEditView {
     }
   }
 
+  /// Binds [UserEditViewModel] and builds the widget.
+  ///
+  /// Takes the current [BuildContext] as an input.
+  /// Returns the built [Widget].
   @override
   Widget build(BuildContext context) =>
       ViewModelBuilder<UserEditViewModel>.reactive(

@@ -7,6 +7,7 @@ import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/ui/views/settings/settings_view.form.dart';
 import 'package:pronto_mia/ui/views/login/login_view.dart';
 
+/// A view model, providing functionality for [SettingsView].
 class SettingsViewModel extends FormViewModel {
   static const contextIdentifier = 'ProfileViewModel';
   static const logoutActionKey = 'LogoutActionKey';
@@ -20,13 +21,22 @@ class SettingsViewModel extends FormViewModel {
 
   final bool isDialog;
 
+  /// Initializes a new instance of [SettingsViewModel]
+  ///
+  /// Takes a[bool] wether the form should be displayed as a dialog or
+  /// standalone as an input.
   SettingsViewModel({this.isDialog = false});
 
+  /// Resets errors and messages, as soon as form fields update.
   @override
   void setFormStatus() {
     clearErrors();
   }
 
+  /// Validates the form and changes the users password.
+  ///
+  /// After the form has been submitted successfully, closes dialog when opened
+  /// as a dialog or navigates to the previous view, when opened as standalone.
   Future<void> submitForm() async {
     final validationMessage = _validateForm();
 

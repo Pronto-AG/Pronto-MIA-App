@@ -7,6 +7,9 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/logging_service.dart';
 
+/// A service, responsible for accessing the JWT token.
+///
+/// It uses different persistence solutions for different platforms.
 class JwtTokenService {
   Future<LoggingService> get _loggingService =>
       locator.getAsync<LoggingService>();
@@ -20,12 +23,18 @@ class JwtTokenService {
   SharedPreferences _sharedPreferences;
   FlutterSecureStorage _secureStorage;
 
+  /// Initializes a new instance of [JwtTokenService].
+  ///
+  /// Takes [SharedPreferences] and [FlutterSecureStorage] as persistence
+  /// solutions for different platforms as an input.
   JwtTokenService({
     SharedPreferences sharedPreferences,
     FlutterSecureStorage secureStorage,
   })  : _sharedPreferences = sharedPreferences,
         _secureStorage = secureStorage;
 
+  /// Initializes the current platforms persistence solution if that not already
+  /// happened.
   Future<void> init() async {
     if (kIsWeb) {
       _sharedPreferences =
@@ -35,6 +44,10 @@ class JwtTokenService {
     }
   }
 
+  /// Gets the current JWT token from the current platforms persistence
+  /// solution.
+  ///
+  /// Returns the [String] JWT token.
   Future<String> getToken() async {
     if (kIsWeb) {
       return _sharedPreferences.getString(_tokenIdentifier);
@@ -43,6 +56,10 @@ class JwtTokenService {
     }
   }
 
+  /// Sets the JWT token for the current platforms persistence
+  /// solution.
+  ///
+  /// Takes the [String] JWT token as an input.
   Future<void> setToken(String token) async {
     if (kIsWeb) {
       return _sharedPreferences.setString(_tokenIdentifier, token);
@@ -51,6 +68,8 @@ class JwtTokenService {
     }
   }
 
+  /// Removes the current JWT token from the current platforms persistence
+  /// solution.
   Future<void> removeToken() async {
     if (kIsWeb) {
       return _sharedPreferences.setString(_tokenIdentifier, null);
@@ -59,6 +78,10 @@ class JwtTokenService {
     }
   }
 
+  /// Determines if the current JWT token is valid.
+  ///
+  /// Returns wether the current token is valid or not as [bool].
+  /// The determination is performed by checking if the token is expired or not.
   Future<bool> hasValidToken() async {
     final token = await getToken();
     var tokenValid = false;
@@ -75,6 +98,9 @@ class JwtTokenService {
     return tokenValid;
   }
 
+  /// Extracts the current users username from the current JWT token.
+  ///
+  /// Returns the [String] username contained in the token.
   Future<String> getUserName() async {
     final token = await getToken();
     String userName;
@@ -87,6 +113,9 @@ class JwtTokenService {
     return userName;
   }
 
+  /// Extracts the current users id from the current JWT token.
+  ///
+  /// Returns the [int] user id contained in the token.
   Future<int> getUserId() async {
     final token = await getToken();
     int userId;

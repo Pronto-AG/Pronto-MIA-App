@@ -10,6 +10,7 @@ import 'package:pronto_mia/core/services/push_notification_service.dart';
 import 'package:pronto_mia/ui/views/deployment_plan/overview/deployment_plan_overview_view.dart';
 import 'package:pronto_mia/ui/views/login/login_view.dart';
 
+/// A view model, providing functionality for [StartupView].
 class StartUpViewModel extends BaseViewModel {
   static String contextIdentifier = "StartUpViewModel";
 
@@ -25,6 +26,9 @@ class StartUpViewModel extends BaseViewModel {
   String get errorMessage => _errorMessage;
   String _errorMessage;
 
+  /// Handles incoming error and sets [errorMessage] accordingly.
+  ///
+  /// Takes the thrown dynamic error object as an input.
   @override
   Future<void> onFutureError(dynamic error, Object key) async {
     super.onFutureError(error, key);
@@ -33,6 +37,11 @@ class StartUpViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  /// Navigates and handles push notifications according to user authentication
+  /// status and notification permissions.
+  ///
+  /// If a authenticated user is present, navigates to
+  /// [DeploymentPlanOverviewView], otherwise navigates to [LoginView].
   Future<void> handleStartUp() async {
     final isAuthenticated = await runErrorFuture(
       _authenticationService.isAuthenticated(),

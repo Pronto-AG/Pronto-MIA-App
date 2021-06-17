@@ -13,12 +13,18 @@ import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/ui/components/form_layout.dart';
 import 'package:pronto_mia/core/models/department.dart';
 
+/// A widget, representing the form to create and update deployment plans.
 class DeploymentPlanEditView extends StatelessWidget
     with $DeploymentPlanEditView {
   final _formKey = GlobalKey<FormState>();
   final DeploymentPlan deploymentPlan;
   final bool isDialog;
 
+  /// Initializes a new instance of [DeploymentPlanEditView].
+  ///
+  /// Takes a [Key] to uniquely identify the widget in the widget tree, a
+  /// [DeploymentPlan] to edit and a [bool] wether to open it as a dialog or
+  /// standalone as an input.
   DeploymentPlanEditView({
     Key key,
     this.deploymentPlan,
@@ -32,7 +38,7 @@ class DeploymentPlanEditView extends StatelessWidget
     }
   }
 
-  Future<void> handlePdfUpload(DeploymentPlanEditViewModel model) async {
+  Future<void> _handlePdfUpload(DeploymentPlanEditViewModel model) async {
     final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['pdf'],
@@ -53,6 +59,10 @@ class DeploymentPlanEditView extends StatelessWidget
     }
   }
 
+  /// Binds [DeploymentPLanEditViewModel] and builds the widget.
+  ///
+  /// Takes the current [BuildContext] as an input.
+  /// Returns the built [Widget].
   @override
   Widget build(BuildContext context) =>
       ViewModelBuilder<DeploymentPlanEditViewModel>.reactive(
@@ -168,7 +178,7 @@ class DeploymentPlanEditView extends StatelessWidget
               textBaseline: TextBaseline.ideographic,
               children: [
                 TextButton(
-                  onPressed: () => handlePdfUpload(model),
+                  onPressed: () => _handlePdfUpload(model),
                   child: const Text('Datei hochladen'),
                 ),
                 const SizedBox(width: 8.0),
@@ -178,7 +188,7 @@ class DeploymentPlanEditView extends StatelessWidget
                     readOnly: true,
                     onTap: pdfPathController.text == null ||
                             pdfPathController.text.isEmpty
-                        ? () => handlePdfUpload(model)
+                        ? () => _handlePdfUpload(model)
                         : model.openPdf,
                     decoration: const InputDecoration(labelText: 'Dateiname *'),
                     style: const TextStyle(color: CustomColors.link),

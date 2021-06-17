@@ -1,3 +1,4 @@
+/// Groups all queries and mutations, which access the Department GraphQL type
 class DepartmentQueries {
   static const departments = """
     query departments() {

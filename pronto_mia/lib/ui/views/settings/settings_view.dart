@@ -6,12 +6,22 @@ import 'package:pronto_mia/ui/views/settings/settings_view.form.dart';
 import 'package:pronto_mia/ui/views/settings/settings_viewmodel.dart';
 import 'package:pronto_mia/ui/components/form_layout.dart';
 
+/// A widget, representing the settings view with options to logout and change
+/// the users password.
 class SettingsView extends StatelessWidget with $SettingsView {
   final _formKey = GlobalKey<FormState>();
   final bool isDialog;
 
+  /// Initializes a new instance of [DeploymentPlanEditView].
+  ///
+  /// Takes a [Key] to uniquely identify the widget in the widget tree and a
+  /// [bool] wether to open it as a dialog or standalone as an input.
   SettingsView({Key key, this.isDialog = false}) : super(key: key);
 
+  /// Binds [SettingsViewModel] and builds the widget.
+  ///
+  /// Takes the current [BuildContext] as an input.
+  /// Returns the built [Widget].
   @override
   Widget build(BuildContext context) =>
       ViewModelBuilder<SettingsViewModel>.reactive(

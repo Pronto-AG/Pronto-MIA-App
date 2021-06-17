@@ -1,11 +1,14 @@
 import 'package:global_configuration/global_configuration.dart';
 import 'package:flutter/foundation.dart';
 
+/// A service, responsible for accessing the configuration.
+///
+/// Acts as a wrapper for [GlobalConfiguration].
 class ConfigurationService {
-  GlobalConfiguration _configuration = GlobalConfiguration();
+  final _configuration = GlobalConfiguration();
 
-  Future<void> init({GlobalConfiguration configuration}) async {
-    _configuration ??= configuration;
+  /// Loads configuration files according to the current build mode.
+  Future<void> init() async {
     await _configuration.loadFromAsset('app_settings.json');
 
     if (kReleaseMode) {
@@ -15,6 +18,10 @@ class ConfigurationService {
     }
   }
 
+  /// Gets a value of generic type from the currently active configuration.
+  ///
+  /// Takes a [String] key contained in the configuration as an input.
+  /// Returns the value corresponding to [key] as a generic type.
   T getValue<T>(String key) {
     return _configuration.getValue<T>(key);
   }

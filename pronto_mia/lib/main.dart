@@ -9,15 +9,14 @@ import 'package:pronto_mia/core/services/push_notification_service.dart';
 import 'package:pronto_mia/core/services/authentication_service.dart';
 import 'package:pronto_mia/ui/shared/custom_dialogs.dart';
 
+/// Executes setup and runs the application.
 void main() {
   setupLocator();
   setupDialogs();
   runApp(MyApp());
 }
 
-// TODO: Override error widget
-// TODO: Override error handler
-
+/// A representation of the apps root widget.
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
@@ -29,6 +28,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   AuthenticationService get _authenticationsService =>
       locator.get<AuthenticationService>();
 
+  /// Handles initial push notification, when available.
+  ///
+  /// Additionally binds lifecycle events to the widget.
   @override
   void initState() {
     super.initState();
@@ -39,12 +41,18 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
   }
 
+  /// Unbinds lifecycle events from the widget.
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
+  /// Evaluates if notifications should be enabled on lifecycle change.
+  ///
+  /// Takes the current [AppLifeCycleState] as an input.
+  /// If the app is authorized for notifications and a user is signed in,
+  /// they will be enabled, otherwise they will be disabled.
   @override
   Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
     super.didChangeAppLifecycleState(state);
@@ -61,6 +69,10 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     }
   }
 
+  /// Builds the app as a material app with [StartUpView] as its home widget.
+  ///
+  /// Takes the current [BuildContext] as an input.
+  /// Returns the built [MaterialApp].
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

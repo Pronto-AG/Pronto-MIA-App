@@ -1,3 +1,6 @@
+/// A representation of an error analyzed through [AnalyzedErrorFactory].
+///
+/// It contains properties showing different attributes of the underlying error.
 class AnalyzedError {
   bool isUnknownError = false;
   bool isNetworkError = false;
@@ -10,6 +13,7 @@ class AnalyzedError {
   dynamic error;
 }
 
+/// An immutable representation of [AnalyzedError].
 class ConstAnalyzedError {
   bool _isUnknownError = false;
   bool get isUnknownError => _isUnknownError;
@@ -30,6 +34,10 @@ class ConstAnalyzedError {
   dynamic _error;
   dynamic get error => _error;
 
+  /// Initializes a new instance of [ConstAnalyzedError].
+  ///
+  /// Takes an [AnalyzedError] as an input.
+  /// Returns an immutable object representing the [AnalyzedError].
   ConstAnalyzedError(AnalyzedError error) {
     _isUnknownError = error.isUnknownError;
     _isNetworkError = error.isNetworkError;

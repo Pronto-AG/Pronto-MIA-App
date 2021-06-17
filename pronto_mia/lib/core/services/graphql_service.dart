@@ -7,6 +7,9 @@ import 'package:pronto_mia/core/services/jwt_token_service.dart';
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/configuration_service.dart';
 
+/// A service, responsible for communicating with the GraphQL-API.
+///
+/// Contains functionality to send queries and mutations.
 class GraphQLService {
   Future<ConfigurationService> get _configurationService =>
       locator.getAsync<ConfigurationService>();
@@ -15,9 +18,19 @@ class GraphQLService {
 
   GraphQLClient _graphQLClient;
 
+  /// Initializes a new instance of [GraphQLService].
+  ///
+  /// Takes a [GraphQLClient] to send queries and mutations to as an input.
   GraphQLService({GraphQLClient graphQLClient})
       : _graphQLClient = graphQLClient;
 
+  /// Initializes a new GraphQLClient, when there was none provided through
+  /// the constructor.
+  ///
+  /// The clients default cache policy is "no cache".
+  /// If the option "enforceValidCertificate" in the configuration file is set
+  /// to [bool] false the client allows communication without a valid
+  /// certificate.
   Future<void> init() async {
     if (_graphQLClient == null) {
       IOClient ioClient;
@@ -52,6 +65,16 @@ class GraphQLService {
     }
   }
 
+  /// Sends a query to the [GraphQLClient].
+  ///
+  /// Takes the [String] query, [Map] variables and the option to [bool] use
+  /// cache as an input.
+  /// Returns the [Map] data if no exception occured.
+  /// Throws errors contained in the [QueryResult].
+  /// Uses cache by default, but provides the option to disable it through
+  /// [useCache].
+  /// When cache is active the query is first send to the network, if the
+  /// network is not available the query is sent again to cache.
   Future<Map<String, dynamic>> query(
     String query, {
     Map<String, dynamic> variables,
@@ -81,6 +104,13 @@ class GraphQLService {
     return queryResult.data;
   }
 
+  /// Sends a mutation to the [GraphQLClient].
+  ///
+  /// Takes the [String] query, [Map] variables as an input.
+  /// Returns the [Map] data if no exception occured.
+  /// Throws errors contained in the [QueryResult].
+  /// Mutations dont use cache by default and also dont provide and option for
+  /// it.
   Future<Map<String, dynamic>> mutate(String mutation,
       {Map<String, dynamic> variables}) async {
     final mutationOptions = MutationOptions(
@@ -105,7 +135,7 @@ class GraphQLService {
     }
   }
 
-  // ToDo: Replace with #39 globally.
+  // TODO: Replace with Issue #39 globally.
   static bool _isNetworkAvailable(OperationException exception) {
     if (exception.linkException is NetworkException) {
       return false;

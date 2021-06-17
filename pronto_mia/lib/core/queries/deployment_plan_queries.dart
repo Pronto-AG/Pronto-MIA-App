@@ -1,3 +1,5 @@
+/// Groups all queries and mutations, which access the DeploymentPlan GraphQL
+/// type
 class DeploymentPlanQueries {
   static const deploymentPlans = """
     query deploymentPlans() {

@@ -1,3 +1,4 @@
+/// Groups all queries and mutations, which access the users credentials.
 class AuthenticationQueries {
   static const authenticate = """
     query authenticate(\$userName: String!, \$password: String!) {

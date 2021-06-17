@@ -10,8 +10,8 @@ class User {
 
   /// Initializes a new instance of [User].
   ///
-  /// Takes an [int] id, a [String] username, alongside the [Department] the user
-  /// works for and a [Profile] set of permissions as an input.
+  /// Takes an [int] id, a [String] username, alongside the [Department] the
+  /// user works for and a [Profile] set of permissions as an input.
   User({
     this.id,
     this.userName,

@@ -28,7 +28,6 @@ class NavigationMenuViewModel extends FutureViewModel<User> {
   @override
   Future<User> futureToRun() => _getUser();
 
-
   /// Handles incoming error and sets [errorMessage] accordingly.
   ///
   /// Takes the thrown dynamic error object as an input.

@@ -1,6 +1,6 @@
 /// A representation of an error analyzed through [AnalyzedErrorFactory].
 ///
-/// It contains properties showing different attributes the error has.
+/// It contains properties showing different attributes of the underlying error.
 class AnalyzedError {
   bool isUnknownError = false;
   bool isNetworkError = false;
@@ -36,8 +36,8 @@ class ConstAnalyzedError {
 
   /// Initializes a new instance of [ConstAnalyzedError].
   ///
-  /// Takes different [bool] and [String] error properties, including the
-  /// original error as an input.
+  /// Takes an [AnalyzedError] as an input.
+  /// Returns an immutable object representing the [AnalyzedError].
   ConstAnalyzedError(AnalyzedError error) {
     _isUnknownError = error.isUnknownError;
     _isNetworkError = error.isNetworkError;

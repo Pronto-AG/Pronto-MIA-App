@@ -12,10 +12,10 @@ import 'package:pronto_mia/ui/components/deployment_plan_notification.dart';
 import 'package:pronto_mia/ui/shared/custom_dialogs.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-/// A service, that is responsible for interacting with firebase cloud
+/// A service, responsible for interacting with firebase cloud
 /// messaging.
 ///
-/// Contains functionality to manage notifications permissions and handling
+/// Contains functionality to manage notification permissions and handle
 /// push messages.
 class PushNotificationService {
   FirebaseMessaging _fcm;
@@ -40,7 +40,7 @@ class PushNotificationService {
 
   /// Initializes firebase and firebase messaging.
   ///
-  /// Additionally reads the vapid public key from configuration.
+  /// Also reads the vapid public key from configuration.
   Future<void> init() async {
     await Firebase.initializeApp();
     _fcm = _fcm ?? FirebaseMessaging.instance;
@@ -108,7 +108,7 @@ class PushNotificationService {
 
   /// Handles initial message from firebase.
   ///
-  /// Determines what to do via message content.
+  /// Determines what to do according to the content of the message.
   Future<void> handleInitialMessage() async {
     final initialMessage = await _fcm.getInitialMessage();
     if (initialMessage != null) {

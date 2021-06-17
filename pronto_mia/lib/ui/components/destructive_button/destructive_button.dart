@@ -4,7 +4,7 @@ import 'package:stacked/stacked.dart';
 import 'package:pronto_mia/ui/components/destructive_button/destructive_button_viewmodel.dart';
 import 'package:pronto_mia/ui/shared/custom_colors.dart';
 
-/// a widget, representing a button that deletes something.
+/// A widget, representing a button that deletes something.
 ///
 /// A destructive button needs to be confirmed with another click to execute its
 /// action after the first click.

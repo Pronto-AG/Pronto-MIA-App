@@ -44,7 +44,7 @@ class UserEditViewModel extends FormViewModel {
     }
   }
 
-  /// Resets errors and messages, when form fields update.
+  /// Resets errors and messages, as soon as form fields update.
   @override
   void setFormStatus() {
     clearErrors();
@@ -79,8 +79,8 @@ class UserEditViewModel extends FormViewModel {
   /// Takes a [String] key describing the permission to modify and the new
   /// [bool] value it should receive as an input.
   /// In most cases setting a permission to true, will also set others
-  /// needed for that permission to true. Permissions taht are not compatible
-  /// with the set permission will be set to false instead.
+  /// needed for that permission to true. Permissions that are not compatible
+  /// with the set permission will be adjusted to false instead.
   // ignore: avoid_positional_boolean_parameters
   void modifyAccessControlList(String key, bool value) {
     switch (key) {
@@ -173,8 +173,8 @@ class UserEditViewModel extends FormViewModel {
 
   /// Validates the form and either creates or updates a [User].
   ///
-  /// After the form has been submitted successfully, closes dialog when opened
-  /// as a dialog or navigates to the previous view, when opened as standalone.
+  /// After the form has been submitted successfully, closes the dialog in case it was opened
+  /// as a dialog or navigates to the previous view, if opened as standalone.
   Future<void> submitForm() async {
     final validationMessage = _validateForm();
 
@@ -216,8 +216,8 @@ class UserEditViewModel extends FormViewModel {
 
   /// Removes the [User] contained in the form.
   ///
-  /// After the [User] has been removed successfully, closes dialog
-  /// when opened as a dialog or navigates to the previous view, when opened as
+  /// After the [User] has been removed successfully, closes the dialog
+  /// in case it was opened or navigates to the previous view, if opened as
   /// standalone.
   Future<void> removeUser() async {
     if (user != null) {

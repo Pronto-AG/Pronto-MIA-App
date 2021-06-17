@@ -1,6 +1,6 @@
 import 'package:pronto_mia/core/models/access_control_list.dart';
 
-/// A representation of a named set of permissions
+/// The representation of a named set of permissions
 ///
 /// Contains the [AccessControlList], that build the profile description.
 class Profile {
@@ -15,7 +15,7 @@ class Profile {
 
   /// Initializes a new [Profile] from a JSON format object.
   ///
-  /// Takes a [Map] representing a JSON object as an input.
+  /// Takes a [Map] representing a serialized [Profile] object in JSON-Format as an input.
   Profile.fromJson(Map<String, dynamic> json)
       : description = profiles.entries
             .firstWhere(

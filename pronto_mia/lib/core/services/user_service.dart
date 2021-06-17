@@ -7,7 +7,7 @@ import 'package:pronto_mia/core/services/logging_service.dart';
 import 'package:pronto_mia/core/models/user.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
 
-/// A service, that is responsible for accessing users.
+/// A service, responsible for accessing users.
 ///
 /// Contains methods to modify and access user information.
 class UserService {

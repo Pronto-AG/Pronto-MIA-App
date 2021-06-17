@@ -4,7 +4,7 @@ import 'package:pronto_mia/core/queries/authentication_queries.dart';
 import 'package:pronto_mia/core/services/jwt_token_service.dart';
 import 'package:pronto_mia/core/services/push_notification_service.dart';
 
-/// A service, that is responsible for authentication functionality
+/// A service, responsible for authentication functionality
 ///
 /// Contains methods to modify and access authentication information.
 class AuthenticationService {
@@ -24,7 +24,7 @@ class AuthenticationService {
     return (await _jwtTokenService).hasValidToken();
   }
 
-  /// Logs the current user out and disables notifications.
+  /// Performs the logout of the current user and disables notifications.
   ///
   /// The logout is performed by deleting the current JWT token.
   Future<void> logout() async {

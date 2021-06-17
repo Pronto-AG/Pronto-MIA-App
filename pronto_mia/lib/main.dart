@@ -51,7 +51,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   /// Evaluates if notifications should be enabled on lifecycle change.
   ///
   /// Takes the current [AppLifeCycleState] as an input.
-  /// If the app is authorized for notifications and and an user is signed in,
+  /// If the app is authorized for notifications and a user is signed in,
   /// they will be enabled, otherwise they will be disabled.
   @override
   Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {

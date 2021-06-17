@@ -27,7 +27,7 @@ class SettingsViewModel extends FormViewModel {
   /// standalone as an input.
   SettingsViewModel({this.isDialog = false});
 
-  /// Resets errors and messages, when form fields update.
+  /// Resets errors and messages, as soon as form fields update.
   @override
   void setFormStatus() {
     clearErrors();

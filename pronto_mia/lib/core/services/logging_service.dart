@@ -2,12 +2,12 @@ import 'package:logging/logging.dart';
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/configuration_service.dart';
 
-/// A service, that is globally responsible for logging purposes.
+/// A service, globally responsible for logging.
 class LoggingService {
   Future<ConfigurationService> get _configurationService =>
       locator.getAsync<ConfigurationService>();
 
-  /// Determines current log level from configuration and registers logger.
+  /// Determines current log level from the configuration and registers the logger.
   Future<void> init() async {
     final logLevel = (await _configurationService).getValue<String>('logLevel');
 

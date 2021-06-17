@@ -7,7 +7,7 @@ import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/core/models/department.dart';
 import 'package:pronto_mia/ui/views/department/edit/department_edit_view.form.dart';
 
-/// a view model, providing functionality for [DepartmentEditView].
+/// A view model, providing functionality for [DepartmentEditView].
 class DepartmentEditViewModel extends FormViewModel {
   static const contextIdentifier = 'DepartmentEditViewModel';
   static const editActionKey = 'EditActionKey';
@@ -27,7 +27,7 @@ class DepartmentEditViewModel extends FormViewModel {
   /// displayed as a dialog or standalone as an input.
   DepartmentEditViewModel({this.department, this.isDialog = false});
 
-  /// Resets errors and messages, when form fields update.
+  /// Resets errors and messages, as soon as form fields update.
   @override
   void setFormStatus() {
     clearErrors();

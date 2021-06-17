@@ -43,7 +43,7 @@ class DeploymentPlanEditViewModel extends FormViewModel {
     this.isDialog = false,
   });
 
-  /// Resets errors and messages, when form fields update.
+  /// Resets errors and messages, as soon as form fields update.
   @override
   void setFormStatus() {
     clearErrors();
@@ -82,8 +82,8 @@ class DeploymentPlanEditViewModel extends FormViewModel {
 
   /// Validates the form and either creates or updates a [DeploymentPlan].
   ///
-  /// After the form has been submitted successfully, closes dialog when opened
-  /// as a dialog or navigates to the previous view, when opened as standalone.
+  /// After the form has been submitted successfully, it closes the dialog in case it was opened
+  /// as a dialog or navigates to the previous view if opened as standalone.
   Future<void> submitForm() async {
     final validationMessage = _validateForm();
     if (validationMessage != null) {

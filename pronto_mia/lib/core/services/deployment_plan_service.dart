@@ -12,7 +12,7 @@ import 'package:pronto_mia/core/services/pdf_service.dart';
 import 'package:pronto_mia/ui/views/pdf/pdf_view.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-/// A service, that is responsible for accessing deployment plans.
+/// A service, responsible for accessing deployment plans.
 ///
 /// Contains methods to modify and access deployment plan information.
 class DeploymentPlanService with ChangeNotifier {
@@ -37,7 +37,7 @@ class DeploymentPlanService with ChangeNotifier {
     return deploymentPlanList;
   }
 
-  /// Gets the a single deployment plan, according to its id.
+  /// Gets a single deployment plan, according to its id.
   ///
   /// Takes the deployment plans [int] id as an input.
   /// Returns the [DeploymentPlan], corresponding to the id.

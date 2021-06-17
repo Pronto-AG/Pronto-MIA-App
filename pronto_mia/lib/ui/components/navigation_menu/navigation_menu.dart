@@ -11,7 +11,8 @@ import 'package:pronto_mia/ui/views/department/overview/department_overview_view
 
 /// A widget, representing a menu containing the main navigation.
 class NavigationMenu extends StatelessWidget {
-  /// Binds [NavigationMenuViewModel] and builds the widget.
+
+    /// Binds [NavigationMenuViewModel] and builds the widget.
   ///
   /// Takes the current [BuildContext] as an input.
   /// Returns the built [Widget].

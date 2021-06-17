@@ -16,7 +16,7 @@ class LoginViewModel extends FormViewModel {
   NavigationService get _navigationService => locator.get<NavigationService>();
   ErrorService get _errorService => locator.get<ErrorService>();
 
-  /// Resets errors and messages, when form fields update.
+  /// Resets errors and messages, as soon as form fields update.
   @override
   void setFormStatus() {
     clearErrors();

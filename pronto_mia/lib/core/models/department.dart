@@ -1,4 +1,4 @@
-/// A representation of a department a [User] works for.
+/// The representation of a department a [User] works for.
 class Department {
   final int id;
   final String name;
@@ -10,7 +10,7 @@ class Department {
 
   /// Initializes a new [Department] from a JSON format object.
   ///
-  /// Takes a [Map] representing a JSON object as an input.
+  /// Takes a [Map] representing a serialized [Department] object in JSON-Format as an input.
   Department.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int,
         name = json['name'] as String;

@@ -3,7 +3,7 @@ import 'package:pronto_mia/core/queries/department_queries.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
 import 'package:pronto_mia/app/service_locator.dart';
 
-/// A service, that is responsible for accessing departments.
+/// A service, responsible for accessing departments.
 ///
 /// Contains methods to modify and access department information.
 class DepartmentService {

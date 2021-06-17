@@ -7,7 +7,7 @@ import 'package:pronto_mia/core/services/jwt_token_service.dart';
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/configuration_service.dart';
 
-/// A service, that is responsible for communicating with the GraphQL-API.
+/// A service, responsible for communicating with the GraphQL-API.
 ///
 /// Contains functionality to send queries and mutations.
 class GraphQLService {
@@ -29,7 +29,7 @@ class GraphQLService {
   ///
   /// The clients default cache policy is "no cache".
   /// If the option "enforceValidCertificate" in the configuration file is set
-  /// the client allows communication without a valid certificate.
+  /// to [bool] false the client allows communication without a valid certificate.
   Future<void> init() async {
     if (_graphQLClient == null) {
       IOClient ioClient;

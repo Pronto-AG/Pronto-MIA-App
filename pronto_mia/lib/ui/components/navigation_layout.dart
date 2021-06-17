@@ -6,7 +6,7 @@ import 'package:pronto_mia/ui/shared/custom_colors.dart';
 import 'package:pronto_mia/ui/components/navigation_menu/navigation_menu.dart';
 import 'package:pronto_mia/ui/components/custom_app_bar.dart';
 
-/// A widget, representing a main view layout with a navigation.
+/// A widget, representing the main view layout with a navigation.
 class NavigationLayout extends StatelessWidget {
   final String title;
   final Widget body;

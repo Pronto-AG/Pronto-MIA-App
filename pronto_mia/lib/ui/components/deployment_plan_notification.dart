@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-/// A widget, representing a notification dialog for deployment plans
+/// A widget, representing a notification dialog for deployment plans.
 class DeploymentPlanNotification extends StatelessWidget {
   final AsyncCallback onViewPressed;
   final String title;

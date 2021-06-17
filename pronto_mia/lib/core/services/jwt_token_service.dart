@@ -7,7 +7,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/logging_service.dart';
 
-/// A service, that is responsible for accessing the JWT token.
+/// A service, responsible for accessing the JWT token.
 ///
 /// It uses different persistence solutions for different platforms.
 class JwtTokenService {

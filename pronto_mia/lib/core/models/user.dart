@@ -1,7 +1,7 @@
 import 'package:pronto_mia/core/models/department.dart';
 import 'package:pronto_mia/core/models/profiles.dart';
 
-/// A representation of a user, which used the application.
+/// The representation of a user, which uses the application.
 class User {
   final int id;
   final String userName;
@@ -21,7 +21,7 @@ class User {
 
   /// Initializes a new [User] from a JSON format object.
   ///
-  /// Takes a [Map] representing a JSON object as an input.
+  /// Takes a [Map] representing a serialized [User] object in JSON-Format as an input.
   User.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int,
         userName = json['userName'] as String,

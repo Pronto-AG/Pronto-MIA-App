@@ -1,13 +1,13 @@
 import 'package:global_configuration/global_configuration.dart';
 import 'package:flutter/foundation.dart';
 
-/// A service, that is responsible for accessing the configuration.
+/// A service, responsible for accessing the configuration.
 ///
 /// Acts as a wrapper for [GlobalConfiguration].
 class ConfigurationService {
   GlobalConfiguration _configuration = GlobalConfiguration();
 
-  /// Loads configuration files according to the current build mode
+  /// Loads configuration files according to the current build mode.
   ///
   /// Takes a [GlobalConfiguration] as an input, to overwrite the current one.
   Future<void> init({GlobalConfiguration configuration}) async {

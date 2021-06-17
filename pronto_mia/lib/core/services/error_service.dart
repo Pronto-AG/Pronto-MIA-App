@@ -8,9 +8,9 @@ import 'package:pronto_mia/core/services/authentication_service.dart';
 import 'package:pronto_mia/core/services/logging_service.dart';
 import 'package:pronto_mia/ui/views/startup/startup_view.dart';
 
-/// A service, that is globally responsible for handling incoming errors.
+/// A service, globally responsible for handling incoming errors.
 ///
-/// It includes functionality to determine error messages to the errors.
+/// It includes functionality to determine the correct error message for an error.
 class ErrorService {
   Future<LoggingService> get _loggingService =>
       locator.getAsync<LoggingService>();
@@ -19,9 +19,9 @@ class ErrorService {
   AuthenticationService get _authenticationService =>
       locator.get<AuthenticationService>();
 
-  /// Analyzes an incoming error and logs the user out if needed.
+  /// Analyzes an incoming error and performs a user logout if needed.
   ///
-  /// Takes a [String] contextIdentifier to identify the error in the logs and
+  /// Takes a [String] contextIdentifier to identify the class logging the error and
   /// the dynamic error itself as an input.
   Future<void> handleError(String contextIdentifier, dynamic error) async {
     final analyzedError = AnalyzedErrorFactory.create(error);

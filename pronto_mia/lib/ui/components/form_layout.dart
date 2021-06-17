@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pronto_mia/ui/shared/custom_colors.dart';
 import 'package:pronto_mia/ui/components/destructive_button/destructive_button.dart';
 
-/// A widget, representing a layout for a form.
+/// A widget, representing the layout for a form.
 class FormLayout extends StatelessWidget {
   final List<Widget> textFields;
   final String validationMessage;

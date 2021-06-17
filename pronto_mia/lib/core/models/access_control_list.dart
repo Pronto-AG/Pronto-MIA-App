@@ -1,4 +1,4 @@
-/// A representation of an access control list, containing all permissions an
+/// The representation of an access control list, containing all permissions a
 /// user can have.
 class AccessControlList {
   final int id;
@@ -17,7 +17,7 @@ class AccessControlList {
 
   /// Initializes a new instance of [AccessControlList].
   ///
-  /// Takes an [int] id and [bool] permissions options as an input.
+  /// Takes an [int] id and [bool] permission options as an input.
   AccessControlList({
     this.id,
     this.canViewDeploymentPlans = false,
@@ -56,7 +56,7 @@ class AccessControlList {
 
   /// Initializes a new [AccessControlList] from a JSON format object.
   ///
-  /// Takes a [Map] representing a JSON object as an input.
+  /// Takes a [Map] representing a serialized [AccessControlList] object in JSON-Format as an input.
   AccessControlList.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int,
         canViewDeploymentPlans =

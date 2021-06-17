@@ -6,7 +6,7 @@ import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/core/services/jwt_token_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-/// A service, that is responsible for handling pdf functionality.
+/// A service, responsible for handling pdf functionality.
 ///
 /// Contains functionality to download pdfs and to open pdfs in new browser
 /// tabs.

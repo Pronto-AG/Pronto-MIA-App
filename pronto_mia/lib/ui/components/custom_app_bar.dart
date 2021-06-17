@@ -18,6 +18,7 @@ class CustomAppBar extends StatelessWidget {
   /// Builds the widget.
   ///
   /// Takes the current [BuildContext] as an input.
+  /// Returns the built [Widget].
   @override
   Widget build(BuildContext context) => BottomAppBar(
         shape: (() {

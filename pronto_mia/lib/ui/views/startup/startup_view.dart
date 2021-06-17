@@ -3,7 +3,12 @@ import 'package:stacked/stacked.dart';
 
 import 'package:pronto_mia/ui/views/startup/startup_viewmodel.dart';
 
+/// A widget, representing the splash screen of the app.
 class StartUpView extends StatelessWidget {
+  /// Binds [StartUpViewModel] and builds the widget.
+  ///
+  /// Takes the current [BuildContext] as an input.
+  /// Returns the built [Widget].
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<StartUpViewModel>.reactive(

@@ -6,6 +6,7 @@ import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/core/services/pdf_service.dart';
 import 'package:pronto_mia/core/models/simple_file.dart';
 
+/// A view model, providing functionality for [PdfView].
 class PdfViewModel extends FutureViewModel<SimpleFile> {
   static String contextIdentifier = "PdfViewModel";
 
@@ -17,8 +18,19 @@ class PdfViewModel extends FutureViewModel<SimpleFile> {
   String get errorMessage => _errorMessage;
   String _errorMessage;
 
+  /// Initializes a new instance of [PdfViewModel].
+  ///
+  /// Takes the pdfFile to display of either type [String] or [SimpleFile] as
+  /// an input.
   PdfViewModel({@required this.pdfFile});
 
+  /// Gets the pdf file and stores them into [data].
+  ///
+  /// Returns the fetched [List] of departments.
+  /// Throws error if the provided pdf file form the constructor is not either
+  /// [String] or [SimpleFile].
+  /// If the provied [pdfFile] is of type [String] the pdf gets downloaded and
+  /// if its of type [SimpleFile] it its returned instead.
   @override
   Future<SimpleFile> futureToRun() {
     switch (pdfFile.runtimeType) {
@@ -33,6 +45,9 @@ class PdfViewModel extends FutureViewModel<SimpleFile> {
     }
   }
 
+  /// Handles incoming error and sets [errorMessage] accordingly.
+  ///
+  /// Takes the thrown dynamic error object as an input.
   @override
   Future<void> onError(dynamic error) async {
     super.onError(error);

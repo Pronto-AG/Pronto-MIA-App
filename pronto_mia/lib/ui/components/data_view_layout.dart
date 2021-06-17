@@ -10,7 +10,7 @@ class DataViewLayout extends StatelessWidget {
 
   /// Initializes a new instance of [DataViewLayout].
   ///
-  /// Takes a [Function] to build its child, a [boolean] to determine if the
+  /// Takes a [Function] to build its child, a [bool] to determine if the
   /// data is busy, and [String] messages for either no data or error.
   const DataViewLayout({
     @required this.childBuilder,
@@ -22,6 +22,7 @@ class DataViewLayout extends StatelessWidget {
   /// Builds the widget.
   ///
   /// Takes the current [BuildContext] as an input.
+  /// Returns the built [Widget].
   @override
   Widget build(BuildContext context) {
     if (isBusy) {

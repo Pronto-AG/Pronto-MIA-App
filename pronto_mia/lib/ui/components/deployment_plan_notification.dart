@@ -20,6 +20,7 @@ class DeploymentPlanNotification extends StatelessWidget {
   /// Builds the widget.
   ///
   /// Takes the current [BuildContext] as an input.
+  /// Returns the built [Widget].
   @override
   Widget build(BuildContext context) {
     // ignore: sized_box_for_whitespace

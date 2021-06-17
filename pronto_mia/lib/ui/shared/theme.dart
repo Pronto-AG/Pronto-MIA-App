@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:pronto_mia/ui/shared/custom_colors.dart';
 
+/// Contains global theme for the app.
 final theme = ThemeData.light().copyWith(
   primaryColor: CustomColors.primary,
   accentColor: CustomColors.secondary,

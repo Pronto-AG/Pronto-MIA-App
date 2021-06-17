@@ -6,11 +6,17 @@ import 'package:pronto_mia/ui/views/department/edit/department_edit_viewmodel.da
 import 'package:pronto_mia/ui/components/form_layout.dart';
 import 'package:pronto_mia/ui/views/department/edit/department_edit_view.form.dart';
 
+/// A widget, representing the form to create and update departments.
 class DepartmentEditView extends StatelessWidget with $DepartmentEditView {
   final _formKey = GlobalKey<FormState>();
   final Department department;
   final bool isDialog;
 
+  /// Initializes a new instance of [DepartmentEditView].
+  ///
+  /// Takes a [Key] to uniquely identify the widget in the widget tree, a
+  /// [Department] to edit and a [bool] wether to open it as a dialog or
+  /// standalone as an input.
   DepartmentEditView({
     Key key,
     this.department,
@@ -21,6 +27,10 @@ class DepartmentEditView extends StatelessWidget with $DepartmentEditView {
     }
   }
 
+  /// Binds [DepartmentEditViewModel] and builds the widget.
+  ///
+  /// Takes the current [BuildContext] as an input.
+  /// Returns the built [Widget].
   @override
   Widget build(BuildContext context) =>
       ViewModelBuilder<DepartmentEditViewModel>.reactive(

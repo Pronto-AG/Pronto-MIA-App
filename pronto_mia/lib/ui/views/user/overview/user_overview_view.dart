@@ -9,9 +9,18 @@ import 'package:pronto_mia/ui/components/navigation_layout.dart';
 import 'package:pronto_mia/ui/components/data_view_layout.dart';
 import 'package:pronto_mia/core/models/user.dart';
 
+/// A widget, representing the deployment plan overview.
 class UserOverviewView extends StatelessWidget {
+  /// Initializes a new instance of [UserOverviewView].
+  ///
+  /// Takes a [Key] to uniquely identify the widget in the widget tree as an
+  /// input.
   const UserOverviewView({Key key}) : super(key: key);
 
+  /// Binds [UserOverviewViewModel] and builds the widget.
+  ///
+  /// Takes the current [BuildContext] as an input.
+  /// Returns the built [Widget].
   @override
   Widget build(BuildContext context) =>
       ViewModelBuilder<UserOverviewViewModel>.reactive(

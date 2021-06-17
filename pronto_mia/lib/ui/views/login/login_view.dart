@@ -6,9 +6,14 @@ import 'package:pronto_mia/ui/views/login/login_view.form.dart';
 import 'package:pronto_mia/ui/views/login/login_viewmodel.dart';
 import 'package:pronto_mia/ui/components/form_layout.dart';
 
+/// A widget, representing a login form.
 class LoginView extends StatelessWidget with $LoginView {
   final _formKey = GlobalKey<FormState>();
 
+  /// Binds [LoginViewModel] and builds the widget.
+  ///
+  /// Takes the current [BuildContext] as an input.
+  /// Returns the built [Widget].
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<LoginViewModel>.reactive(

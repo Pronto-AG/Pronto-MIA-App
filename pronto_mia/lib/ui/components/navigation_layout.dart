@@ -25,6 +25,7 @@ class NavigationLayout extends StatelessWidget {
   /// Builds the widget.
   ///
   /// Takes the current [BuildContext] as an input.
+  /// Returns the built [Widget].
   @override
   Widget build(BuildContext context) => ScreenTypeLayout(
         mobile: _buildMobileLayout(body: body),

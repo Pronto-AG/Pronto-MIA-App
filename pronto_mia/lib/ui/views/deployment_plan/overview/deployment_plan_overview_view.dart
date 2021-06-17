@@ -10,14 +10,23 @@ import 'package:pronto_mia/ui/components/data_view_layout.dart';
 import 'package:pronto_mia/ui/components/navigation_layout.dart';
 import 'package:pronto_mia/ui/shared/custom_colors.dart';
 
+/// A widget, representing the deployment plan overview.
 class DeploymentPlanOverviewView extends StatelessWidget {
   final bool adminModeEnabled;
 
+  /// Initializes a new instance of [DeploymentPlanOverviewView].
+  ///
+  /// Takes a [Key] to uniquely identify the widget in the widget tree and a
+  /// [bool] wether to show admin level functionality as an input.
   const DeploymentPlanOverviewView({
     Key key,
     this.adminModeEnabled = false,
   }) : super(key: key);
 
+  /// Binds [DeploymentPlanOverviewViewModel] and builds the widget.
+  ///
+  /// Takes the current [BuildContext] as an input.
+  /// Returns the built [Widget].
   @override
   Widget build(BuildContext context) =>
       ViewModelBuilder<DeploymentPlanOverviewViewModel>.reactive(

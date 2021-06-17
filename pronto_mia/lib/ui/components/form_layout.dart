@@ -25,6 +25,7 @@ class FormLayout extends StatelessWidget {
   /// Builds the widget.
   ///
   /// Takes the current [BuildContext] as an input.
+  /// Returns the built [Widget].
   @override
   Widget build(BuildContext context) => Container(
         padding: const EdgeInsets.all(16.0),
@@ -106,7 +107,7 @@ class ButtonSpecification {
   /// Initializes a new instance of [ButtonSpecification].
   ///
   /// It takes a [String] button text, a [Function] executed on button press,
-  /// a [boolean] wether it should show as busy and a [boolean] wether it should
+  /// a [bool] wether it should show as busy and a [bool] wether it should
   /// show as a destructive button as input.
   ButtonSpecification({
     @required this.title,

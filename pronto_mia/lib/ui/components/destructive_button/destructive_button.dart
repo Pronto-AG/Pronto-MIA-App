@@ -24,6 +24,7 @@ class DestructiveButton extends StatelessWidget {
   /// Binds [DestructiveButtonViewModel] and builds the widget.
   ///
   /// Takes the current [BuildContext] as an input.
+  /// Returns the built [Widget].
   @override
   Widget build(BuildContext context) =>
       ViewModelBuilder<DestructiveButtonViewModel>.reactive(

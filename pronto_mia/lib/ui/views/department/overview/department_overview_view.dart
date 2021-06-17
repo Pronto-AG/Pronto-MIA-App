@@ -7,9 +7,14 @@ import 'package:pronto_mia/ui/components/navigation_layout.dart';
 import 'package:pronto_mia/core/models/department.dart';
 import 'package:pronto_mia/ui/components/data_view_layout.dart';
 
+/// A widget, representing the department overview.
 class DepartmentOverviewView extends StatelessWidget {
   const DepartmentOverviewView({Key key}) : super(key: key);
 
+  /// Binds [DepartmentOverviewViewModel] and builds the widget.
+  ///
+  /// Takes the current [BuildContext] as an input.
+  /// Returns the built [Widget].
   @override
   Widget build(BuildContext context) =>
       ViewModelBuilder<DepartmentOverviewViewModel>.reactive(

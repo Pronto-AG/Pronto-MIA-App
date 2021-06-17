@@ -11,6 +11,7 @@ import 'package:pronto_mia/core/models/access_control_list.dart';
 import 'package:pronto_mia/core/models/profiles.dart';
 import 'package:pronto_mia/core/models/department.dart';
 
+/// A view model, providing functionality for [UserEditView].
 class UserEditViewModel extends FormViewModel {
   static const contextIdentifier = 'UserEditViewModel';
   static const editActionKey = 'EditActionKey';
@@ -33,32 +34,53 @@ class UserEditViewModel extends FormViewModel {
   AccessControlList _accessControlList =
       AccessControlList.copy(profiles['empty'].accessControlList);
 
+  /// Initializes a new instance of [DeploymentPlanEditViewModel]
+  ///
+  /// Takes the [User] to edit and a [bool] wether the form should be
+  /// displayed as a dialog or standalone as an input.
   UserEditViewModel({this.user, this.isDialog = false}) {
     if (user != null) {
       _accessControlList = user.profile.accessControlList;
     }
   }
 
+  /// Resets errors and messages, when form fields update.
   @override
   void setFormStatus() {
     clearErrors();
   }
 
+  /// Fetches departments and assigns them to [_availableDepartments].
   Future<void> fetchDepartments() async {
     _availableDepartments = await _departmentService.getDepartments();
     notifyListeners();
   }
 
+  /// Sets the department.
+  ///
+  /// Takes the [Department] to set as an input.
   void setDepartment(Department department) {
     _department = department;
     notifyListeners();
   }
 
+  /// Sets the accessControlList.
+  ///
+  /// Takes the [AccessControlList] to set as an input.
+  /// It does not set the original [AccessControlList] provided by the argument,
+  /// but rather a copy of its values.
   void setAccessControlList(AccessControlList accessControlList) {
     _accessControlList = AccessControlList.copy(accessControlList);
     notifyListeners();
   }
 
+  /// Modifies the accessControlList according to the given [key] and [value].
+  ///
+  /// Takes a [String] key describing the permission to modify and the new
+  /// [bool] value it should receive as an input.
+  /// In most cases setting a permission to true, will also set others
+  /// needed for that permission to true. Permissions taht are not compatible
+  /// with the set permission will be set to false instead.
   // ignore: avoid_positional_boolean_parameters
   void modifyAccessControlList(String key, bool value) {
     switch (key) {
@@ -149,6 +171,10 @@ class UserEditViewModel extends FormViewModel {
     notifyListeners();
   }
 
+  /// Validates the form and either creates or updates a [User].
+  ///
+  /// After the form has been submitted successfully, closes dialog when opened
+  /// as a dialog or navigates to the previous view, when opened as standalone.
   Future<void> submitForm() async {
     final validationMessage = _validateForm();
 
@@ -188,6 +214,11 @@ class UserEditViewModel extends FormViewModel {
     _completeFormAction(editActionKey);
   }
 
+  /// Removes the [User] contained in the form.
+  ///
+  /// After the [User] has been removed successfully, closes dialog
+  /// when opened as a dialog or navigates to the previous view, when opened as
+  /// standalone.
   Future<void> removeUser() async {
     if (user != null) {
       await runBusyFuture(

@@ -5,11 +5,17 @@ import 'package:stacked/stacked.dart';
 import 'package:pronto_mia/ui/views/pdf/pdf_viewmodel.dart';
 import 'package:pronto_mia/ui/components/data_view_layout.dart';
 
+/// A widget, representing the pdf view.
 class PdfView extends StatelessWidget {
   final String title;
   final String subTitle;
   final Object pdfFile;
 
+  /// Initializes a new instance of [PdfView].
+  ///
+  /// Takes a [Key] to uniquely identify the widget in the widget tree, a
+  /// [String] title and optional subtitle to display and the [Object] pdf file
+  /// to render.
   const PdfView({
     Key key,
     @required this.title,
@@ -17,6 +23,10 @@ class PdfView extends StatelessWidget {
     @required this.pdfFile,
   }) : super(key: key);
 
+  /// Binds [PdfViewModel] and builds the widget.
+  ///
+  /// Takes the current [BuildContext] as an input.
+  /// Returns the built [Widget].
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<PdfViewModel>.reactive(

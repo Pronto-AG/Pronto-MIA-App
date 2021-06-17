@@ -10,7 +10,7 @@ import 'package:pronto_mia/core/services/user_service.dart';
 import 'package:pronto_mia/ui/shared/custom_dialogs.dart';
 import 'package:pronto_mia/ui/views/settings/settings_view.dart';
 
-/// a view model, providing functionality for [NavigationMenu].
+/// A view model, providing functionality for [NavigationMenu].
 class NavigationMenuViewModel extends FutureViewModel<User> {
   static String contextIdentifier = "NavigationMenuViewModel";
 
@@ -52,8 +52,8 @@ class NavigationMenuViewModel extends FutureViewModel<User> {
 
   /// Opens the settings view.
   ///
-  /// Takes a [boolean] as an input wether the view should open as a dialog
-  /// or standalone.
+  /// Takes a [bool] wether the view should open as a dialog
+  /// or standalone as an input.
   Future<void> openSettings({bool asDialog = false}) async {
     if (asDialog) {
       await _dialogService.showCustomDialog(

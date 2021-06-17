@@ -6,17 +6,25 @@ import 'package:pronto_mia/ui/shared/custom_colors.dart';
 import 'package:pronto_mia/ui/components/navigation_menu/navigation_menu.dart';
 import 'package:pronto_mia/ui/components/custom_app_bar.dart';
 
+/// A widget, representing a main view layout with a navigation.
 class NavigationLayout extends StatelessWidget {
   final String title;
   final Widget body;
   final List<ActionSpecification> actions;
 
+  /// Initializes a new instance of [NavigationLayout].
+  ///
+  /// Takes a [String] view title, a [Widget] view body and a [List] of actions
+  /// to display on the app bar.
   const NavigationLayout({
     @required this.title,
     @required this.body,
     this.actions,
   });
 
+  /// Builds the widget.
+  ///
+  /// Takes the current [BuildContext] as an input.
   @override
   Widget build(BuildContext context) => ScreenTypeLayout(
         mobile: _buildMobileLayout(body: body),

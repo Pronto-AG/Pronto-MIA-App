@@ -1,17 +1,25 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+/// A widget, representing a notification dialog for deployment plans
 class DeploymentPlanNotification extends StatelessWidget {
   final AsyncCallback onViewPressed;
   final String title;
   final String body;
 
+  /// Initializes a new instance of [DeploymentPlanNotification].
+  ///
+  /// Takes a [AsyncCallback] executed on button press, a [String] notification
+  /// and a [String] notification body as an input.
   const DeploymentPlanNotification({
     @required this.onViewPressed,
     @required this.title,
     @required this.body,
   });
 
+  /// Builds the widget.
+  ///
+  /// Takes the current [BuildContext] as an input.
   @override
   Widget build(BuildContext context) {
     // ignore: sized_box_for_whitespace

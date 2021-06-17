@@ -3,12 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:pronto_mia/ui/shared/custom_colors.dart';
 import 'package:pronto_mia/ui/components/destructive_button/destructive_button.dart';
 
+/// A widget, representing a layout for a form.
 class FormLayout extends StatelessWidget {
   final List<Widget> textFields;
   final String validationMessage;
   final ButtonSpecification primaryButton;
   final ButtonSpecification secondaryButton;
 
+  /// Initializes a new instance of [FormLayout].
+  ///
+  /// Takes a [List] of text fields to add into the form, a [String] validation
+  /// message to show form errors, a [ButtonSpecification] primary form action
+  /// and a [ButtonSpecification] secondary form action as an input.
   const FormLayout({
     @required this.textFields,
     @required this.validationMessage,
@@ -16,6 +22,9 @@ class FormLayout extends StatelessWidget {
     this.secondaryButton,
   });
 
+  /// Builds the widget.
+  ///
+  /// Takes the current [BuildContext] as an input.
   @override
   Widget build(BuildContext context) => Container(
         padding: const EdgeInsets.all(16.0),
@@ -84,12 +93,21 @@ class FormLayout extends StatelessWidget {
   }
 }
 
+/// A representation of a button.
+///
+/// It contains properties for buttons regardless of which button type it will
+/// be used in.
 class ButtonSpecification {
   final String title;
   final void Function() onTap;
   final bool isBusy;
   final bool isDestructive;
 
+  /// Initializes a new instance of [ButtonSpecification].
+  ///
+  /// It takes a [String] button text, a [Function] executed on button press,
+  /// a [boolean] wether it should show as busy and a [boolean] wether it should
+  /// show as a destructive button as input.
   ButtonSpecification({
     @required this.title,
     @required this.onTap,

@@ -4,13 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:pronto_mia/ui/shared/custom_colors.dart';
 import 'package:pronto_mia/ui/components/navigation_menu/navigation_menu.dart';
 
+/// A widget, representing a bottom app bar with actions
 class CustomAppBar extends StatelessWidget {
   final List<Widget> actions;
 
+  /// Initializes a new instance of [CustomAppBar].
+  ///
+  /// Takes a [List] of actions to display on the bar as input.
   const CustomAppBar({
     this.actions,
   });
 
+  /// Builds the widget.
+  ///
+  /// Takes the current [BuildContext] as an input.
   @override
   Widget build(BuildContext context) => BottomAppBar(
         shape: (() {

@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-/// A representation of a file, not bound by it's platform.
+/// A representation of a file, not bound by its platform.
 ///
 /// Unifies the different file representations available on different platforms
 /// by only allowing minimal information to be set.

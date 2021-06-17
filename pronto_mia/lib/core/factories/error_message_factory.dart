@@ -1,7 +1,7 @@
 import 'package:pronto_mia/core/factories/analyzed_error_factory.dart';
 import 'package:pronto_mia/core/models/analyzed_error.dart';
 
-/// A factory that is responsible for determining the corresponding error
+/// A factory, that is responsible for determining the corresponding error
 /// message from an [AnalyzedError].
 ///
 /// Currently only available in German.

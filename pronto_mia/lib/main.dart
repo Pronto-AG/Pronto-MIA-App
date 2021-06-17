@@ -16,7 +16,7 @@ void main() {
   runApp(MyApp());
 }
 
-/// A representation of the app's root widget.
+/// A representation of the apps root widget.
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();

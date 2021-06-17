@@ -7,12 +7,18 @@ import 'package:pronto_mia/core/services/logging_service.dart';
 import 'package:pronto_mia/core/models/user.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
 
+/// A service, that is responsible for accessing users.
+///
+/// Contains methods to modify and access user information.
 class UserService {
   Future<LoggingService> get _loggingService =>
       locator.getAsync<LoggingService>();
   Future<GraphQLService> get _graphQLService =>
       locator.getAsync<GraphQLService>();
 
+  /// Gets the currently authenticated user
+  ///
+  /// Returns the current [User] user.
   Future<User> getCurrentUser() async {
     final data = await (await _graphQLService).query(UserQueries.currentUser);
     final user = User.fromJson(data['user'] as Map<String, dynamic>);
@@ -26,6 +32,9 @@ class UserService {
     return user;
   }
 
+  /// Gets the list of all users.
+  ///
+  /// Returns a [List] list of users.
   Future<List<User>> getUsers() async {
     final data = await (await _graphQLService).query(UserQueries.users);
     final dtoList = data['users'] as List<Object>;
@@ -36,6 +45,10 @@ class UserService {
     return userList;
   }
 
+  /// Creates a new user.
+  ///
+  /// Takes a [String] username, a [String] password, alongside the [Department]
+  /// the user works for and a [Profile] set of permissions as an input.
   Future<void> createUser(
     String userName,
     String password,
@@ -54,6 +67,11 @@ class UserService {
     );
   }
 
+  /// Updates an existing user.
+  ///
+  /// Takes an [int] id, a [String] username, a [String] password, alongside
+  /// the [Department] the user works for and a [Profile] set of permissions as
+  /// an input.
   Future<void> updateUser(
     int id, {
     String userName,
@@ -74,6 +92,9 @@ class UserService {
     );
   }
 
+  /// Removes an existing user.
+  ///
+  /// Takes the [int] id of the user to be removed as an input.
   Future<void> removeUser(int id) async {
     final queryVariables = {'id': id};
     await (await _graphQLService).mutate(

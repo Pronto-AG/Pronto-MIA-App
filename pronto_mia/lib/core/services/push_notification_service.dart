@@ -12,6 +12,11 @@ import 'package:pronto_mia/ui/components/deployment_plan_notification.dart';
 import 'package:pronto_mia/ui/shared/custom_dialogs.dart';
 import 'package:stacked_services/stacked_services.dart';
 
+/// A service, that is responsible for interacting with firebase cloud
+/// messaging.
+///
+/// Contains functionality to manage notifications permissions and handling
+/// push messages.
 class PushNotificationService {
   FirebaseMessaging _fcm;
   Future<GraphQLService> get _graphQLService =>
@@ -28,8 +33,14 @@ class PushNotificationService {
   bool _notificationsEnabled = false;
   bool _pushDialogOpen = false;
 
+  /// Initializes a new instance of [PushNotificationService].
+  ///
+  /// Takes [FirebaseMessaging] as an input.
   PushNotificationService({FirebaseMessaging fcm}) : _fcm = fcm;
 
+  /// Initializes firebase and firebase messaging.
+  ///
+  /// Additionally reads the vapid public key from configuration.
   Future<void> init() async {
     await Firebase.initializeApp();
     _fcm = _fcm ?? FirebaseMessaging.instance;
@@ -37,6 +48,9 @@ class PushNotificationService {
         .getValue<String>('pushMessageServerVapidPublicKey');
   }
 
+  /// Checks if the app is authorized for notifications.
+  ///
+  /// Returns wether notifications are allowed as [bool].
   Future<bool> notificationsAuthorized() async {
     final notificationSettings = await _fcm.getNotificationSettings();
     if (notificationSettings.authorizationStatus ==
@@ -46,6 +60,9 @@ class PushNotificationService {
     return false;
   }
 
+  /// Requests permission for notifications.
+  ///
+  /// Returns wether notifications are allowed as [bool].
   Future<bool> requestPermissions() async {
     final notificationSettings = await _fcm.requestPermission();
     if (notificationSettings.authorizationStatus ==
@@ -55,6 +72,7 @@ class PushNotificationService {
     return false;
   }
 
+  /// Registers current device and enables notifications.
   Future<void> enableNotifications() async {
     if (!_notificationsEnabled && await notificationsAuthorized()) {
       final token =
@@ -73,6 +91,7 @@ class PushNotificationService {
     }
   }
 
+  /// Unregisters current device and disables notifications.
   Future<void> disableNotifications() async {
     if (_notificationsEnabled) {
       final token =
@@ -87,6 +106,9 @@ class PushNotificationService {
     }
   }
 
+  /// Handles initial message from firebase.
+  ///
+  /// Determines what to do via message content.
   Future<void> handleInitialMessage() async {
     final initialMessage = await _fcm.getInitialMessage();
     if (initialMessage != null) {

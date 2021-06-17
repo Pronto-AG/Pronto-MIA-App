@@ -10,17 +10,21 @@ mixin $SettingsView on StatelessWidget {
   final FocusNode oldPasswordFocusNode = FocusNode();
   final FocusNode newPasswordFocusNode = FocusNode();
 
+  /// Registers a listener on every generated controller that calls [model.setData()]
+  /// with the latest textController values
   void listenToFormUpdated(FormViewModel model) {
     oldPasswordController.addListener(() => _updateFormData(model));
     newPasswordController.addListener(() => _updateFormData(model));
     _updateFormData(model);
   }
 
+  /// Updates the formData on the FormViewModel
   void _updateFormData(FormViewModel model) => model.setData({
         OldPasswordValueKey: oldPasswordController.text,
         NewPasswordValueKey: newPasswordController.text,
       });
 
+  /// Calls dispose on all the generated controllers and focus nodes
   void disposeForm() {
     oldPasswordController.dispose();
     newPasswordController.dispose();

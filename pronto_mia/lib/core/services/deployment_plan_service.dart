@@ -12,12 +12,18 @@ import 'package:pronto_mia/core/services/pdf_service.dart';
 import 'package:pronto_mia/ui/views/pdf/pdf_view.dart';
 import 'package:stacked_services/stacked_services.dart';
 
+/// A service, that is responsible for accessing deployment plans.
+///
+/// Contains methods to modify and access deployment plan information.
 class DeploymentPlanService with ChangeNotifier {
   Future<GraphQLService> get _graphQLService =>
       locator.getAsync<GraphQLService>();
   PdfService get _pdfService => locator.get<PdfService>();
   NavigationService get _navigationService => locator.get<NavigationService>();
 
+  /// Gets the list of all deployment plans.
+  ///
+  /// Returns a [List] list of deployment plans.
   Future<List<DeploymentPlan>> getDeploymentPlans() async {
     final data = await (await _graphQLService).query(
       DeploymentPlanQueries.deploymentPlans,
@@ -31,6 +37,10 @@ class DeploymentPlanService with ChangeNotifier {
     return deploymentPlanList;
   }
 
+  /// Gets the a single deployment plan, according to its id.
+  ///
+  /// Takes the deployment plans [int] id as an input.
+  /// Returns the [DeploymentPlan], corresponding to the id.
   Future<DeploymentPlan> getDeploymentPlan(int id) async {
     final queryVariables = {
       'id': id,
@@ -47,6 +57,11 @@ class DeploymentPlanService with ChangeNotifier {
     return deploymentPlan;
   }
 
+  /// Gets the list of all currently available deployment plans.
+  ///
+  /// Returns a [List] list of departments.
+  /// Currently available deployment plans include all deployment plans, which
+  /// have an end date still in the future.
   Future<List<DeploymentPlan>> getAvailableDeploymentPlans() async {
     // TODO: Remove "toUtc()" when https://github.com/ChilliCream/hotchocolate/issues/3691 is fixed
     final queryVariables = {
@@ -66,6 +81,9 @@ class DeploymentPlanService with ChangeNotifier {
     return deploymentPlanList;
   }
 
+  /// Creates a new deployment plan.
+  ///
+  /// Takes different attributes of a deployment plan as an input.
   Future<void> createDeploymentPlan(
     String description,
     DateTime availableFrom,
@@ -93,6 +111,10 @@ class DeploymentPlanService with ChangeNotifier {
     );
   }
 
+  /// Updates an existing deployment plan.
+  ///
+  /// Takes the deployment plans [int] id, alongside different attributes of a
+  /// deployment plan as an input.
   Future<void> updateDeploymentPlan(
     int id, {
     String description,
@@ -124,6 +146,9 @@ class DeploymentPlanService with ChangeNotifier {
     );
   }
 
+  /// Removes an existing deployment plan.
+  ///
+  /// Takes the [int] id of the deployment plan to be removed as an input.
   Future<void> removeDeploymentPlan(int id) async {
     final queryVariables = {'id': id};
     await (await _graphQLService).mutate(
@@ -132,6 +157,11 @@ class DeploymentPlanService with ChangeNotifier {
     );
   }
 
+  /// Publishes an existing deployment plan.
+  ///
+  /// Takes the [int] id of the deployment plan to be published, alongside a
+  /// publish message consisting of a [String] title and [String] body as an
+  /// input.
   Future<void> publishDeploymentPlan(int id, String title, String body) async {
     final queryVariables = {
       'id': id,
@@ -144,6 +174,10 @@ class DeploymentPlanService with ChangeNotifier {
     );
   }
 
+  /// Unpublishes an existing deployment plan.
+  ///
+  /// Takes the [int] id of the deployment plan to not be published anymore as
+  /// an input.
   Future<void> hideDeploymentPlan(int id) async {
     final queryVariables = {'id': id};
     await (await _graphQLService).mutate(
@@ -152,6 +186,9 @@ class DeploymentPlanService with ChangeNotifier {
     );
   }
 
+  /// Opens a view, containing a pdf file from a [SimpleFile].
+  ///
+  /// Takes a [SimpleFile] pdf file as an input.
   Future<void> openPdfSimpleFile(SimpleFile pdfFile) async {
     if (kIsWeb) {
       _pdfService.openPdfWeb(pdfFile);
@@ -166,6 +203,9 @@ class DeploymentPlanService with ChangeNotifier {
     }
   }
 
+  /// Opens a view, containing a pdf file from a [DeploymentPlan].
+  ///
+  /// Takes a [DeploymentPlan], containing a pdf file as an input.
   Future<void> openPdf(DeploymentPlan deploymentPlan) async {
     if (kIsWeb) {
       final _pdfFile = await _pdfService.downloadPdf(deploymentPlan.link);
@@ -178,6 +218,10 @@ class DeploymentPlanService with ChangeNotifier {
     }
   }
 
+  /// Replaces the current view with a pdf view, containing a pdf file from a
+  /// [DeploymentPlan].
+  ///
+  /// Takes a [DeploymentPlan], containing a pdf file as an input.
   Future<void> openPdfWithReplace(DeploymentPlan deploymentPlan) async {
     if (kIsWeb) {
       final _pdfFile = await _pdfService.downloadPdf(deploymentPlan.link);
@@ -198,6 +242,12 @@ class DeploymentPlanService with ChangeNotifier {
     );
   }
 
+  /// Gets the deployment plan title from a deployment plan.
+  ///
+  /// Takes the [DeploymentPlan] to get the title from as an input.
+  /// Returns a [String] representation of the title.
+  /// The title will be the deployment plans description if its set. Otherwise
+  /// it will be built as "Einsatzplan <start date>".
   String getDeploymentPlanTitle(DeploymentPlan deploymentPlan) {
     final dateFormat = DateFormat('dd.MM.yyyy');
     final availableFromDateFormatted =
@@ -206,6 +256,11 @@ class DeploymentPlanService with ChangeNotifier {
         'Einsatzplan $availableFromDateFormatted';
   }
 
+  /// Gets the deployment plan availability from a deployment plan.
+  ///
+  /// Takes the [DeploymentPlan] to get the availability from as an input.
+  /// Returns a [String] representation of the availability.
+  /// The availability will be as "<start date> - <end date>".
   String getDeploymentPlanAvailability(DeploymentPlan deploymentPlan) {
     final dateTimeFormat = DateFormat('dd.MM.yyyy HH:mm');
     final availableFromFormatted =
@@ -216,6 +271,7 @@ class DeploymentPlanService with ChangeNotifier {
     return '$availableFromFormatted - $availableUntilFormatted';
   }
 
+  /// Notifies this objects listeners.
   void notifyDataChanged() {
     notifyListeners();
   }

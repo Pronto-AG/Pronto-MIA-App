@@ -191,11 +191,11 @@ jobs:
         env:
           WEB_FIREBASE_CONFIG: ${{ secrets.WEB_FIREBASE_CONFIG }}
           APP_SETTINGS: ${{ secrets.APP_SETTINGS }}
-          APP_SETTINGS_PROD: ${{ secrets.APP_SETTINGS_PROD }}
+          APP_SETTINGS_PROD_DEV: ${{ secrets.APP_SETTINGS_PROD_DEV }}
         run: |
           echo "$WEB_FIREBASE_CONFIG" > web/firebase-config.js
           echo "$APP_SETTINGS" > assets/cfg/app_settings.json
-          echo "$APP_SETTINGS_PROD" > assets/cfg/app_settings_prod.json
+          echo "$APP_SETTINGS_PROD_DEV" > assets/cfg/app_settings_prod.json
 
       - name: Build and push
         id: docker_build

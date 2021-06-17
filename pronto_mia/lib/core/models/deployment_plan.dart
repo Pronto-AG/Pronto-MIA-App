@@ -1,7 +1,7 @@
 import 'package:pronto_mia/core/models/department.dart';
 
-/// The representation of a deployment plan, which contains work for employees to
-/// do.
+/// The representation of a deployment plan, which contains work for employees
+/// to do.
 class DeploymentPlan {
   final int id;
   final String description;
@@ -26,7 +26,8 @@ class DeploymentPlan {
 
   /// Initializes a new [DeploymentPlan] from a JSON format object.
   ///
-  /// Takes a [Map] representing a serialized [DeploymentPlan] object in JSON-Format as an input.
+  /// Takes a [Map] representing a serialized [DeploymentPlan] object in
+  /// JSON-Format as an input.
   DeploymentPlan.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int,
         description = json['description'] as String,

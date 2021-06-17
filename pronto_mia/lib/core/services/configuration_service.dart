@@ -5,13 +5,10 @@ import 'package:flutter/foundation.dart';
 ///
 /// Acts as a wrapper for [GlobalConfiguration].
 class ConfigurationService {
-  GlobalConfiguration _configuration = GlobalConfiguration();
+  final _configuration = GlobalConfiguration();
 
   /// Loads configuration files according to the current build mode.
-  ///
-  /// Takes a [GlobalConfiguration] as an input, to overwrite the current one.
-  Future<void> init({GlobalConfiguration configuration}) async {
-    _configuration ??= configuration;
+  Future<void> init() async {
     await _configuration.loadFromAsset('app_settings.json');
 
     if (kReleaseMode) {

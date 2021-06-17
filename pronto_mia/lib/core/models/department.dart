@@ -10,7 +10,8 @@ class Department {
 
   /// Initializes a new [Department] from a JSON format object.
   ///
-  /// Takes a [Map] representing a serialized [Department] object in JSON-Format as an input.
+  /// Takes a [Map] representing a serialized [Department] object in
+  /// JSON-Format as an input.
   Department.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int,
         name = json['name'] as String;

@@ -21,7 +21,8 @@ class User {
 
   /// Initializes a new [User] from a JSON format object.
   ///
-  /// Takes a [Map] representing a serialized [User] object in JSON-Format as an input.
+  /// Takes a [Map] representing a serialized [User] object in JSON-Format as
+  /// an input.
   User.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int,
         userName = json['userName'] as String,

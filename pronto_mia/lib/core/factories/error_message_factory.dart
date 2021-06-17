@@ -11,7 +11,7 @@ class ErrorMessageFactory {
   static const String _networkError =
       'Es konnte keine Verbindung zum Server aufgebaut werden.';
 
-  /// Determines error message as [String] for an [AnalyzedError] from
+  /// Determines error message as [String] for an [ConstAnalyzedError] from
   /// [AnalyzedErrorFactory].
   ///
   /// Takes an [AnalyzedError] as input.

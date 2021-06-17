@@ -56,7 +56,8 @@ class AccessControlList {
 
   /// Initializes a new [AccessControlList] from a JSON format object.
   ///
-  /// Takes a [Map] representing a serialized [AccessControlList] object in JSON-Format as an input.
+  /// Takes a [Map] representing a serialized [AccessControlList] object in
+  /// JSON-Format as an input.
   AccessControlList.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int,
         canViewDeploymentPlans =

@@ -173,8 +173,9 @@ class UserEditViewModel extends FormViewModel {
 
   /// Validates the form and either creates or updates a [User].
   ///
-  /// After the form has been submitted successfully, closes the dialog in case it was opened
-  /// as a dialog or navigates to the previous view, if opened as standalone.
+  /// After the form has been submitted successfully, closes the dialog in case
+  /// it was opened as a dialog or navigates to the previous view, if opened as
+  /// standalone.
   Future<void> submitForm() async {
     final validationMessage = _validateForm();
 

@@ -7,7 +7,8 @@ class LoggingService {
   Future<ConfigurationService> get _configurationService =>
       locator.getAsync<ConfigurationService>();
 
-  /// Determines current log level from the configuration and registers the logger.
+  /// Determines current log level from the configuration and registers the
+  /// logger.
   Future<void> init() async {
     final logLevel = (await _configurationService).getValue<String>('logLevel');
 

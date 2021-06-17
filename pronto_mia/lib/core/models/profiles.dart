@@ -15,7 +15,8 @@ class Profile {
 
   /// Initializes a new [Profile] from a JSON format object.
   ///
-  /// Takes a [Map] representing a serialized [Profile] object in JSON-Format as an input.
+  /// Takes a [Map] representing a serialized [Profile] object in JSON-Format
+  /// as an input.
   Profile.fromJson(Map<String, dynamic> json)
       : description = profiles.entries
             .firstWhere(

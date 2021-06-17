@@ -29,7 +29,8 @@ class GraphQLService {
   ///
   /// The clients default cache policy is "no cache".
   /// If the option "enforceValidCertificate" in the configuration file is set
-  /// to [bool] false the client allows communication without a valid certificate.
+  /// to [bool] false the client allows communication without a valid
+  /// certificate.
   Future<void> init() async {
     if (_graphQLClient == null) {
       IOClient ioClient;

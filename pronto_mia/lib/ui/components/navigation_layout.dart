@@ -7,6 +7,10 @@ import 'package:responsive_builder/responsive_builder.dart';
 
 /// A widget, representing the main view layout with a navigation.
 class NavigationLayout extends StatelessWidget {
+  // temp icon
+  // final BuildContext context;
+  // final Icon icon;
+
   final String title;
   final Widget body;
   final List<ActionSpecification> actions;
@@ -16,6 +20,10 @@ class NavigationLayout extends StatelessWidget {
   /// Takes a [String] view title, a [Widget] view body and a [List] of actions
   /// to display on the app bar.
   const NavigationLayout({
+    // temp icon
+    // @required this.context,
+    // @required this.icon,
+
     @required this.title,
     @required this.body,
     this.actions,
@@ -111,6 +119,13 @@ class NavigationLayout extends StatelessWidget {
   PreferredSizeWidget _buildAppBar({List<ActionSpecification> actions}) =>
       AppBar(
         automaticallyImplyLeading: false,
+        // leading: Icon(Icons.menu, color: Colors.black),
+
+        // leading: IconButton(
+        //   tooltip: 'Navigation öffnen',
+        //   icon: const Icon(Icons.menu, color: Colors.black),
+        // ),
+        // onPressed: () async => _showMenu(context)),
         title: Text(
           title,
           style: const TextStyle(color: CustomColors.primary),
@@ -143,6 +158,14 @@ class NavigationLayout extends StatelessWidget {
                 .toList()
             : null,
       );
+
+  // temp menu on top
+  // Future<void> _showMenu(BuildContext context) async {
+  //   await showModalBottomSheet(
+  //     context: context,
+  //     builder: (BuildContext context) => NavigationMenu(),
+  //   );
+  // }
 }
 
 class ActionSpecification {

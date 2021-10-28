@@ -88,6 +88,13 @@ class SettingsView extends StatelessWidget with $SettingsView {
               obscureText: true,
               decoration: const InputDecoration(labelText: 'Neues Passwort'),
             ),
+            TextFormField(
+              controller: passwordConfirmController,
+              onEditingComplete: model.submitForm,
+              obscureText: true,
+              decoration:
+                  const InputDecoration(labelText: 'Passwort bestätigen'),
+            ),
           ],
           primaryButton: ButtonSpecification(
             title: 'Passwort ändern',

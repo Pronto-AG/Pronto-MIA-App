@@ -47,6 +47,7 @@ class NavigationMenu extends StatelessWidget {
       ),
       title: const Text("Benutzerprofil"),
       subtitle: Text('$userName - $userProfile'),
+      trailing: const Icon(Icons.settings),
       onTap: () => model.openSettings(
         asDialog: getValueForScreenType<bool>(
           context: context,

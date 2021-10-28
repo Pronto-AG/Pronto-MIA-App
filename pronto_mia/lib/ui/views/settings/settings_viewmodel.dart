@@ -72,6 +72,10 @@ class SettingsViewModel extends FormViewModel {
       return 'Bitte neues Passwort eingeben.';
     }
 
+    if (newPasswordValue != passwordConfirmValue) {
+      return 'Die angegebenen Passwörter stimmen nicht überein.';
+    }
+
     return null;
   }
 

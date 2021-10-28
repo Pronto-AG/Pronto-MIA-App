@@ -1,11 +1,10 @@
 import 'package:logging/logging.dart';
-
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/models/access_control_list.dart';
-import 'package:pronto_mia/core/queries/user_queries.dart';
-import 'package:pronto_mia/core/services/logging_service.dart';
 import 'package:pronto_mia/core/models/user.dart';
+import 'package:pronto_mia/core/queries/user_queries.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
+import 'package:pronto_mia/core/services/logging_service.dart';
 
 /// A service, responsible for accessing users.
 ///
@@ -22,7 +21,6 @@ class UserService {
   Future<User> getCurrentUser() async {
     final data = await (await _graphQLService).query(UserQueries.currentUser);
     final user = User.fromJson(data['user'] as Map<String, dynamic>);
-
     if (user.id == null) {
       (await _loggingService)
           .log("UserService", Level.WARNING, "No user could be fetched.");

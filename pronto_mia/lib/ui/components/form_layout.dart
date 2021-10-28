@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'package:pronto_mia/ui/shared/custom_colors.dart';
 import 'package:pronto_mia/ui/components/destructive_button/destructive_button.dart';
+import 'package:pronto_mia/ui/shared/custom_colors.dart';
 
 /// A widget, representing the layout for a form.
 class FormLayout extends StatelessWidget {

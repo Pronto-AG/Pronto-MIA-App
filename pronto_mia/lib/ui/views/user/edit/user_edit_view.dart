@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:stacked/stacked.dart';
-
-import 'package:pronto_mia/ui/views/user/edit/user_edit_view.form.dart';
-import 'package:pronto_mia/core/models/user.dart';
-import 'package:pronto_mia/ui/views/user/edit/user_edit_viewmodel.dart';
-import 'package:pronto_mia/ui/components/form_layout.dart';
-import 'package:pronto_mia/core/models/profiles.dart';
-import 'package:pronto_mia/ui/shared/custom_colors.dart';
 import 'package:pronto_mia/core/models/department.dart';
+import 'package:pronto_mia/core/models/profiles.dart';
+import 'package:pronto_mia/core/models/user.dart';
+import 'package:pronto_mia/ui/components/form_layout.dart';
+import 'package:pronto_mia/ui/shared/custom_colors.dart';
+import 'package:pronto_mia/ui/views/user/edit/user_edit_view.form.dart';
+import 'package:pronto_mia/ui/views/user/edit/user_edit_viewmodel.dart';
+import 'package:stacked/stacked.dart';
 
 /// A widget, representing the form to create and update users.
 class UserEditView extends StatelessWidget with $UserEditView {

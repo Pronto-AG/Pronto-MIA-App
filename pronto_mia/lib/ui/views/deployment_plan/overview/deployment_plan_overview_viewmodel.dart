@@ -1,12 +1,11 @@
-import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
-
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/models/deployment_plan.dart';
 import 'package:pronto_mia/core/services/deployment_plan_service.dart';
 import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/ui/shared/custom_dialogs.dart';
 import 'package:pronto_mia/ui/views/deployment_plan/edit/deployment_plan_edit_view.dart';
+import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 /// A view model, providing functionality for [DeploymentPlanOverviewView].
 class DeploymentPlanOverviewViewModel
@@ -77,7 +76,7 @@ class DeploymentPlanOverviewViewModel
     if (asDialog) {
       final dialogResponse = await _dialogService.showCustomDialog(
         variant: DialogType.custom,
-        customData: DeploymentPlanEditView(
+        data: DeploymentPlanEditView(
           deploymentPlan: deploymentPlan,
           isDialog: true,
         ),

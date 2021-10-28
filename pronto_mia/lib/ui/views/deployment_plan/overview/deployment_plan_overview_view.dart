@@ -1,14 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:responsive_builder/responsive_builder.dart';
-import 'package:stacked/stacked.dart';
-
-import 'package:pronto_mia/ui/views/deployment_plan/overview/deployment_plan_overview_viewmodel.dart';
 import 'package:pronto_mia/core/models/deployment_plan.dart';
 import 'package:pronto_mia/ui/components/data_view_layout.dart';
 import 'package:pronto_mia/ui/components/navigation_layout.dart';
 import 'package:pronto_mia/ui/shared/custom_colors.dart';
+import 'package:pronto_mia/ui/views/deployment_plan/overview/deployment_plan_overview_viewmodel.dart';
+import 'package:responsive_builder/responsive_builder.dart';
+import 'package:stacked/stacked.dart';
 
 /// A widget, representing the deployment plan overview.
 class DeploymentPlanOverviewView extends StatelessWidget {

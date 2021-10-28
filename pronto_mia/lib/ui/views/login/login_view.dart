@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:responsive_builder/responsive_builder.dart';
-import 'package:stacked/stacked.dart';
-
+import 'package:pronto_mia/ui/components/form_layout.dart';
 import 'package:pronto_mia/ui/views/login/login_view.form.dart';
 import 'package:pronto_mia/ui/views/login/login_viewmodel.dart';
-import 'package:pronto_mia/ui/components/form_layout.dart';
+import 'package:responsive_builder/responsive_builder.dart';
+import 'package:stacked/stacked.dart';
 
 /// A widget, representing a login form.
 class LoginView extends StatelessWidget with $LoginView {

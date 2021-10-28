@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:stacked/stacked.dart';
-
 import 'package:pronto_mia/core/models/department.dart';
-import 'package:pronto_mia/ui/views/department/edit/department_edit_viewmodel.dart';
 import 'package:pronto_mia/ui/components/form_layout.dart';
 import 'package:pronto_mia/ui/views/department/edit/department_edit_view.form.dart';
+import 'package:pronto_mia/ui/views/department/edit/department_edit_viewmodel.dart';
+import 'package:stacked/stacked.dart';
 
 /// A widget, representing the form to create and update departments.
 class DepartmentEditView extends StatelessWidget with $DepartmentEditView {

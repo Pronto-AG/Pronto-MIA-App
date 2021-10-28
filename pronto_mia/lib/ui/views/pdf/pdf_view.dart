@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
-import 'package:stacked/stacked.dart';
-
-import 'package:pronto_mia/ui/views/pdf/pdf_viewmodel.dart';
 import 'package:pronto_mia/ui/components/data_view_layout.dart';
+import 'package:pronto_mia/ui/views/pdf/pdf_viewmodel.dart';
+import 'package:stacked/stacked.dart';
 
 /// A widget, representing the pdf view.
 class PdfView extends StatelessWidget {

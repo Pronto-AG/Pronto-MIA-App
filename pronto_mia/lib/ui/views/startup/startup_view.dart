@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:stacked/stacked.dart';
-
 import 'package:pronto_mia/ui/views/startup/startup_viewmodel.dart';
+import 'package:stacked/stacked.dart';
 
 /// A widget, representing the splash screen of the app.
 class StartUpView extends StatelessWidget {

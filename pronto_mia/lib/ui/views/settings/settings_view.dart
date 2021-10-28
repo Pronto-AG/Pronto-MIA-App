@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:stacked/stacked.dart';
-
+import 'package:pronto_mia/ui/components/form_layout.dart';
 import 'package:pronto_mia/ui/views/settings/settings_view.form.dart';
 import 'package:pronto_mia/ui/views/settings/settings_viewmodel.dart';
-import 'package:pronto_mia/ui/components/form_layout.dart';
+import 'package:stacked/stacked.dart';
 
 /// A widget, representing the settings view with options to logout and change
 /// the users password.

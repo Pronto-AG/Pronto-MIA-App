@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
-
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/models/user.dart';
 import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/core/services/user_service.dart';
 import 'package:pronto_mia/ui/shared/custom_dialogs.dart';
 import 'package:pronto_mia/ui/views/settings/settings_view.dart';
+import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 /// A view model, providing functionality for [NavigationMenu].
 class NavigationMenuViewModel extends FutureViewModel<User> {
@@ -57,7 +56,7 @@ class NavigationMenuViewModel extends FutureViewModel<User> {
     if (asDialog) {
       await _dialogService.showCustomDialog(
         variant: DialogType.custom,
-        customData: SettingsView(isDialog: true),
+        data: SettingsView(isDialog: true),
       );
     } else {
       await _navigationService.navigateWithTransition(SettingsView());

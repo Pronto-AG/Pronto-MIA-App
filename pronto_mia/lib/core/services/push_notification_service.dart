@@ -163,7 +163,7 @@ class PushNotificationService {
     _pushDialogOpen = true;
     await _dialogService.showCustomDialog(
         variant: DialogType.custom,
-        customData: DeploymentPlanNotification(
+        data: DeploymentPlanNotification(
           title: "Einsatzplan veröffentlicht",
           body: 'Der Einsatzplan "$deploymentPlanTitle" '
               'wurde soeben veröffentlicht.',

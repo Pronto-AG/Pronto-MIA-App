@@ -1,10 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:responsive_builder/responsive_builder.dart';
-
-import 'package:pronto_mia/ui/shared/custom_colors.dart';
-import 'package:pronto_mia/ui/components/navigation_menu/navigation_menu.dart';
 import 'package:pronto_mia/ui/components/custom_app_bar.dart';
+import 'package:pronto_mia/ui/components/navigation_menu/navigation_menu.dart';
+import 'package:pronto_mia/ui/shared/custom_colors.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 /// A widget, representing the main view layout with a navigation.
 class NavigationLayout extends StatelessWidget {

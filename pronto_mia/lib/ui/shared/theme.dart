@@ -5,11 +5,9 @@ import 'package:pronto_mia/ui/shared/custom_colors.dart';
 /// Contains the global theme for the app.
 final theme = ThemeData.light().copyWith(
   primaryColor: CustomColors.primary,
-  accentColor: CustomColors.secondary,
   bottomAppBarColor: CustomColors.primary,
   dividerColor: CustomColors.divider,
   shadowColor: CustomColors.shadow,
-  colorScheme: const ColorScheme.light(primary: CustomColors.primary),
   textSelectionTheme: const TextSelectionThemeData(
     cursorColor: CustomColors.primary,
   ),
@@ -28,5 +26,5 @@ final theme = ThemeData.light().copyWith(
   ),
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
     foregroundColor: CustomColors.negativeText,
-  ),
+  ), colorScheme: const ColorScheme.light(primary: CustomColors.primary).copyWith(secondary: CustomColors.secondary),
 );

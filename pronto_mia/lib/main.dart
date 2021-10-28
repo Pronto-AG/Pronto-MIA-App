@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:stacked_services/stacked_services.dart';
-
 import 'package:pronto_mia/app/service_locator.dart';
+import 'package:pronto_mia/core/services/authentication_service.dart';
+import 'package:pronto_mia/core/services/push_notification_service.dart';
+import 'package:pronto_mia/ui/shared/custom_dialogs.dart';
 import 'package:pronto_mia/ui/shared/theme.dart';
 import 'package:pronto_mia/ui/views/startup/startup_view.dart';
-import 'package:pronto_mia/core/services/push_notification_service.dart';
-import 'package:pronto_mia/core/services/authentication_service.dart';
-import 'package:pronto_mia/ui/shared/custom_dialogs.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 /// Executes setup and runs the application.
 void main() {

@@ -1,5 +1,5 @@
-import 'package:global_configuration/global_configuration.dart';
 import 'package:flutter/foundation.dart';
+import 'package:global_configuration/global_configuration.dart';
 
 /// A service, responsible for accessing the configuration.
 ///

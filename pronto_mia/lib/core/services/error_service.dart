@@ -1,12 +1,11 @@
 import 'package:logging/logging.dart';
-import 'package:pronto_mia/core/factories/analyzed_error_factory.dart';
-import 'package:stacked_services/stacked_services.dart';
-
 import 'package:pronto_mia/app/service_locator.dart';
+import 'package:pronto_mia/core/factories/analyzed_error_factory.dart';
 import 'package:pronto_mia/core/factories/error_message_factory.dart';
 import 'package:pronto_mia/core/services/authentication_service.dart';
 import 'package:pronto_mia/core/services/logging_service.dart';
 import 'package:pronto_mia/ui/views/startup/startup_view.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 /// A service, globally responsible for handling incoming errors.
 ///

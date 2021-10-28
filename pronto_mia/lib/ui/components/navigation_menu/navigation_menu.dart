@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jdenticon_dart/jdenticon_dart.dart';
+import 'package:pronto_mia/ui/components/navigation_menu/navigation_menu_viewmodel.dart';
+import 'package:pronto_mia/ui/views/department/overview/department_overview_view.dart';
+import 'package:pronto_mia/ui/views/deployment_plan/overview/deployment_plan_overview_view.dart';
+import 'package:pronto_mia/ui/views/user/overview/user_overview_view.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
-
-import 'package:pronto_mia/ui/views/deployment_plan/overview/deployment_plan_overview_view.dart';
-import 'package:pronto_mia/ui/components/navigation_menu/navigation_menu_viewmodel.dart';
-import 'package:pronto_mia/ui/views/user/overview/user_overview_view.dart';
-import 'package:pronto_mia/ui/views/department/overview/department_overview_view.dart';
 
 /// A widget, representing a menu containing the main navigation.
 class NavigationMenu extends StatelessWidget {

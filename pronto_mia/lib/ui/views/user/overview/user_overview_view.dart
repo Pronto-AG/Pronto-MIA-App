@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jdenticon_dart/jdenticon_dart.dart';
-import 'package:stacked/stacked.dart';
-import 'package:responsive_builder/responsive_builder.dart';
-
-import 'package:pronto_mia/ui/views/user/overview/user_overview_viewmodel.dart';
-import 'package:pronto_mia/ui/components/navigation_layout.dart';
-import 'package:pronto_mia/ui/components/data_view_layout.dart';
 import 'package:pronto_mia/core/models/user.dart';
+import 'package:pronto_mia/ui/components/data_view_layout.dart';
+import 'package:pronto_mia/ui/components/navigation_layout.dart';
+import 'package:pronto_mia/ui/views/user/overview/user_overview_viewmodel.dart';
+import 'package:responsive_builder/responsive_builder.dart';
+import 'package:stacked/stacked.dart';
 
 /// A widget, representing the deployment plan overview.
 class UserOverviewView extends StatelessWidget {

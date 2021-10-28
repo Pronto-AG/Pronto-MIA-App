@@ -26,5 +26,7 @@ final theme = ThemeData.light().copyWith(
   ),
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
     foregroundColor: CustomColors.negativeText,
-  ), colorScheme: const ColorScheme.light(primary: CustomColors.primary).copyWith(secondary: CustomColors.secondary),
+  ),
+  colorScheme: const ColorScheme.light(primary: CustomColors.primary)
+      .copyWith(secondary: CustomColors.secondary),
 );

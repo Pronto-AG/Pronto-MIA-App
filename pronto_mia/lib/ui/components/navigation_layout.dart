@@ -118,26 +118,31 @@ class NavigationLayout extends StatelessWidget {
         elevation: 0.0,
         backgroundColor: Colors.transparent,
         actions: actions
-            ?.map((ActionSpecification action) => IconButton(
-                  tooltip: action.tooltip,
-                  icon: action.icon,
-                  onPressed: action.onPressed,
-                ))
+            ?.map(
+              (ActionSpecification action) => IconButton(
+                tooltip: action.tooltip,
+                icon: action.icon,
+                onPressed: action.onPressed,
+              ),
+            )
             ?.toList(),
         actionsIconTheme: const IconThemeData(color: CustomColors.text),
       );
 
   Widget _buildBottomAppBar() => CustomAppBar(
-      actions: actions.length > 1
-          ? actions
-              .sublist(1)
-              .map((ActionSpecification action) => IconButton(
+        actions: actions.length > 1
+            ? actions
+                .sublist(1)
+                .map(
+                  (ActionSpecification action) => IconButton(
                     tooltip: action.tooltip,
                     icon: action.icon,
                     onPressed: action.onPressed,
-                  ))
-              .toList()
-          : null);
+                  ),
+                )
+                .toList()
+            : null,
+      );
 }
 
 class ActionSpecification {

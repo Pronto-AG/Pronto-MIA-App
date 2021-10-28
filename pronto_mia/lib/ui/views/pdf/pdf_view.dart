@@ -32,15 +32,16 @@ class PdfView extends StatelessWidget {
       viewModelBuilder: () => PdfViewModel(pdfFile: pdfFile),
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
-            title: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(title),
-            if (subTitle != null)
-              Text(subTitle, style: const TextStyle(fontSize: 12.0))
-          ],
-        )),
+          title: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(title),
+              if (subTitle != null)
+                Text(subTitle, style: const TextStyle(fontSize: 12.0))
+            ],
+          ),
+        ),
         body: DataViewLayout(
           isBusy: model.isBusy,
           errorMessage: model.errorMessage,

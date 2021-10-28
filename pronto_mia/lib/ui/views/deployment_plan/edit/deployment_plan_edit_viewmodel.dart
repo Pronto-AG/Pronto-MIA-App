@@ -97,8 +97,13 @@ class DeploymentPlanEditViewModel extends FormViewModel {
 
     if (deploymentPlan == null) {
       await runBusyFuture(
-        _deploymentPlanService.createDeploymentPlan(descriptionValue,
-            availableFrom, availableUntil, _pdfFile, _department.id),
+        _deploymentPlanService.createDeploymentPlan(
+          descriptionValue,
+          availableFrom,
+          availableUntil,
+          _pdfFile,
+          _department.id,
+        ),
         busyObject: editActionKey,
       );
     } else {
@@ -189,7 +194,9 @@ class DeploymentPlanEditViewModel extends FormViewModel {
   Future<void> _completeFormAction(String actionKey) async {
     if (hasErrorForKey(actionKey)) {
       await _errorService.handleError(
-          DeploymentPlanEditViewModel.contextIdentifier, error(actionKey));
+        DeploymentPlanEditViewModel.contextIdentifier,
+        error(actionKey),
+      );
       final errorMessage = _errorService.getErrorMessage(error(actionKey));
       setValidationMessage(errorMessage);
       notifyListeners();

@@ -50,7 +50,9 @@ class DeploymentPlanOverviewViewModel
   Future<void> onError(dynamic error) async {
     super.onError(error);
     await _errorService.handleError(
-        DeploymentPlanOverviewViewModel.contextIdentifier, error);
+      DeploymentPlanOverviewViewModel.contextIdentifier,
+      error,
+    );
     _errorMessage = _errorService.getErrorMessage(error);
     notifyListeners();
   }
@@ -111,21 +113,23 @@ class DeploymentPlanOverviewViewModel
   Future<void> publishDeploymentPlan(DeploymentPlan deploymentPlan) async {
     final deploymentPlanTitle = getDeploymentPlanTitle(deploymentPlan);
     final response = await _dialogService.showConfirmationDialog(
-        title: "Einsatzplan veröffentlichen",
-        description: 'Wollen sie den Einsatzplan "$deploymentPlanTitle" '
-            "wirklich veröffentlichen?",
-        cancelTitle: "Nein",
-        confirmationTitle: "Ja",
-        dialogPlatform: DialogPlatform.Material);
+      title: "Einsatzplan veröffentlichen",
+      description: 'Wollen sie den Einsatzplan "$deploymentPlanTitle" '
+          "wirklich veröffentlichen?",
+      cancelTitle: "Nein",
+      confirmationTitle: "Ja",
+      dialogPlatform: DialogPlatform.Material,
+    );
 
     if (!(response?.confirmed ?? false)) {
       return;
     }
 
     await _deploymentPlanService.publishDeploymentPlan(
-        deploymentPlan.id,
-        "Einsatzplan veröffentlicht",
-        'Der Einsatzplan "$deploymentPlanTitle" wurde soeben veröffentlicht.');
+      deploymentPlan.id,
+      "Einsatzplan veröffentlicht",
+      'Der Einsatzplan "$deploymentPlanTitle" wurde soeben veröffentlicht.',
+    );
 
     await initialise();
   }
@@ -138,12 +142,13 @@ class DeploymentPlanOverviewViewModel
     final deploymentPlanTitle = getDeploymentPlanTitle(deploymentPlan);
 
     final response = await _dialogService.showConfirmationDialog(
-        title: "Einsatzplan verstecken",
-        description: 'Wollen sie den Einsatzplan "$deploymentPlanTitle" '
-            "wirklich verstecken?",
-        cancelTitle: "Nein",
-        confirmationTitle: "Ja",
-        dialogPlatform: DialogPlatform.Material);
+      title: "Einsatzplan verstecken",
+      description: 'Wollen sie den Einsatzplan "$deploymentPlanTitle" '
+          "wirklich verstecken?",
+      cancelTitle: "Nein",
+      confirmationTitle: "Ja",
+      dialogPlatform: DialogPlatform.Material,
+    );
 
     if (!(response?.confirmed ?? false)) {
       return;

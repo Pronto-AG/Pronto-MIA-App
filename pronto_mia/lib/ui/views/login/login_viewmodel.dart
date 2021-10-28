@@ -39,7 +39,9 @@ class LoginViewModel extends FormViewModel {
 
     if (hasError) {
       await _errorService.handleError(
-          LoginViewModel.contextIdentifier, modelError);
+        LoginViewModel.contextIdentifier,
+        modelError,
+      );
       final errorMessage = _errorService.getErrorMessage(modelError);
       setValidationMessage(errorMessage);
       notifyListeners();

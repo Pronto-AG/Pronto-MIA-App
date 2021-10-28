@@ -24,17 +24,18 @@ class SettingsView extends StatelessWidget with $SettingsView {
   @override
   Widget build(BuildContext context) =>
       ViewModelBuilder<SettingsViewModel>.reactive(
-          viewModelBuilder: () => SettingsViewModel(
-                isDialog: isDialog,
-              ),
-          onModelReady: (model) => listenToFormUpdated(model),
-          builder: (context, model, child) {
-            if (isDialog) {
-              return _buildDialogLayout(model);
-            } else {
-              return _buildStandaloneLayout(model);
-            }
-          });
+        viewModelBuilder: () => SettingsViewModel(
+          isDialog: isDialog,
+        ),
+        onModelReady: (model) => listenToFormUpdated(model),
+        builder: (context, model, child) {
+          if (isDialog) {
+            return _buildDialogLayout(model);
+          } else {
+            return _buildStandaloneLayout(model);
+          }
+        },
+      );
 
   Widget _buildStandaloneLayout(SettingsViewModel model) => Scaffold(
         appBar: AppBar(title: _buildTitle()),
@@ -59,11 +60,12 @@ class SettingsView extends StatelessWidget with $SettingsView {
 
     if (isDialog) {
       return Container(
-          padding: const EdgeInsets.all(16.0),
-          child: const Text(
-            title,
-            style: TextStyle(fontSize: 20.0),
-          ));
+        padding: const EdgeInsets.all(16.0),
+        child: const Text(
+          title,
+          style: TextStyle(fontSize: 20.0),
+        ),
+      );
     } else {
       return const Text(title);
     }

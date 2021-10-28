@@ -49,11 +49,15 @@ class DeploymentPlanEditView extends StatelessWidget
 
       if (kIsWeb) {
         fileUpload = SimpleFile(
-            name: result.names.single, bytes: result.files.single.bytes);
+          name: result.names.single,
+          bytes: result.files.single.bytes,
+        );
       } else {
         final file = File(result.files.single.path);
         fileUpload = SimpleFile(
-            name: result.names.single, bytes: file.readAsBytesSync());
+          name: result.names.single,
+          bytes: file.readAsBytesSync(),
+        );
       }
       model.setPdfUpload(fileUpload);
     }
@@ -155,23 +159,25 @@ class DeploymentPlanEditView extends StatelessWidget
               dateLabelText: 'Gültig bis*',
             ),
             DropdownButtonFormField<Department>(
-                value:
-                    deploymentPlan != null && model.availableDepartments != null
-                        ? model.availableDepartments.firstWhere(
-                            (department) =>
-                                department.id == deploymentPlan.department.id,
-                            orElse: () => null)
-                        : null,
-                onChanged: model.setDepartment,
-                decoration: const InputDecoration(labelText: 'Abteilung'),
-                items: model.availableDepartments
-                    ?.map<DropdownMenuItem<Department>>(
-                      (department) => DropdownMenuItem<Department>(
-                        value: department,
-                        child: Text(department.name),
-                      ),
-                    )
-                    ?.toList()),
+              value:
+                  deploymentPlan != null && model.availableDepartments != null
+                      ? model.availableDepartments.firstWhere(
+                          (department) =>
+                              department.id == deploymentPlan.department.id,
+                          orElse: () => null,
+                        )
+                      : null,
+              onChanged: model.setDepartment,
+              decoration: const InputDecoration(labelText: 'Abteilung'),
+              items: model.availableDepartments
+                  ?.map<DropdownMenuItem<Department>>(
+                    (department) => DropdownMenuItem<Department>(
+                      value: department,
+                      child: Text(department.name),
+                    ),
+                  )
+                  ?.toList(),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.baseline,

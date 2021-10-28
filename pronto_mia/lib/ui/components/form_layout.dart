@@ -54,10 +54,12 @@ class FormLayout extends StatelessWidget {
 
     if (validationMessage != null) {
       form.add(const SizedBox(height: 8.0));
-      form.add(Text(
-        validationMessage,
-        style: const TextStyle(color: CustomColors.danger),
-      ));
+      form.add(
+        Text(
+          validationMessage,
+          style: const TextStyle(color: CustomColors.danger),
+        ),
+      );
     }
 
     return form;

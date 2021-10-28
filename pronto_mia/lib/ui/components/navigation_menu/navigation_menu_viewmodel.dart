@@ -33,7 +33,9 @@ class NavigationMenuViewModel extends FutureViewModel<User> {
   Future<void> onError(dynamic error) async {
     super.onError(error);
     await _errorService.handleError(
-        NavigationMenuViewModel.contextIdentifier, error);
+      NavigationMenuViewModel.contextIdentifier,
+      error,
+    );
     _errorMessage = _errorService.getErrorMessage(error);
     notifyListeners();
   }

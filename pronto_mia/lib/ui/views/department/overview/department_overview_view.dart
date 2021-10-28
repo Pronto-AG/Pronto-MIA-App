@@ -48,7 +48,9 @@ class DepartmentOverviewView extends StatelessWidget {
       );
 
   Widget _buildDataView(
-          BuildContext context, DepartmentOverviewViewModel model) =>
+    BuildContext context,
+    DepartmentOverviewViewModel model,
+  ) =>
       DataViewLayout(
         isBusy: model.isBusy,
         errorMessage: model.errorMessage,
@@ -76,22 +78,23 @@ class DepartmentOverviewView extends StatelessWidget {
   ) =>
       Card(
         child: ListTile(
-            title: Text(department.name),
-            onTap: () {
-              if (model.currentUser != null &&
-                  (model.currentUser.profile.accessControlList
-                          .canEditDepartments ||
-                      model.currentUser.profile.accessControlList
-                          .canEditOwnDepartment)) {
-                model.editDepartment(
-                  department: department,
-                  asDialog: getValueForScreenType<bool>(
-                    context: context,
-                    mobile: false,
-                    desktop: true,
-                  ),
-                );
-              }
-            }),
+          title: Text(department.name),
+          onTap: () {
+            if (model.currentUser != null &&
+                (model.currentUser.profile.accessControlList
+                        .canEditDepartments ||
+                    model.currentUser.profile.accessControlList
+                        .canEditOwnDepartment)) {
+              model.editDepartment(
+                department: department,
+                asDialog: getValueForScreenType<bool>(
+                  context: context,
+                  mobile: false,
+                  desktop: true,
+                ),
+              );
+            }
+          },
+        ),
       );
 }

@@ -165,7 +165,8 @@ class UserEditViewModel extends FormViewModel {
         break;
       default:
         throw AssertionError(
-            'The provided access control list property is not supported.');
+          'The provided access control list property is not supported.',
+        );
     }
     notifyListeners();
   }

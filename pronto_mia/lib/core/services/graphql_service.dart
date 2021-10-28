@@ -111,8 +111,10 @@ class GraphQLService {
   /// Throws errors contained in the [QueryResult].
   /// Mutations dont use cache by default and also dont provide and option for
   /// it.
-  Future<Map<String, dynamic>> mutate(String mutation,
-      {Map<String, dynamic> variables}) async {
+  Future<Map<String, dynamic>> mutate(
+    String mutation, {
+    Map<String, dynamic> variables,
+  }) async {
     final mutationOptions = MutationOptions(
       document: gql(mutation),
       variables: variables,

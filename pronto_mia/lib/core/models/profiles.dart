@@ -23,7 +23,9 @@ class Profile {
               (entry) => entry.value.accessControlList
                   .isEqual(AccessControlList.fromJson(json)),
               orElse: () => const MapEntry(
-                  'custom', Profile(description: 'Benutzerdefiniert')),
+                'custom',
+                Profile(description: 'Benutzerdefiniert'),
+              ),
             )
             .value
             .description,

@@ -53,8 +53,10 @@ class DepartmentOverviewViewModel extends FutureViewModel<List<Department>> {
   /// view should open as a dialog or standalone as an input.
   /// If the navigation or dialog resolve to data being changed, refetches
   /// the [List] of departments.
-  Future<void> editDepartment(
-      {Department department, bool asDialog = false}) async {
+  Future<void> editDepartment({
+    Department department,
+    bool asDialog = false,
+  }) async {
     bool dataHasChanged;
     if (asDialog) {
       final dialogResponse = await _dialogService.showCustomDialog(

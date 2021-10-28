@@ -49,8 +49,11 @@ class StartUpViewModel extends BaseViewModel {
     _handlePushNotifcations(isAuthenticated);
 
     if (isAuthenticated) {
-      (await _loggingService).log("StartUpViewModel", Level.INFO,
-          "User already authenticated. Redirecting...");
+      (await _loggingService).log(
+        "StartUpViewModel",
+        Level.INFO,
+        "User already authenticated. Redirecting...",
+      );
       _navigationService.replaceWithTransition(
         const DeploymentPlanOverviewView(),
         transition: NavigationTransition.UpToDown,

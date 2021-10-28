@@ -82,7 +82,7 @@ void main() {
           department: Department(),
           asDialog: true,
         );
-        verify(
+        verifyNever(
           dialogService.showCustomDialog(
             variant: DialogType.custom,
             customData: anyNamed('customData'),
@@ -128,13 +128,13 @@ void main() {
           department: Department(),
           asDialog: true,
         );
-        verify(
+        verifyNever(
           dialogService.showCustomDialog(
             variant: DialogType.custom,
             customData: anyNamed('customData'),
           ),
         );
-        verify(departmentService.getDepartments()).called(1);
+        verifyNever(departmentService.getDepartments());
       });
     });
   });

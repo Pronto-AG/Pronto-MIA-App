@@ -96,7 +96,7 @@ void main() {
           deploymentPlan: DeploymentPlan(),
           asDialog: true,
         );
-        verify(
+        verifyNever(
           dialogService.showCustomDialog(
             variant: DialogType.custom,
             customData: anyNamed('customData'),
@@ -144,13 +144,13 @@ void main() {
           deploymentPlan: DeploymentPlan(),
           asDialog: true,
         );
-        verify(
+        verifyNever(
           dialogService.showCustomDialog(
             variant: DialogType.custom,
             customData: anyNamed('customData'),
           ),
         );
-        verify(deploymentPlanService.getAvailableDeploymentPlans()).called(1);
+        verifyNever(deploymentPlanService.getAvailableDeploymentPlans());
       });
     });
 

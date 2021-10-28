@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jdenticon_dart/jdenticon_dart.dart';
-import 'package:stacked/stacked.dart';
-import 'package:responsive_builder/responsive_builder.dart';
-
-import 'package:pronto_mia/ui/views/user/overview/user_overview_viewmodel.dart';
-import 'package:pronto_mia/ui/components/navigation_layout.dart';
-import 'package:pronto_mia/ui/components/data_view_layout.dart';
 import 'package:pronto_mia/core/models/user.dart';
+import 'package:pronto_mia/ui/components/data_view_layout.dart';
+import 'package:pronto_mia/ui/components/navigation_layout.dart';
+import 'package:pronto_mia/ui/views/user/overview/user_overview_viewmodel.dart';
+import 'package:responsive_builder/responsive_builder.dart';
+import 'package:stacked/stacked.dart';
 
 /// A widget, representing the deployment plan overview.
 class UserOverviewView extends StatelessWidget {
@@ -84,30 +83,33 @@ class UserOverviewView extends StatelessWidget {
   ) =>
       Card(
         child: ListTile(
-            leading: SvgPicture.string(
-              Jdenticon.toSvg(user.userName),
-              height: 48,
-              width: 48,
-            ),
-            title: Text(user.userName),
-            subtitle: Text(user.department != null
+          leading: SvgPicture.string(
+            Jdenticon.toSvg(user.userName),
+            height: 48,
+            width: 48,
+          ),
+          title: Text(user.userName),
+          subtitle: Text(
+            user.department != null
                 ? '${user.department.name} - '
                     '${user.profile.description}'
-                : user.profile.description),
-            onTap: () {
-              if (model.currentUser != null &&
-                  (model.currentUser.profile.accessControlList.canEditUsers ||
-                      model.currentUser.profile.accessControlList
-                          .canEditDepartmentUsers)) {
-                model.editUser(
-                  user: user,
-                  asDialog: getValueForScreenType<bool>(
-                    context: context,
-                    mobile: false,
-                    desktop: true,
-                  ),
-                );
-              }
-            }),
+                : user.profile.description,
+          ),
+          onTap: () {
+            if (model.currentUser != null &&
+                (model.currentUser.profile.accessControlList.canEditUsers ||
+                    model.currentUser.profile.accessControlList
+                        .canEditDepartmentUsers)) {
+              model.editUser(
+                user: user,
+                asDialog: getValueForScreenType<bool>(
+                  context: context,
+                  mobile: false,
+                  desktop: true,
+                ),
+              );
+            }
+          },
+        ),
       );
 }

@@ -1,15 +1,14 @@
-import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
-
 import 'package:pronto_mia/app/service_locator.dart';
+import 'package:pronto_mia/core/models/access_control_list.dart';
+import 'package:pronto_mia/core/models/department.dart';
+import 'package:pronto_mia/core/models/profiles.dart';
 import 'package:pronto_mia/core/models/user.dart';
-import 'package:pronto_mia/ui/views/user/edit/user_edit_view.form.dart';
 import 'package:pronto_mia/core/services/department_service.dart';
 import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/core/services/user_service.dart';
-import 'package:pronto_mia/core/models/access_control_list.dart';
-import 'package:pronto_mia/core/models/profiles.dart';
-import 'package:pronto_mia/core/models/department.dart';
+import 'package:pronto_mia/ui/views/user/edit/user_edit_view.form.dart';
+import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 /// A view model, providing functionality for [UserEditView].
 class UserEditViewModel extends FormViewModel {
@@ -166,7 +165,8 @@ class UserEditViewModel extends FormViewModel {
         break;
       default:
         throw AssertionError(
-            'The provided access control list property is not supported.');
+          'The provided access control list property is not supported.',
+        );
     }
     notifyListeners();
   }

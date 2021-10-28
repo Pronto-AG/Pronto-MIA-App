@@ -1,14 +1,13 @@
-import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
-
-import 'package:pronto_mia/core/models/department.dart';
 import 'package:pronto_mia/app/service_locator.dart';
-import 'package:pronto_mia/core/services/error_service.dart';
+import 'package:pronto_mia/core/models/department.dart';
+import 'package:pronto_mia/core/models/user.dart';
 import 'package:pronto_mia/core/services/department_service.dart';
+import 'package:pronto_mia/core/services/error_service.dart';
+import 'package:pronto_mia/core/services/user_service.dart';
 import 'package:pronto_mia/ui/shared/custom_dialogs.dart';
 import 'package:pronto_mia/ui/views/department/edit/department_edit_view.dart';
-import 'package:pronto_mia/core/services/user_service.dart';
-import 'package:pronto_mia/core/models/user.dart';
+import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 /// A view model, providing functionality for [DepartmentOverviewView].
 class DepartmentOverviewViewModel extends FutureViewModel<List<Department>> {
@@ -54,13 +53,15 @@ class DepartmentOverviewViewModel extends FutureViewModel<List<Department>> {
   /// view should open as a dialog or standalone as an input.
   /// If the navigation or dialog resolve to data being changed, refetches
   /// the [List] of departments.
-  Future<void> editDepartment(
-      {Department department, bool asDialog = false}) async {
+  Future<void> editDepartment({
+    Department department,
+    bool asDialog = false,
+  }) async {
     bool dataHasChanged;
     if (asDialog) {
       final dialogResponse = await _dialogService.showCustomDialog(
         variant: DialogType.custom,
-        customData: DepartmentEditView(department: department, isDialog: true),
+        data: DepartmentEditView(department: department, isDialog: true),
       );
       dataHasChanged = dialogResponse?.confirmed ?? false;
     } else {

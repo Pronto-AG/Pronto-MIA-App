@@ -1,10 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:responsive_builder/responsive_builder.dart';
-
-import 'package:pronto_mia/ui/shared/custom_colors.dart';
-import 'package:pronto_mia/ui/components/navigation_menu/navigation_menu.dart';
 import 'package:pronto_mia/ui/components/custom_app_bar.dart';
+import 'package:pronto_mia/ui/components/navigation_menu/navigation_menu.dart';
+import 'package:pronto_mia/ui/shared/custom_colors.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 /// A widget, representing the main view layout with a navigation.
 class NavigationLayout extends StatelessWidget {
@@ -119,26 +118,31 @@ class NavigationLayout extends StatelessWidget {
         elevation: 0.0,
         backgroundColor: Colors.transparent,
         actions: actions
-            ?.map((ActionSpecification action) => IconButton(
-                  tooltip: action.tooltip,
-                  icon: action.icon,
-                  onPressed: action.onPressed,
-                ))
+            ?.map(
+              (ActionSpecification action) => IconButton(
+                tooltip: action.tooltip,
+                icon: action.icon,
+                onPressed: action.onPressed,
+              ),
+            )
             ?.toList(),
         actionsIconTheme: const IconThemeData(color: CustomColors.text),
       );
 
   Widget _buildBottomAppBar() => CustomAppBar(
-      actions: actions.length > 1
-          ? actions
-              .sublist(1)
-              .map((ActionSpecification action) => IconButton(
+        actions: actions.length > 1
+            ? actions
+                .sublist(1)
+                .map(
+                  (ActionSpecification action) => IconButton(
                     tooltip: action.tooltip,
                     icon: action.icon,
                     onPressed: action.onPressed,
-                  ))
-              .toList()
-          : null);
+                  ),
+                )
+                .toList()
+            : null,
+      );
 }
 
 class ActionSpecification {

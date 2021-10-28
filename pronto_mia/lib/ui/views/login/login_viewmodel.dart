@@ -1,11 +1,10 @@
-import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
-
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/authentication_service.dart';
 import 'package:pronto_mia/core/services/error_service.dart';
-import 'package:pronto_mia/ui/views/login/login_view.form.dart';
 import 'package:pronto_mia/ui/views/deployment_plan/overview/deployment_plan_overview_view.dart';
+import 'package:pronto_mia/ui/views/login/login_view.form.dart';
+import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 /// A view model, providing functionality for [DeploymentPlanEditView].
 class LoginViewModel extends FormViewModel {
@@ -40,7 +39,9 @@ class LoginViewModel extends FormViewModel {
 
     if (hasError) {
       await _errorService.handleError(
-          LoginViewModel.contextIdentifier, modelError);
+        LoginViewModel.contextIdentifier,
+        modelError,
+      );
       final errorMessage = _errorService.getErrorMessage(modelError);
       setValidationMessage(errorMessage);
       notifyListeners();

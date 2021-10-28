@@ -1,12 +1,11 @@
-import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
-
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/models/deployment_plan.dart';
 import 'package:pronto_mia/core/services/deployment_plan_service.dart';
 import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/ui/shared/custom_dialogs.dart';
 import 'package:pronto_mia/ui/views/deployment_plan/edit/deployment_plan_edit_view.dart';
+import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 /// A view model, providing functionality for [DeploymentPlanOverviewView].
 class DeploymentPlanOverviewViewModel
@@ -51,7 +50,9 @@ class DeploymentPlanOverviewViewModel
   Future<void> onError(dynamic error) async {
     super.onError(error);
     await _errorService.handleError(
-        DeploymentPlanOverviewViewModel.contextIdentifier, error);
+      DeploymentPlanOverviewViewModel.contextIdentifier,
+      error,
+    );
     _errorMessage = _errorService.getErrorMessage(error);
     notifyListeners();
   }
@@ -77,7 +78,7 @@ class DeploymentPlanOverviewViewModel
     if (asDialog) {
       final dialogResponse = await _dialogService.showCustomDialog(
         variant: DialogType.custom,
-        customData: DeploymentPlanEditView(
+        data: DeploymentPlanEditView(
           deploymentPlan: deploymentPlan,
           isDialog: true,
         ),
@@ -112,21 +113,23 @@ class DeploymentPlanOverviewViewModel
   Future<void> publishDeploymentPlan(DeploymentPlan deploymentPlan) async {
     final deploymentPlanTitle = getDeploymentPlanTitle(deploymentPlan);
     final response = await _dialogService.showConfirmationDialog(
-        title: "Einsatzplan veröffentlichen",
-        description: 'Wollen sie den Einsatzplan "$deploymentPlanTitle" '
-            "wirklich veröffentlichen?",
-        cancelTitle: "Nein",
-        confirmationTitle: "Ja",
-        dialogPlatform: DialogPlatform.Material);
+      title: "Einsatzplan veröffentlichen",
+      description: 'Wollen sie den Einsatzplan "$deploymentPlanTitle" '
+          "wirklich veröffentlichen?",
+      cancelTitle: "Nein",
+      confirmationTitle: "Ja",
+      dialogPlatform: DialogPlatform.Material,
+    );
 
     if (!(response?.confirmed ?? false)) {
       return;
     }
 
     await _deploymentPlanService.publishDeploymentPlan(
-        deploymentPlan.id,
-        "Einsatzplan veröffentlicht",
-        'Der Einsatzplan "$deploymentPlanTitle" wurde soeben veröffentlicht.');
+      deploymentPlan.id,
+      "Einsatzplan veröffentlicht",
+      'Der Einsatzplan "$deploymentPlanTitle" wurde soeben veröffentlicht.',
+    );
 
     await initialise();
   }
@@ -139,12 +142,13 @@ class DeploymentPlanOverviewViewModel
     final deploymentPlanTitle = getDeploymentPlanTitle(deploymentPlan);
 
     final response = await _dialogService.showConfirmationDialog(
-        title: "Einsatzplan verstecken",
-        description: 'Wollen sie den Einsatzplan "$deploymentPlanTitle" '
-            "wirklich verstecken?",
-        cancelTitle: "Nein",
-        confirmationTitle: "Ja",
-        dialogPlatform: DialogPlatform.Material);
+      title: "Einsatzplan verstecken",
+      description: 'Wollen sie den Einsatzplan "$deploymentPlanTitle" '
+          "wirklich verstecken?",
+      cancelTitle: "Nein",
+      confirmationTitle: "Ja",
+      dialogPlatform: DialogPlatform.Material,
+    );
 
     if (!(response?.confirmed ?? false)) {
       return;

@@ -1,12 +1,11 @@
-import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
-
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/models/user.dart';
 import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/core/services/user_service.dart';
 import 'package:pronto_mia/ui/shared/custom_dialogs.dart';
 import 'package:pronto_mia/ui/views/user/edit/user_edit_view.dart';
+import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 /// A view model, providing functionality for [UserOverviewView].
 class UserOverviewViewModel extends FutureViewModel<List<User>> {
@@ -57,7 +56,7 @@ class UserOverviewViewModel extends FutureViewModel<List<User>> {
     if (asDialog) {
       final dialogResponse = await _dialogService.showCustomDialog(
         variant: DialogType.custom,
-        customData: UserEditView(user: user, isDialog: true),
+        data: UserEditView(user: user, isDialog: true),
       );
       dataHasChanged = dialogResponse?.confirmed ?? false;
     } else {

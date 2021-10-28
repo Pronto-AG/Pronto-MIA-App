@@ -1,10 +1,9 @@
-import 'package:stacked/stacked.dart';
 import 'package:flutter/foundation.dart';
-
 import 'package:pronto_mia/app/service_locator.dart';
+import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/core/services/pdf_service.dart';
-import 'package:pronto_mia/core/models/simple_file.dart';
+import 'package:stacked/stacked.dart';
 
 /// A view model, providing functionality for [PdfView].
 class PdfViewModel extends FutureViewModel<SimpleFile> {

@@ -1,11 +1,10 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:logging/logging.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
-
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/logging_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// A service, responsible for accessing the JWT token.
 ///
@@ -91,7 +90,10 @@ class JwtTokenService {
         tokenValid = !JwtDecoder.isExpired(token);
       } catch (e) {
         (await _loggingService).log(
-            "JwtTokenService", Level.WARNING, "JWT token could not be decoded");
+          "JwtTokenService",
+          Level.WARNING,
+          "JWT token could not be decoded",
+        );
       }
     }
 

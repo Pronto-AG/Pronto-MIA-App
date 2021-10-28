@@ -1,8 +1,9 @@
+/// A factory, that is globally responsible for analyzing errors.
+// ignore_for_file: avoid_classes_with_only_static_members
+
 import 'package:graphql/client.dart';
 import 'package:pronto_mia/core/models/analyzed_error.dart';
 
-/// A factory, that is globally responsible for analyzing errors.
-// ignore: avoid_classes_with_only_static_members
 class AnalyzedErrorFactory {
   /// Creates a [ConstAnalyzedError] from an error of any type.
   ///
@@ -30,7 +31,9 @@ class AnalyzedErrorFactory {
   }
 
   static void _checkGraphQLError(
-      AnalyzedError analyzedError, OperationException error) {
+    AnalyzedError analyzedError,
+    OperationException error,
+  ) {
     final serverException = error.linkException as ServerException;
 
     if (serverException != null &&

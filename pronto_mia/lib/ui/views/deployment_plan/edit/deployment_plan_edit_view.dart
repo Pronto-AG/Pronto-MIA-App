@@ -1,17 +1,17 @@
 import 'dart:io';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:stacked/stacked.dart';
+
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:file_picker/file_picker.dart';
-
-import 'package:pronto_mia/ui/views/deployment_plan/edit/deployment_plan_edit_view.form.dart';
-import 'package:pronto_mia/ui/views/deployment_plan/edit/deployment_plan_edit_viewmodel.dart';
-import 'package:pronto_mia/ui/shared/custom_colors.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:pronto_mia/core/models/department.dart';
 import 'package:pronto_mia/core/models/deployment_plan.dart';
 import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/ui/components/form_layout.dart';
-import 'package:pronto_mia/core/models/department.dart';
+import 'package:pronto_mia/ui/shared/custom_colors.dart';
+import 'package:pronto_mia/ui/views/deployment_plan/edit/deployment_plan_edit_view.form.dart';
+import 'package:pronto_mia/ui/views/deployment_plan/edit/deployment_plan_edit_viewmodel.dart';
+import 'package:stacked/stacked.dart';
 
 /// A widget, representing the form to create and update deployment plans.
 class DeploymentPlanEditView extends StatelessWidget
@@ -49,11 +49,15 @@ class DeploymentPlanEditView extends StatelessWidget
 
       if (kIsWeb) {
         fileUpload = SimpleFile(
-            name: result.names.single, bytes: result.files.single.bytes);
+          name: result.names.single,
+          bytes: result.files.single.bytes,
+        );
       } else {
         final file = File(result.files.single.path);
         fileUpload = SimpleFile(
-            name: result.names.single, bytes: file.readAsBytesSync());
+          name: result.names.single,
+          bytes: file.readAsBytesSync(),
+        );
       }
       model.setPdfUpload(fileUpload);
     }
@@ -155,23 +159,25 @@ class DeploymentPlanEditView extends StatelessWidget
               dateLabelText: 'Gültig bis*',
             ),
             DropdownButtonFormField<Department>(
-                value:
-                    deploymentPlan != null && model.availableDepartments != null
-                        ? model.availableDepartments.firstWhere(
-                            (department) =>
-                                department.id == deploymentPlan.department.id,
-                            orElse: () => null)
-                        : null,
-                onChanged: model.setDepartment,
-                decoration: const InputDecoration(labelText: 'Abteilung'),
-                items: model.availableDepartments
-                    ?.map<DropdownMenuItem<Department>>(
-                      (department) => DropdownMenuItem<Department>(
-                        value: department,
-                        child: Text(department.name),
-                      ),
-                    )
-                    ?.toList()),
+              value:
+                  deploymentPlan != null && model.availableDepartments != null
+                      ? model.availableDepartments.firstWhere(
+                          (department) =>
+                              department.id == deploymentPlan.department.id,
+                          orElse: () => null,
+                        )
+                      : null,
+              onChanged: model.setDepartment,
+              decoration: const InputDecoration(labelText: 'Abteilung'),
+              items: model.availableDepartments
+                  ?.map<DropdownMenuItem<Department>>(
+                    (department) => DropdownMenuItem<Department>(
+                      value: department,
+                      child: Text(department.name),
+                    ),
+                  )
+                  ?.toList(),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.baseline,

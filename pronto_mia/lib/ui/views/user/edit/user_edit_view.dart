@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:stacked/stacked.dart';
-
-import 'package:pronto_mia/ui/views/user/edit/user_edit_view.form.dart';
-import 'package:pronto_mia/core/models/user.dart';
-import 'package:pronto_mia/ui/views/user/edit/user_edit_viewmodel.dart';
-import 'package:pronto_mia/ui/components/form_layout.dart';
-import 'package:pronto_mia/core/models/profiles.dart';
-import 'package:pronto_mia/ui/shared/custom_colors.dart';
 import 'package:pronto_mia/core/models/department.dart';
+import 'package:pronto_mia/core/models/profiles.dart';
+import 'package:pronto_mia/core/models/user.dart';
+import 'package:pronto_mia/ui/components/form_layout.dart';
+import 'package:pronto_mia/ui/shared/custom_colors.dart';
+import 'package:pronto_mia/ui/views/user/edit/user_edit_view.form.dart';
+import 'package:pronto_mia/ui/views/user/edit/user_edit_viewmodel.dart';
+import 'package:stacked/stacked.dart';
 
 /// A widget, representing the form to create and update users.
 class UserEditView extends StatelessWidget with $UserEditView {
@@ -118,24 +117,25 @@ class UserEditView extends StatelessWidget with $UserEditView {
                   const InputDecoration(labelText: 'Passwort bestätigen'),
             ),
             DropdownButtonFormField<Department>(
-                value: user != null &&
-                        user.department != null &&
-                        model.availableDepartments != null
-                    ? model.availableDepartments.firstWhere(
-                        (department) => department.id == user.department.id,
-                        orElse: () => null,
-                      )
-                    : null,
-                onChanged: model.setDepartment,
-                decoration: const InputDecoration(labelText: 'Abteilung'),
-                items: model.availableDepartments
-                    ?.map<DropdownMenuItem<Department>>(
-                      (department) => DropdownMenuItem<Department>(
-                        value: department,
-                        child: Text(department.name),
-                      ),
+              value: user != null &&
+                      user.department != null &&
+                      model.availableDepartments != null
+                  ? model.availableDepartments.firstWhere(
+                      (department) => department.id == user.department.id,
+                      orElse: () => null,
                     )
-                    ?.toList()),
+                  : null,
+              onChanged: model.setDepartment,
+              decoration: const InputDecoration(labelText: 'Abteilung'),
+              items: model.availableDepartments
+                  ?.map<DropdownMenuItem<Department>>(
+                    (department) => DropdownMenuItem<Department>(
+                      value: department,
+                      child: Text(department.name),
+                    ),
+                  )
+                  ?.toList(),
+            ),
             _buildFormSectionHeader('Berechtigungen'),
             DropdownButtonFormField<Profile>(
               value: user != null
@@ -193,75 +193,77 @@ class UserEditView extends StatelessWidget with $UserEditView {
         ],
       );
 
-  Widget _buildSwitchGroupLayout(UserEditViewModel model) =>
-      ExpansionTile(title: const Text('Berechtigungen bearbeiten'), children: [
-        _buildLabeledSwitch(
-          model,
-          'Einsatzpläne ansehen',
-          'canViewDeploymentPlans',
-          model.accessControlList.canViewDeploymentPlans,
-        ),
-        _buildLabeledSwitch(
-          model,
-          'Einsatzpläne ansehen (Abteilung)',
-          'canViewDepartmentDeploymentPlans',
-          model.accessControlList.canViewDepartmentDeploymentPlans,
-        ),
-        _buildLabeledSwitch(
-          model,
-          'Einsatzpläne verwalten',
-          'canEditDeploymentPlans',
-          model.accessControlList.canEditDeploymentPlans,
-        ),
-        _buildLabeledSwitch(
-          model,
-          'Einsatzpläne verwalten (Abteilung)',
-          'canEditDepartmentDeploymentPlans',
-          model.accessControlList.canEditDepartmentDeploymentPlans,
-        ),
-        _buildLabeledSwitch(
-          model,
-          'Benutzer ansehen',
-          'canViewUsers',
-          model.accessControlList.canViewUsers,
-        ),
-        _buildLabeledSwitch(
-          model,
-          'Benutzer ansehen (Abteilung)',
-          'canViewDepartmentUsers',
-          model.accessControlList.canViewDepartmentUsers,
-        ),
-        _buildLabeledSwitch(
-          model,
-          'Benutzer verwalten',
-          'canEditUsers',
-          model.accessControlList.canEditUsers,
-        ),
-        _buildLabeledSwitch(
-          model,
-          'Benutzer verwalten (Abteilung)',
-          'canEditDepartmentUsers',
-          model.accessControlList.canEditDepartmentUsers,
-        ),
-        _buildLabeledSwitch(
-          model,
-          'Abteilungen ansehen',
-          'canViewDepartments',
-          model.accessControlList.canViewDepartments,
-        ),
-        _buildLabeledSwitch(
-          model,
-          'Abteilungen verwalten',
-          'canEditDepartments',
-          model.accessControlList.canEditDepartments,
-        ),
-        _buildLabeledSwitch(
-          model,
-          'Eigene Abteilung verwalten',
-          'canEditOwnDepartment',
-          model.accessControlList.canEditOwnDepartment,
-        ),
-      ]);
+  Widget _buildSwitchGroupLayout(UserEditViewModel model) => ExpansionTile(
+        title: const Text('Berechtigungen bearbeiten'),
+        children: [
+          _buildLabeledSwitch(
+            model,
+            'Einsatzpläne ansehen',
+            'canViewDeploymentPlans',
+            model.accessControlList.canViewDeploymentPlans,
+          ),
+          _buildLabeledSwitch(
+            model,
+            'Einsatzpläne ansehen (Abteilung)',
+            'canViewDepartmentDeploymentPlans',
+            model.accessControlList.canViewDepartmentDeploymentPlans,
+          ),
+          _buildLabeledSwitch(
+            model,
+            'Einsatzpläne verwalten',
+            'canEditDeploymentPlans',
+            model.accessControlList.canEditDeploymentPlans,
+          ),
+          _buildLabeledSwitch(
+            model,
+            'Einsatzpläne verwalten (Abteilung)',
+            'canEditDepartmentDeploymentPlans',
+            model.accessControlList.canEditDepartmentDeploymentPlans,
+          ),
+          _buildLabeledSwitch(
+            model,
+            'Benutzer ansehen',
+            'canViewUsers',
+            model.accessControlList.canViewUsers,
+          ),
+          _buildLabeledSwitch(
+            model,
+            'Benutzer ansehen (Abteilung)',
+            'canViewDepartmentUsers',
+            model.accessControlList.canViewDepartmentUsers,
+          ),
+          _buildLabeledSwitch(
+            model,
+            'Benutzer verwalten',
+            'canEditUsers',
+            model.accessControlList.canEditUsers,
+          ),
+          _buildLabeledSwitch(
+            model,
+            'Benutzer verwalten (Abteilung)',
+            'canEditDepartmentUsers',
+            model.accessControlList.canEditDepartmentUsers,
+          ),
+          _buildLabeledSwitch(
+            model,
+            'Abteilungen ansehen',
+            'canViewDepartments',
+            model.accessControlList.canViewDepartments,
+          ),
+          _buildLabeledSwitch(
+            model,
+            'Abteilungen verwalten',
+            'canEditDepartments',
+            model.accessControlList.canEditDepartments,
+          ),
+          _buildLabeledSwitch(
+            model,
+            'Eigene Abteilung verwalten',
+            'canEditOwnDepartment',
+            model.accessControlList.canEditOwnDepartment,
+          ),
+        ],
+      );
 
   Widget _buildLabeledSwitch(
     UserEditViewModel model,

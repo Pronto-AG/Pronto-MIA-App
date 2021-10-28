@@ -1,8 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
-import 'package:pronto_mia/ui/shared/custom_colors.dart';
 import 'package:pronto_mia/ui/components/navigation_menu/navigation_menu.dart';
+import 'package:pronto_mia/ui/shared/custom_colors.dart';
 
 /// A widget, representing a bottom app bar with actions
 class CustomAppBar extends StatelessWidget {

@@ -31,6 +31,7 @@ class User {
             : null,
         profile = json['accessControlList'] as Map<String, dynamic> != null
             ? Profile.fromJson(
-                json['accessControlList'] as Map<String, dynamic>)
+                json['accessControlList'] as Map<String, dynamic>,
+              )
             : null;
 }

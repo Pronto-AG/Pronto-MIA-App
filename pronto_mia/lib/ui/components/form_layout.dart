@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'package:pronto_mia/ui/shared/custom_colors.dart';
 import 'package:pronto_mia/ui/components/destructive_button/destructive_button.dart';
+import 'package:pronto_mia/ui/shared/custom_colors.dart';
 
 /// A widget, representing the layout for a form.
 class FormLayout extends StatelessWidget {
@@ -55,10 +54,12 @@ class FormLayout extends StatelessWidget {
 
     if (validationMessage != null) {
       form.add(const SizedBox(height: 8.0));
-      form.add(Text(
-        validationMessage,
-        style: const TextStyle(color: CustomColors.danger),
-      ));
+      form.add(
+        Text(
+          validationMessage,
+          style: const TextStyle(color: CustomColors.danger),
+        ),
+      );
     }
 
     return form;

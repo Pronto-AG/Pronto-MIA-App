@@ -4,7 +4,7 @@ import 'package:pronto_mia/core/models/analyzed_error.dart';
 /// message from an [AnalyzedError].
 ///
 /// Currently only available in German.
-// ignore: avoid_classes_with_only_static_members
+// ignore_for_file: avoid_classes_with_only_static_members
 class ErrorMessageFactory {
   static const String _unknownError =
       'Es ist ein unerwarteter Fehler aufgetreten.';
@@ -21,7 +21,8 @@ class ErrorMessageFactory {
       if (analyzedError.isPasswordError == true &&
           analyzedError.graphQLErrorCode == "PasswordTooWeak") {
         return _getPasswordErrorMessage(
-            analyzedError.passwordErrorClarification);
+          analyzedError.passwordErrorClarification,
+        );
       }
 
       return _getGraphQlErrorMessage(analyzedError.graphQLErrorCode);

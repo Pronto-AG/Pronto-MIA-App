@@ -1,7 +1,4 @@
 import 'package:logging/logging.dart';
-import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
-
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/authentication_service.dart';
 import 'package:pronto_mia/core/services/error_service.dart';
@@ -9,6 +6,8 @@ import 'package:pronto_mia/core/services/logging_service.dart';
 import 'package:pronto_mia/core/services/push_notification_service.dart';
 import 'package:pronto_mia/ui/views/deployment_plan/overview/deployment_plan_overview_view.dart';
 import 'package:pronto_mia/ui/views/login/login_view.dart';
+import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 /// A view model, providing functionality for [StartupView].
 class StartUpViewModel extends BaseViewModel {
@@ -45,13 +44,16 @@ class StartUpViewModel extends BaseViewModel {
   Future<void> handleStartUp() async {
     final isAuthenticated = await runErrorFuture(
       _authenticationService.isAuthenticated(),
-    ) as bool;
+    );
 
     _handlePushNotifcations(isAuthenticated);
 
     if (isAuthenticated) {
-      (await _loggingService).log("StartUpViewModel", Level.INFO,
-          "User already authenticated. Redirecting...");
+      (await _loggingService).log(
+        "StartUpViewModel",
+        Level.INFO,
+        "User already authenticated. Redirecting...",
+      );
       _navigationService.replaceWithTransition(
         const DeploymentPlanOverviewView(),
         transition: NavigationTransition.UpToDown,

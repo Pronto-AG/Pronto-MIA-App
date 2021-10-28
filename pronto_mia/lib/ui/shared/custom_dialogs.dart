@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:stacked_services/stacked_services.dart';
-
-import 'package:pronto_mia/ui/shared/custom_colors.dart';
 import 'package:pronto_mia/app/service_locator.dart';
+import 'package:pronto_mia/ui/shared/custom_colors.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 /// The representation of possible custom dialog types.
 enum DialogType { custom }

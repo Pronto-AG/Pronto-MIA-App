@@ -15,8 +15,10 @@ class LoggingService {
     Logger.root.level = _getLevelFromString(logLevel);
     Logger.root.onRecord.listen((record) {
       // ignore: avoid_print
-      print('${record.time} ${record.loggerName} [${record.level.name}]: '
-          '${record.message}');
+      print(
+        '${record.time} ${record.loggerName} [${record.level.name}]: '
+        '${record.message}',
+      );
     });
   }
 

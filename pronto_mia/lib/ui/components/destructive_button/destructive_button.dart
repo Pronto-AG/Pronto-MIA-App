@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:stacked/stacked.dart';
-
 import 'package:pronto_mia/ui/components/destructive_button/destructive_button_viewmodel.dart';
 import 'package:pronto_mia/ui/shared/custom_colors.dart';
+import 'package:stacked/stacked.dart';
 
 /// A widget, representing a button that deletes something.
 ///

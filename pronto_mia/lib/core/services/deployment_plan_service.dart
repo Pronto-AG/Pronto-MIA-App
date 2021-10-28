@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:intl/intl.dart';
 
@@ -98,7 +98,7 @@ class DeploymentPlanService with ChangeNotifier {
       'departmentId': departmentId,
     };
 
-    queryVariables['file'] = MultipartFile.fromBytes(
+    queryVariables['file'] = http.MultipartFile.fromBytes(
       'file',
       pdfFile.bytes,
       filename: pdfFile.name,
@@ -132,7 +132,7 @@ class DeploymentPlanService with ChangeNotifier {
     };
 
     if (pdfFile != null) {
-      queryVariables['file'] = MultipartFile.fromBytes(
+      queryVariables['file'] = http.MultipartFile.fromBytes(
         'file',
         pdfFile.bytes,
         filename: pdfFile.name,

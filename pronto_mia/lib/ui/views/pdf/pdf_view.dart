@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
-import 'package:stacked/stacked.dart';
-
-import 'package:pronto_mia/ui/views/pdf/pdf_viewmodel.dart';
 import 'package:pronto_mia/ui/components/data_view_layout.dart';
+import 'package:pronto_mia/ui/views/pdf/pdf_viewmodel.dart';
+import 'package:stacked/stacked.dart';
 
 /// A widget, representing the pdf view.
 class PdfView extends StatelessWidget {
@@ -33,15 +32,16 @@ class PdfView extends StatelessWidget {
       viewModelBuilder: () => PdfViewModel(pdfFile: pdfFile),
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
-            title: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(title),
-            if (subTitle != null)
-              Text(subTitle, style: const TextStyle(fontSize: 12.0))
-          ],
-        )),
+          title: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(title),
+              if (subTitle != null)
+                Text(subTitle, style: const TextStyle(fontSize: 12.0))
+            ],
+          ),
+        ),
         body: DataViewLayout(
           isBusy: model.isBusy,
           errorMessage: model.errorMessage,

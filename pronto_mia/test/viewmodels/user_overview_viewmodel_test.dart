@@ -81,7 +81,7 @@ void main() {
           user: User(),
           asDialog: true,
         );
-        verify(
+        verifyNever(
           dialogService.showCustomDialog(
             variant: DialogType.custom,
             customData: anyNamed('customData'),
@@ -127,13 +127,13 @@ void main() {
           user: User(),
           asDialog: true,
         );
-        verify(
+        verifyNever(
           dialogService.showCustomDialog(
             variant: DialogType.custom,
             customData: anyNamed('customData'),
           ),
         );
-        verify(userService.getUsers()).called(1);
+        verifyNever(userService.getUsers());
       });
     });
   });

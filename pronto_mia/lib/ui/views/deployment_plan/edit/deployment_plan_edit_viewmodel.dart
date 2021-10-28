@@ -1,15 +1,14 @@
 import 'package:flutter/foundation.dart';
-import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
-
 import 'package:pronto_mia/app/service_locator.dart';
+import 'package:pronto_mia/core/models/department.dart';
+import 'package:pronto_mia/core/models/deployment_plan.dart';
+import 'package:pronto_mia/core/models/simple_file.dart';
+import 'package:pronto_mia/core/services/department_service.dart';
 import 'package:pronto_mia/core/services/deployment_plan_service.dart';
 import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/ui/views/deployment_plan/edit/deployment_plan_edit_view.form.dart';
-import 'package:pronto_mia/core/models/simple_file.dart';
-import 'package:pronto_mia/core/models/deployment_plan.dart';
-import 'package:pronto_mia/core/models/department.dart';
-import 'package:pronto_mia/core/services/department_service.dart';
+import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 /// A view model, providing functionality for [DeploymentPlanEditView].
 class DeploymentPlanEditViewModel extends FormViewModel {
@@ -98,8 +97,13 @@ class DeploymentPlanEditViewModel extends FormViewModel {
 
     if (deploymentPlan == null) {
       await runBusyFuture(
-        _deploymentPlanService.createDeploymentPlan(descriptionValue,
-            availableFrom, availableUntil, _pdfFile, _department.id),
+        _deploymentPlanService.createDeploymentPlan(
+          descriptionValue,
+          availableFrom,
+          availableUntil,
+          _pdfFile,
+          _department.id,
+        ),
         busyObject: editActionKey,
       );
     } else {
@@ -190,7 +194,9 @@ class DeploymentPlanEditViewModel extends FormViewModel {
   Future<void> _completeFormAction(String actionKey) async {
     if (hasErrorForKey(actionKey)) {
       await _errorService.handleError(
-          DeploymentPlanEditViewModel.contextIdentifier, error(actionKey));
+        DeploymentPlanEditViewModel.contextIdentifier,
+        error(actionKey),
+      );
       final errorMessage = _errorService.getErrorMessage(error(actionKey));
       setValidationMessage(errorMessage);
       notifyListeners();

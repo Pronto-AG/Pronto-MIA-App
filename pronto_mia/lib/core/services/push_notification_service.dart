@@ -122,12 +122,18 @@ class PushNotificationService {
       switch (action) {
         case "publish":
           (await _loggingService).log(
-              "PushNotificationService", Level.INFO, 'Message is a publish');
+            "PushNotificationService",
+            Level.INFO,
+            'Message is a publish',
+          );
           await _handlePublishMessages(message);
           break;
         default:
-          (await _loggingService).log("PushNotificationService", Level.WARNING,
-              'Message contained an unknown action: $action');
+          (await _loggingService).log(
+            "PushNotificationService",
+            Level.WARNING,
+            'Message contained an unknown action: $action',
+          );
       }
     }
   }
@@ -136,13 +142,19 @@ class PushNotificationService {
     final targetType = message.data['TargetType'].toString();
     switch (targetType) {
       case "deploymentPlan":
-        (await _loggingService).log("PushNotificationService", Level.INFO,
-            'Message is a deploymentPlan');
+        (await _loggingService).log(
+          "PushNotificationService",
+          Level.INFO,
+          'Message is a deploymentPlan',
+        );
         await _handleDeploymentPlanPublish(message);
         break;
       default:
-        (await _loggingService).log("PushNotificationService", Level.WARNING,
-            'Message contained an unknown target: $targetType');
+        (await _loggingService).log(
+          "PushNotificationService",
+          Level.WARNING,
+          'Message contained an unknown target: $targetType',
+        );
     }
   }
 
@@ -162,14 +174,15 @@ class PushNotificationService {
 
     _pushDialogOpen = true;
     await _dialogService.showCustomDialog(
-        variant: DialogType.custom,
-        customData: DeploymentPlanNotification(
-          title: "Einsatzplan veröffentlicht",
-          body: 'Der Einsatzplan "$deploymentPlanTitle" '
-              'wurde soeben veröffentlicht.',
-          onViewPressed: () async =>
-              {await _deploymentPlanService.openPdfWithReplace(deploymentPlan)},
-        ));
+      variant: DialogType.custom,
+      data: DeploymentPlanNotification(
+        title: "Einsatzplan veröffentlicht",
+        body: 'Der Einsatzplan "$deploymentPlanTitle" '
+            'wurde soeben veröffentlicht.',
+        onViewPressed: () async =>
+            {await _deploymentPlanService.openPdfWithReplace(deploymentPlan)},
+      ),
+    );
     _pushDialogOpen = false;
   }
 }

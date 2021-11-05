@@ -10,6 +10,8 @@ import 'package:stacked/stacked.dart';
 
 /// A widget, representing a menu containing the main navigation.
 class NavigationMenu extends StatelessWidget {
+  static const paddingSideBar = 30.0;
+
   /// Binds [NavigationMenuViewModel] and builds the widget.
   ///
   /// Takes the current [BuildContext] as an input.
@@ -18,11 +20,19 @@ class NavigationMenu extends StatelessWidget {
   Widget build(BuildContext context) =>
       ViewModelBuilder<NavigationMenuViewModel>.reactive(
         viewModelBuilder: () => NavigationMenuViewModel(),
-        builder: (context, model, child) => Container(
-          padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+        builder: (context, model, child) => Drawer(
           child: ListView(
             shrinkWrap: true,
-            children: [
+            children: <Widget>[
+              // const DrawerHeader(
+              //   decoration: BoxDecoration(
+              //     image: DecorationImage(
+              //       fit: BoxFit.scaleDown,
+              //       image: AssetImage('assets/images/pronto_logo.png'),
+              //     ),
+              //   ),
+              //   child: null,
+              // ),
               _buildProfile(context, model),
               ..._buildOverview(model),
               ..._buildAdministration(model),
@@ -39,14 +49,14 @@ class NavigationMenu extends StatelessWidget {
         model.data != null ? model.data.profile.description : 'Benutzer';
 
     return ListTile(
-      contentPadding: const EdgeInsets.only(left: 8.0),
+      contentPadding: const EdgeInsets.only(left: 23.0, right: 25.0),
       leading: SvgPicture.string(
         userImage,
         height: 48,
         width: 48,
       ),
-      title: const Text("Benutzerprofil"),
-      subtitle: Text('$userName - $userProfile'),
+      title: Text(userName),
+      subtitle: Text(userProfile),
       trailing: const Icon(Icons.settings),
       onTap: () => model.openSettings(
         asDialog: getValueForScreenType<bool>(
@@ -67,26 +77,13 @@ class NavigationMenu extends StatelessWidget {
                   model.data.profile.accessControlList
                       .canViewDepartmentDeploymentPlans))
             ListTile(
+              contentPadding: const EdgeInsets.only(left: paddingSideBar),
               leading: const Icon(Icons.today),
               title: const Text('Einsatzpläne'),
               onTap: () => model.navigateTo(
                 const DeploymentPlanOverviewView(),
               ),
             ),
-          /*
-          const ListTile(
-            leading: Icon(Icons.beach_access),
-            title: Text('Ferien'),
-          ),
-          const ListTile(
-            leading: Icon(Icons.school),
-            title: Text('Schulungsunterlagen'),
-          ),
-          const ListTile(
-            leading: Icon(Icons.description),
-            title: Text('News'),
-          ),
-           */
         ],
       );
 
@@ -99,30 +96,18 @@ class NavigationMenu extends StatelessWidget {
                   model.data.profile.accessControlList
                       .canEditDepartmentDeploymentPlans))
             ListTile(
+              contentPadding: const EdgeInsets.only(left: paddingSideBar),
               leading: const Icon(Icons.today),
               title: const Text('Einsatzplanverwaltung'),
               onTap: () => model.navigateTo(
                 const DeploymentPlanOverviewView(adminModeEnabled: true),
               ),
             ),
-          /*
-          const ListTile(
-            leading: Icon(Icons.beach_access),
-            title: Text('Ferienverwaltung'),
-          ),
-          const ListTile(
-            leading: Icon(Icons.school),
-            title: Text('Schulungsverwaltung'),
-          ),
-          const ListTile(
-            leading: Icon(Icons.description),
-            title: Text('Newsverwaltung'),
-          ),
-           */
           if (model.data != null &&
               (model.data.profile.accessControlList.canViewUsers ||
                   model.data.profile.accessControlList.canViewDepartmentUsers))
             ListTile(
+              contentPadding: const EdgeInsets.only(left: paddingSideBar),
               leading: const Icon(Icons.person),
               title: const Text('Benutzerverwaltung'),
               onTap: () => model.navigateTo(const UserOverviewView()),
@@ -131,6 +116,7 @@ class NavigationMenu extends StatelessWidget {
               (model.data.profile.accessControlList.canViewDepartments ||
                   model.data.profile.accessControlList.canEditOwnDepartment))
             ListTile(
+              contentPadding: const EdgeInsets.only(left: paddingSideBar),
               leading: const Icon(Icons.people),
               title: const Text('Abteilungsverwaltung'),
               onTap: () => model.navigateTo(const DepartmentOverviewView()),
@@ -139,11 +125,14 @@ class NavigationMenu extends StatelessWidget {
       );
 
   List<Widget> _buildNavigationCategory(String title, List<Widget> tiles) => [
-        const Divider(),
-        Text(
-          title,
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontWeight: FontWeight.w600),
+        const Divider(indent: 10.0),
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: Text(
+            title,
+            textAlign: TextAlign.left,
+            style: const TextStyle(fontWeight: FontWeight.w600),
+          ),
         ),
         ...tiles,
       ];

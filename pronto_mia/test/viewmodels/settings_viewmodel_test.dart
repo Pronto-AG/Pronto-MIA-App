@@ -73,21 +73,5 @@ void main() {
         verify(dialogService.completeDialog(argThat(anything)));
       });
     });
-
-    group('logout', () {
-      test('navigates to login after successful logout', () async {
-        final authenticationService = getAndRegisterMockAuthenticationService();
-        final navigationService = getAndRegisterMockNavigationService();
-
-        await settingsViewModel.logout();
-        verify(authenticationService.logout()).called(1);
-        verify(
-          navigationService.replaceWithTransition(
-            argThat(anything),
-            transition: NavigationTransition.UpToDown,
-          ),
-        );
-      });
-    });
   });
 }

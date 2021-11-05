@@ -4,7 +4,7 @@ import 'package:pronto_mia/core/models/user.dart';
 import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/core/services/user_service.dart';
 import 'package:pronto_mia/ui/shared/custom_dialogs.dart';
-import 'package:pronto_mia/ui/views/settings/settings_view.dart';
+import 'package:pronto_mia/ui/views/settings/settings_overview_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -58,10 +58,11 @@ class NavigationMenuViewModel extends FutureViewModel<User> {
     if (asDialog) {
       await _dialogService.showCustomDialog(
         variant: DialogType.custom,
-        data: SettingsView(isDialog: true),
+        // ignore: deprecated_member_use
+        customData: SettingsOverviewView(isDialog: true),
       );
     } else {
-      await _navigationService.navigateWithTransition(SettingsView());
+      await _navigationService.navigateWithTransition(SettingsOverviewView());
     }
   }
 

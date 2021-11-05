@@ -61,7 +61,8 @@ class DepartmentOverviewViewModel extends FutureViewModel<List<Department>> {
     if (asDialog) {
       final dialogResponse = await _dialogService.showCustomDialog(
         variant: DialogType.custom,
-        data: DepartmentEditView(department: department, isDialog: true),
+        // ignore: deprecated_member_use
+        customData: DepartmentEditView(department: department, isDialog: true),
       );
       dataHasChanged = dialogResponse?.confirmed ?? false;
     } else {

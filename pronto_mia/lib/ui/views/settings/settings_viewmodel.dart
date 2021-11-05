@@ -1,7 +1,6 @@
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/authentication_service.dart';
 import 'package:pronto_mia/core/services/error_service.dart';
-import 'package:pronto_mia/ui/views/login/login_view.dart';
 import 'package:pronto_mia/ui/views/settings/settings_view.form.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -9,7 +8,7 @@ import 'package:stacked_services/stacked_services.dart';
 /// A view model, providing functionality for [SettingsView].
 class SettingsViewModel extends FormViewModel {
   static const contextIdentifier = 'ProfileViewModel';
-  static const logoutActionKey = 'LogoutActionKey';
+  // static const logoutActionKey = 'LogoutActionKey';
   static const changePasswordActionKey = 'ChangePasswordActionKey';
 
   AuthenticationService get _authenticationService =>
@@ -52,16 +51,16 @@ class SettingsViewModel extends FormViewModel {
     _completeFormAction(changePasswordActionKey);
   }
 
-  Future<void> logout() async {
-    await runBusyFuture(
-      _authenticationService.logout(),
-      busyObject: logoutActionKey,
-    );
-    _navigationService.replaceWithTransition(
-      LoginView(),
-      transition: NavigationTransition.UpToDown,
-    );
-  }
+  // Future<void> logout() async {
+  //   await runBusyFuture(
+  //     _authenticationService.logout(),
+  //     busyObject: logoutActionKey,
+  //   );
+  //   _navigationService.replaceWithTransition(
+  //     LoginView(),
+  //     transition: NavigationTransition.UpToDown,
+  //   );
+  // }
 
   String _validateForm() {
     if (oldPasswordValue == null || oldPasswordValue.isEmpty) {

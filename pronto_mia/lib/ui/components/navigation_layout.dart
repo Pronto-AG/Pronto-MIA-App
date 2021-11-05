@@ -1,16 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:pronto_mia/ui/components/custom_app_bar.dart';
 import 'package:pronto_mia/ui/components/navigation_menu/navigation_menu.dart';
 import 'package:pronto_mia/ui/shared/custom_colors.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 /// A widget, representing the main view layout with a navigation.
 class NavigationLayout extends StatelessWidget {
-  // temp icon
-  // final BuildContext context;
-  // final Icon icon;
-
   final String title;
   final Widget body;
   final List<ActionSpecification> actions;
@@ -20,10 +15,6 @@ class NavigationLayout extends StatelessWidget {
   /// Takes a [String] view title, a [Widget] view body and a [List] of actions
   /// to display on the app bar.
   const NavigationLayout({
-    // temp icon
-    // @required this.context,
-    // @required this.icon,
-
     @required this.title,
     @required this.body,
     this.actions,
@@ -41,6 +32,7 @@ class NavigationLayout extends StatelessWidget {
       );
 
   Widget _buildMobileLayout({@required Widget body}) => Scaffold(
+        drawer: NavigationMenu(),
         appBar: _buildAppBar(),
         body: body,
         floatingActionButton: actions != null && actions.isNotEmpty
@@ -51,10 +43,7 @@ class NavigationLayout extends StatelessWidget {
                 child: actions[0].icon,
               )
             : null,
-        floatingActionButtonLocation: kIsWeb
-            ? FloatingActionButtonLocation.endFloat
-            : FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: _buildBottomAppBar(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       );
 
   Widget _buildTabletLayout() => _buildMobileLayout(
@@ -116,22 +105,17 @@ class NavigationLayout extends StatelessWidget {
         ),
       );
 
-  PreferredSizeWidget _buildAppBar({List<ActionSpecification> actions}) =>
+  PreferredSizeWidget _buildAppBar({
+    List<ActionSpecification> actions,
+  }) =>
       AppBar(
-        automaticallyImplyLeading: false,
-        // leading: Icon(Icons.menu, color: Colors.black),
-
-        // leading: IconButton(
-        //   tooltip: 'Navigation öffnen',
-        //   icon: const Icon(Icons.menu, color: Colors.black),
-        // ),
-        // onPressed: () async => _showMenu(context)),
         title: Text(
           title,
           style: const TextStyle(color: CustomColors.primary),
         ),
         elevation: 0.0,
         backgroundColor: Colors.transparent,
+        iconTheme: const IconThemeData(color: CustomColors.text),
         actions: actions
             ?.map(
               (ActionSpecification action) => IconButton(
@@ -141,31 +125,7 @@ class NavigationLayout extends StatelessWidget {
               ),
             )
             ?.toList(),
-        actionsIconTheme: const IconThemeData(color: CustomColors.text),
       );
-
-  Widget _buildBottomAppBar() => CustomAppBar(
-        actions: actions.length > 1
-            ? actions
-                .sublist(1)
-                .map(
-                  (ActionSpecification action) => IconButton(
-                    tooltip: action.tooltip,
-                    icon: action.icon,
-                    onPressed: action.onPressed,
-                  ),
-                )
-                .toList()
-            : null,
-      );
-
-  // temp menu on top
-  // Future<void> _showMenu(BuildContext context) async {
-  //   await showModalBottomSheet(
-  //     context: context,
-  //     builder: (BuildContext context) => NavigationMenu(),
-  //   );
-  // }
 }
 
 class ActionSpecification {

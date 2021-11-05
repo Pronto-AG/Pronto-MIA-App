@@ -5,7 +5,7 @@ import 'package:pronto_mia/ui/views/settings/settings_view.form.dart';
 import 'package:pronto_mia/ui/views/settings/settings_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 
-/// A widget, representing the settings view with options to logout and change
+/// A widget, representing the settings view with options change
 /// the users password.
 class SettingsView extends StatelessWidget with $SettingsView {
   final _formKey = GlobalKey<FormState>();
@@ -56,7 +56,7 @@ class SettingsView extends StatelessWidget with $SettingsView {
       );
 
   Widget _buildTitle() {
-    const title = 'Benutzereinstellungen';
+    const title = 'Passwort ändern';
 
     if (isDialog) {
       return Container(
@@ -100,11 +100,6 @@ class SettingsView extends StatelessWidget with $SettingsView {
             title: 'Passwort ändern',
             onTap: model.submitForm,
             isBusy: model.busy(SettingsViewModel.changePasswordActionKey),
-          ),
-          secondaryButton: ButtonSpecification(
-            title: 'Abmelden',
-            onTap: model.logout,
-            isBusy: model.busy(SettingsViewModel.logoutActionKey),
           ),
           validationMessage: model.validationMessage,
         ),

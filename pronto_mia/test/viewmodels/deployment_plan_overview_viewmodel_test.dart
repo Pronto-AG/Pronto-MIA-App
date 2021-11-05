@@ -99,6 +99,7 @@ void main() {
         verifyNever(
           dialogService.showCustomDialog(
             variant: DialogType.custom,
+            title: 'opens form as dialog without data change',
             customData: anyNamed('customData'),
           ),
         );
@@ -134,6 +135,7 @@ void main() {
         when(
           dialogService.showCustomDialog(
             variant: captureAnyNamed('variant'),
+            title: 'opens form as dialog with data change',
             customData: captureAnyNamed('customData'),
           ),
         ).thenAnswer(
@@ -147,6 +149,7 @@ void main() {
         verifyNever(
           dialogService.showCustomDialog(
             variant: DialogType.custom,
+            title: 'opens form as dialog with data change',
             customData: anyNamed('customData'),
           ),
         );

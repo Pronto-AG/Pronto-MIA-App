@@ -24,15 +24,16 @@ class NavigationMenu extends StatelessWidget {
           child: ListView(
             shrinkWrap: true,
             children: <Widget>[
-              // const DrawerHeader(
-              //   decoration: BoxDecoration(
-              //     image: DecorationImage(
-              //       fit: BoxFit.scaleDown,
-              //       image: AssetImage('assets/images/pronto_logo.png'),
-              //     ),
-              //   ),
-              //   child: null,
-              // ),
+              const DrawerHeader(
+                margin: EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.scaleDown,
+                    image: AssetImage('assets/images/pronto_logo.png'),
+                  ),
+                ),
+                child: null,
+              ),
               _buildProfile(context, model),
               ..._buildOverview(model),
               ..._buildAdministration(model),

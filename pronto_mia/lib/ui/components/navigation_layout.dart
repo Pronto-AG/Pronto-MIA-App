@@ -72,12 +72,6 @@ class NavigationLayout extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(16.0),
-                    width: 240.0,
-                    child: Image.asset('assets/images/pronto_logo.png'),
-                  ),
-                  const Divider(),
                   Expanded(
                     child: NavigationMenu(),
                   ),

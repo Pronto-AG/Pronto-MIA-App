@@ -50,3 +50,5 @@ app.*.map.json
 **/android/app/google-services.json
 **/web/firebase-config.js
 **/ios/Runner/GoogleService-Info.plist
+**/upload-keystore.jks
+**/key.properties

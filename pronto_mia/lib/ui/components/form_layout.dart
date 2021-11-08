@@ -16,7 +16,7 @@ class FormLayout extends StatelessWidget {
   /// and a [ButtonSpecification] secondary form action as an input.
   const FormLayout({
     @required this.textFields,
-    @required this.validationMessage,
+    this.validationMessage,
     @required this.primaryButton,
     this.secondaryButton,
   });

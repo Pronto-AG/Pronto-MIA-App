@@ -175,7 +175,8 @@ class PushNotificationService {
     _pushDialogOpen = true;
     await _dialogService.showCustomDialog(
       variant: DialogType.custom,
-      data: DeploymentPlanNotification(
+      // ignore: deprecated_member_use
+      customData: DeploymentPlanNotification(
         title: "Einsatzplan veröffentlicht",
         body: 'Der Einsatzplan "$deploymentPlanTitle" '
             'wurde soeben veröffentlicht.',

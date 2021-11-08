@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pronto_mia/ui/components/form_layout.dart';
+import 'package:pronto_mia/ui/shared/password_field.dart';
 import 'package:pronto_mia/ui/views/settings/settings_view.form.dart';
 import 'package:pronto_mia/ui/views/settings/settings_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 
-/// A widget, representing the settings view with options to logout and change
+/// A widget, representing the settings view with options change
 /// the users password.
 class SettingsView extends StatelessWidget with $SettingsView {
   final _formKey = GlobalKey<FormState>();
@@ -56,7 +57,7 @@ class SettingsView extends StatelessWidget with $SettingsView {
       );
 
   Widget _buildTitle() {
-    const title = 'Benutzereinstellungen';
+    const title = 'Passwort ändern';
 
     if (isDialog) {
       return Container(
@@ -75,29 +76,26 @@ class SettingsView extends StatelessWidget with $SettingsView {
         key: _formKey,
         child: FormLayout(
           textFields: [
-            TextFormField(
+            PasswordField(
               controller: oldPasswordController,
-              onEditingComplete: model.submitForm,
-              obscureText: true,
-              decoration:
-                  const InputDecoration(labelText: 'Aktuelles Passwort'),
+              submitForm: model.submitForm,
+              labelText: 'Aktuelles Passwort',
             ),
-            TextFormField(
+            PasswordField(
               controller: newPasswordController,
-              onEditingComplete: model.submitForm,
-              obscureText: true,
-              decoration: const InputDecoration(labelText: 'Neues Passwort'),
+              submitForm: model.submitForm,
+              labelText: 'Neues Passwort',
+            ),
+            PasswordField(
+              controller: passwordConfirmController,
+              submitForm: model.submitForm,
+              labelText: 'Passwort bestätigen',
             ),
           ],
           primaryButton: ButtonSpecification(
             title: 'Passwort ändern',
             onTap: model.submitForm,
             isBusy: model.busy(SettingsViewModel.changePasswordActionKey),
-          ),
-          secondaryButton: ButtonSpecification(
-            title: 'Abmelden',
-            onTap: model.logout,
-            isBusy: model.busy(SettingsViewModel.logoutActionKey),
           ),
           validationMessage: model.validationMessage,
         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pronto_mia/ui/components/form_layout.dart';
+import 'package:pronto_mia/ui/shared/password_field.dart';
 import 'package:pronto_mia/ui/views/login/login_view.form.dart';
 import 'package:pronto_mia/ui/views/login/login_viewmodel.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -76,12 +77,17 @@ class LoginView extends StatelessWidget with $LoginView {
               onEditingComplete: model.submitForm,
               decoration: const InputDecoration(labelText: 'Benutzername *'),
             ),
-            TextFormField(
+            // TextFormField(
+            //   controller: passwordController,
+            //   onEditingComplete: model.submitForm,
+            //   obscureText: true,
+            //   decoration: const InputDecoration(labelText: 'Passwort *'),
+            // ),
+            PasswordField(
               controller: passwordController,
-              onEditingComplete: model.submitForm,
-              obscureText: true,
-              decoration: const InputDecoration(labelText: 'Passwort *'),
-            ),
+              submitForm: model.submitForm,
+              labelText: 'Benutzername *',
+            )
           ],
           primaryButton: ButtonSpecification(
             title: 'Anmelden',

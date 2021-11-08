@@ -1,7 +1,7 @@
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/authentication_service.dart';
 import 'package:pronto_mia/core/services/error_service.dart';
-import 'package:pronto_mia/ui/views/login/login_view.dart';
+import 'package:pronto_mia/ui/views/external_news/overview/external_news_overview_view.dart';
 import 'package:pronto_mia/ui/views/settings/settings_view.form.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -58,7 +58,7 @@ class SettingsViewModel extends FormViewModel {
       busyObject: logoutActionKey,
     );
     _navigationService.replaceWithTransition(
-      LoginView(),
+      ExternalNewsOverviewView(),
       transition: NavigationTransition.UpToDown,
     );
   }

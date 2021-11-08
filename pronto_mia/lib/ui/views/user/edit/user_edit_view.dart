@@ -262,6 +262,12 @@ class UserEditView extends StatelessWidget with $UserEditView {
             'canEditOwnDepartment',
             model.accessControlList.canEditOwnDepartment,
           ),
+          _buildLabeledSwitch(
+            model,
+            'Neuigkeiten verwalten',
+            'canEditExternalNews',
+            model.accessControlList.canEditExternalNews,
+          ),
         ],
       );
 

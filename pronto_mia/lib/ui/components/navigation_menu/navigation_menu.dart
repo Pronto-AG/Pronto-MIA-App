@@ -4,6 +4,8 @@ import 'package:jdenticon_dart/jdenticon_dart.dart';
 import 'package:pronto_mia/ui/components/navigation_menu/navigation_menu_viewmodel.dart';
 import 'package:pronto_mia/ui/views/department/overview/department_overview_view.dart';
 import 'package:pronto_mia/ui/views/deployment_plan/overview/deployment_plan_overview_view.dart';
+import 'package:pronto_mia/ui/views/external_news/overview/external_news_overview_view.dart';
+import 'package:pronto_mia/ui/views/login/login_view.dart';
 import 'package:pronto_mia/ui/views/user/overview/user_overview_view.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
@@ -37,30 +39,49 @@ class NavigationMenu extends StatelessWidget {
     final userImage = Jdenticon.toSvg(userName);
     final userProfile =
         model.data != null ? model.data.profile.description : 'Benutzer';
-
-    return ListTile(
-      contentPadding: const EdgeInsets.only(left: 8.0),
-      leading: SvgPicture.string(
-        userImage,
-        height: 48,
-        width: 48,
-      ),
-      title: const Text("Benutzerprofil"),
-      subtitle: Text('$userName - $userProfile'),
-      onTap: () => model.openSettings(
-        asDialog: getValueForScreenType<bool>(
-          context: context,
-          mobile: false,
-          desktop: true,
+    if (model.data != null) {
+      return ListTile(
+        contentPadding: const EdgeInsets.only(left: 8.0),
+        leading: SvgPicture.string(
+          userImage,
+          height: 48,
+          width: 48,
         ),
-      ),
-    );
+        title: const Text("Benutzerprofil"),
+        subtitle: Text('$userName - $userProfile'),
+        onTap: () => model.openSettings(
+          asDialog: getValueForScreenType<bool>(
+            context: context,
+            mobile: false,
+            desktop: true,
+          ),
+        ),
+      );
+    } else {
+      return ListTile(
+        contentPadding: const EdgeInsets.only(left: 8.0),
+        leading: const Icon(
+          Icons.login,
+        ),
+        title: const Text("Anmelden"),
+        onTap: () => model.navigateTo(
+          LoginView(),
+        ),
+      );
+    }
   }
 
   List<Widget> _buildOverview(NavigationMenuViewModel model) =>
       _buildNavigationCategory(
         'Übersicht',
         [
+          ListTile(
+            leading: const Icon(Icons.description),
+            title: const Text('News'),
+            onTap: () => model.navigateTo(
+              const ExternalNewsOverviewView(),
+            ),
+          ),
           if (model.data != null &&
               (model.data.profile.accessControlList.canViewDeploymentPlans ||
                   model.data.profile.accessControlList
@@ -80,12 +101,7 @@ class NavigationMenu extends StatelessWidget {
           const ListTile(
             leading: Icon(Icons.school),
             title: Text('Schulungsunterlagen'),
-          ),
-          const ListTile(
-            leading: Icon(Icons.description),
-            title: Text('News'),
-          ),
-           */
+          ), */
         ],
       );
 
@@ -93,6 +109,15 @@ class NavigationMenu extends StatelessWidget {
       _buildNavigationCategory(
         'Administration',
         [
+          if (model.data != null &&
+              model.data.profile.accessControlList.canEditExternalNews)
+            ListTile(
+              leading: const Icon(Icons.description),
+              title: const Text('Newsverwaltung'),
+              onTap: () => model.navigateTo(
+                const ExternalNewsOverviewView(adminModeEnabled: true),
+              ),
+            ),
           if (model.data != null &&
               (model.data.profile.accessControlList.canEditDeploymentPlans ||
                   model.data.profile.accessControlList
@@ -112,12 +137,8 @@ class NavigationMenu extends StatelessWidget {
           const ListTile(
             leading: Icon(Icons.school),
             title: Text('Schulungsverwaltung'),
-          ),
-          const ListTile(
-            leading: Icon(Icons.description),
-            title: Text('Newsverwaltung'),
-          ),
-           */
+          ), */
+
           if (model.data != null &&
               (model.data.profile.accessControlList.canViewUsers ||
                   model.data.profile.accessControlList.canViewDepartmentUsers))

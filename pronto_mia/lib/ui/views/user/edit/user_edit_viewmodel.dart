@@ -163,6 +163,9 @@ class UserEditViewModel extends FormViewModel {
           accessControlList.canEditDepartments = false;
         }
         break;
+      case 'canEditExternalNews':
+        accessControlList.canEditExternalNews = value;
+        break;
       default:
         throw AssertionError(
           'The provided access control list property is not supported.',

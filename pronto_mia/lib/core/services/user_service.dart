@@ -19,15 +19,19 @@ class UserService {
   ///
   /// Returns the current [User] user.
   Future<User> getCurrentUser() async {
-    final data = await (await _graphQLService).query(UserQueries.currentUser);
-    final user = User.fromJson(data['user'] as Map<String, dynamic>);
-    if (user.id == null) {
-      (await _loggingService)
-          .log("UserService", Level.WARNING, "No user could be fetched.");
+    try {
+      final data = await (await _graphQLService).query(UserQueries.currentUser);
+      final user = User.fromJson(data['user'] as Map<String, dynamic>);
+      if (user.id == null) {
+        (await _loggingService)
+            .log("UserService", Level.WARNING, "No user could be fetched.");
+        return null;
+      }
+
+      return user;
+    } catch (e) {
       return null;
     }
-
-    return user;
   }
 
   /// Gets the list of all users.

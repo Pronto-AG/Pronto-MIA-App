@@ -26,17 +26,12 @@ class ImageService {
               ),
             );
 
-  Future<JwtTokenService> get _jwtTokenService =>
-      locator.getAsync<JwtTokenService>();
-
   /// Downloads a pdf from the provided link
   ///
   /// Takes a [String] link as an input.
   /// Returns the download file as a [SimpleFile];
   Future<SimpleFile> downloadImage(String path) async {
-    final token = await (await _jwtTokenService).getToken();
-    final httpHeaders = {"Authorization": "Bearer $token"};
-    final file = await _cacheManager.getSingleFile(path, headers: httpHeaders);
+    final file = await _cacheManager.getSingleFile(path);
 
     return SimpleFile(name: 'upload.png', bytes: file?.readAsBytesSync());
   }

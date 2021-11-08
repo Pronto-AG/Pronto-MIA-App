@@ -61,46 +61,34 @@ class ExternalNewsView extends StatelessWidget {
   ) =>
       Column(
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: FutureBuilder(
-                  future: model.getExternalNewsImage(externalNews),
-                  builder: (BuildContext context, AsyncSnapshot<Image> image) {
-                    if (image.hasData) {
-                      return image.data; // image is ready
-                    } else {
-                      return Image.asset(
-                        'assets/images/pronto_icon.png',
-                      ); // placeholder
-                    }
-                  },
-                ),
-              ),
-            ],
+          Expanded(
+            flex: 5,
+            child: FutureBuilder(
+              future: model.getExternalNewsImage(externalNews),
+              builder: (BuildContext context, AsyncSnapshot<Image> image) {
+                if (image.hasData) {
+                  return image.data;
+                } else {
+                  return const SizedBox.shrink();
+                }
+              },
+            ),
           ),
-          Row(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    model.getExternalNewsDate(externalNews),
-                    style: const TextStyle(fontStyle: FontStyle.italic),
-                  ),
-                ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                model.getExternalNewsDate(externalNews),
+                style: const TextStyle(fontStyle: FontStyle.italic),
               ),
-            ],
+            ),
           ),
-          Row(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
-                  child: Text(externalNews.description),
-                ),
-              ),
-            ],
+          Expanded(
+            flex: 4,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+              child: Text(externalNews.description),
+            ),
           ),
         ],
       );

@@ -14,6 +14,7 @@ class AccessControlList {
   bool canViewOwnDepartment;
   bool canEditDepartments;
   bool canEditOwnDepartment;
+  bool canEditExternalNews;
 
   /// Initializes a new instance of [AccessControlList].
   ///
@@ -32,6 +33,7 @@ class AccessControlList {
     this.canViewOwnDepartment = false,
     this.canEditDepartments = false,
     this.canEditOwnDepartment = false,
+    this.canEditExternalNews = false,
   });
 
   /// Initializes a new [AccessControlList] from the values of another.
@@ -52,7 +54,8 @@ class AccessControlList {
         canViewDepartments = toCopy.canViewDepartments,
         canViewOwnDepartment = toCopy.canViewOwnDepartment,
         canEditDepartments = toCopy.canEditDepartments,
-        canEditOwnDepartment = toCopy.canEditOwnDepartment;
+        canEditOwnDepartment = toCopy.canEditOwnDepartment,
+        canEditExternalNews = toCopy.canEditExternalNews;
 
   /// Initializes a new [AccessControlList] from a JSON format object.
   ///
@@ -77,7 +80,8 @@ class AccessControlList {
         canViewDepartments = json['canViewDepartments'] as bool ?? false,
         canViewOwnDepartment = json['canViewOwnDepartment'] as bool ?? false,
         canEditDepartments = json['canEditDepartments'] as bool ?? false,
-        canEditOwnDepartment = json['canEditOwnDepartment'] as bool ?? false;
+        canEditOwnDepartment = json['canEditOwnDepartment'] as bool ?? false,
+        canEditExternalNews = json['canEditExternalNews'] as bool ?? false;
 
   /// Converts an [AccessControlList] to a JSON format object.
   ///
@@ -97,6 +101,7 @@ class AccessControlList {
       'canViewOwnDepartment': canViewOwnDepartment,
       'canEditDepartments': canEditDepartments,
       'canEditOwnDepartment': canEditOwnDepartment,
+      'canEditExternalNews': canEditExternalNews,
     };
   }
 
@@ -119,7 +124,8 @@ class AccessControlList {
         canViewDepartments == other.canViewDepartments &&
         canViewOwnDepartment == other.canViewOwnDepartment &&
         canEditDepartments == other.canEditDepartments &&
-        canEditOwnDepartment == other.canEditOwnDepartment) {
+        canEditOwnDepartment == other.canEditOwnDepartment &&
+        canEditExternalNews == other.canEditExternalNews) {
       return true;
     } else {
       return false;

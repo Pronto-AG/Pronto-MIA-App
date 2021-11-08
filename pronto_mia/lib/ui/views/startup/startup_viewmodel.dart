@@ -5,6 +5,7 @@ import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/core/services/logging_service.dart';
 import 'package:pronto_mia/core/services/push_notification_service.dart';
 import 'package:pronto_mia/ui/views/deployment_plan/overview/deployment_plan_overview_view.dart';
+import 'package:pronto_mia/ui/views/external_news/overview/external_news_overview_view.dart';
 import 'package:pronto_mia/ui/views/login/login_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -62,7 +63,7 @@ class StartUpViewModel extends BaseViewModel {
       (await _loggingService)
           .log("StartUpViewModel", Level.INFO, "User not yet authenticated");
       _navigationService.replaceWithTransition(
-        LoginView(),
+        const ExternalNewsOverviewView(),
         transition: NavigationTransition.UpToDown,
       );
     }

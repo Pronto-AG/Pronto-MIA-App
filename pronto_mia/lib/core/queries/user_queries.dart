@@ -22,6 +22,7 @@ class UserQueries {
 		      canViewOwnDepartment
 		      canEditDepartments
 		      canEditOwnDepartment
+          canEditExternalNews
         }
       }
     }
@@ -49,6 +50,7 @@ class UserQueries {
           canViewOwnDepartment
           canEditDepartments
           canEditOwnDepartment
+          canEditExternalNews
         }   
       }
     }

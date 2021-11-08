@@ -77,16 +77,10 @@ class LoginView extends StatelessWidget with $LoginView {
               onEditingComplete: model.submitForm,
               decoration: const InputDecoration(labelText: 'Benutzername *'),
             ),
-            // TextFormField(
-            //   controller: passwordController,
-            //   onEditingComplete: model.submitForm,
-            //   obscureText: true,
-            //   decoration: const InputDecoration(labelText: 'Passwort *'),
-            // ),
             PasswordField(
               controller: passwordController,
               submitForm: model.submitForm,
-              labelText: 'Benutzername *',
+              labelText: 'Passwort *',
             )
           ],
           primaryButton: ButtonSpecification(

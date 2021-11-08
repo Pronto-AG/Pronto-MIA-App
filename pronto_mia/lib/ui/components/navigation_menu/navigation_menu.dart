@@ -4,6 +4,8 @@ import 'package:jdenticon_dart/jdenticon_dart.dart';
 import 'package:pronto_mia/ui/components/navigation_menu/navigation_menu_viewmodel.dart';
 import 'package:pronto_mia/ui/views/department/overview/department_overview_view.dart';
 import 'package:pronto_mia/ui/views/deployment_plan/overview/deployment_plan_overview_view.dart';
+import 'package:pronto_mia/ui/views/external_news/overview/external_news_overview_view.dart';
+import 'package:pronto_mia/ui/views/login/login_view.dart';
 import 'package:pronto_mia/ui/views/user/overview/user_overview_view.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
@@ -49,30 +51,51 @@ class NavigationMenu extends StatelessWidget {
     final userProfile =
         model.data != null ? model.data.profile.description : 'Benutzer';
 
-    return ListTile(
-      contentPadding: const EdgeInsets.only(left: 23.0, right: 25.0),
-      leading: SvgPicture.string(
-        userImage,
-        height: 48,
-        width: 48,
-      ),
-      title: Text(userName),
-      subtitle: Text(userProfile),
-      trailing: const Icon(Icons.settings),
-      onTap: () => model.openSettings(
-        asDialog: getValueForScreenType<bool>(
-          context: context,
-          mobile: false,
-          desktop: true,
+    if (model.data != null) {
+      return ListTile(
+        contentPadding: const EdgeInsets.only(left: 23.0, right: 25.0),
+        leading: SvgPicture.string(
+          userImage,
+          height: 48,
+          width: 48,
         ),
-      ),
-    );
+        title: Text(userName),
+        subtitle: Text(userProfile),
+        trailing: const Icon(Icons.settings),
+        onTap: () => model.openSettings(
+          asDialog: getValueForScreenType<bool>(
+            context: context,
+            mobile: false,
+            desktop: true,
+          ),
+        ),
+      );
+    } else {
+      return ListTile(
+        contentPadding: const EdgeInsets.only(left: paddingSideBar),
+        leading: const Icon(
+          Icons.login,
+        ),
+        title: const Text("Anmelden"),
+        onTap: () => model.navigateTo(
+          LoginView(),
+        ),
+      );
+    }
   }
 
   List<Widget> _buildOverview(NavigationMenuViewModel model) =>
       _buildNavigationCategory(
         'Übersicht',
         [
+          ListTile(
+            contentPadding: const EdgeInsets.only(left: paddingSideBar),
+            leading: const Icon(Icons.description),
+            title: const Text('News'),
+            onTap: () => model.navigateTo(
+              const ExternalNewsOverviewView(),
+            ),
+          ),
           if (model.data != null &&
               (model.data.profile.accessControlList.canViewDeploymentPlans ||
                   model.data.profile.accessControlList
@@ -85,6 +108,15 @@ class NavigationMenu extends StatelessWidget {
                 const DeploymentPlanOverviewView(),
               ),
             ),
+          /*
+          const ListTile(
+            leading: Icon(Icons.beach_access),
+            title: Text('Ferien'),
+          ),
+          const ListTile(
+            leading: Icon(Icons.school),
+            title: Text('Schulungsunterlagen'),
+          ), */
         ],
       );
 
@@ -94,6 +126,16 @@ class NavigationMenu extends StatelessWidget {
             ? 'Administration'
             : '',
         [
+          if (model.data != null &&
+              model.data.profile.accessControlList.canEditExternalNews)
+            ListTile(
+              contentPadding: const EdgeInsets.only(left: paddingSideBar),
+              leading: const Icon(Icons.description),
+              title: const Text('Newsverwaltung'),
+              onTap: () => model.navigateTo(
+                const ExternalNewsOverviewView(adminModeEnabled: true),
+              ),
+            ),
           if (model.data != null &&
               (model.data.profile.accessControlList.canEditDeploymentPlans ||
                   model.data.profile.accessControlList
@@ -106,6 +148,16 @@ class NavigationMenu extends StatelessWidget {
                 const DeploymentPlanOverviewView(adminModeEnabled: true),
               ),
             ),
+          /*
+          const ListTile(
+            leading: Icon(Icons.beach_access),
+            title: Text('Ferienverwaltung'),
+          ),
+          const ListTile(
+            leading: Icon(Icons.school),
+            title: Text('Schulungsverwaltung'),
+          ), */
+
           if (model.data != null &&
               (model.data.profile.accessControlList.canViewUsers ||
                   model.data.profile.accessControlList.canViewDepartmentUsers))

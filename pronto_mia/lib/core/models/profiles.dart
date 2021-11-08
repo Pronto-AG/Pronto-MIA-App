@@ -67,6 +67,7 @@ final profiles = {
       canEditUsers: true,
       canViewDepartments: true,
       canEditDepartments: true,
+      canEditExternalNews: true,
     ),
   ),
 };

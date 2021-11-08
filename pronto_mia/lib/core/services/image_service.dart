@@ -1,7 +1,5 @@
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/models/simple_file.dart';
-import 'package:pronto_mia/core/services/jwt_token_service.dart';
 
 /// A service, responsible for handling pdf functionality.
 ///

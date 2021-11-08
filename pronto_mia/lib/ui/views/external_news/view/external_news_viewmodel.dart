@@ -3,10 +3,7 @@ import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/models/external_news.dart';
 import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/core/services/external_news_service.dart';
-import 'package:pronto_mia/ui/shared/custom_dialogs.dart';
-import 'package:pronto_mia/ui/views/external_news/edit/external_news_edit_view.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
 
 /// A view model, providing functionality for [ExternalNewsView].
 class ExternalNewsViewModel extends FutureViewModel<ExternalNews> {
@@ -15,8 +12,6 @@ class ExternalNewsViewModel extends FutureViewModel<ExternalNews> {
 
   ExternalNewsService get _externalNewsService =>
       locator.get<ExternalNewsService>();
-  NavigationService get _navigationService => locator.get<NavigationService>();
-  DialogService get _dialogService => locator.get<DialogService>();
   ErrorService get _errorService => locator.get<ErrorService>();
 
   final bool adminModeEnabled;
@@ -62,6 +57,14 @@ class ExternalNewsViewModel extends FutureViewModel<ExternalNews> {
   /// Returns the generated [String] title.
   String getExternalNewsTitle(ExternalNews eN) {
     return _externalNewsService.getExternalNewsTitle(eN);
+  }
+
+  /// Generates a date string for an external news
+  ///
+  /// Takes the [ExternalNews] to generate the title for as an input.
+  /// Returns the generated [String] date.
+  String getExternalNewsDate(ExternalNews eN) {
+    return _externalNewsService.getExternalNewsDate(eN);
   }
 
   Future<ExternalNews> _getExternalNewsById(int id) async {

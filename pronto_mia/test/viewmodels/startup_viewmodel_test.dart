@@ -4,6 +4,7 @@ import 'package:mockito/mockito.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import 'package:pronto_mia/ui/views/deployment_plan/overview/deployment_plan_overview_view.dart';
+import 'package:pronto_mia/ui/views/external_news/overview/external_news_overview_view.dart';
 import 'package:pronto_mia/ui/views/login/login_view.dart';
 import 'package:pronto_mia/ui/views/startup/startup_viewmodel.dart';
 
@@ -85,7 +86,7 @@ void main() {
         );
         verify(
           navigationService.replaceWithTransition(
-            argThat(isA<LoginView>()),
+            argThat(isA<ExternalNewsOverviewView>()),
             transition: NavigationTransition.UpToDown,
           ),
         );

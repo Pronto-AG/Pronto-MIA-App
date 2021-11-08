@@ -78,7 +78,8 @@ class DeploymentPlanOverviewViewModel
     if (asDialog) {
       final dialogResponse = await _dialogService.showCustomDialog(
         variant: DialogType.custom,
-        data: DeploymentPlanEditView(
+        // ignore: deprecated_member_use
+        customData: DeploymentPlanEditView(
           deploymentPlan: deploymentPlan,
           isDialog: true,
         ),

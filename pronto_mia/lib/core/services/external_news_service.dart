@@ -10,7 +10,6 @@ import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/core/queries/external_news_queries.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
 import 'package:pronto_mia/core/services/image_service.dart';
-import 'package:stacked_services/stacked_services.dart';
 
 /// A service, responsible for accessing external news.
 ///
@@ -18,7 +17,6 @@ import 'package:stacked_services/stacked_services.dart';
 class ExternalNewsService with ChangeNotifier {
   Future<GraphQLService> get _graphQLService =>
       locator.getAsync<GraphQLService>();
-  NavigationService get _navigationService => locator.get<NavigationService>();
   ImageService get _imageService => locator.get<ImageService>();
 
   /// Gets the list of all external news.

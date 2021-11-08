@@ -2,11 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pronto_mia/core/models/external_news.dart';
-import 'package:pronto_mia/ui/components/data_view_layout.dart';
-import 'package:pronto_mia/ui/components/navigation_layout.dart';
-import 'package:pronto_mia/ui/shared/custom_colors.dart';
 import 'package:pronto_mia/ui/views/external_news/view/external_news_viewmodel.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 
 /// A widget, representing the news.
@@ -85,7 +81,25 @@ class ExternalNewsView extends StatelessWidget {
           ),
           Row(
             children: [
-              Expanded(child: Text(externalNews.description)),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    model.getExternalNewsDate(externalNews),
+                    style: const TextStyle(fontStyle: FontStyle.italic),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+                  child: Text(externalNews.description),
+                ),
+              ),
             ],
           ),
         ],

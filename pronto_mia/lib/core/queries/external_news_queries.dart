@@ -1,8 +1,7 @@
 /// Groups all queries and mutations, which access the external News GraphQL
 /// type
 class ExternalNewsQueries {
-  static const externalNews =
-      """
+  static const externalNews = """
     query externalNews() {
       externalNews(
         order: {
@@ -19,8 +18,7 @@ class ExternalNewsQueries {
     }
   """;
 
-  static const externalNewsById =
-      """
+  static const externalNewsById = """
     query externalNews(\$id: Int!) {
       externalNews (
         where: { 
@@ -39,8 +37,7 @@ class ExternalNewsQueries {
     }
   """;
 
-  static const externalNewsAvailable =
-      """
+  static const externalNewsAvailable = """
     query externalNewsAvailable() {
       externalNews(
         where: { 
@@ -62,8 +59,7 @@ class ExternalNewsQueries {
     }
   """;
 
-  static const createExternalNews =
-      """
+  static const createExternalNews = """
     mutation createExternalNews(
       \$title: String!,
       \$description: String!,
@@ -81,8 +77,7 @@ class ExternalNewsQueries {
     }
   """;
 
-  static const updateExternalNews =
-      """
+  static const updateExternalNews = """
     mutation updateExternalNews(
       \$id: Int!,
       \$title: String,
@@ -102,22 +97,19 @@ class ExternalNewsQueries {
     }
   """;
 
-  static const removeExternalNews =
-      """
+  static const removeExternalNews = """
     mutation removeExternalNews(\$id: Int!) {
       removeExternalNews(id: \$id)
     }
   """;
 
-  static const publishExternalNews =
-      """
+  static const publishExternalNews = """
     mutation publishExternalNews(\$id: Int!, \$title: String!, \$body: String!) {
       publishExternalNews(id: \$id, title: \$title, body: \$body)
     }
   """;
 
-  static const hideExternalNews =
-      """
+  static const hideExternalNews = """
     mutation hideExternalNews(\$id: Int!) {
       hideExternalNews(id: \$id)
     }

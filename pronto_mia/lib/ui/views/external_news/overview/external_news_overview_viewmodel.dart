@@ -71,7 +71,8 @@ class ExternalNewsOverviewViewModel
     if (asDialog) {
       final dialogResponse = await _dialogService.showCustomDialog(
         variant: DialogType.custom,
-        data: ExternalNewsEditView(
+        // ignore: deprecated_member_use
+        customData: ExternalNewsEditView(
           externalNews: externalNews,
           isDialog: true,
         ),

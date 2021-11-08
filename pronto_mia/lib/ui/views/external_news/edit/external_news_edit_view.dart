@@ -132,6 +132,9 @@ class ExternalNewsEditView extends StatelessWidget with $ExternalNewsEditView {
               controller: descriptionController,
               onEditingComplete: model.submitForm,
               decoration: const InputDecoration(labelText: 'Inhalt*'),
+              keyboardType: TextInputType.multiline,
+              maxLines: 15,
+              minLines: 5,
             ),
             DateTimePicker(
               type: DateTimePickerType.dateTime,

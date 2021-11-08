@@ -56,7 +56,8 @@ class UserOverviewViewModel extends FutureViewModel<List<User>> {
     if (asDialog) {
       final dialogResponse = await _dialogService.showCustomDialog(
         variant: DialogType.custom,
-        data: UserEditView(user: user, isDialog: true),
+        // ignore: deprecated_member_use
+        customData: UserEditView(user: user, isDialog: true),
       );
       dataHasChanged = dialogResponse?.confirmed ?? false;
     } else {

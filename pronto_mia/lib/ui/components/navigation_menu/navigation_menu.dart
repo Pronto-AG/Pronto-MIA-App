@@ -90,7 +90,9 @@ class NavigationMenu extends StatelessWidget {
 
   List<Widget> _buildAdministration(NavigationMenuViewModel model) =>
       _buildNavigationCategory(
-        'Administration',
+        model.data != null && model.data.profile.accessControlList.canViewUsers
+            ? 'Administration'
+            : '',
         [
           if (model.data != null &&
               (model.data.profile.accessControlList.canEditDeploymentPlans ||
@@ -126,7 +128,7 @@ class NavigationMenu extends StatelessWidget {
       );
 
   List<Widget> _buildNavigationCategory(String title, List<Widget> tiles) => [
-        const Divider(indent: 10.0),
+        if (title.isNotEmpty) const Divider(indent: 10.0),
         Padding(
           padding: const EdgeInsets.only(left: 20.0),
           child: Text(

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pronto_mia/ui/components/form_layout.dart';
+import 'package:pronto_mia/ui/shared/password_field.dart';
 import 'package:pronto_mia/ui/views/settings/settings_view.form.dart';
 import 'package:pronto_mia/ui/views/settings/settings_viewmodel.dart';
 import 'package:stacked/stacked.dart';
@@ -75,25 +76,20 @@ class SettingsView extends StatelessWidget with $SettingsView {
         key: _formKey,
         child: FormLayout(
           textFields: [
-            TextFormField(
+            PasswordField(
               controller: oldPasswordController,
-              onEditingComplete: model.submitForm,
-              obscureText: true,
-              decoration:
-                  const InputDecoration(labelText: 'Aktuelles Passwort'),
+              submitForm: model.submitForm,
+              labelText: 'Aktuelles Passwort',
             ),
-            TextFormField(
+            PasswordField(
               controller: newPasswordController,
-              onEditingComplete: model.submitForm,
-              obscureText: true,
-              decoration: const InputDecoration(labelText: 'Neues Passwort'),
+              submitForm: model.submitForm,
+              labelText: 'Neues Passwort',
             ),
-            TextFormField(
+            PasswordField(
               controller: passwordConfirmController,
-              onEditingComplete: model.submitForm,
-              obscureText: true,
-              decoration:
-                  const InputDecoration(labelText: 'Passwort bestätigen'),
+              submitForm: model.submitForm,
+              labelText: 'Passwort bestätigen',
             ),
           ],
           primaryButton: ButtonSpecification(

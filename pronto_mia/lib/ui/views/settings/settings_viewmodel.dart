@@ -51,17 +51,6 @@ class SettingsViewModel extends FormViewModel {
     _completeFormAction(changePasswordActionKey);
   }
 
-  // Future<void> logout() async {
-  //   await runBusyFuture(
-  //     _authenticationService.logout(),
-  //     busyObject: logoutActionKey,
-  //   );
-  //   _navigationService.replaceWithTransition(
-  //     LoginView(),
-  //     transition: NavigationTransition.UpToDown,
-  //   );
-  // }
-
   String _validateForm() {
     if (oldPasswordValue == null || oldPasswordValue.isEmpty) {
       return 'Bitte aktuelles Passwort eingeben.';

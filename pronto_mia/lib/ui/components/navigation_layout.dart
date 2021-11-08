@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:pronto_mia/ui/components/custom_app_bar.dart';
 import 'package:pronto_mia/ui/components/navigation_menu/navigation_menu.dart';
 import 'package:pronto_mia/ui/shared/custom_colors.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -33,6 +32,7 @@ class NavigationLayout extends StatelessWidget {
       );
 
   Widget _buildMobileLayout({@required Widget body}) => Scaffold(
+        drawer: NavigationMenu(),
         appBar: _buildAppBar(),
         body: body,
         floatingActionButton: actions != null && actions.isNotEmpty
@@ -43,10 +43,7 @@ class NavigationLayout extends StatelessWidget {
                 child: actions[0].icon,
               )
             : null,
-        floatingActionButtonLocation: kIsWeb
-            ? FloatingActionButtonLocation.endFloat
-            : FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: _buildBottomAppBar(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       );
 
   Widget _buildTabletLayout() => _buildMobileLayout(
@@ -75,12 +72,6 @@ class NavigationLayout extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(16.0),
-                    width: 240.0,
-                    child: Image.asset('assets/images/pronto_logo.png'),
-                  ),
-                  const Divider(),
                   Expanded(
                     child: NavigationMenu(),
                   ),
@@ -108,15 +99,17 @@ class NavigationLayout extends StatelessWidget {
         ),
       );
 
-  PreferredSizeWidget _buildAppBar({List<ActionSpecification> actions}) =>
+  PreferredSizeWidget _buildAppBar({
+    List<ActionSpecification> actions,
+  }) =>
       AppBar(
-        automaticallyImplyLeading: false,
         title: Text(
           title,
           style: const TextStyle(color: CustomColors.primary),
         ),
         elevation: 0.0,
         backgroundColor: Colors.transparent,
+        iconTheme: const IconThemeData(color: CustomColors.text),
         actions: actions
             ?.map(
               (ActionSpecification action) => IconButton(
@@ -126,22 +119,6 @@ class NavigationLayout extends StatelessWidget {
               ),
             )
             ?.toList(),
-        actionsIconTheme: const IconThemeData(color: CustomColors.text),
-      );
-
-  Widget _buildBottomAppBar() => CustomAppBar(
-        actions: actions.length > 1
-            ? actions
-                .sublist(1)
-                .map(
-                  (ActionSpecification action) => IconButton(
-                    tooltip: action.tooltip,
-                    icon: action.icon,
-                    onPressed: action.onPressed,
-                  ),
-                )
-                .toList()
-            : null,
       );
 }
 

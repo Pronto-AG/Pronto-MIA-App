@@ -34,11 +34,24 @@ void main() {
         );
       });
 
+      test('sets message on different passwords', () async {
+        settingsViewModel.formValueMap['oldPassword'] = 'foo';
+        settingsViewModel.formValueMap['newPassword'] = 'test';
+        settingsViewModel.formValueMap['newPasswordConfirm'] = 'bar';
+
+        await settingsViewModel.submitForm();
+        expect(
+          settingsViewModel.validationMessage,
+          equals('Die angegebenen Passwörter stimmen nicht überein.'),
+        );
+      });
+
       test('changes password successfully as standalone', () async {
         final authenticationService = getAndRegisterMockAuthenticationService();
         final navigationService = getAndRegisterMockNavigationService();
         settingsViewModel.formValueMap['oldPassword'] = 'foo';
         settingsViewModel.formValueMap['newPassword'] = 'bar';
+        settingsViewModel.formValueMap['newPasswordConfirm'] = 'bar';
 
         await settingsViewModel.submitForm();
         expect(settingsViewModel.validationMessage, isNull);
@@ -52,27 +65,12 @@ void main() {
         final dialogService = getAndRegisterMockDialogService();
         settingsViewModel.formValueMap['oldPassword'] = 'foo';
         settingsViewModel.formValueMap['newPassword'] = 'bar';
+        settingsViewModel.formValueMap['newPasswordConfirm'] = 'bar';
 
         await settingsViewModel.submitForm();
         expect(settingsViewModel.validationMessage, isNull);
         verify(authenticationService.changePassword('foo', 'bar')).called(1);
         verify(dialogService.completeDialog(argThat(anything)));
-      });
-    });
-
-    group('logout', () {
-      test('navigates to login after successful logout', () async {
-        final authenticationService = getAndRegisterMockAuthenticationService();
-        final navigationService = getAndRegisterMockNavigationService();
-
-        await settingsViewModel.logout();
-        verify(authenticationService.logout()).called(1);
-        verify(
-          navigationService.replaceWithTransition(
-            argThat(anything),
-            transition: NavigationTransition.UpToDown,
-          ),
-        );
       });
     });
   });

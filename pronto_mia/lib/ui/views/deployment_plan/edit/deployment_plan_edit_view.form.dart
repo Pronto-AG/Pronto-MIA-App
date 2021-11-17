@@ -11,7 +11,7 @@ mixin $DeploymentPlanEditView on StatelessWidget {
   final TextEditingController availableFromController =
       TextEditingController(text: DateTime.now().toString());
   final TextEditingController availableUntilController = TextEditingController(
-      text: DateTime.now().add(const Duration(days: 5)).toString());
+      text: DateTime.now().add(const Duration(days: 14)).toString());
   final TextEditingController pdfPathController = TextEditingController();
   final FocusNode descriptionFocusNode = FocusNode();
   final FocusNode availableFromFocusNode = FocusNode();

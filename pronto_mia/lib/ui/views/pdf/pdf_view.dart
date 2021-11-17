@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:pronto_mia/ui/components/data_view_layout.dart';
@@ -5,7 +7,8 @@ import 'package:pronto_mia/ui/views/pdf/pdf_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 
 /// A widget, representing the pdf view.
-class PdfView extends StatelessWidget {
+///
+class PdfView extends StatefulWidget {
   final String title;
   final String subTitle;
   final Object pdfFile;
@@ -22,6 +25,16 @@ class PdfView extends StatelessWidget {
     @required this.pdfFile,
   }) : super(key: key);
 
+  @override
+  _PdfViewState createState() => _PdfViewState();
+}
+
+class _PdfViewState extends State<PdfView> with WidgetsBindingObserver {
+  final Completer<PDFViewController> _controller =
+      Completer<PDFViewController>();
+  int pages = 0;
+  int currentPage = 1;
+
   /// Binds [PdfViewModel] and builds the widget.
   ///
   /// Takes the current [BuildContext] as an input.
@@ -29,16 +42,16 @@ class PdfView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<PdfViewModel>.reactive(
-      viewModelBuilder: () => PdfViewModel(pdfFile: pdfFile),
+      viewModelBuilder: () => PdfViewModel(pdfFile: widget.pdfFile),
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
           title: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(title),
-              if (subTitle != null)
-                Text(subTitle, style: const TextStyle(fontSize: 12.0))
+              Text(widget.title),
+              if (widget.subTitle != null)
+                Text(widget.subTitle, style: const TextStyle(fontSize: 12.0))
             ],
           ),
         ),
@@ -48,7 +61,33 @@ class PdfView extends StatelessWidget {
           // childBuilder: () => PdfViewer.openData(model.data.bytes),
           childBuilder: () => PDFView(
             pdfData: model.data.bytes,
+            onRender: (_pages) {
+              setState(() {
+                pages = _pages;
+              });
+            },
+            onViewCreated: (PDFViewController pdfViewController) {
+              _controller.complete(pdfViewController);
+            },
+            onPageChanged: (int page, int total) {
+              setState(() {
+                currentPage = page + 1;
+              });
+            },
           ),
+        ),
+        floatingActionButton: FutureBuilder<PDFViewController>(
+          future: _controller.future,
+          builder: (context, AsyncSnapshot<PDFViewController> snapshot) {
+            if (snapshot.hasData) {
+              return FloatingActionButton.extended(
+                onPressed: () {},
+                label: Text("$currentPage / $pages"),
+              );
+            }
+
+            return Container();
+          },
         ),
       ),
     );

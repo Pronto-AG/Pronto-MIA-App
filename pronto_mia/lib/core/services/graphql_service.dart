@@ -100,7 +100,6 @@ class GraphQLService {
         throw queryResult.exception;
       }
     }
-
     return queryResult.data;
   }
 

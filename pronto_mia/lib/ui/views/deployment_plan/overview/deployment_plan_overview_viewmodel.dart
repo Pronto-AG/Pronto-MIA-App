@@ -64,6 +64,10 @@ class DeploymentPlanOverviewViewModel
     _deploymentPlanService.openPdf(deploymentPlan);
   }
 
+  /// Gets all deployment plans based on a filter.
+  Future<List<DeploymentPlan>> filterDeploymentPlans(String filter) async =>
+      _getFilteredDeploymentPlans(filter);
+
   /// Opens the form to create or update departments.
   ///
   /// Takes the [DeploymentPlan] to edit and a [bool] as an input wether the
@@ -105,6 +109,12 @@ class DeploymentPlanOverviewViewModel
 
   Future<List<DeploymentPlan>> _getDeploymentPlans() async {
     return _deploymentPlanService.getDeploymentPlans();
+  }
+
+  Future<List<DeploymentPlan>> _getFilteredDeploymentPlans(
+    String filter,
+  ) async {
+    return _deploymentPlanService.filterDeploymentPlan(filter);
   }
 
   /// Opens the dialog to publish deployment plans.
@@ -185,5 +195,25 @@ class DeploymentPlanOverviewViewModel
   void dispose() {
     _deploymentPlanService.removeListener(_notifyDataChanged);
     super.dispose();
+  }
+
+  /// Removes the [DeploymentPlan] contained in the form.
+  ///
+  /// After the [DeploymentPlan] has been removed successfully, closes dialog
+  /// when opened as a dialog or navigates to the previous view, when opened as
+  /// standalone.
+  Future<void> removeExternalNews(DeploymentPlan deploymentPlan) async {
+    if (deploymentPlan != null) {
+      await runBusyFuture(
+        _deploymentPlanService.removeDeploymentPlan(deploymentPlan.id),
+      );
+    }
+  }
+
+  Future<void> removeItems(List<DeploymentPlan> selectedToDelete) async {
+    for (var i = 0; i < selectedToDelete.length; i++) {
+      removeExternalNews(selectedToDelete[i]);
+      data.remove(selectedToDelete[i]);
+    }
   }
 }

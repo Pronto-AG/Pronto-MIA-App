@@ -9,6 +9,7 @@ class NavigationLayout extends StatelessWidget {
   final String title;
   final Widget body;
   final List<ActionSpecification> actions;
+  final List<ActionSpecification> actionsAppBar;
 
   /// Initializes a new instance of [NavigationLayout].
   ///
@@ -18,6 +19,7 @@ class NavigationLayout extends StatelessWidget {
     @required this.title,
     @required this.body,
     this.actions,
+    this.actionsAppBar,
   });
 
   /// Builds the widget.
@@ -33,7 +35,7 @@ class NavigationLayout extends StatelessWidget {
 
   Widget _buildMobileLayout({@required Widget body}) => Scaffold(
         drawer: NavigationMenu(),
-        appBar: _buildAppBar(),
+        appBar: _buildAppBar(actions: actionsAppBar),
         body: body,
         floatingActionButton: actions != null && actions.isNotEmpty
             ? FloatingActionButton(
@@ -86,7 +88,13 @@ class NavigationLayout extends StatelessWidget {
                   width: 600.0,
                   child: Column(
                     children: [
-                      _buildAppBar(actions: actions),
+                      _buildAppBar(
+                        actions: actions.isNotEmpty && actionsAppBar.isNotEmpty
+                            ? actions + actionsAppBar
+                            : actionsAppBar.isNotEmpty
+                                ? actionsAppBar
+                                : actions,
+                      ),
                       Expanded(
                         child: body,
                       ),

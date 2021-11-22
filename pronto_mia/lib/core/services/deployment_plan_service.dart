@@ -271,6 +271,22 @@ class DeploymentPlanService with ChangeNotifier {
     return '$availableFromFormatted - $availableUntilFormatted';
   }
 
+  /// Returns Deployment Plans based on a filter
+  ///
+  /// Takes the [String] name of the deployment plan to be filtered as an input.
+  Future<List<DeploymentPlan>> filterDeploymentPlan(String filter) async {
+    final queryVariables = {'filter': filter};
+    final data = await (await _graphQLService).query(
+      DeploymentPlanQueries.filterDeploymentPlan,
+      variables: queryVariables,
+    );
+    final dtoList = data['deploymentPlans'] as List<Object>;
+    final deploymentPlanList = dtoList
+        .map((dto) => DeploymentPlan.fromJson(dto as Map<String, dynamic>))
+        .toList();
+    return deploymentPlanList;
+  }
+
   /// Notifies this objects listeners.
   void notifyDataChanged() {
     notifyListeners();

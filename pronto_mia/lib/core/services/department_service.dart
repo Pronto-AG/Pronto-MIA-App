@@ -55,4 +55,20 @@ class DepartmentService {
       variables: queryVariables,
     );
   }
+
+  /// Returns Departments based on a filter
+  ///
+  /// Takes the [String] name of the department to be filtered as an input.
+  Future<List<Department>> filterDepartment(String filter) async {
+    final queryVariables = {'filter': filter};
+    final data = await (await _graphQLService).query(
+      DepartmentQueries.filterDepartment,
+      variables: queryVariables,
+    );
+    final dtoList = data['departments'] as List<Object>;
+    final departmentList = dtoList
+        .map((dto) => Department.fromJson(dto as Map<String, dynamic>))
+        .toList();
+    return departmentList;
+  }
 }

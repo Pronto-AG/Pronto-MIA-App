@@ -104,4 +104,20 @@ class UserService {
       variables: queryVariables,
     );
   }
+
+  /// Returns Users based on a filter
+  ///
+  /// Takes the [String] name of the users to be filtered as an input.
+  Future<List<User>> filterUser(String filter) async {
+    final queryVariables = {'filter': filter};
+    final data = await (await _graphQLService).query(
+      UserQueries.filterUser,
+      variables: queryVariables,
+    );
+    final dtoList = data['users'] as List<Object>;
+    final userList = dtoList
+        .map((dto) => User.fromJson(dto as Map<String, dynamic>))
+        .toList();
+    return userList;
+  }
 }

@@ -8,7 +8,6 @@ import 'package:stacked_services/stacked_services.dart';
 /// A view model, providing functionality for [SettingsView].
 class SettingsViewModel extends FormViewModel {
   static const contextIdentifier = 'ProfileViewModel';
-  // static const logoutActionKey = 'LogoutActionKey';
   static const changePasswordActionKey = 'ChangePasswordActionKey';
 
   AuthenticationService get _authenticationService =>

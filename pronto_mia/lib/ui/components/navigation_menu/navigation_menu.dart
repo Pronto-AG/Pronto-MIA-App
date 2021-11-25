@@ -122,7 +122,9 @@ class NavigationMenu extends StatelessWidget {
 
   List<Widget> _buildAdministration(NavigationMenuViewModel model) =>
       _buildNavigationCategory(
-        model.data != null && model.data.profile.accessControlList.canViewUsers
+        model.data != null &&
+                (model.data.profile.accessControlList.canViewUsers ||
+                    model.data.profile.accessControlList.canViewDepartmentUsers)
             ? 'Administration'
             : '',
         [

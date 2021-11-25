@@ -124,7 +124,7 @@ class NavigationMenu extends StatelessWidget {
             leading: const Icon(Icons.contact_page),
             title: const Text('Anfrage'),
             onTap: () => model.navigateTo(
-              const InquiryView(),
+              InquiryView(),
             ),
           ),
         ],

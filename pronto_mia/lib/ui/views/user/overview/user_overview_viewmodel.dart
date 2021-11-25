@@ -44,6 +44,10 @@ class UserOverviewViewModel extends FutureViewModel<List<User>> {
     notifyListeners();
   }
 
+  /// Gets all departments and stores them into [data].
+  Future<List<User>> filterUsers(String filter) async =>
+      _getFilteredUsers(filter);
+
   /// Opens the form to create or update users.
   ///
   /// Takes the [User] to edit and a [bool] as an input wether the
@@ -76,5 +80,29 @@ class UserOverviewViewModel extends FutureViewModel<List<User>> {
 
   Future<List<User>> _getUsers() async {
     return _userService.getUsers();
+  }
+
+  Future<List<User>> _getFilteredUsers(String filter) async {
+    return _userService.filterUser(filter);
+  }
+
+  /// Removes the [User] contained in the form.
+  ///
+  /// After the [User] has been removed successfully, closes dialog
+  /// when opened as a dialog or navigates to the previous view, when opened as
+  /// standalone.
+  Future<void> removeUser(User user) async {
+    if (user != null) {
+      await runBusyFuture(
+        _userService.removeUser(user.id),
+      );
+    }
+  }
+
+  Future<void> removeItems(List<User> selectedToDelete) async {
+    for (var i = 0; i < selectedToDelete.length; i++) {
+      removeUser(selectedToDelete[i]);
+      data.remove(selectedToDelete[i]);
+    }
   }
 }

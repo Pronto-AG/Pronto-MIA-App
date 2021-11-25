@@ -30,4 +30,17 @@ class DepartmentQueries {
       removeDepartment(id: \$id)
     }
   """;
+
+  static const filterDepartment = """
+    query departments(\$filter: String!) {
+      departments(
+        where: {
+          name: {contains: \$filter}
+          }) 
+        {
+          id
+          name
+        }
+    }
+  """;
 }

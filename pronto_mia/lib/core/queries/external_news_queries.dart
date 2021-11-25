@@ -114,4 +114,21 @@ class ExternalNewsQueries {
       hideExternalNews(id: \$id)
     }
   """;
+
+  static const filterExternalNews = """
+    query externalNews(\$filter: String!) { 
+      externalNews(
+        where: {
+            title: {contains: \$filter }
+         }
+        ) {
+            id
+            title
+            description
+            availableFrom
+            link
+            published
+        }
+    }
+  """;
 }

@@ -126,4 +126,25 @@ class DeploymentPlanQueries {
       hideDeploymentPlan(id: \$id)
     }
   """;
+
+  static const filterDeploymentPlan = """
+    query deploymentPlans(\$filter: String!) { 
+    deploymentPlans(
+      where: {
+        description: {contains: \$filter }
+      }
+      ) {
+          id
+          description
+          availableFrom
+          availableUntil
+          link
+          published
+          department {
+            id
+            name
+          }
+      }
+    }   
+  """;
 }

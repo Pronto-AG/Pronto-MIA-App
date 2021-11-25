@@ -47,6 +47,10 @@ class DepartmentOverviewViewModel extends FutureViewModel<List<Department>> {
     notifyListeners();
   }
 
+  /// Gets all departments and stores them into [data].
+  Future<List<Department>> filterDepartments(String filter) async =>
+      _getFilteredDepartments(filter);
+
   /// Opens the form to create or update departments.
   ///
   /// Takes the [Department] to edit and a [bool] as an input wether the
@@ -81,5 +85,29 @@ class DepartmentOverviewViewModel extends FutureViewModel<List<Department>> {
 
   Future<List<Department>> _getDepartments() async {
     return _departmentService.getDepartments();
+  }
+
+  Future<List<Department>> _getFilteredDepartments(String filter) async {
+    return _departmentService.filterDepartment(filter);
+  }
+
+  /// Removes the [ExternalNews] contained in the form.
+  ///
+  /// After the [ExternalNews] has been removed successfully, closes dialog
+  /// when opened as a dialog or navigates to the previous view, when opened as
+  /// standalone.
+  Future<void> removeDepartment(Department department) async {
+    if (department != null) {
+      await runBusyFuture(
+        _departmentService.removeDepartment(department.id),
+      );
+    }
+  }
+
+  Future<void> removeItems(List<Department> selectedToDelete) async {
+    for (var i = 0; i < selectedToDelete.length; i++) {
+      removeDepartment(selectedToDelete[i]);
+      data.remove(selectedToDelete[i]);
+    }
   }
 }

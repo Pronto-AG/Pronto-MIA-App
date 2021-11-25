@@ -199,6 +199,22 @@ class ExternalNewsService with ChangeNotifier {
         .format(eN.availableFrom.toLocal());
   }
 
+  /// Returns External News based on a filter
+  ///
+  /// Takes the [String] name of the external news to be filtered as an input.
+  Future<List<ExternalNews>> filterExternalNews(String filter) async {
+    final queryVariables = {'filter': filter};
+    final data = await (await _graphQLService).query(
+      ExternalNewsQueries.filterExternalNews,
+      variables: queryVariables,
+    );
+    final dtoList = data['externalNews'] as List<Object>;
+    final externalNewsList = dtoList
+        .map((dto) => ExternalNews.fromJson(dto as Map<String, dynamic>))
+        .toList();
+    return externalNewsList;
+  }
+
   /// Notifies this objects listeners.
   void notifyDataChanged() {
     notifyListeners();

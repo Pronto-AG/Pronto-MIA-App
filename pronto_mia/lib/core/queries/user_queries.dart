@@ -99,4 +99,36 @@ class UserQueries {
       removeUser(id: \$id)
     }
   """;
+
+  static const filterUser = """
+    query users(\$filter: String!) { 
+      users(
+        where: {
+          userName: {contains: \$filter }
+        }
+        ) {
+            id
+            userName
+            department {
+              id
+              name
+            }
+            accessControlList {
+                canViewDeploymentPlans
+                canViewDepartmentDeploymentPlans
+            canEditDeploymentPlans
+            canEditDepartmentDeploymentPlans
+            canViewUsers
+            canViewDepartmentUsers
+            canEditUsers
+            canEditDepartmentUsers
+            canViewDepartments
+            canViewOwnDepartment
+            canEditDepartments
+            canEditOwnDepartment
+                canEditExternalNews
+            }
+          }
+        }
+    """;
 }

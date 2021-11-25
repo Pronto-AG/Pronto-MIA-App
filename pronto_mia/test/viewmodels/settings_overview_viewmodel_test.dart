@@ -24,19 +24,33 @@ void main() {
       });
     });
 
-    group('logout', () {
-      test('navigates to login after successful logout', () async {
-        final authenticationService = getAndRegisterMockAuthenticationService();
+    group('openOverview', () {
+      test('opens form as standalone without data change', () async {
         final navigationService = getAndRegisterMockNavigationService();
 
-        await settingsOverviewViewModel.logout();
-        verify(authenticationService.logout()).called(1);
+        await settingsOverviewViewModel.openSettings();
         verify(
-          navigationService.replaceWithTransition(
+          navigationService.navigateWithTransition(
             argThat(anything),
-            transition: NavigationTransition.UpToDown,
           ),
-        );
+        ).called(1);
+      });
+
+      group('logout', () {
+        test('navigates to login after successful logout', () async {
+          final authenticationService =
+              getAndRegisterMockAuthenticationService();
+          final navigationService = getAndRegisterMockNavigationService();
+
+          await settingsOverviewViewModel.logout();
+          verify(authenticationService.logout()).called(1);
+          verify(
+            navigationService.replaceWithTransition(
+              argThat(anything),
+              transition: NavigationTransition.UpToDown,
+            ),
+          );
+        });
       });
     });
   });

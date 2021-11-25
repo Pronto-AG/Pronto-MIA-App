@@ -12,7 +12,6 @@ import 'package:stacked_services/stacked_services.dart';
 class SettingsOverviewViewModel extends FutureViewModel<User> {
   static const contextIdentifier = 'ProfileViewModel';
   static const logoutActionKey = 'LogoutActionKey';
-  // static const changePasswordActionKey = 'ChangePasswordActionKey';
 
   AuthenticationService get _authenticationService =>
       locator.get<AuthenticationService>();

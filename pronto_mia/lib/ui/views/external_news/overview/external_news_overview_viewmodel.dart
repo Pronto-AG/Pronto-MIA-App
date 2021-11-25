@@ -13,6 +13,7 @@ import 'package:stacked_services/stacked_services.dart';
 class ExternalNewsOverviewViewModel
     extends FutureViewModel<List<ExternalNews>> {
   static String contextIdentifier = "ExternalNewsViewModel";
+  // static const removeActionKey = 'RemoveActionKey';
 
   ExternalNewsService get _externalNewsService =>
       locator.get<ExternalNewsService>();
@@ -23,11 +24,17 @@ class ExternalNewsOverviewViewModel
   final bool adminModeEnabled;
   String get errorMessage => _errorMessage;
   String _errorMessage;
+  bool isDialog;
+  // final ExternalNews externalNews;
 
   /// Initializes a new instance of [ExternalNewsOverviewViewModel].
   ///
   /// Takes a [bool] wether to execute admin level functionality as an input.
-  ExternalNewsOverviewViewModel({this.adminModeEnabled = false}) {
+  ExternalNewsOverviewViewModel({
+    this.adminModeEnabled = false,
+    this.isDialog = false,
+    // @required this.externalNews,
+  }) {
     _externalNewsService.addListener(_notifyDataChanged);
   }
 
@@ -120,6 +127,10 @@ class ExternalNewsOverviewViewModel
     await initialise();
   }
 
+  /// Gets all external news based on a filter.
+  Future<List<ExternalNews>> filterExternalNews(String filter) async =>
+      _getFilteredExternalNews(filter);
+
   /// Opens the dialog to hide external news.
   ///
   /// Takes the [ExternalNews] to hide as an input.
@@ -150,6 +161,10 @@ class ExternalNewsOverviewViewModel
 
   Future<List<ExternalNews>> _getExternalNews() async {
     return _externalNewsService.getExternalNews();
+  }
+
+  Future<List<ExternalNews>> _getFilteredExternalNews(String filter) async {
+    return _externalNewsService.filterExternalNews(filter);
   }
 
   Future<Image> getExternalNewsImage(ExternalNews externalNews) async {
@@ -188,5 +203,25 @@ class ExternalNewsOverviewViewModel
     _navigationService.navigateWithTransition(
       ExternalNewsView(externalNews: externalNews),
     );
+  }
+
+  /// Removes the [ExternalNews] contained in the form.
+  ///
+  /// After the [ExternalNews] has been removed successfully, closes dialog
+  /// when opened as a dialog or navigates to the previous view, when opened as
+  /// standalone.
+  Future<void> removeExternalNews(ExternalNews externalNews) async {
+    if (externalNews != null) {
+      await runBusyFuture(
+        _externalNewsService.removeExternalNews(externalNews.id),
+      );
+    }
+  }
+
+  Future<void> removeItems(List<ExternalNews> selectedToDelete) async {
+    for (var i = 0; i < selectedToDelete.length; i++) {
+      removeExternalNews(selectedToDelete[i]);
+      data.remove(selectedToDelete[i]);
+    }
   }
 }

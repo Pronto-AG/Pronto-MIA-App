@@ -16,39 +16,27 @@ class InquiryViewModel extends FormViewModel {
   /// Initializes a new instance of [InquiryViewModel].
   InquiryViewModel();
 
-  String _validateForm() {
-    if (titleValue == null || titleValue.isEmpty) {
-      return 'Bitte Titel eingeben.';
-    }
-
-    if (descriptionValue == null || descriptionValue.isEmpty) {
-      return 'Bitte Beschreibung eingeben.';
-    }
-
-    if (availableFromValue == null || availableFromValue.isEmpty) {
-      return 'Bitte Startdatum eingeben.';
-    }
-
-    if (imagePathValue == null || imagePathValue.isEmpty) {
-      return 'Bitte Neuigkeiten Bild als PNG-Datei hochladen.';
-    }
-
-    return null;
-  }
+  //String _validateForm() {
+  //  if (titleValue == null || titleValue.isEmpty) {
+  //    return 'Bitte Titel eingeben.';
+  //  }
+//
+  //  return null;
+  //}
 
   /// Validates the form and either creates or updates a [ExternalNews].
   ///
   /// After the form has been submitted successfully, it closes the dialog in
   /// case it was opened as a dialog or navigates to the previous view if
   /// opened as standalone.
-  static Future<void> submitForm() async {
+  Future<void> submitForm() async {
     String sendActionKey;
-    final validationMessage = _validateForm();
-    if (validationMessage != null) {
-      setValidationMessage(validationMessage);
-      notifyListeners();
-      return;
-    }
+    //final validationMessage = _validateForm();
+    //if (validationMessage != null) {
+    //  setValidationMessage(validationMessage);
+    //  notifyListeners();
+    //  return;
+    //}
 
     try {
       await sendEmail();

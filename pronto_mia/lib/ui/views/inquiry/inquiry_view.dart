@@ -5,6 +5,7 @@ import 'package:pronto_mia/ui/components/form_layout.dart';
 import 'package:pronto_mia/ui/components/navigation_layout.dart';
 import 'package:pronto_mia/ui/views/inquiry/inquiry_view.form.dart';
 import 'package:pronto_mia/ui/views/inquiry/inquiry_viewmodel.dart';
+import 'package:stacked/stacked.dart';
 
 /// A widget, representing the inquiry.
 class InquiryView extends StatefulWidget with $InquiryView {
@@ -39,20 +40,27 @@ class InquiryFormState extends State<InquiryView> {
   /// Takes the current [BuildContext] as an input.
   /// Returns the built [Widget].
   @override
-  Widget build(BuildContext context) => NavigationLayout(
-        title: "Anfrage",
-        body: _buildForm(),
-      );
+  Widget build(BuildContext context) =>
+      ViewModelBuilder<InquiryViewModel>.reactive(
+          viewModelBuilder: () => InquiryViewModel(),
+          builder: (context, model, child) => NavigationLayout(
+                title: "Anfrage",
+                body: _buildForm(model),
+                actions: const [],
+                actionsAppBar: const [],
+              ));
 
-  Widget _buildForm() => Form(
+  Widget _buildForm(InquiryViewModel model) => Form(
         key: _formKey,
         child: FormLayout(
           textFields: [
-            const Text('Wir freuen uns auf Ihre Kontaktaufnahme und werden uns '
-                'schnellstmöglich bei Ihnen melden. Falls Sie daran '
-                'interessiert sind, bei Pronto zu arbeiten, finden Sie die '
-                'offene Stellen auf unserer Webseite, sowie die entsprechenden '
-                'Kontaktinformationen. '),
+            const Text(
+              'Wir freuen uns auf Ihre Kontaktaufnahme und werden uns '
+              'schnellstmöglich bei Ihnen melden. Falls Sie daran '
+              'interessiert sind, bei Pronto zu arbeiten, finden Sie die '
+              'offene Stellen auf unserer Webseite, sowie die entsprechenden '
+              'Kontaktinformationen. ',
+            ),
             const Text(
               'Bitte bewerben Sie sich nicht über dieses Kontaktformular.',
             ),
@@ -222,7 +230,7 @@ class InquiryFormState extends State<InquiryView> {
           ],
           primaryButton: ButtonSpecification(
             title: 'Senden',
-            onTap: () => InquiryViewModel.submitForm(),
+            onTap: () => model.submitForm(),
             isBusy: false,
           ),
         ),

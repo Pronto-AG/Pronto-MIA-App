@@ -37,7 +37,6 @@ class InquiryFormState extends State<InquiryView> {
   bool facilityService = false;
   bool schaedlingsbekaempfung = false;
   bool haustechnikreinigung = false;
-  bool _fromTop = true;
 
   /// Binds [InquiryView] and builds the widget.
   ///

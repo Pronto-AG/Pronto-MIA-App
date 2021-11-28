@@ -6,6 +6,7 @@ import 'package:pronto_mia/ui/views/contact/contact_view.dart';
 import 'package:pronto_mia/ui/views/department/overview/department_overview_view.dart';
 import 'package:pronto_mia/ui/views/deployment_plan/overview/deployment_plan_overview_view.dart';
 import 'package:pronto_mia/ui/views/external_news/overview/external_news_overview_view.dart';
+import 'package:pronto_mia/ui/views/inquiry/inquiry_view.dart';
 import 'package:pronto_mia/ui/views/login/login_view.dart';
 import 'package:pronto_mia/ui/views/user/overview/user_overview_view.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -113,6 +114,15 @@ class NavigationMenu extends StatelessWidget {
             ListTile(
               contentPadding: const EdgeInsets.only(left: paddingSideBar),
               leading: const Icon(Icons.contact_page),
+              title: const Text('Anfrage'),
+              onTap: () => model.navigateTo(
+                InquiryView(),
+              ),
+            ),
+          if (model.data == null)
+            ListTile(
+              contentPadding: const EdgeInsets.only(left: paddingSideBar),
+              leading: const Icon(Icons.contacts),
               title: const Text('Kontakt'),
               onTap: () => model.navigateTo(
                 const ContactView(),

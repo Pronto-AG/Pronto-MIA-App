@@ -37,6 +37,7 @@ class InquiryFormState extends State<InquiryView> {
   bool facilityService = false;
   bool schaedlingsbekaempfung = false;
   bool haustechnikreinigung = false;
+  bool _fromTop = true;
 
   /// Binds [InquiryView] and builds the widget.
   ///
@@ -149,7 +150,7 @@ class InquiryFormState extends State<InquiryView> {
               onChanged: (String value) {
                 setState(() {
                   newsletterSubscription = value;
-                  model.setSubscription(value);
+                  model.setSubscription(subscription: value);
                 });
               },
             ),
@@ -162,7 +163,7 @@ class InquiryFormState extends State<InquiryView> {
               onChanged: (String value) {
                 setState(() {
                   newsletterSubscription = value;
-                  model.setSubscription(value);
+                  model.setSubscription(subscription: value);
                 });
               },
             ),
@@ -239,7 +240,7 @@ class InquiryFormState extends State<InquiryView> {
               onChanged: (String value) {
                 setState(() {
                   contactVia = value;
-                  model.setContactVia(value);
+                  model.setContactVia(contactVia: value);
                 });
               },
             ),
@@ -252,7 +253,7 @@ class InquiryFormState extends State<InquiryView> {
               onChanged: (String value) {
                 setState(() {
                   contactVia = value;
-                  model.setContactVia(value);
+                  model.setContactVia(contactVia: value);
                 });
               },
             ),
@@ -270,7 +271,16 @@ class InquiryFormState extends State<InquiryView> {
         ],
         primaryButton: ButtonSpecification(
           title: 'Senden',
-          onTap: model.submitForm,
+          onTap: () {
+            model.submitForm();
+            if (model.validateForm() == null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Vielen Dank für Ihre Anfrage'),
+                ),
+              );
+            }
+          },
           isBusy: model.isBusy,
         ),
         validationMessage: model.validationMessage,

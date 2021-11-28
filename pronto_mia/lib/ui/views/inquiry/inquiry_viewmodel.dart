@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:pronto_mia/app/service_locator.dart';
@@ -18,8 +20,8 @@ class InquiryViewModel extends FormViewModel {
   String _errorMessage;
 
   String _title;
-  String _newsletterSubscription;
-  String _contactVia;
+  String _newsletterSubscription = "";
+  String _contactVia = "";
   final List<String> _services = [];
 
   /// Initializes a new instance of [InquiryViewModel].
@@ -38,7 +40,7 @@ class InquiryViewModel extends FormViewModel {
   /// opened as standalone.
   Future<void> submitForm() async {
     String sendActionKey;
-    final validationMessage = _validateForm();
+    final validationMessage = validateForm();
     if (validationMessage != null) {
       setValidationMessage(validationMessage);
       notifyListeners();
@@ -54,11 +56,13 @@ class InquiryViewModel extends FormViewModel {
     _completeFormAction(sendActionKey);
   }
 
-  String _validateForm() {
+  String validateForm() {
     final mailRegex = RegExp(
       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
     );
     final phoneRegex = RegExp(r"^[+]?[0-9]*$");
+
+    final plzRegex = RegExp(r"^[0-9]*$");
 
     if (firstNamneValue == null || firstNamneValue.isEmpty) {
       return 'Bitte Vornamen angeben.';
@@ -68,12 +72,16 @@ class InquiryViewModel extends FormViewModel {
       return 'Bitte Nachname angeben.';
     }
 
-    if (streetValue != streetValue) {
+    if (streetValue == null || streetValue.isEmpty) {
       return 'Bitte Strasse angeben';
     }
 
     if (plzValue == null || plzValue.isEmpty) {
       return 'Bitte Postleitzahl angeben.';
+    }
+
+    if (!plzRegex.hasMatch(plzValue)) {
+      return 'Postleitzahl nicht korrekt';
     }
 
     if (locationValue == null || locationValue.isEmpty) {
@@ -104,7 +112,7 @@ class InquiryViewModel extends FormViewModel {
     notifyListeners();
   }
 
-  void setSubscription(String subscription) {
+  void setSubscription({String subscription = ""}) {
     _newsletterSubscription = subscription;
     notifyListeners();
   }
@@ -118,7 +126,7 @@ class InquiryViewModel extends FormViewModel {
     notifyListeners();
   }
 
-  void setContactVia(String contactVia) {
+  void setContactVia({String contactVia = ""}) {
     _contactVia = contactVia;
     notifyListeners();
   }
@@ -136,13 +144,16 @@ class InquiryViewModel extends FormViewModel {
   }
 
   Future<void> sendEmail() async {
-    const String recipient = 'app@pronto-ag.ch';
+    final String response =
+        await rootBundle.loadString('assets/cfg/mailer_credentials.json');
+    final credentials = await json.decode(response);
+    final String recipient = credentials["username"].toString();
     final smtpServer = SmtpServer(
-      'smtp.pronto-ag.ch',
-      username: 'app@pronto-ag.ch',
-      password: '***REMOVED***',
-      port: 465,
-      ssl: true,
+      credentials["smtpServer"].toString(),
+      username: credentials["username"].toString(),
+      password: credentials["password"].toString(),
+      port: credentials["port"] as int,
+      ssl: credentials["ssl"] as bool,
       ignoreBadCertificate: true,
     );
 

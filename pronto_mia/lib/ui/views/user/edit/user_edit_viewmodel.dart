@@ -27,8 +27,8 @@ class UserEditViewModel extends FormViewModel {
 
   List<Department> get availableDepartments => _availableDepartments;
   List<Department> _availableDepartments;
-  Department get department => _department;
-  Department _department;
+  List<Department> get departments => _departments;
+  List<Department> _departments;
   AccessControlList get accessControlList => _accessControlList;
   AccessControlList _accessControlList =
       AccessControlList.copy(profiles['empty'].accessControlList);
@@ -58,8 +58,8 @@ class UserEditViewModel extends FormViewModel {
   /// Sets the department.
   ///
   /// Takes the [Department] to set as an input.
-  void setDepartment(Department department) {
-    _department = department;
+  void setDepartments(List<Department> departments) {
+    _departments = departments;
     notifyListeners();
   }
 
@@ -179,7 +179,8 @@ class UserEditViewModel extends FormViewModel {
   /// After the form has been submitted successfully, closes the dialog in case
   /// it was opened as a dialog or navigates to the previous view, if opened as
   /// standalone.
-  Future<void> submitForm() async {
+  Future<void> submitForm(List<Department> selectedDepartments) async {
+    _departments = selectedDepartments;
     final validationMessage = _validateForm();
 
     if (validationMessage != null) {
@@ -193,7 +194,7 @@ class UserEditViewModel extends FormViewModel {
         _userService.createUser(
           userNameValue,
           passwordValue,
-          department.id,
+          departments.map((d) => d.id).toList(),
           accessControlList,
         ),
         busyObject: editActionKey,
@@ -204,8 +205,7 @@ class UserEditViewModel extends FormViewModel {
           user.id,
           userName: user.userName != userNameValue ? userNameValue : null,
           password: passwordValue != 'XXXXXX' ? passwordValue : null,
-          departmentId:
-              department.id != user.department.id ? department.id : null,
+          departmentIds: departments.map((d) => d.id).toList(),
           accessControlList:
               accessControlList.isEqual(user.profile.accessControlList)
                   ? null
@@ -247,11 +247,15 @@ class UserEditViewModel extends FormViewModel {
       return 'Die angegebenen Passwörter stimmen nicht überein.';
     }
 
-    if (department == null) {
+    if (departments.isEmpty) {
       return 'Bitte Abteilung auswählen.';
     }
 
     return null;
+  }
+
+  Future<List<Department>> getAllDepartments() {
+    return _departmentService.getDepartments();
   }
 
   Future<void> _completeFormAction(String actionKey) async {

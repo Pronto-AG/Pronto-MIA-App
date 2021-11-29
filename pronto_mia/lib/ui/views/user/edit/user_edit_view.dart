@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:pronto_mia/core/models/department.dart';
 import 'package:pronto_mia/core/models/profiles.dart';
 import 'package:pronto_mia/core/models/user.dart';
@@ -7,12 +8,14 @@ import 'package:pronto_mia/ui/shared/custom_colors.dart';
 import 'package:pronto_mia/ui/views/user/edit/user_edit_view.form.dart';
 import 'package:pronto_mia/ui/views/user/edit/user_edit_viewmodel.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 /// A widget, representing the form to create and update users.
 class UserEditView extends StatelessWidget with $UserEditView {
   final _formKey = GlobalKey<FormState>();
   final User user;
   final bool isDialog;
+  List<Department> _selectedDepartments;
 
   /// Initializes a new instance of [UserEditView].
   ///
@@ -28,6 +31,7 @@ class UserEditView extends StatelessWidget with $UserEditView {
       userNameController.text = user.userName;
       passwordController.text = 'XXXXXX';
       passwordConfirmController.text = 'XXXXXX';
+      _selectedDepartments = user.departments;
     }
   }
 
@@ -47,7 +51,7 @@ class UserEditView extends StatelessWidget with $UserEditView {
           model.fetchDepartments();
 
           if (user != null) {
-            model.setDepartment(user.department);
+            model.setDepartments(user.departments);
           }
         },
         builder: (context, model, child) {
@@ -100,41 +104,52 @@ class UserEditView extends StatelessWidget with $UserEditView {
             _buildFormSectionHeader('Benutzerinformationen'),
             TextFormField(
               controller: userNameController,
-              onEditingComplete: model.submitForm,
+              onEditingComplete: () => model.submitForm(_selectedDepartments),
               decoration: const InputDecoration(labelText: 'Benutzername'),
             ),
             TextFormField(
               controller: passwordController,
-              onEditingComplete: model.submitForm,
+              onEditingComplete: () => model.submitForm(_selectedDepartments),
               obscureText: true,
               decoration: const InputDecoration(labelText: 'Passwort'),
             ),
             TextFormField(
               controller: passwordConfirmController,
-              onEditingComplete: model.submitForm,
+              onEditingComplete: () => model.submitForm(_selectedDepartments),
               obscureText: true,
               decoration:
                   const InputDecoration(labelText: 'Passwort bestätigen'),
             ),
-            DropdownButtonFormField<Department>(
-              value: user != null &&
-                      user.department != null &&
-                      model.availableDepartments != null
-                  ? model.availableDepartments.firstWhere(
-                      (department) => department.id == user.department.id,
-                      orElse: () => null,
-                    )
-                  : null,
-              onChanged: model.setDepartment,
-              decoration: const InputDecoration(labelText: 'Abteilung'),
-              items: model.availableDepartments
-                  ?.map<DropdownMenuItem<Department>>(
-                    (department) => DropdownMenuItem<Department>(
-                      value: department,
-                      child: Text(department.name),
+            FutureBuilder(
+              future: model.getAllDepartments(),
+              builder: (
+                BuildContext context,
+                AsyncSnapshot<List<Department>> departments,
+              ) {
+                if (departments.hasData) {
+                  return MultiSelectDialogField(
+                    items: departments.data
+                        .map((d) => MultiSelectItem(d, d.name))
+                        .toList(),
+                    initialValue: _selectedDepartments,
+                    listType: MultiSelectListType.LIST,
+                    onConfirm: (values) {
+                      _selectedDepartments = values as List<Department>;
+                    },
+                    chipDisplay: MultiSelectChipDisplay(
+                      onTap: (Department item) {
+                        _selectedDepartments.remove(item);
+                        return _selectedDepartments;
+                      },
                     ),
-                  )
-                  ?.toList(),
+                  );
+                } else {
+                  return MultiSelectDialogField(
+                    items: const [],
+                    onConfirm: null,
+                  );
+                }
+              },
             ),
             _buildFormSectionHeader('Berechtigungen'),
             DropdownButtonFormField<Profile>(
@@ -163,7 +178,7 @@ class UserEditView extends StatelessWidget with $UserEditView {
           ],
           primaryButton: ButtonSpecification(
             title: 'Speichern',
-            onTap: model.submitForm,
+            onTap: () => model.submitForm(_selectedDepartments),
             isBusy: model.busy(UserEditViewModel.editActionKey),
           ),
           secondaryButton: user != null

@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pronto_mia/core/models/access_control_list.dart';
 
+import 'package:pronto_mia/core/models/department.dart';
 import 'package:pronto_mia/core/queries/user_queries.dart';
 import 'package:pronto_mia/core/services/user_service.dart';
 
@@ -29,6 +30,9 @@ void main() {
               'user': {
                 'id': 1,
                 'userName': 'test',
+                'departments': [
+                  {"id": 1},
+                ]
               }
             }));
 
@@ -46,9 +50,7 @@ void main() {
             useCache: captureAnyNamed('useCache'),
           ),
         ).thenAnswer((realInvocation) => Future.value({
-              'user': {
-                'id': null,
-              }
+              'user': {'id': null, 'departments': []}
             }));
 
         expect(await userService.getCurrentUser(), isNull);
@@ -73,10 +75,7 @@ void main() {
         ).thenAnswer(
           (realInvocation) => Future.value({
             'users': [
-              {
-                'id': 1,
-                'name': 'test',
-              }
+              {'id': 1, 'name': 'test', 'departments': []}
             ]
           }),
         );
@@ -90,14 +89,14 @@ void main() {
       test('creates user', () async {
         final graphQLService = getAndRegisterMockGraphQLService();
 
-        await userService.createUser('test', '12345', 1, AccessControlList());
+        await userService.createUser('test', '12345', [1], AccessControlList());
         verify(
           graphQLService.mutate(
             UserQueries.createUser,
             variables: {
               'userName': 'test',
               'password': '12345',
-              'departmentId': 1,
+              'departmentIds': [1],
               'accessControlList': anything,
             },
           ),
@@ -121,7 +120,7 @@ void main() {
               'id': 1,
               'userName': 'test',
               'password': null,
-              'departmentId': null,
+              'departmentIds': null,
               'accessControlList': anything,
             },
           ),

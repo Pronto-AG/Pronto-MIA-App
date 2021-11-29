@@ -30,13 +30,13 @@ dependencies:
   jwt_decoder: ^2.0.0
   logging: ^1.0.0
   mailer: ^5.0.2
+  multi_select_flutter: ^4.0.0
   responsive_builder: ^0.4.0
   shared_preferences: ^2.0.0
   stacked: ^2.2.7
   stacked_services: ^0.8.0
   universal_html: ^2.0.8 # ^2.0.0 incompatible with http ^0.12.0
   url_launcher: ^6.0.0
-  multi_select_flutter: ^4.0.0
 
 dev_dependencies:
   build_runner:

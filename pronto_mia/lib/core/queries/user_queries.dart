@@ -1,7 +1,6 @@
 /// Groups all queries and mutations, which access the User GraphQL type
 class UserQueries {
-  static const users =
-      """
+  static const users = """
     query users() {
       users {
         id
@@ -29,8 +28,7 @@ class UserQueries {
     }
   """;
 
-  static const currentUser =
-      """
+  static const currentUser = """
     query currentUser() {
       user {
         id
@@ -58,8 +56,7 @@ class UserQueries {
     }
   """;
 
-  static const createUser =
-      """
+  static const createUser = """
     mutation createUser(
       \$userName: String!, 
       \$password: String!, 
@@ -77,8 +74,7 @@ class UserQueries {
     }
   """;
 
-  static const updateUser =
-      """
+  static const updateUser = """
      mutation updateUser(
       \$id: Int!, 
       \$userName: String, 
@@ -98,15 +94,13 @@ class UserQueries {
     }
   """;
 
-  static const removeUser =
-      """
+  static const removeUser = """
     mutation removeUser(\$id: Int!) {
       removeUser(id: \$id)
     }
   """;
 
-  static const filterUser =
-      """
+  static const filterUser = """
     query users(\$filter: String!) { 
       users(
         where: {

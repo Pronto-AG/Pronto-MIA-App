@@ -70,3 +70,4 @@ flutter:
     - assets/cfg/app_settings.json
     - assets/cfg/app_settings_dev.json
     - assets/cfg/app_settings_prod.json
+    - assets/cfg/mailer_credentials.json

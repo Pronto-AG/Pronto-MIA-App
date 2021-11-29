@@ -10,11 +10,12 @@ import 'package:pronto_mia/ui/views/user/edit/user_edit_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 
 /// A widget, representing the form to create and update users.
+// ignore: must_be_immutable
 class UserEditView extends StatefulWidget with $UserEditView {
   final _formKey = GlobalKey<FormState>();
   final User user;
   final bool isDialog;
-  final List<Department> selectedDepartments;
+  List<Department> selectedDepartments;
 
   /// Initializes a new instance of [UserEditView].
   ///
@@ -41,14 +42,6 @@ class UserEditView extends StatefulWidget with $UserEditView {
 }
 
 class UserEditState extends State<UserEditView> {
-  List<Department> _selectedDepartments;
-
-  UserEditState() {
-    setState(() {
-      _selectedDepartments = widget.selectedDepartments;
-    });
-  }
-
   /// Binds [UserEditViewModel] and builds the widget.
   ///
   /// Takes the current [BuildContext] as an input.
@@ -119,18 +112,21 @@ class UserEditState extends State<UserEditView> {
             _buildFormSectionHeader('Benutzerinformationen'),
             TextFormField(
               controller: widget.userNameController,
-              onEditingComplete: () => model.submitForm(_selectedDepartments),
+              onEditingComplete: () =>
+                  model.submitForm(widget.selectedDepartments),
               decoration: const InputDecoration(labelText: 'Benutzername'),
             ),
             TextFormField(
               controller: widget.passwordController,
-              onEditingComplete: () => model.submitForm(_selectedDepartments),
+              onEditingComplete: () =>
+                  model.submitForm(widget.selectedDepartments),
               obscureText: true,
               decoration: const InputDecoration(labelText: 'Passwort'),
             ),
             TextFormField(
               controller: widget.passwordConfirmController,
-              onEditingComplete: () => model.submitForm(_selectedDepartments),
+              onEditingComplete: () =>
+                  model.submitForm(widget.selectedDepartments),
               obscureText: true,
               decoration:
                   const InputDecoration(labelText: 'Passwort bestätigen'),
@@ -146,19 +142,15 @@ class UserEditState extends State<UserEditView> {
                     items: departments.data
                         .map((d) => MultiSelectItem(d, d.name))
                         .toList(),
-                    initialValue: _selectedDepartments,
+                    initialValue: widget.selectedDepartments,
                     listType: MultiSelectListType.LIST,
                     onConfirm: (values) {
-                      setState(() {
-                        _selectedDepartments = values as List<Department>;
-                      });
+                      widget.selectedDepartments = values as List<Department>;
                     },
                     chipDisplay: MultiSelectChipDisplay(
                       onTap: (Department item) {
-                        setState(() {
-                          _selectedDepartments.remove(item);
-                        });
-                        return _selectedDepartments;
+                        widget.selectedDepartments.remove(item);
+                        return widget.selectedDepartments;
                       },
                     ),
                   );
@@ -197,7 +189,7 @@ class UserEditState extends State<UserEditView> {
           ],
           primaryButton: ButtonSpecification(
             title: 'Speichern',
-            onTap: () => model.submitForm(_selectedDepartments),
+            onTap: () => model.submitForm(widget.selectedDepartments),
             isBusy: model.busy(UserEditViewModel.editActionKey),
           ),
           secondaryButton: widget.user != null

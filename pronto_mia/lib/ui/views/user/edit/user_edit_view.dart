@@ -8,14 +8,13 @@ import 'package:pronto_mia/ui/shared/custom_colors.dart';
 import 'package:pronto_mia/ui/views/user/edit/user_edit_view.form.dart';
 import 'package:pronto_mia/ui/views/user/edit/user_edit_viewmodel.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
 
 /// A widget, representing the form to create and update users.
-class UserEditView extends StatelessWidget with $UserEditView {
+class UserEditView extends StatefulWidget with $UserEditView {
   final _formKey = GlobalKey<FormState>();
   final User user;
   final bool isDialog;
-  List<Department> _selectedDepartments;
+  final List<Department> selectedDepartments;
 
   /// Initializes a new instance of [UserEditView].
   ///
@@ -26,13 +25,28 @@ class UserEditView extends StatelessWidget with $UserEditView {
     Key key,
     this.user,
     this.isDialog = false,
+    this.selectedDepartments = const <Department>[],
   }) : super(key: key) {
     if (user != null) {
       userNameController.text = user.userName;
       passwordController.text = 'XXXXXX';
       passwordConfirmController.text = 'XXXXXX';
-      _selectedDepartments = user.departments;
     }
+  }
+
+  @override
+  State<StatefulWidget> createState() {
+    return UserEditState();
+  }
+}
+
+class UserEditState extends State<UserEditView> {
+  List<Department> _selectedDepartments;
+
+  UserEditState() {
+    setState(() {
+      _selectedDepartments = widget.selectedDepartments;
+    });
   }
 
   /// Binds [UserEditViewModel] and builds the widget.
@@ -43,19 +57,19 @@ class UserEditView extends StatelessWidget with $UserEditView {
   Widget build(BuildContext context) =>
       ViewModelBuilder<UserEditViewModel>.reactive(
         viewModelBuilder: () => UserEditViewModel(
-          user: user,
-          isDialog: isDialog,
+          user: widget.user,
+          isDialog: widget.isDialog,
         ),
         onModelReady: (model) {
-          listenToFormUpdated(model);
+          widget.listenToFormUpdated(model);
           model.fetchDepartments();
 
-          if (user != null) {
-            model.setDepartments(user.departments);
+          if (widget.user != null) {
+            model.setDepartments(widget.user.departments);
           }
         },
         builder: (context, model, child) {
-          if (isDialog) {
+          if (widget.isDialog) {
             return _buildDialogLayout(model);
           } else {
             return _buildStandaloneLayout(model);
@@ -82,9 +96,10 @@ class UserEditView extends StatelessWidget with $UserEditView {
       );
 
   Widget _buildTitle() {
-    final title = user == null ? 'Benutzer erstellen' : 'Benutzer bearbeiten';
+    final title =
+        widget.user == null ? 'Benutzer erstellen' : 'Benutzer bearbeiten';
 
-    if (isDialog) {
+    if (widget.isDialog) {
       return Container(
         padding: const EdgeInsets.all(16.0),
         child: Text(
@@ -98,23 +113,23 @@ class UserEditView extends StatelessWidget with $UserEditView {
   }
 
   Widget _buildForm(UserEditViewModel model) => Form(
-        key: _formKey,
+        key: widget._formKey,
         child: FormLayout(
           textFields: [
             _buildFormSectionHeader('Benutzerinformationen'),
             TextFormField(
-              controller: userNameController,
+              controller: widget.userNameController,
               onEditingComplete: () => model.submitForm(_selectedDepartments),
               decoration: const InputDecoration(labelText: 'Benutzername'),
             ),
             TextFormField(
-              controller: passwordController,
+              controller: widget.passwordController,
               onEditingComplete: () => model.submitForm(_selectedDepartments),
               obscureText: true,
               decoration: const InputDecoration(labelText: 'Passwort'),
             ),
             TextFormField(
-              controller: passwordConfirmController,
+              controller: widget.passwordConfirmController,
               onEditingComplete: () => model.submitForm(_selectedDepartments),
               obscureText: true,
               decoration:
@@ -134,11 +149,15 @@ class UserEditView extends StatelessWidget with $UserEditView {
                     initialValue: _selectedDepartments,
                     listType: MultiSelectListType.LIST,
                     onConfirm: (values) {
-                      _selectedDepartments = values as List<Department>;
+                      setState(() {
+                        _selectedDepartments = values as List<Department>;
+                      });
                     },
                     chipDisplay: MultiSelectChipDisplay(
                       onTap: (Department item) {
-                        _selectedDepartments.remove(item);
+                        setState(() {
+                          _selectedDepartments.remove(item);
+                        });
                         return _selectedDepartments;
                       },
                     ),
@@ -153,11 +172,11 @@ class UserEditView extends StatelessWidget with $UserEditView {
             ),
             _buildFormSectionHeader('Berechtigungen'),
             DropdownButtonFormField<Profile>(
-              value: user != null
+              value: widget.user != null
                   ? profiles.entries
                       .firstWhere(
                         (profile) => profile.value.accessControlList
-                            .isEqual(user.profile.accessControlList),
+                            .isEqual(widget.user.profile.accessControlList),
                         orElse: () => null,
                       )
                       ?.value
@@ -181,7 +200,7 @@ class UserEditView extends StatelessWidget with $UserEditView {
             onTap: () => model.submitForm(_selectedDepartments),
             isBusy: model.busy(UserEditViewModel.editActionKey),
           ),
-          secondaryButton: user != null
+          secondaryButton: widget.user != null
               ? ButtonSpecification(
                   title: 'Löschen',
                   onTap: model.removeUser,

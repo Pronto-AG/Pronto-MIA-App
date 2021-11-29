@@ -253,7 +253,7 @@ void main() {
 
     group('submitForm', () {
       test('sets message on empty username', () async {
-        await userEditViewModel.submitForm();
+        await userEditViewModel.submitForm(List<Department>());
         expect(
           userEditViewModel.validationMessage,
           equals('Bitte Benutzernamen eingeben.'),
@@ -263,7 +263,7 @@ void main() {
       test('sets message on empty password', () async {
         userEditViewModel.formValueMap['userName'] = 'test';
 
-        await userEditViewModel.submitForm();
+        await userEditViewModel.submitForm(List<Department>());
         expect(
           userEditViewModel.validationMessage,
           equals('Bitte Passwort eingeben.'),
@@ -274,7 +274,7 @@ void main() {
         userEditViewModel.formValueMap['userName'] = 'test';
         userEditViewModel.formValueMap['password'] = 'test';
 
-        await userEditViewModel.submitForm();
+        await userEditViewModel.submitForm(List<Department>());
         expect(
           userEditViewModel.validationMessage,
           equals('Die angegebenen Passwörter stimmen nicht überein.'),
@@ -286,7 +286,7 @@ void main() {
         userEditViewModel.formValueMap['password'] = 'test';
         userEditViewModel.formValueMap['passwordConfirm'] = 'test';
 
-        await userEditViewModel.submitForm();
+        await userEditViewModel.submitForm(List<Department>());
         expect(
           userEditViewModel.validationMessage,
           equals('Bitte Abteilung auswählen.'),
@@ -299,14 +299,14 @@ void main() {
         userEditViewModel.formValueMap['userName'] = 'user';
         userEditViewModel.formValueMap['password'] = 'password';
         userEditViewModel.formValueMap['passwordConfirm'] = 'password';
-        userEditViewModel.setDepartment(Department(id: 1));
-
-        await userEditViewModel.submitForm();
+        userEditViewModel
+            .setDepartments(List<Department>.from([Department(id: 1)]));
+        await userEditViewModel.submitForm(userEditViewModel.departments);
         expect(userEditViewModel.validationMessage, isNull);
         verify(userService.createUser(
           'user',
           'password',
-          1,
+          [1],
           argThat(isNotNull),
         )).called(1);
         verify(navigationService.back(result: true));
@@ -321,14 +321,15 @@ void main() {
         userEditViewModel.formValueMap['userName'] = 'user';
         userEditViewModel.formValueMap['password'] = 'password';
         userEditViewModel.formValueMap['passwordConfirm'] = 'password';
-        userEditViewModel.setDepartment(Department(id: 1));
+        userEditViewModel
+            .setDepartments(List<Department>.from([Department(id: 1)]));
 
-        await userEditViewModel.submitForm();
+        await userEditViewModel.submitForm(userEditViewModel.departments);
         expect(userEditViewModel.validationMessage, isNull);
         verify(userService.createUser(
           'user',
           'password',
-          1,
+          [1],
           argThat(isNotNull),
         )).called(1);
         verify(dialogService.completeDialog(argThat(anything)));
@@ -339,7 +340,7 @@ void main() {
           user: User(
             id: 1,
             userName: 'foo',
-            department: Department(id: 1),
+            departments: List<Department>.from([Department(id: 1)]),
             profile: profiles['empty'],
           ),
         );
@@ -348,11 +349,13 @@ void main() {
         userEditViewModel.formValueMap['userName'] = 'bar';
         userEditViewModel.formValueMap['password'] = 'XXXXXX';
         userEditViewModel.formValueMap['passwordConfirm'] = 'XXXXXX';
-        userEditViewModel.setDepartment(Department(id: 1));
+        userEditViewModel
+            .setDepartments(List<Department>.from([Department(id: 1)]));
 
-        await userEditViewModel.submitForm();
+        await userEditViewModel.submitForm(userEditViewModel.departments);
         expect(userEditViewModel.validationMessage, isNull);
-        verify(userService.updateUser(1, userName: 'bar')).called(1);
+        verify(userService.updateUser(1, userName: 'bar', departmentIds: [1]))
+            .called(1);
         verify(navigationService.back(result: true));
       });
 
@@ -362,7 +365,7 @@ void main() {
           user: User(
             id: 1,
             userName: 'foo',
-            department: Department(id: 1),
+            departments: List<Department>.from([Department(id: 1)]),
             profile: profiles['empty'],
           ),
         );
@@ -371,11 +374,13 @@ void main() {
         userEditViewModel.formValueMap['userName'] = 'bar';
         userEditViewModel.formValueMap['password'] = 'XXXXXX';
         userEditViewModel.formValueMap['passwordConfirm'] = 'XXXXXX';
-        userEditViewModel.setDepartment(Department(id: 1));
+        userEditViewModel
+            .setDepartments(List<Department>.from([Department(id: 1)]));
 
-        await userEditViewModel.submitForm();
+        await userEditViewModel.submitForm(userEditViewModel.departments);
         expect(userEditViewModel.validationMessage, isNull);
-        verify(userService.updateUser(1, userName: 'bar')).called(1);
+        verify(userService.updateUser(1, userName: 'bar', departmentIds: [1]))
+            .called(1);
         verify(dialogService.completeDialog(argThat(anything)));
       });
     });

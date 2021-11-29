@@ -294,6 +294,7 @@ class UserOverviewViewState extends State<UserOverviewView> {
                         mobile: false,
                         desktop: true,
                       ),
+                      selectedDepartments: user.departments,
                     );
                   }
                 },

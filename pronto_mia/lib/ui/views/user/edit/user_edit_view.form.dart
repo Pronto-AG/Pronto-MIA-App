@@ -5,7 +5,7 @@ const String UserNameValueKey = 'userName';
 const String PasswordValueKey = 'password';
 const String PasswordConfirmValueKey = 'passwordConfirm';
 
-mixin $UserEditView on StatelessWidget {
+mixin $UserEditView on StatefulWidget {
   final TextEditingController userNameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController passwordConfirmController =

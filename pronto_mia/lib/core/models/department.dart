@@ -15,4 +15,10 @@ class Department {
   Department.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int,
         name = json['name'] as String;
+
+  @override
+  bool operator ==(Object d) => d is Department && name == d.name;
+
+  @override
+  int get hashCode => name.hashCode;
 }

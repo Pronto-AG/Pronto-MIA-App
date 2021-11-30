@@ -65,7 +65,7 @@ class UserOverviewViewState extends State<UserOverviewView> {
                     model.currentUser.profile.accessControlList
                         .canEditDepartmentUsers))
               ActionSpecification(
-                tooltip: 'Neuigkeit erstellen',
+                tooltip: 'Bentuzer erstellen',
                 icon: const Icon(Icons.post_add),
                 onPressed: () => model.editUser(
                   asDialog: getValueForScreenType<bool>(
@@ -269,8 +269,8 @@ class UserOverviewViewState extends State<UserOverviewView> {
                 ),
                 title: Text(user.userName),
                 subtitle: Text(
-                  user.department != null
-                      ? '${user.department.name} - '
+                  user.departments.isNotEmpty
+                      ? '${user.departments.map((d) => d.name)} - '
                           '${user.profile.description}'
                       : user.profile.description,
                 ),
@@ -294,6 +294,7 @@ class UserOverviewViewState extends State<UserOverviewView> {
                         mobile: false,
                         desktop: true,
                       ),
+                      selectedDepartments: user.departments,
                     );
                   }
                 },

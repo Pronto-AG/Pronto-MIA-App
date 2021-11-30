@@ -3,7 +3,7 @@ description: A new Flutter application.
 
 publish_to: 'none'
 
-version: 0.4.0+8
+version: 0.5.0+11
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -29,6 +29,8 @@ dependencies:
   jdenticon_dart: ^2.0.0 # ^2.0.0 incompatible with http ^0.12.0
   jwt_decoder: ^2.0.0
   logging: ^1.0.0
+  mailer: ^5.0.2
+  multi_select_flutter: ^4.0.0
   responsive_builder: ^0.4.0
   shared_preferences: ^2.0.0
   stacked: ^2.2.7
@@ -68,3 +70,4 @@ flutter:
     - assets/cfg/app_settings.json
     - assets/cfg/app_settings_dev.json
     - assets/cfg/app_settings_prod.json
+    - assets/cfg/mailer_credentials.json

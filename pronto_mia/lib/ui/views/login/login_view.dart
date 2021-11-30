@@ -88,6 +88,11 @@ class LoginView extends StatelessWidget with $LoginView {
             onTap: model.submitForm,
             isBusy: model.isBusy,
           ),
+          secondaryButton: ButtonSpecification(
+            title: 'Abbrechen',
+            onTap: model.cancelForm,
+            isBusy: model.isBusy,
+          ),
           validationMessage: model.validationMessage,
         ),
       );

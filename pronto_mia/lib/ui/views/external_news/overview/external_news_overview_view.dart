@@ -309,7 +309,18 @@ class ExternalNewsOverviewViewState extends State<ExternalNewsOverviewView> {
                   future: model.getExternalNewsImage(externalNews),
                   builder: (BuildContext context, AsyncSnapshot<Image> image) {
                     if (image.hasData) {
-                      return image.data; // image is ready
+                      // return image.data; // image is ready
+                      return Container(
+                        width: kIsWeb
+                            ? MediaQuery.of(context).size.width * 0.05
+                            : MediaQuery.of(context).size.width * 0.2,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: image.data.image,
+                            fit: BoxFit.fitHeight,
+                          ),
+                        ),
+                      );
                     } else {
                       return Image.asset(
                         'assets/images/pronto_icon.png',

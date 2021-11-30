@@ -1,4 +1,5 @@
 import 'package:pronto_mia/app/service_locator.dart';
+import 'package:pronto_mia/core/models/department.dart';
 import 'package:pronto_mia/core/models/user.dart';
 import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/core/services/user_service.dart';
@@ -54,20 +55,28 @@ class UserOverviewViewModel extends FutureViewModel<List<User>> {
   /// view should open as a dialog or standalone as an input.
   /// If the navigation or dialog resolve to data being changed, refetches
   /// the [List] of users.
-  Future<void> editUser({User user, bool asDialog = false}) async {
+  Future<void> editUser({
+    User user,
+    bool asDialog = false,
+    List<Department> selectedDepartments,
+  }) async {
     bool dataHasChanged;
 
     if (asDialog) {
       final dialogResponse = await _dialogService.showCustomDialog(
         variant: DialogType.custom,
         // ignore: deprecated_member_use
-        customData: UserEditView(user: user, isDialog: true),
+        customData: UserEditView(
+          user: user,
+          isDialog: true,
+          selectedDepartments: selectedDepartments,
+        ),
       );
       dataHasChanged = dialogResponse?.confirmed ?? false;
     } else {
       final navigationResponse =
           await _navigationService.navigateWithTransition(
-        UserEditView(user: user),
+        UserEditView(user: user, selectedDepartments: selectedDepartments),
         transition: NavigationTransition.LeftToRight,
       );
       dataHasChanged = navigationResponse is bool && navigationResponse == true;

@@ -5,7 +5,7 @@ class UserQueries {
       users {
         id
         userName
-        department {
+        departments {
           id
           name
         }
@@ -33,7 +33,7 @@ class UserQueries {
       user {
         id
         userName
-        department {
+        departments {
           id
           name
         }
@@ -60,13 +60,13 @@ class UserQueries {
     mutation createUser(
       \$userName: String!, 
       \$password: String!, 
-      \$departmentId: Int!,
+      \$departmentIds: [Int!],
       \$accessControlList: AccessControlListInput!
     ) {
       createUser(
         userName: \$userName,
         password: \$password,
-        departmentId: \$departmentId,
+        departmentIds: \$departmentIds,
         accessControlList: \$accessControlList
       ) {
         id
@@ -79,14 +79,14 @@ class UserQueries {
       \$id: Int!, 
       \$userName: String, 
       \$password: String,
-      \$departmentId: Int,
+      \$departmentIds: [Int!],
       \$accessControlList: AccessControlListInput
     ) {
       updateUser(
         id: \$id,
         userName: \$userName,
         password: \$password,
-        departmentId: \$departmentId,
+        departmentIds: \$departmentIds,
         accessControlList: \$accessControlList
       ) {
         id
@@ -109,7 +109,7 @@ class UserQueries {
         ) {
             id
             userName
-            department {
+            departments {
               id
               name
             }

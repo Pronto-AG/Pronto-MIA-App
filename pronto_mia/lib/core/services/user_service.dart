@@ -54,13 +54,13 @@ class UserService {
   Future<void> createUser(
     String userName,
     String password,
-    int departmentId,
+    List<int> departmentIds,
     AccessControlList accessControlList,
   ) async {
     final queryVariables = {
       'userName': userName,
       'password': password,
-      'departmentId': departmentId,
+      'departmentIds': departmentIds,
       'accessControlList': accessControlList.toJson(),
     };
     await (await _graphQLService).mutate(
@@ -78,14 +78,14 @@ class UserService {
     int id, {
     String userName,
     String password,
-    int departmentId,
+    List<int> departmentIds,
     AccessControlList accessControlList,
   }) async {
     final queryVariables = {
       'id': id,
       'userName': userName,
       'password': password,
-      'departmentId': departmentId,
+      'departmentIds': departmentIds,
       'accessControlList': accessControlList?.toJson(),
     };
     await (await _graphQLService).mutate(

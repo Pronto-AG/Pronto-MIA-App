@@ -17,6 +17,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i16;
 import 'package:logging/src/logger.dart' as _i17;
 import 'package:flutter_cache_manager/src/cache_manager.dart' as _i18;
 import 'package:firebase_messaging/firebase_messaging.dart' as _i19;
+import 'package:pronto_mia/core/services/external_news_service.dart' as _i20;
 
 /// A class which mocks [GraphQLService].
 ///
@@ -114,3 +115,9 @@ class MockCacheManager extends _i1.Mock implements _i18.CacheManager {}
 /// See the documentation for Mockito's code generation for more information.
 class MockFirebaseMessaging extends _i1.Mock implements _i19.FirebaseMessaging {
 }
+
+/// A class which mocks [ExternalNewsService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockExternalNewsService extends _i1.Mock
+    implements _i20.ExternalNewsService {}

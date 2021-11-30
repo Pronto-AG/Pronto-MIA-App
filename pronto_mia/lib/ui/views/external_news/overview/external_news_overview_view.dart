@@ -299,11 +299,13 @@ class ExternalNewsOverviewViewState extends State<ExternalNewsOverviewView> {
                   }
                 },
                 onLongPress: () {
-                  if (!selectMultiple) {
-                    selectMultiple = true;
+                  if (widget.adminModeEnabled) {
+                    if (!selectMultiple) {
+                      selectMultiple = true;
+                    }
+                    _selectToDelete(externalNews);
+                    _buildDeleteFab(model);
                   }
-                  _selectToDelete(externalNews);
-                  _buildDeleteFab(model);
                 },
                 leading: FutureBuilder(
                   future: model.getExternalNewsImage(externalNews),

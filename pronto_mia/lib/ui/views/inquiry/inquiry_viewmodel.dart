@@ -65,11 +65,11 @@ class InquiryViewModel extends FormViewModel {
     final plzRegex = RegExp(r"^[0-9]*$");
 
     if (firstNamneValue == null || firstNamneValue.isEmpty) {
-      return 'Bitte Vornamen angeben.';
+      return 'Bitte Vornamen angeben';
     }
 
     if (lastnameValue == null || lastnameValue.isEmpty) {
-      return 'Bitte Nachname angeben.';
+      return 'Bitte Nachnamen angeben';
     }
 
     if (streetValue == null || streetValue.isEmpty) {
@@ -77,7 +77,7 @@ class InquiryViewModel extends FormViewModel {
     }
 
     if (plzValue == null || plzValue.isEmpty) {
-      return 'Bitte Postleitzahl angeben.';
+      return 'Bitte Postleitzahl angeben';
     }
 
     if (!plzRegex.hasMatch(plzValue)) {
@@ -85,11 +85,11 @@ class InquiryViewModel extends FormViewModel {
     }
 
     if (locationValue == null || locationValue.isEmpty) {
-      return 'Bitte Ort angeben.';
+      return 'Bitte Ort angeben';
     }
 
     if (phoneValue == null || phoneValue.isEmpty) {
-      return 'Bitte Telefonnummer angeben.';
+      return 'Bitte Telefonnummer angeben';
     }
 
     if (!phoneRegex.hasMatch(phoneValue)) {
@@ -97,11 +97,11 @@ class InquiryViewModel extends FormViewModel {
     }
 
     if (mailValue == null || mailValue.isEmpty) {
-      return 'Bitte E-Mail angeben.';
+      return 'Bitte E-Mail angeben';
     }
 
     if (!mailRegex.hasMatch(mailValue)) {
-      return 'E-Mail Adresse nicht korrekt.';
+      return 'E-Mail Adresse nicht korrekt';
     }
 
     return null;

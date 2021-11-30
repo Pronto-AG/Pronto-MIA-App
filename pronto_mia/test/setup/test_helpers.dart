@@ -10,6 +10,7 @@ import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/authentication_service.dart';
 import 'package:pronto_mia/core/services/department_service.dart';
 import 'package:pronto_mia/core/services/deployment_plan_service.dart';
+import 'package:pronto_mia/core/services/external_news_service.dart';
 import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
 import 'package:pronto_mia/core/services/jwt_token_service.dart';
@@ -34,6 +35,7 @@ import 'test_helpers.mocks.dart';
   MockSpec<UserService>(returnNullOnMissingStub: true),
   MockSpec<DialogService>(returnNullOnMissingStub: true),
   MockSpec<DeploymentPlanService>(returnNullOnMissingStub: true),
+  MockSpec<ExternalNewsService>(returnNullOnMissingStub: true),
   MockSpec<GraphQLClient>(returnNullOnMissingStub: true),
   MockSpec<SharedPreferences>(returnNullOnMissingStub: true),
   MockSpec<FlutterSecureStorage>(returnNullOnMissingStub: true),
@@ -127,6 +129,13 @@ DeploymentPlanService getAndRegisterMockDeploymentPlanService() {
   return service;
 }
 
+ExternalNewsService getAndRegisterMockExternalNewsService() {
+  _removeRegistrationIfExists<ExternalNewsService>();
+  final service = MockExternalNewsService();
+  locator.registerSingleton<ExternalNewsService>(service);
+  return service;
+}
+
 void registerServices() {
   getAndRegisterMockGraphQLService();
   getAndRegisterMockJwtTokenService();
@@ -140,6 +149,7 @@ void registerServices() {
   getAndRegisterMockUserService();
   getAndRegisterMockDialogService();
   getAndRegisterMockDeploymentPlanService();
+  getAndRegisterMockExternalNewsService();
 }
 
 void unregisterServices() {
@@ -155,6 +165,7 @@ void unregisterServices() {
   locator.unregister<UserService>();
   locator.unregister<DialogService>();
   locator.unregister<DeploymentPlanService>();
+  locator.unregister<ExternalNewsService>();
 }
 
 void _removeRegistrationIfExists<T>() {

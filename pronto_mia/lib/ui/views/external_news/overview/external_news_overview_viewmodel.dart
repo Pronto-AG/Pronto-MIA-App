@@ -12,8 +12,7 @@ import 'package:stacked_services/stacked_services.dart';
 /// A view model, providing functionality for [ExternalNewsView].
 class ExternalNewsOverviewViewModel
     extends FutureViewModel<List<ExternalNews>> {
-  static String contextIdentifier = "ExternalNewsViewModel";
-  // static const removeActionKey = 'RemoveActionKey';
+  static String contextIdentifier = "ExternalNewsOverviewViewModel";
 
   ExternalNewsService get _externalNewsService =>
       locator.get<ExternalNewsService>();
@@ -25,7 +24,6 @@ class ExternalNewsOverviewViewModel
   String get errorMessage => _errorMessage;
   String _errorMessage;
   bool isDialog;
-  // final ExternalNews externalNews;
 
   /// Initializes a new instance of [ExternalNewsOverviewViewModel].
   ///

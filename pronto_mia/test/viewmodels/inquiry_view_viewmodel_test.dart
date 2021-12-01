@@ -134,6 +134,27 @@ void main() {
         );
       });
 
+      // group('sendMail', () {
+      //   test('sends mail', () async {
+      //     // final departmentService = getAndRegisterMockDepartmentService();
+      //     // when(inquiryViewModel.sendEmail()).thenAnswer(
+      //     //   (realInvocation) => Future.value(),
+      //     // );
+      //     // inquiryViewModel = InquiryViewModel();
+      //     inquiryViewModel.formValueMap['firstname'] = 'Gieri';
+      //     inquiryViewModel.formValueMap['lastname'] = 'Casutt';
+      //     inquiryViewModel.formValueMap['street'] = 'Via Caglims';
+      //     inquiryViewModel.formValueMap['plz'] = '8640';
+      //     inquiryViewModel.formValueMap['location'] = 'Rapperswil';
+      //     inquiryViewModel.formValueMap['phone'] = '079';
+      //     inquiryViewModel.formValueMap['mail'] = 'test@bar.ch';
+
+      //     await inquiryViewModel.sendEmail();
+      //     expect(inquiryViewModel.hasError, false);
+      //     verify(inquiryViewModel.sendEmail()).called(1);
+      //   });
+      // });
+
       // test('creates inquiry successfully as standalone', () async {
       //   final externalNewsService = getAndRegisterMockExternalNewsService();
       //   final navigationService = getAndRegisterMockNavigationService();

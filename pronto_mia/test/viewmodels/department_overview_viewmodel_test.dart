@@ -140,5 +140,30 @@ void main() {
         verifyNever(departmentService.getDepartments());
       });
     });
+
+    group('removeDepartments', () {
+      test('removes department successfully as standalone', () async {
+        departmentOverviewViewModel = DepartmentOverviewViewModel();
+        final departmentService = getAndRegisterMockDepartmentService();
+        final navigationService = getAndRegisterMockNavigationService();
+
+        await departmentOverviewViewModel.removeDepartment(Department(id: 1));
+        expect(departmentOverviewViewModel.hasError, false);
+        verify(departmentService.removeDepartment(1)).called(1);
+      });
+    });
+
+    group('filterDepartments', () {
+      test('filters departments', () async {
+        final departmentService = getAndRegisterMockDepartmentService();
+        when(departmentService.filterDepartment('test')).thenAnswer(
+          (realInvocation) => Future.value([Department()]),
+        );
+
+        await departmentOverviewViewModel.filterDepartments('test');
+        expect(departmentOverviewViewModel.hasError, false);
+        verify(departmentService.filterDepartment('test')).called(1);
+      });
+    });
   });
 }

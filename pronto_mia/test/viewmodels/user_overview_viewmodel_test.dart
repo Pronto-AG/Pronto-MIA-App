@@ -139,5 +139,30 @@ void main() {
         verifyNever(userService.getUsers());
       });
     });
+
+    group('removeUsers', () {
+      test('removes user successfully as standalone', () async {
+        userOverviewViewModel = UserOverviewViewModel();
+        final userService = getAndRegisterMockUserService();
+        final navigationService = getAndRegisterMockNavigationService();
+
+        await userOverviewViewModel.removeUser(User(id: 1));
+        expect(userOverviewViewModel.hasError, false);
+        verify(userService.removeUser(1)).called(1);
+      });
+    });
+
+    group('filterUsers', () {
+      test('filters users', () async {
+        final userService = getAndRegisterMockUserService();
+        when(userService.filterUser('test')).thenAnswer(
+          (realInvocation) => Future.value([User()]),
+        );
+
+        await userOverviewViewModel.filterUsers('test');
+        expect(userOverviewViewModel.hasError, false);
+        verify(userService.filterUser('test')).called(1);
+      });
+    });
   });
 }

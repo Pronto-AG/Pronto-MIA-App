@@ -144,16 +144,26 @@ class InquiryViewModel extends FormViewModel {
   }
 
   Future<void> sendEmail() async {
-    final String response =
-        await rootBundle.loadString('assets/cfg/mailer_credentials.json');
-    final credentials = await json.decode(response);
-    final String recipient = credentials["username"].toString();
+    // final String response =
+    //     await rootBundle.loadString('assets/cfg/mailer_credentials.json');
+    // final credentials = await json.decode(response);
+    // final String recipient = credentials["username"].toString();
+    // final smtpServer = SmtpServer(
+    //   credentials["smtpServer"].toString(),
+    //   username: credentials["username"].toString(),
+    //   password: credentials["password"].toString(),
+    //   port: credentials["port"] as int,
+    //   ssl: credentials["ssl"] as bool,
+    //   ignoreBadCertificate: true,
+    // );
+
+    const String recipient = 'app@pronto-ag.ch';
     final smtpServer = SmtpServer(
-      credentials["smtpServer"].toString(),
-      username: credentials["username"].toString(),
-      password: credentials["password"].toString(),
-      port: credentials["port"] as int,
-      ssl: credentials["ssl"] as bool,
+      'smtp.pronto-ag.ch',
+      username: 'app@pronto-ag.ch',
+      password: '!Kilimandscharo1889',
+      port: 465,
+      ssl: true,
       ignoreBadCertificate: true,
     );
 

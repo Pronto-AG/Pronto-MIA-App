@@ -17,10 +17,23 @@ class LoginViewModel extends FormViewModel {
   NavigationService get _navigationService => locator.get<NavigationService>();
   ErrorService get _errorService => locator.get<ErrorService>();
 
+  String get errorMessage => _errorMessage;
+  String _errorMessage;
+
   /// Resets errors and messages, as soon as form fields update.
   @override
   void setFormStatus() {
     clearErrors();
+  }
+
+  /// Handles incoming error and sets [errorMessage] accordingly.
+  ///
+  /// Takes the thrown dynamic error object as an input.
+  Future<void> onError(dynamic modelError) async {
+    await _errorService.handleError(contextIdentifier, modelError);
+    _errorMessage = _errorService.getErrorMessage(modelError);
+    setValidationMessage(_errorMessage);
+    notifyListeners();
   }
 
   /// Validates the form and performs a login for the user.
@@ -40,13 +53,7 @@ class LoginViewModel extends FormViewModel {
     );
 
     if (hasError) {
-      await _errorService.handleError(
-        LoginViewModel.contextIdentifier,
-        modelError,
-      );
-      final errorMessage = _errorService.getErrorMessage(modelError);
-      setValidationMessage(errorMessage);
-      notifyListeners();
+      onError(modelError);
     } else {
       _navigationService.replaceWithTransition(
         const DeploymentPlanOverviewView(),

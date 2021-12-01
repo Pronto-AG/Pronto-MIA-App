@@ -31,7 +31,6 @@ class ExternalNewsOverviewViewModel
   ExternalNewsOverviewViewModel({
     this.adminModeEnabled = false,
     this.isDialog = false,
-    // @required this.externalNews,
   }) {
     _externalNewsService.addListener(_notifyDataChanged);
   }

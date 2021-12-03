@@ -138,58 +138,73 @@ void main() {
         );
       });
 
-      group('sendMail', () {
-        test('generateMessage', () {
-          final recipient = 'app@pronto-ag.ch';
-          expect(inquiryViewModel.generateMessage(recipient),
-              isInstanceOf<Message>());
-        });
+      test('submits form', () async {
+        inquiryViewModel.formValueMap['firstname'] = 'Gieri';
+        inquiryViewModel.formValueMap['lastname'] = 'Casutt';
+        inquiryViewModel.formValueMap['street'] = 'Via Caglims';
+        inquiryViewModel.formValueMap['plz'] = '8640';
+        inquiryViewModel.formValueMap['location'] = 'Rapperswil';
+        inquiryViewModel.formValueMap['phone'] = '079';
+        inquiryViewModel.formValueMap['mail'] = 'test@pronto.ch';
+        await inquiryViewModel.submitForm();
+        expect(
+          inquiryViewModel.validationMessage,
+          isNull,
+        );
+      });
+    });
 
-        test('getSmtpRecipient', () async {
-          final inquiryService = getAndRegisterMockInquiryService();
-          await inquiryViewModel.getRecipient();
-          verify(inquiryService.getRecipient()).called(1);
-        });
+    group('sendMail', () {
+      test('generateMessage', () {
+        final recipient = 'app@pronto-ag.ch';
+        expect(inquiryViewModel.generateMessage(recipient),
+            isInstanceOf<Message>());
+      });
 
-        test('createSmtpServer', () async {
-          final inquiryService = getAndRegisterMockInquiryService();
-          await inquiryViewModel.createSmtpServer();
-          verify(inquiryService.createSmtpServer()).called(1);
-        });
+      test('getSmtpRecipient', () async {
+        final inquiryService = getAndRegisterMockInquiryService();
+        await inquiryViewModel.getRecipient();
+        verify(inquiryService.getRecipient()).called(1);
+      });
 
-        test('sendMailToSmtpServer', () {
-          final inquiryService = getAndRegisterMockInquiryService();
-          final recipient = 'app@pronto-ag.ch';
-          final dateTime = DateTime.parse('2011-10-05T14:48:00.000Z');
-          final message = inquiryViewModel.generateMessage(recipient);
-          final smtpServer = SmtpServer('smtp.pronto-ag.ch');
-          when(inquiryService.sendMailToSmtpServer(message, smtpServer))
-              .thenAnswer((realInvocation) => Future.value(
-                  SendReport(message, dateTime, dateTime, dateTime)));
-          expect(inquiryViewModel.sendMailToSmtpServer(message, smtpServer),
-              isInstanceOf<Future<SendReport>>());
-        });
+      test('createSmtpServer', () async {
+        final inquiryService = getAndRegisterMockInquiryService();
+        await inquiryViewModel.createSmtpServer();
+        verify(inquiryService.createSmtpServer()).called(1);
+      });
 
-        test('sendMail', () async {
-          final inquiryService = getAndRegisterMockInquiryService();
-          final navigationService = getAndRegisterMockNavigationService();
-          final smtpServer = await inquiryViewModel.createSmtpServer();
-          final recipient = 'app@pronto-ag.ch';
-          final message = await inquiryViewModel.generateMessage(recipient);
-          final dateTime = DateTime.parse('2011-10-05T14:48:00.000Z');
-          when(inquiryService.sendMailToSmtpServer(message, smtpServer))
-              .thenAnswer((realInvocation) => Future.value(
-                  SendReport(message, dateTime, dateTime, dateTime)));
-          await inquiryViewModel.sendEmail();
-          expect(inquiryService.sendMailToSmtpServer(message, smtpServer),
-              isInstanceOf<Future<SendReport>>());
-          verify(
-            navigationService.replaceWithTransition(
-              argThat(isA<InquiryView>()),
-              transition: NavigationTransition.UpToDown,
-            ),
-          );
-        });
+      test('sendMailToSmtpServer', () {
+        final inquiryService = getAndRegisterMockInquiryService();
+        final recipient = 'app@pronto-ag.ch';
+        final dateTime = DateTime.parse('2011-10-05T14:48:00.000Z');
+        final message = inquiryViewModel.generateMessage(recipient);
+        final smtpServer = SmtpServer('smtp.pronto-ag.ch');
+        when(inquiryService.sendMailToSmtpServer(message, smtpServer))
+            .thenAnswer((realInvocation) => Future.value(
+                SendReport(message, dateTime, dateTime, dateTime)));
+        expect(inquiryViewModel.sendMailToSmtpServer(message, smtpServer),
+            isInstanceOf<Future<SendReport>>());
+      });
+
+      test('sendMail', () async {
+        final inquiryService = getAndRegisterMockInquiryService();
+        final navigationService = getAndRegisterMockNavigationService();
+        final smtpServer = await inquiryViewModel.createSmtpServer();
+        final recipient = 'app@pronto-ag.ch';
+        final message = await inquiryViewModel.generateMessage(recipient);
+        final dateTime = DateTime.parse('2011-10-05T14:48:00.000Z');
+        when(inquiryService.sendMailToSmtpServer(message, smtpServer))
+            .thenAnswer((realInvocation) => Future.value(
+                SendReport(message, dateTime, dateTime, dateTime)));
+        await inquiryViewModel.sendEmail();
+        expect(inquiryService.sendMailToSmtpServer(message, smtpServer),
+            isInstanceOf<Future<SendReport>>());
+        verify(
+          navigationService.replaceWithTransition(
+            argThat(isA<InquiryView>()),
+            transition: NavigationTransition.UpToDown,
+          ),
+        );
       });
     });
   });

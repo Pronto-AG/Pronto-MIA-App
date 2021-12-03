@@ -52,3 +52,4 @@ app.*.map.json
 **/ios/Runner/GoogleService-Info.plist
 **/upload-keystore.jks
 **/key.properties
+**/app_settings_mailer.json

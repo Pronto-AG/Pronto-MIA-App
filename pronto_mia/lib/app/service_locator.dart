@@ -15,6 +15,7 @@ import 'package:pronto_mia/core/services/user_service.dart';
 import 'package:pronto_mia/core/services/image_service.dart';
 import 'package:pronto_mia/core/services/department_service.dart';
 import 'package:pronto_mia/core/services/external_news_service.dart';
+import 'package:pronto_mia/core/services/inquiry_service.dart';
 import 'package:pronto_mia/ui/shared/custom_dialogs.dart';
 
 /// Exposes the [StackedLocator] instance.
@@ -65,4 +66,5 @@ void setupLocator() {
   locator.registerLazySingleton<DepartmentService>(() => DepartmentService());
   locator
       .registerLazySingleton<ExternalNewsService>(() => ExternalNewsService());
+  locator.registerLazySingleton<InquiryService>(() => InquiryService());
 }

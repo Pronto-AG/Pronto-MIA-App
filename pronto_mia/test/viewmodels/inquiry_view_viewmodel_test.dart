@@ -1,8 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/ui/views/inquiry/inquiry_viewmodel.dart';
+import 'package:pronto_mia/ui/views/inquiry/inquiry_view.dart';
 
 import '../setup/test_helpers.dart';
 
@@ -10,10 +14,10 @@ void main() {
   group('InquiryViewModel', () {
     InquiryViewModel inquiryViewModel;
     setUp(() {
-      // registerServices();
+      registerServices();
       inquiryViewModel = InquiryViewModel();
     });
-    // tearDown(() => unregisterServices());
+    tearDown(() => unregisterServices());
 
     group('submitForm', () {
       test('sets message on empty firstname', () async {
@@ -134,49 +138,59 @@ void main() {
         );
       });
 
-      // group('sendMail', () {
-      //   test('sends mail', () async {
-      //     // final departmentService = getAndRegisterMockDepartmentService();
-      //     // when(inquiryViewModel.sendEmail()).thenAnswer(
-      //     //   (realInvocation) => Future.value(),
-      //     // );
-      //     // inquiryViewModel = InquiryViewModel();
-      //     inquiryViewModel.formValueMap['firstname'] = 'Gieri';
-      //     inquiryViewModel.formValueMap['lastname'] = 'Casutt';
-      //     inquiryViewModel.formValueMap['street'] = 'Via Caglims';
-      //     inquiryViewModel.formValueMap['plz'] = '8640';
-      //     inquiryViewModel.formValueMap['location'] = 'Rapperswil';
-      //     inquiryViewModel.formValueMap['phone'] = '079';
-      //     inquiryViewModel.formValueMap['mail'] = 'test@bar.ch';
+      group('sendMail', () {
+        test('generateMessage', () {
+          final recipient = 'app@pronto-ag.ch';
+          expect(inquiryViewModel.generateMessage(recipient),
+              isInstanceOf<Message>());
+        });
 
-      //     await inquiryViewModel.sendEmail();
-      //     expect(inquiryViewModel.hasError, false);
-      //     verify(inquiryViewModel.sendEmail()).called(1);
-      //   });
-      // });
+        test('getSmtpRecipient', () async {
+          final inquiryService = getAndRegisterMockInquiryService();
+          await inquiryViewModel.getRecipient();
+          verify(inquiryService.getRecipient()).called(1);
+        });
 
-      // test('creates inquiry successfully as standalone', () async {
-      //   final externalNewsService = getAndRegisterMockExternalNewsService();
-      //   final navigationService = getAndRegisterMockNavigationService();
-      //   SimpleFile file = SimpleFile();
+        test('createSmtpServer', () async {
+          final inquiryService = getAndRegisterMockInquiryService();
+          await inquiryViewModel.createSmtpServer();
+          verify(inquiryService.createSmtpServer()).called(1);
+        });
 
-      //   externalNewsEditViewModel.formValueMap['title'] = 'title';
-      //   externalNewsEditViewModel.formValueMap['description'] = 'description';
-      //   externalNewsEditViewModel.formValueMap['availableFrom'] =
-      //       '2011-10-05T14:48:00.000Z';
-      //   externalNewsEditViewModel.formValueMap['upload.png'] = 'test';
-      //   externalNewsEditViewModel.setImageUpload(file);
+        test('sendMailToSmtpServer', () {
+          final inquiryService = getAndRegisterMockInquiryService();
+          final recipient = 'app@pronto-ag.ch';
+          final dateTime = DateTime.parse('2011-10-05T14:48:00.000Z');
+          final message = inquiryViewModel.generateMessage(recipient);
+          final smtpServer = SmtpServer('smtp.pronto-ag.ch');
+          when(inquiryService.sendMailToSmtpServer(message, smtpServer))
+              .thenAnswer((realInvocation) => Future.value(
+                  SendReport(message, dateTime, dateTime, dateTime)));
+          expect(inquiryViewModel.sendMailToSmtpServer(message, smtpServer),
+              isInstanceOf<Future<SendReport>>());
+        });
 
-      //   await externalNewsEditViewModel.submitForm();
-      //   expect(externalNewsEditViewModel.validationMessage, isNull);
-      //   verify(externalNewsService.createExternalNews(
-      //     'title',
-      //     'description',
-      //     DateTime.parse('2011-10-05T14:48:00.000Z'),
-      //     file,
-      //   )).called(1);
-      //   verify(navigationService.back(result: true));
-      // });
+        test('sendMail', () async {
+          final inquiryService = getAndRegisterMockInquiryService();
+          final navigationService = getAndRegisterMockNavigationService();
+          final smtpServer = await inquiryViewModel.createSmtpServer();
+          final recipient = 'app@pronto-ag.ch';
+          final message = await inquiryViewModel.generateMessage(recipient);
+          final dateTime = DateTime.parse('2011-10-05T14:48:00.000Z');
+          when(inquiryService.sendMailToSmtpServer(message, smtpServer))
+              .thenAnswer((realInvocation) => Future.value(
+                  SendReport(message, dateTime, dateTime, dateTime)));
+          await inquiryViewModel.sendEmail();
+          expect(inquiryService.sendMailToSmtpServer(message, smtpServer),
+              isInstanceOf<Future<SendReport>>());
+          verify(
+            navigationService.replaceWithTransition(
+              argThat(isA<InquiryView>()),
+              transition: NavigationTransition.UpToDown,
+            ),
+          );
+        });
+      });
     });
   });
 }

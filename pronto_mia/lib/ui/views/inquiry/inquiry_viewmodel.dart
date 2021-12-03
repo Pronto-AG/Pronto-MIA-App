@@ -11,6 +11,7 @@ import 'package:stacked_services/stacked_services.dart';
 /// A view model, providing functionality for [InquiryView].
 class InquiryViewModel extends FormViewModel {
   static String contextIdentifier = "InquiryViewModel";
+  String sendActionKey = 'SendActionKey';
 
   InquiryService get _inquiryService => locator.get<InquiryService>();
   NavigationService get _navigationService => locator.get<NavigationService>();
@@ -36,7 +37,6 @@ class InquiryViewModel extends FormViewModel {
   /// case it was opened as a dialog or navigates to the previous view if
   /// opened as standalone.
   Future<void> submitForm() async {
-    String sendActionKey;
     final validationMessage = validateForm();
     if (validationMessage != null) {
       setValidationMessage(validationMessage);

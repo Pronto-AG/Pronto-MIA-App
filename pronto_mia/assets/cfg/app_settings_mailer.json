@@ -1,6 +1,6 @@
 {
-    "smtpServer": "smtp.pronto-ag.ch",
-    "username": "app@pronto-ag.ch",
-    "password": "***REMOVED***",
-    "port": 465
+    "smtpServer": "smtp",
+    "username": "username",
+    "password": "password",
+    "port": 123
 } 

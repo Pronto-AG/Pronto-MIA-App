@@ -165,6 +165,7 @@ class InquiryViewModel extends FormViewModel {
     final message = generateMessage(await getRecipient());
     try {
       final sendReport = await sendMailToSmtpServer(message, smtpServer);
+      // ignore: avoid_print
       print('Message sent: $sendReport');
     } on MailerException catch (e) {
       for (final p in e.problems) {

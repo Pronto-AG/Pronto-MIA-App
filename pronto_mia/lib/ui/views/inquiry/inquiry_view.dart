@@ -17,16 +17,10 @@ class InquiryView extends StatefulWidget with $InquiryView {
   InquiryView({Key key}) : super(key: key);
 
   @override
-  InquiryFormState createState() {
-    return InquiryFormState();
-  }
+  InquiryFormState createState() => InquiryFormState();
 }
 
-// enum NewsletterSubscription { yes, no }
-// enum ContactVia { phone, email }
-
 class InquiryFormState extends State<InquiryView> {
-// class InquiryView extends StatelessWidget with $InquiryView {
   final _formKey = GlobalKey<FormState>();
   final _scrollController = ScrollController();
   String selectedValue;

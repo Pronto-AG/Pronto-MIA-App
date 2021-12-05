@@ -48,7 +48,7 @@ class ExternalNewsEditViewModel extends FormViewModel {
     notifyListeners();
   }
 
-  /// Opens a pdf view, either from the file picker or deployment plan.
+  /// Opens a external news view
   Future<void> openImage() async {
     return;
   }
@@ -82,14 +82,15 @@ class ExternalNewsEditViewModel extends FormViewModel {
       await runBusyFuture(
         _externalNewsService.updateExternalNews(
           externalNews.id,
-          externalNews.title != titleValue ? titleValue : null,
-          externalNews.description != descriptionValue
+          title: externalNews.title != titleValue ? titleValue : null,
+          description: externalNews.description != descriptionValue
               ? descriptionValue
               : null,
-          !externalNews.availableFrom.isAtSameMomentAs(availableFrom)
-              ? availableFrom
-              : null,
-          _imageFile,
+          availableFrom:
+              !externalNews.availableFrom.isAtSameMomentAs(availableFrom)
+                  ? availableFrom
+                  : null,
+          image: _imageFile,
         ),
         busyObject: editActionKey,
       );

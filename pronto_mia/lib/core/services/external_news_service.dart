@@ -112,12 +112,12 @@ class ExternalNewsService with ChangeNotifier {
   ///
   /// Takes different attributes of the external news to be updated as an input.
   Future<void> updateExternalNews(
-    int id,
+    int id, {
     String title,
     String description,
     DateTime availableFrom,
     SimpleFile image,
-  ) async {
+  }) async {
     final Map<String, dynamic> queryVariables = {
       'id': id,
       'title': title,

@@ -91,9 +91,9 @@ class DepartmentOverviewViewModel extends FutureViewModel<List<Department>> {
     return _departmentService.filterDepartment(filter);
   }
 
-  /// Removes the [ExternalNews] contained in the form.
+  /// Removes the [Department] contained in the form.
   ///
-  /// After the [ExternalNews] has been removed successfully, closes dialog
+  /// After the [Department] has been removed successfully, closes dialog
   /// when opened as a dialog or navigates to the previous view, when opened as
   /// standalone.
   Future<void> removeDepartment(Department department) async {

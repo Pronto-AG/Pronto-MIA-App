@@ -8,6 +8,7 @@ class FormLayout extends StatelessWidget {
   final String validationMessage;
   final ButtonSpecification primaryButton;
   final ButtonSpecification secondaryButton;
+  final ButtonSpecification cancelButton;
 
   /// Initializes a new instance of [FormLayout].
   ///
@@ -19,6 +20,7 @@ class FormLayout extends StatelessWidget {
     this.validationMessage,
     @required this.primaryButton,
     this.secondaryButton,
+    this.cancelButton,
   });
 
   /// Builds the widget.
@@ -52,6 +54,18 @@ class FormLayout extends StatelessWidget {
       form.add(_buildButton(button: secondaryButton));
     }
 
+    if (cancelButton != null) {
+      form.add(const SizedBox(height: 8.0));
+      form.add(
+        _buildButton(
+          button: cancelButton,
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.grey),
+          ),
+        ),
+      );
+    }
+
     if (validationMessage != null) {
       form.add(const SizedBox(height: 8.0));
       form.add(
@@ -65,12 +79,17 @@ class FormLayout extends StatelessWidget {
     return form;
   }
 
-  Widget _buildButton({@required ButtonSpecification button}) => SizedBox(
+  Widget _buildButton({
+    @required ButtonSpecification button,
+    ButtonStyle style,
+  }) =>
+      SizedBox(
         width: double.infinity,
         height: 48.0,
         child: !button.isDestructive
             ? ElevatedButton(
                 onPressed: button.onTap,
+                style: style ?? style,
                 child: _buildButtonChild(button: button),
               )
             : DestructiveButton(

@@ -1,9 +1,8 @@
-import 'dart:convert';
-import 'package:flutter/services.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/error_service.dart';
+import 'package:pronto_mia/core/services/inquiry_service.dart';
 import 'package:pronto_mia/ui/views/inquiry/inquiry_view.dart';
 import 'package:pronto_mia/ui/views/inquiry/inquiry_view.form.dart';
 import 'package:stacked/stacked.dart';
@@ -12,20 +11,19 @@ import 'package:stacked_services/stacked_services.dart';
 /// A view model, providing functionality for [InquiryView].
 class InquiryViewModel extends FormViewModel {
   static String contextIdentifier = "InquiryViewModel";
+  String sendActionKey = 'SendActionKey';
 
+  InquiryService get _inquiryService => locator.get<InquiryService>();
   NavigationService get _navigationService => locator.get<NavigationService>();
   ErrorService get _errorService => locator.get<ErrorService>();
 
   String get errorMessage => _errorMessage;
   String _errorMessage;
 
-  String _title;
+  String _title = "";
   String _newsletterSubscription = "";
   String _contactVia = "";
   final List<String> _services = [];
-
-  /// Initializes a new instance of [InquiryViewModel].
-  // InquiryViewModel();
 
   /// Resets errors and messages, as soon as form fields update.
   @override
@@ -39,7 +37,6 @@ class InquiryViewModel extends FormViewModel {
   /// case it was opened as a dialog or navigates to the previous view if
   /// opened as standalone.
   Future<void> submitForm() async {
-    String sendActionKey;
     final validationMessage = validateForm();
     if (validationMessage != null) {
       setValidationMessage(validationMessage);
@@ -65,11 +62,11 @@ class InquiryViewModel extends FormViewModel {
     final plzRegex = RegExp(r"^[0-9]*$");
 
     if (firstNamneValue == null || firstNamneValue.isEmpty) {
-      return 'Bitte Vornamen angeben.';
+      return 'Bitte Vornamen angeben';
     }
 
     if (lastnameValue == null || lastnameValue.isEmpty) {
-      return 'Bitte Nachname angeben.';
+      return 'Bitte Nachnamen angeben';
     }
 
     if (streetValue == null || streetValue.isEmpty) {
@@ -77,7 +74,7 @@ class InquiryViewModel extends FormViewModel {
     }
 
     if (plzValue == null || plzValue.isEmpty) {
-      return 'Bitte Postleitzahl angeben.';
+      return 'Bitte Postleitzahl angeben';
     }
 
     if (!plzRegex.hasMatch(plzValue)) {
@@ -85,11 +82,11 @@ class InquiryViewModel extends FormViewModel {
     }
 
     if (locationValue == null || locationValue.isEmpty) {
-      return 'Bitte Ort angeben.';
+      return 'Bitte Ort angeben';
     }
 
     if (phoneValue == null || phoneValue.isEmpty) {
-      return 'Bitte Telefonnummer angeben.';
+      return 'Bitte Telefonnummer angeben';
     }
 
     if (!phoneRegex.hasMatch(phoneValue)) {
@@ -97,11 +94,11 @@ class InquiryViewModel extends FormViewModel {
     }
 
     if (mailValue == null || mailValue.isEmpty) {
-      return 'Bitte E-Mail angeben.';
+      return 'Bitte E-Mail angeben';
     }
 
     if (!mailRegex.hasMatch(mailValue)) {
-      return 'E-Mail Adresse nicht korrekt.';
+      return 'E-Mail Adresse nicht korrekt';
     }
 
     return null;
@@ -143,40 +140,36 @@ class InquiryViewModel extends FormViewModel {
     }
   }
 
-  Future<void> sendEmail() async {
-    final String response =
-        await rootBundle.loadString('assets/cfg/mailer_credentials.json');
-    final credentials = await json.decode(response);
-    final String recipient = credentials["username"].toString();
-    final smtpServer = SmtpServer(
-      credentials["smtpServer"].toString(),
-      username: credentials["username"].toString(),
-      password: credentials["password"].toString(),
-      port: credentials["port"] as int,
-      ssl: credentials["ssl"] as bool,
-      ignoreBadCertificate: true,
-    );
+  Future<SmtpServer> createSmtpServer() async =>
+      _inquiryService.createSmtpServer();
 
-    final message = Message()
+  Future<String> getRecipient() async => _inquiryService.getRecipient();
+
+  Message generateMessage(String recipient) {
+    return Message()
       ..from = const Address('noreply@pronto-ag.ch', 'Kontaktanfrage App')
       ..recipients.add(recipient)
       ..subject = 'Anfrage von $firstNamneValue $lastnameValue'
       ..html =
           '<table><tr><td>Name</td><td>$_title $firstNamneValue $lastnameValue</td></tr><tr><td>Firma</td><td>$companyValue</td></tr><tr><td>Adresse</td><td>$streetValue</td></tr><tr><td>Ort</td><td>$plzValue $locationValue</td></tr><tr><td>Telefonnummer</td><td>$phoneValue</td></tr><tr><td>Mobiltelefon</td><td>$mobileValue</td></tr></td></tr><tr><td>Newsletter erwünscht</td><td>$_newsletterSubscription</td></tr></td></tr><tr><td>Dienstleistungen</td><td>${_services.join(", ")}</td></tr></tr><tr><td>Zusätzliches Interesse an</td><td>$additionalInterestsValue</td></tr><tr><td>Kontaktieren via</td><td>$_contactVia</td></tr><tr><td>Bemerkungen</td><td>$remarksValue</td></tr></table>';
+  }
 
+  Future<SendReport> sendMailToSmtpServer(
+    Message message,
+    SmtpServer smtpServer,
+  ) async =>
+      _inquiryService.sendMailToSmtpServer(message, smtpServer);
+
+  Future<void> sendEmail() async {
+    final smtpServer = await createSmtpServer();
+    final message = generateMessage(await getRecipient());
     try {
-      final sendReport = await send(message, smtpServer);
-      // ignore: avoid_print
-      print('Message sent: $sendReport');
+      await sendMailToSmtpServer(message, smtpServer);
+    } finally {
       _navigationService.replaceWithTransition(
         InquiryView(),
         transition: NavigationTransition.UpToDown,
       );
-    } on MailerException catch (e) {
-      for (final p in e.problems) {
-        // ignore: avoid_print
-        print('Problem: ${p.code}: ${p.msg}');
-      }
     }
   }
 }

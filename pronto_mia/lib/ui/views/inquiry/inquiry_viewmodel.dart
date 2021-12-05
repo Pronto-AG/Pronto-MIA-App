@@ -164,7 +164,13 @@ class InquiryViewModel extends FormViewModel {
     final smtpServer = await createSmtpServer();
     final message = generateMessage(await getRecipient());
     try {
-      await sendMailToSmtpServer(message, smtpServer);
+      final sendReport = await sendMailToSmtpServer(message, smtpServer);
+      print('Message sent: $sendReport');
+    } on MailerException catch (e) {
+      for (final p in e.problems) {
+        // ignore: avoid_print
+        print('Problem: ${p.code}: ${p.msg}');
+      }
     } finally {
       _navigationService.replaceWithTransition(
         InquiryView(),

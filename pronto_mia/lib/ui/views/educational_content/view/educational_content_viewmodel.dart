@@ -20,8 +20,10 @@ class EducationalContentViewModel extends FutureViewModel<EducationalContent> {
   /// Initializes a new instance of [EducationalContentViewModel].
   ///
   /// Takes a [bool] wether to execute admin level functionality as an input.
-  EducationalContentViewModel(
-      {this.educationalContent, this.adminModeEnabled = false}) {
+  EducationalContentViewModel({
+    this.educationalContent,
+    this.adminModeEnabled = false,
+  }) {
     _educationalContentService.addListener(_notifyDataChanged);
   }
 

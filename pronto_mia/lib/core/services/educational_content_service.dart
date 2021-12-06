@@ -2,16 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
-import 'package:intl/intl.dart';
 
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/models/educational_content.dart';
 import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/core/queries/educational_content_queries.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
-import 'package:pronto_mia/core/services/video_service.dart';
-import 'package:pronto_mia/ui/views/educational_content/overview/educational_content_overview_view.dart';
-import 'package:stacked_services/stacked_services.dart';
 
 /// A service, responsible for accessing educational content.
 ///
@@ -19,8 +15,6 @@ import 'package:stacked_services/stacked_services.dart';
 class EducationalContentService with ChangeNotifier {
   Future<GraphQLService> get _graphQLService =>
       locator.getAsync<GraphQLService>();
-  VideoService get _videoService => locator.get<VideoService>();
-  NavigationService get _navigationService => locator.get<NavigationService>();
 
   /// Gets the list of all educational content.
   ///
@@ -41,8 +35,8 @@ class EducationalContentService with ChangeNotifier {
   /// Gets the list of all currently available educational content.
   ///
   /// Returns a [List] list of educational content.
-  /// Currently available educational content include all educational content, which
-  /// have an end date still in the future.
+  /// Currently available educational content include all educational content,
+  /// which have an end date still in the future.
   Future<List<EducationalContent>> getAvailableEducationalContent() async {
     final data = await (await _graphQLService).query(
       EducationalContentQueries.educationalContentAvailable,
@@ -160,7 +154,10 @@ class EducationalContentService with ChangeNotifier {
   /// publish message consisting of a [String] title and [String] body as an
   /// input.
   Future<void> publishEducationalContent(
-      int id, String title, String body) async {
+    int id,
+    String title,
+    String body,
+  ) async {
     final queryVariables = {
       'id': id,
       'title': title,
@@ -197,7 +194,8 @@ class EducationalContentService with ChangeNotifier {
   /// Takes the [String] name of the educational content
   /// to be filtered as an input.
   Future<List<EducationalContent>> filterEducationalContent(
-      String filter) async {
+    String filter,
+  ) async {
     final queryVariables = {'filter': filter};
     final data = await (await _graphQLService).query(
       EducationalContentQueries.filterEducationalContent,

@@ -1,15 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:logging/logging.dart';
-
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/queries/fcm_token_queries.dart';
 import 'package:pronto_mia/core/services/configuration_service.dart';
 import 'package:pronto_mia/core/services/deployment_plan_service.dart';
-import 'package:pronto_mia/core/services/external_news_service.dart';
-import 'package:pronto_mia/core/services/internal_news_service.dart';
 import 'package:pronto_mia/core/services/educational_content_service.dart';
+import 'package:pronto_mia/core/services/external_news_service.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
+import 'package:pronto_mia/core/services/internal_news_service.dart';
 import 'package:pronto_mia/core/services/logging_service.dart';
 import 'package:pronto_mia/ui/components/deployment_plan_notification.dart';
 import 'package:pronto_mia/ui/shared/custom_dialogs.dart';

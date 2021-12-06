@@ -23,6 +23,10 @@ class UserQueries {
 		      canEditDepartments
 		      canEditOwnDepartment
           canEditExternalNews
+          canViewInternalNews
+          canEditInternalNews
+          canViewEducationalContent
+          canEditEducationalContent
         }
       }
     }
@@ -51,6 +55,10 @@ class UserQueries {
           canEditDepartments
           canEditOwnDepartment
           canEditExternalNews
+          canViewInternalNews
+          canEditInternalNews
+          canViewEducationalContent
+          canEditEducationalContent
         }   
       }
     }
@@ -114,19 +122,23 @@ class UserQueries {
               name
             }
             accessControlList {
-                canViewDeploymentPlans
-                canViewDepartmentDeploymentPlans
-            canEditDeploymentPlans
-            canEditDepartmentDeploymentPlans
-            canViewUsers
-            canViewDepartmentUsers
-            canEditUsers
-            canEditDepartmentUsers
-            canViewDepartments
-            canViewOwnDepartment
-            canEditDepartments
-            canEditOwnDepartment
-                canEditExternalNews
+              canViewDeploymentPlans
+              canViewDepartmentDeploymentPlans
+              canEditDeploymentPlans
+              canEditDepartmentDeploymentPlans
+              canViewUsers
+              canViewDepartmentUsers
+              canEditUsers
+              canEditDepartmentUsers
+              canViewDepartments
+              canViewOwnDepartment
+              canEditDepartments
+              canEditOwnDepartment
+              canEditExternalNews
+              canViewInternalNews
+              canEditInternalNews
+              canViewEducationalContent
+              canEditEducationalContent
             }
           }
         }

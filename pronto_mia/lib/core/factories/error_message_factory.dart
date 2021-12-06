@@ -52,6 +52,15 @@ class ErrorMessageFactory {
         return "Abteilung kann nicht gelöscht werden, da ihr noch "
             "Benutzer zugewiesen sind.";
         break;
+      case 'ExternalNewsNotFound':
+        return 'Der angegebene News Eintrag existiert nicht.';
+        break;
+      case 'InternalNewsNotFound':
+        return 'Der angegebene Aktuelles Eintrag existiert nicht.';
+        break;
+      case 'EducationalContentNotFound':
+        return 'Der angegebene Schulungsvideo Eintrag existiert nicht.';
+        break;
       case 'DeploymentPlanNotFound':
         return 'Der angegebene Einsatzplan existiert nicht.';
         break;

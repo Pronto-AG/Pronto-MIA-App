@@ -215,6 +215,13 @@ class ExternalNewsService with ChangeNotifier {
     return externalNewsList;
   }
 
+  /// Opens a view, containing [ExternalNews].
+  ///
+  /// Takes a [ExternalNews].
+  Future<void> openExternalNews(ExternalNews externalNews) async {
+    return;
+  }
+
   /// Notifies this objects listeners.
   void notifyDataChanged() {
     notifyListeners();

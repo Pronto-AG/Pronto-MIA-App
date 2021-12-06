@@ -1,19 +1,19 @@
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:pronto_mia/core/models/simple_file.dart';
 
-/// A service, responsible for handling image functionality.
+/// A service, responsible for handling video functionality.
 ///
-/// Contains functionality to download images
-class ImageService {
+/// Contains functionality to download videos and to open videos
+class VideoService {
   static const String cacheKey = 'cacheManagerCacheKey';
 
   final CacheManager _cacheManager;
 
-  /// Initializes a new [ImageService].
+  /// Initializes a new [VideoService].
   ///
   /// Takes a [CacheManager] as an input or initializes it when the argument is
   /// not given.
-  ImageService({CacheManager cacheManager})
+  VideoService({CacheManager cacheManager})
       : _cacheManager = cacheManager ??
             CacheManager(
               Config(
@@ -23,13 +23,13 @@ class ImageService {
               ),
             );
 
-  /// Downloads a image from the provided link
+  /// Downloads a video from the provided link
   ///
   /// Takes a [String] link as an input.
   /// Returns the download file as a [SimpleFile];
-  Future<SimpleFile> downloadImage(String path) async {
+  Future<SimpleFile> downloadVideo(String path) async {
     final file = await _cacheManager.getSingleFile(path);
 
-    return SimpleFile(name: 'upload.png', bytes: file?.readAsBytesSync());
+    return SimpleFile(name: 'upload.mp4', bytes: file?.readAsBytesSync());
   }
 }

@@ -208,7 +208,8 @@ class EducationalContentOverviewViewState
               return AlertDialog(
                 title: const Text("Löschen bestätigen"),
                 content: Text(
-                  "Soll '${educationalContent.title}' wirklich gelöscht werden?",
+                  "Soll '${educationalContent.title}' wirklich gelöscht"
+                  " werden?",
                 ),
                 actions: <Widget>[
                   TextButton(

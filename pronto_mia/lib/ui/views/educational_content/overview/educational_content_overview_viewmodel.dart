@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/models/educational_content.dart';
-import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/core/services/educational_content_service.dart';
+import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/ui/shared/custom_dialogs.dart';
 import 'package:pronto_mia/ui/views/educational_content/edit/educational_content_edit_view.dart';
 import 'package:pronto_mia/ui/views/educational_content/view/educational_content_view.dart';
@@ -104,7 +103,8 @@ class EducationalContentOverviewViewModel
   /// Takes the [EducationalContent] to publish as an input.
   /// Refetches the [List] of educational content after the dialog has ended.
   Future<void> publishEducationalContent(
-      EducationalContent educationalContent) async {
+    EducationalContent educationalContent,
+  ) async {
     final educationalContentTitle =
         getEducationalContentTitle(educationalContent);
     final response = await _dialogService.showConfirmationDialog(
@@ -131,7 +131,8 @@ class EducationalContentOverviewViewModel
 
   /// Gets all educational content based on a filter.
   Future<List<EducationalContent>> filterEducationalContent(
-          String filter) async =>
+    String filter,
+  ) async =>
       _getFilteredEducationalContent(filter);
 
   /// Opens the dialog to hide educational content.
@@ -139,7 +140,8 @@ class EducationalContentOverviewViewModel
   /// Takes the [EducationalContent] to hide as an input.
   /// Refetches the [List] of educational content after the dialog has ended.
   Future<void> hideEducationalContent(
-      EducationalContent educationalContent) async {
+    EducationalContent educationalContent,
+  ) async {
     final educationalContentTitle =
         getEducationalContentTitle(educationalContent);
 
@@ -170,7 +172,8 @@ class EducationalContentOverviewViewModel
   }
 
   Future<List<EducationalContent>> _getFilteredEducationalContent(
-      String filter) async {
+    String filter,
+  ) async {
     return _educationalContentService.filterEducationalContent(filter);
   }
 
@@ -206,7 +209,8 @@ class EducationalContentOverviewViewModel
   /// when opened as a dialog or navigates to the previous view, when opened as
   /// standalone.
   Future<void> removeEducationalContent(
-      EducationalContent educationalContent) async {
+    EducationalContent educationalContent,
+  ) async {
     if (educationalContent != null) {
       await runBusyFuture(
         _educationalContentService

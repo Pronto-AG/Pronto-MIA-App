@@ -10,7 +10,7 @@ class ConfigurationService {
   /// Loads configuration files according to the current build mode.
   Future<void> init() async {
     await _configuration.loadFromAsset('app_settings.json');
-    await _configuration.loadFromAsset('app_settings_mailer.json');
+    // await _configuration.loadFromAsset('app_settings_mailer.json');
 
     if (kReleaseMode) {
       await _configuration.loadFromAsset('app_settings_prod.json');

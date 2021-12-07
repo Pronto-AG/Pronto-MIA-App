@@ -29,7 +29,6 @@ dependencies:
   jdenticon_dart: ^2.0.0 # ^2.0.0 incompatible with http ^0.12.0
   jwt_decoder: ^2.0.0
   logging: ^1.0.0
-  mailer: ^5.0.2
   multi_select_flutter: ^4.0.0
   responsive_builder: ^0.4.0
   shared_preferences: ^2.0.0
@@ -70,4 +69,3 @@ flutter:
     - assets/cfg/app_settings.json
     - assets/cfg/app_settings_dev.json
     - assets/cfg/app_settings_prod.json
-    - assets/cfg/app_settings_mailer.json

@@ -1,4 +1,4 @@
 {
-  "apiPath": "https://api.mia-dev.pronto-ag.ch/graphql/",
+  "apiPath": "http://localhost:5000/graphql/",
   "enforceValidCertificate": false
 }

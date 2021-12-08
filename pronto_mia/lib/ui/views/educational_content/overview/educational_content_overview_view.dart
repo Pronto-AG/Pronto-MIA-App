@@ -65,7 +65,7 @@ class EducationalContentOverviewViewState
             if (!selectMultiple && widget.adminModeEnabled)
               ActionSpecification(
                 tooltip: 'Schulungsvideo erstellen',
-                icon: const Icon(Icons.post_add),
+                icon: const Icon(Icons.add),
                 onPressed: () => model.editEducationalContent(
                   asDialog: getValueForScreenType<bool>(
                     context: context,

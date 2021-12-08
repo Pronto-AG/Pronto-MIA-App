@@ -64,7 +64,7 @@ class InternalNewsOverviewViewState extends State<InternalNewsOverviewView> {
             if (!selectMultiple && widget.adminModeEnabled)
               ActionSpecification(
                 tooltip: 'Neuigkeit erstellen',
-                icon: const Icon(Icons.post_add),
+                icon: const Icon(Icons.add),
                 onPressed: () => model.editInternalNews(
                   asDialog: getValueForScreenType<bool>(
                     context: context,

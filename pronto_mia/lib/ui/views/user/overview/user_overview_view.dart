@@ -66,7 +66,7 @@ class UserOverviewViewState extends State<UserOverviewView> {
                         .canEditDepartmentUsers))
               ActionSpecification(
                 tooltip: 'Bentuzer erstellen',
-                icon: const Icon(Icons.post_add),
+                icon: const Icon(Icons.add),
                 onPressed: () => model.editUser(
                   asDialog: getValueForScreenType<bool>(
                     context: context,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jdenticon_dart/jdenticon_dart.dart';
 import 'package:pronto_mia/ui/components/navigation_menu/navigation_menu_viewmodel.dart';
+import 'package:pronto_mia/ui/views/appointment/view/appointment_view.dart';
 import 'package:pronto_mia/ui/views/contact/contact_view.dart';
 import 'package:pronto_mia/ui/views/department/overview/department_overview_view.dart';
 import 'package:pronto_mia/ui/views/deployment_plan/overview/deployment_plan_overview_view.dart';
@@ -150,15 +151,16 @@ class NavigationMenu extends StatelessWidget {
                 const ContactView(),
               ),
             ),
-          /*
-          const ListTile(
-            leading: Icon(Icons.beach_access),
-            title: Text('Ferien'),
-          ),
-          const ListTile(
-            leading: Icon(Icons.school),
-            title: Text('Schulungsunterlagen'),
-          ), */
+          if (model.data != null &&
+              model.data.profile.accessControlList.canViewAppointment)
+            ListTile(
+              contentPadding: const EdgeInsets.only(left: paddingSideBar),
+              leading: const Icon(Icons.event),
+              title: const Text('Kalender'),
+              onTap: () => model.navigateTo(
+                const AppointmentView(),
+              ),
+            )
         ],
       );
 
@@ -216,16 +218,18 @@ class NavigationMenu extends StatelessWidget {
                 ),
               ),
             ),
-          /*
-          const ListTile(
-            leading: Icon(Icons.beach_access),
-            title: Text('Ferienverwaltung'),
-          ),
-          const ListTile(
-            leading: Icon(Icons.school),
-            title: Text('Schulungsverwaltung'),
-          ), */
-
+          if (model.data != null &&
+              model.data.profile.accessControlList.canEditAppointment)
+            ListTile(
+              contentPadding: const EdgeInsets.only(left: paddingSideBar),
+              leading: const Icon(Icons.event),
+              title: const Text('Kalenderverwaltung'),
+              onTap: () => model.navigateTo(
+                const AppointmentView(
+                  adminModeEnabled: true,
+                ),
+              ),
+            ),
           if (model.data != null &&
               (model.data.profile.accessControlList.canViewUsers ||
                   model.data.profile.accessControlList.canViewDepartmentUsers))

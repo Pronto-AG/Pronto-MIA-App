@@ -48,6 +48,7 @@ final profiles = {
       canViewOwnDepartment: true,
       canViewInternalNews: true,
       canViewEducationalContent: true,
+      canViewAppointment: true,
     ),
   ),
   'department-manager': Profile(
@@ -61,6 +62,7 @@ final profiles = {
       canEditOwnDepartment: true,
       canViewInternalNews: true,
       canViewEducationalContent: true,
+      canViewAppointment: true,
     ),
   ),
   'administrator': Profile(
@@ -77,6 +79,8 @@ final profiles = {
       canEditInternalNews: true,
       canViewEducationalContent: true,
       canEditEducationalContent: true,
+      canViewAppointment: true,
+      canEditAppointment: true,
     ),
   ),
 };

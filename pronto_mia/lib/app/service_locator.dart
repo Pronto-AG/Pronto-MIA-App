@@ -15,6 +15,7 @@ import 'package:pronto_mia/core/services/user_service.dart';
 import 'package:pronto_mia/core/services/image_service.dart';
 import 'package:pronto_mia/core/services/department_service.dart';
 import 'package:pronto_mia/core/services/external_news_service.dart';
+import 'package:pronto_mia/core/services/appointment_service.dart';
 import 'package:pronto_mia/core/services/internal_news_service.dart';
 import 'package:pronto_mia/core/services/educational_content_service.dart';
 import 'package:pronto_mia/ui/shared/custom_dialogs.dart';
@@ -71,4 +72,5 @@ void setupLocator() {
       .registerLazySingleton<InternalNewsService>(() => InternalNewsService());
   locator.registerLazySingleton<EducationalContentService>(
       () => EducationalContentService());
+  locator.registerLazySingleton<AppointmentService>(() => AppointmentService());
 }

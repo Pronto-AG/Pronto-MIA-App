@@ -19,6 +19,8 @@ class AccessControlList {
   bool canEditInternalNews;
   bool canViewEducationalContent;
   bool canEditEducationalContent;
+  bool canViewAppointment;
+  bool canEditAppointment;
 
   /// Initializes a new instance of [AccessControlList].
   ///
@@ -42,6 +44,8 @@ class AccessControlList {
     this.canEditInternalNews = false,
     this.canViewEducationalContent = false,
     this.canEditEducationalContent = false,
+    this.canViewAppointment = false,
+    this.canEditAppointment = false,
   });
 
   /// Initializes a new [AccessControlList] from the values of another.
@@ -67,7 +71,9 @@ class AccessControlList {
         canViewInternalNews = toCopy.canViewInternalNews,
         canEditInternalNews = toCopy.canEditInternalNews,
         canViewEducationalContent = toCopy.canViewEducationalContent,
-        canEditEducationalContent = toCopy.canEditEducationalContent;
+        canEditEducationalContent = toCopy.canEditEducationalContent,
+        canViewAppointment = toCopy.canViewAppointment,
+        canEditAppointment = toCopy.canEditAppointment;
 
   /// Initializes a new [AccessControlList] from a JSON format object.
   ///
@@ -99,7 +105,9 @@ class AccessControlList {
         canViewEducationalContent =
             json['canViewEducationalContent'] as bool ?? false,
         canEditEducationalContent =
-            json['canEditEducationalContent'] as bool ?? false;
+            json['canEditEducationalContent'] as bool ?? false,
+        canViewAppointment = json['canViewAppointment'] as bool ?? false,
+        canEditAppointment = json['canEditAppointment'] as bool ?? false;
 
   /// Converts an [AccessControlList] to a JSON format object.
   ///
@@ -124,6 +132,8 @@ class AccessControlList {
       'canEditInternalNews': canEditInternalNews,
       'canViewEducationalContent': canViewEducationalContent,
       'canEditEducationalContent': canEditEducationalContent,
+      'canViewAppointment': canViewAppointment,
+      'canEditAppointment': canEditAppointment,
     };
   }
 
@@ -151,7 +161,9 @@ class AccessControlList {
         canViewInternalNews == other.canViewInternalNews &&
         canEditInternalNews == other.canEditInternalNews &&
         canViewEducationalContent == other.canViewEducationalContent &&
-        canEditEducationalContent == other.canEditEducationalContent) {
+        canEditEducationalContent == other.canEditEducationalContent &&
+        canViewAppointment == other.canViewAppointment &&
+        canEditAppointment == other.canEditAppointment) {
       return true;
     } else {
       return false;

@@ -64,7 +64,7 @@ class ExternalNewsOverviewViewState extends State<ExternalNewsOverviewView> {
             if (!selectMultiple && widget.adminModeEnabled)
               ActionSpecification(
                 tooltip: 'Neuigkeit erstellen',
-                icon: const Icon(Icons.post_add),
+                icon: const Icon(Icons.add),
                 onPressed: () => model.editExternalNews(
                   asDialog: getValueForScreenType<bool>(
                     context: context,

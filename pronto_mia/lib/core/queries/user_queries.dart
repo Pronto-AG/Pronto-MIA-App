@@ -27,6 +27,8 @@ class UserQueries {
           canEditInternalNews
           canViewEducationalContent
           canEditEducationalContent
+          canViewAppointment
+          canEditAppointment
         }
       }
     }
@@ -59,6 +61,8 @@ class UserQueries {
           canEditInternalNews
           canViewEducationalContent
           canEditEducationalContent
+          canViewAppointment
+          canEditAppointment
         }   
       }
     }
@@ -139,6 +143,8 @@ class UserQueries {
               canEditInternalNews
               canViewEducationalContent
               canEditEducationalContent
+              canViewAppointment
+              canEditAppointment
             }
           }
         }

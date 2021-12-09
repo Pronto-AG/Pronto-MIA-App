@@ -132,6 +132,7 @@ class DeploymentPlanService with ChangeNotifier {
     };
 
     if (pdfFile != null) {
+      await hideDeploymentPlan(id);
       queryVariables['file'] = http.MultipartFile.fromBytes(
         'file',
         pdfFile.bytes,

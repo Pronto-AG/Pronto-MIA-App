@@ -16,6 +16,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_cache_manager: ^3.1.2
+  flutter_html: ^2.2.0
   flutter_localizations:
     sdk: flutter
   flutter_pdfview: ^1.1.0
@@ -23,6 +24,7 @@ dependencies:
   flutter_svg: ^0.23.0+1 # ^0.22.0 depends on http ^0.13.0
   global_configuration: ^2.0.0-nullsafety.1
   graphql: ^5.0.0
+  html_editor_enhanced: ^2.4.0
   http: ^0.13.4 # ^0.13.0 incompatible with graphql any
   http_parser: ^4.0.0 # ^4.0.0 depends on http ^0.13.0
   intl: ^0.17.0

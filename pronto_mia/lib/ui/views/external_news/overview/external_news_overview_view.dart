@@ -6,7 +6,6 @@ import 'package:pronto_mia/ui/components/data_view_layout.dart';
 import 'package:pronto_mia/ui/components/navigation_layout.dart';
 import 'package:pronto_mia/ui/shared/custom_colors.dart';
 import 'package:pronto_mia/ui/views/external_news/overview/external_news_overview_viewmodel.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 
 /// A widget, representing the news.
@@ -65,13 +64,7 @@ class ExternalNewsOverviewViewState extends State<ExternalNewsOverviewView> {
               ActionSpecification(
                 tooltip: 'Neuigkeit erstellen',
                 icon: const Icon(Icons.post_add),
-                onPressed: () => model.editExternalNews(
-                  asDialog: getValueForScreenType<bool>(
-                    context: context,
-                    mobile: false,
-                    desktop: true,
-                  ),
-                ),
+                onPressed: () => model.editExternalNews(),
               ),
           ],
           actionsAppBar: [
@@ -287,11 +280,6 @@ class ExternalNewsOverviewViewState extends State<ExternalNewsOverviewView> {
                     } else {
                       model.editExternalNews(
                         externalNews: externalNews,
-                        asDialog: getValueForScreenType<bool>(
-                          context: context,
-                          mobile: false,
-                          desktop: true,
-                        ),
                       );
                     }
                   } else {
@@ -311,7 +299,6 @@ class ExternalNewsOverviewViewState extends State<ExternalNewsOverviewView> {
                   future: model.getExternalNewsImage(externalNews),
                   builder: (BuildContext context, AsyncSnapshot<Image> image) {
                     if (image.hasData) {
-                      // return image.data; // image is ready
                       return Container(
                         width: kIsWeb
                             ? MediaQuery.of(context).size.width * 0.05

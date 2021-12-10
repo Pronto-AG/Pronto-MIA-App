@@ -71,31 +71,31 @@ void main() {
         verify(navigationService.back(result: true));
       });
 
-      test('creates external news successfully as dialog', () async {
-        externalNewsEditViewModel = ExternalNewsEditViewModel(
-          isDialog: true,
-        );
-        final externalNewsService = getAndRegisterMockExternalNewsService();
-        final dialogService = getAndRegisterMockDialogService();
-        SimpleFile file = SimpleFile();
+      // test('creates external news successfully as dialog', () async {
+      //   externalNewsEditViewModel = ExternalNewsEditViewModel(
+      //     isDialog: true,
+      //   );
+      //   final externalNewsService = getAndRegisterMockExternalNewsService();
+      //   final dialogService = getAndRegisterMockDialogService();
+      //   SimpleFile file = SimpleFile();
 
-        externalNewsEditViewModel.formValueMap['title'] = 'title';
-        externalNewsEditViewModel.formValueMap['description'] = 'description';
-        externalNewsEditViewModel.formValueMap['availableFrom'] =
-            '2011-10-05T14:48:00.000Z';
-        externalNewsEditViewModel.formValueMap['upload.png'] = 'test';
-        externalNewsEditViewModel.setImageUpload(file);
+      //   externalNewsEditViewModel.formValueMap['title'] = 'title';
+      //   externalNewsEditViewModel.formValueMap['description'] = 'description';
+      //   externalNewsEditViewModel.formValueMap['availableFrom'] =
+      //       '2011-10-05T14:48:00.000Z';
+      //   externalNewsEditViewModel.formValueMap['upload.png'] = 'test';
+      //   externalNewsEditViewModel.setImageUpload(file);
 
-        await externalNewsEditViewModel.submitForm();
-        expect(externalNewsEditViewModel.validationMessage, isNull);
-        verify(externalNewsService.createExternalNews(
-          'title',
-          'description',
-          DateTime.parse('2011-10-05T14:48:00.000Z'),
-          file,
-        )).called(1);
-        verify(dialogService.completeDialog(argThat(anything)));
-      });
+      //   await externalNewsEditViewModel.submitForm();
+      //   expect(externalNewsEditViewModel.validationMessage, isNull);
+      //   verify(externalNewsService.createExternalNews(
+      //     'title',
+      //     'description',
+      //     DateTime.parse('2011-10-05T14:48:00.000Z'),
+      //     file,
+      //   )).called(1);
+      //   verify(dialogService.completeDialog(argThat(anything)));
+      // });
 
       test('edits external news successfully as standalone', () async {
         externalNewsEditViewModel = ExternalNewsEditViewModel(
@@ -124,33 +124,33 @@ void main() {
         verify(navigationService.back(result: true));
       });
 
-      test('edits external news successfully as dialog', () async {
-        externalNewsEditViewModel = ExternalNewsEditViewModel(
-          isDialog: true,
-          externalNews: ExternalNews(
-            id: 1,
-            title: 'bar',
-            description: 'foo',
-            availableFrom: DateTime.parse('2011-10-05T14:48:00.000Z'),
-            link: 'http://example.com/',
-          ),
-        );
-        final externalNewsService = getAndRegisterMockExternalNewsService();
-        final dialogService = getAndRegisterMockDialogService();
-        externalNewsEditViewModel.formValueMap['title'] = 'bar';
-        externalNewsEditViewModel.formValueMap['description'] = 'bar';
-        externalNewsEditViewModel.formValueMap['availableFrom'] =
-            '2011-10-05T14:48:00.000Z';
-        externalNewsEditViewModel.formValueMap['upload.png'] = 'test';
+      // test('edits external news successfully as dialog', () async {
+      //   externalNewsEditViewModel = ExternalNewsEditViewModel(
+      //     isDialog: true,
+      //     externalNews: ExternalNews(
+      //       id: 1,
+      //       title: 'bar',
+      //       description: 'foo',
+      //       availableFrom: DateTime.parse('2011-10-05T14:48:00.000Z'),
+      //       link: 'http://example.com/',
+      //     ),
+      //   );
+      //   final externalNewsService = getAndRegisterMockExternalNewsService();
+      //   final dialogService = getAndRegisterMockDialogService();
+      //   externalNewsEditViewModel.formValueMap['title'] = 'bar';
+      //   externalNewsEditViewModel.formValueMap['description'] = 'bar';
+      //   externalNewsEditViewModel.formValueMap['availableFrom'] =
+      //       '2011-10-05T14:48:00.000Z';
+      //   externalNewsEditViewModel.formValueMap['upload.png'] = 'test';
 
-        await externalNewsEditViewModel.submitForm();
-        expect(externalNewsEditViewModel.validationMessage, isNull);
-        verify(externalNewsService.updateExternalNews(
-          1,
-          description: 'bar',
-        )).called(1);
-        verify(dialogService.completeDialog(argThat(anything)));
-      });
+      //   await externalNewsEditViewModel.submitForm();
+      //   expect(externalNewsEditViewModel.validationMessage, isNull);
+      //   verify(externalNewsService.updateExternalNews(
+      //     1,
+      //     description: 'bar',
+      //   )).called(1);
+      //   verify(dialogService.completeDialog(argThat(anything)));
+      // });
     });
 
     group('removeExternalNews', () {
@@ -167,19 +167,19 @@ void main() {
         verify(navigationService.back(result: true));
       });
 
-      test('removes external news successfully as dialog', () async {
-        externalNewsEditViewModel = ExternalNewsEditViewModel(
-          isDialog: true,
-          externalNews: ExternalNews(id: 1),
-        );
-        final externalNewsService = getAndRegisterMockExternalNewsService();
-        final dialogService = getAndRegisterMockDialogService();
+      // test('removes external news successfully as dialog', () async {
+      //   externalNewsEditViewModel = ExternalNewsEditViewModel(
+      //     isDialog: true,
+      //     externalNews: ExternalNews(id: 1),
+      //   );
+      //   final externalNewsService = getAndRegisterMockExternalNewsService();
+      //   final dialogService = getAndRegisterMockDialogService();
 
-        await externalNewsEditViewModel.removeExternalNews();
-        expect(externalNewsEditViewModel.validationMessage, isNull);
-        verify(externalNewsService.removeExternalNews(1)).called(1);
-        verify(dialogService.completeDialog(argThat(anything)));
-      });
+      //   await externalNewsEditViewModel.removeExternalNews();
+      //   expect(externalNewsEditViewModel.validationMessage, isNull);
+      //   verify(externalNewsService.removeExternalNews(1)).called(1);
+      //   verify(dialogService.completeDialog(argThat(anything)));
+      // });
     });
 
     group('getExternalNewsTitle', () {

@@ -131,6 +131,7 @@ class UserEditState extends State<UserEditView> {
               decoration:
                   const InputDecoration(labelText: 'Passwort bestätigen'),
             ),
+            _buildFormSectionHeader('Abteilung'),
             FutureBuilder(
               future: model.getAllDepartments(),
               builder: (
@@ -142,12 +143,19 @@ class UserEditState extends State<UserEditView> {
                     items: departments.data
                         .map((d) => MultiSelectItem(d, d.name))
                         .toList(),
+                    title: const Text("Abteilungen"),
                     initialValue: widget.selectedDepartments,
                     listType: MultiSelectListType.LIST,
                     onConfirm: (values) {
                       widget.selectedDepartments = values as List<Department>;
                     },
+                    buttonText: const Text("Abteilung auswählen"),
+                    searchable: true,
+                    buttonIcon: const Icon(Icons.add_box_outlined),
+                    height: 300.0,
                     chipDisplay: MultiSelectChipDisplay(
+                      chipColor: Colors.grey.withOpacity(0.2),
+                      textStyle: const TextStyle(color: Colors.black),
                       onTap: (Department item) {
                         widget.selectedDepartments.remove(item);
                         return widget.selectedDepartments;

@@ -58,7 +58,7 @@ class DepartmentOverviewViewState extends State<DepartmentOverviewView> {
                 model.currentUser.profile.accessControlList.canEditDepartments)
               ActionSpecification(
                 tooltip: 'Neuigkeit erstellen',
-                icon: const Icon(Icons.post_add),
+                icon: const Icon(Icons.add),
                 onPressed: () => model.editDepartment(
                   asDialog: getValueForScreenType<bool>(
                     context: context,

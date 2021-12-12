@@ -223,7 +223,7 @@ class AppointmentDataSource extends CalendarDataSource {
   @override
   Color getColor(int index) {
     if ((appointments[index] as local.Appointment).isAllDay) {
-      return Colors.yellow;
+      return Colors.blue;
     } else {
       return Colors.green;
     }

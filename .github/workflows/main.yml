@@ -102,10 +102,12 @@ jobs:
         WEB_FIREBASE_CONFIG: ${{ secrets.WEB_FIREBASE_CONFIG }}
         APP_SETTINGS: ${{ secrets.APP_SETTINGS }}
         APP_SETTINGS_PROD: ${{ secrets.APP_SETTINGS_PROD }}
+        APP_SETTINGS_MAILER: ${{ secrets.APP_SETTINGS_MAILER }}
       run: |
         echo "$WEB_FIREBASE_CONFIG" > web/firebase-config.js
         echo "$APP_SETTINGS" > assets/cfg/app_settings.json
         echo "$APP_SETTINGS_PROD" > assets/cfg/app_settings_prod.json
+        echo "$APP_SETTINGS_MAILER" > assets/cfg/app_settings_mailer.json
       
     - name: Build web
       run: flutter build web --csp --web-renderer canvaskit
@@ -148,11 +150,13 @@ jobs:
         ANDROID_KEY_PROPERTIES: ${{ secrets.ANDROID_KEY_PROPERTIES }}
         APP_SETTINGS: ${{ secrets.APP_SETTINGS }}
         APP_SETTINGS_PROD: ${{ secrets.APP_SETTINGS_PROD }}
+        APP_SETTINGS_MAILER: ${{ secrets.APP_SETTINGS_MAILER }}
       run: |
         echo "$ANDROID_GOOGLE_SERVICES" > android/app/google-services.json
         echo "$ANDROID_KEY_PROPERTIES" > android/key.properties
         echo "$APP_SETTINGS" > assets/cfg/app_settings.json
         echo "$APP_SETTINGS_PROD" > assets/cfg/app_settings_prod.json
+        echo "$APP_SETTINGS_MAILER" > assets/cfg/app_settings_mailer.json
       
     - name: Build for android
       run: flutter build appbundle
@@ -192,10 +196,12 @@ jobs:
           WEB_FIREBASE_CONFIG: ${{ secrets.WEB_FIREBASE_CONFIG }}
           APP_SETTINGS: ${{ secrets.APP_SETTINGS }}
           APP_SETTINGS_PROD_DEV: ${{ secrets.APP_SETTINGS_PROD_DEV }}
+          APP_SETTINGS_MAILER: ${{ secrets.APP_SETTINGS_MAILER }}
         run: |
           echo "$WEB_FIREBASE_CONFIG" > web/firebase-config.js
           echo "$APP_SETTINGS" > assets/cfg/app_settings.json
           echo "$APP_SETTINGS_PROD_DEV" > assets/cfg/app_settings_prod.json
+          echo "$APP_SETTINGS_MAILER" > assets/cfg/app_settings_mailer.json
 
       - name: Build and push
         id: docker_build
@@ -235,10 +241,12 @@ jobs:
           WEB_FIREBASE_CONFIG: ${{ secrets.WEB_FIREBASE_CONFIG }}
           APP_SETTINGS: ${{ secrets.APP_SETTINGS }}
           APP_SETTINGS_PROD: ${{ secrets.APP_SETTINGS_PROD }}
+          APP_SETTINGS_MAILER: ${{ secrets.APP_SETTINGS_MAILER }}
         run: |
           echo "$WEB_FIREBASE_CONFIG" > web/firebase-config.js
           echo "$APP_SETTINGS" > assets/cfg/app_settings.json
           echo "$APP_SETTINGS_PROD" > assets/cfg/app_settings_prod.json
+          echo "$APP_SETTINGS_MAILER" > assets/cfg/app_settings_mailer.json
       
       - name: Build and push
         id: docker_build

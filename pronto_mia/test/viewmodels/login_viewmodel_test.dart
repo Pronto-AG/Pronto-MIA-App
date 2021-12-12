@@ -51,22 +51,33 @@ void main() {
         );
       });
     });
-    // group('onError', () {
-    //     test('calls error handling on error', () async {
-    //       final errorService = getAndRegisterMockErrorService();
-    //       when(errorService.getErrorMessage(captureAny)).thenReturn('test');
 
-    //       await loginViewModel.onError(Exception());
-    //       expect(loginViewModel.errorMessage, equals('test'));
-    //       verify(
-    //         errorService.handleError(
-    //           'DepartmentOverviewViewModel',
-    //           argThat(isException),
-    //         ),
-    //       ).called(1);
-    //       verify(errorService.getErrorMessage(argThat(isException))).called(1);
-    //     });
-    //   }
-    // );
+    group('cancel', () {
+      final navigationService = getAndRegisterMockNavigationService();
+      loginViewModel = LoginViewModel();
+      loginViewModel.cancelForm();
+      verify(
+        navigationService.replaceWithTransition(
+          argThat(anything),
+        ),
+      );
+    });
+
+    group('onError', () {
+      test('calls error handling on error', () async {
+        final errorService = getAndRegisterMockErrorService();
+        when(errorService.getErrorMessage(captureAny)).thenReturn('test');
+
+        await loginViewModel.onError(Exception());
+        expect(loginViewModel.errorMessage, equals('test'));
+        verify(
+          errorService.handleError(
+            'LoginViewModel',
+            argThat(isException),
+          ),
+        ).called(1);
+        verify(errorService.getErrorMessage(argThat(isException))).called(1);
+      });
+    });
   });
 }

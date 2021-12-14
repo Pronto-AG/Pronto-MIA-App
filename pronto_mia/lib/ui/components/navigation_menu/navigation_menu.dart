@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jdenticon_dart/jdenticon_dart.dart';
 import 'package:pronto_mia/ui/components/navigation_menu/navigation_menu_viewmodel.dart';
+import 'package:pronto_mia/ui/views/appointment/view/appointment_view.dart';
 import 'package:pronto_mia/ui/views/contact/contact_view.dart';
 import 'package:pronto_mia/ui/views/department/overview/department_overview_view.dart';
 import 'package:pronto_mia/ui/views/deployment_plan/overview/deployment_plan_overview_view.dart';
+import 'package:pronto_mia/ui/views/educational_content/overview/educational_content_overview_view.dart';
 import 'package:pronto_mia/ui/views/external_news/overview/external_news_overview_view.dart';
 import 'package:pronto_mia/ui/views/inquiry/inquiry_view.dart';
+import 'package:pronto_mia/ui/views/internal_news/overview/internal_news_overview_view.dart';
 import 'package:pronto_mia/ui/views/login/login_view.dart';
 import 'package:pronto_mia/ui/views/user/overview/user_overview_view.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -99,6 +102,16 @@ class NavigationMenu extends StatelessWidget {
             ),
           ),
           if (model.data != null &&
+              model.data.profile.accessControlList.canViewInternalNews)
+            ListTile(
+              contentPadding: const EdgeInsets.only(left: paddingSideBar),
+              leading: const Icon(Icons.campaign),
+              title: const Text('Aktuelles'),
+              onTap: () => model.navigateTo(
+                const InternalNewsOverviewView(),
+              ),
+            ),
+          if (model.data != null &&
               (model.data.profile.accessControlList.canViewDeploymentPlans ||
                   model.data.profile.accessControlList
                       .canViewDepartmentDeploymentPlans))
@@ -108,6 +121,16 @@ class NavigationMenu extends StatelessWidget {
               title: const Text('Einsatzpläne'),
               onTap: () => model.navigateTo(
                 const DeploymentPlanOverviewView(),
+              ),
+            ),
+          if (model.data != null &&
+              model.data.profile.accessControlList.canViewEducationalContent)
+            ListTile(
+              contentPadding: const EdgeInsets.only(left: paddingSideBar),
+              leading: const Icon(Icons.school),
+              title: const Text('Schulungsvideos'),
+              onTap: () => model.navigateTo(
+                const EducationalContentOverviewView(),
               ),
             ),
           if (model.data == null)
@@ -128,6 +151,16 @@ class NavigationMenu extends StatelessWidget {
                 const ContactView(),
               ),
             ),
+          if (model.data != null &&
+              model.data.profile.accessControlList.canViewAppointment)
+            ListTile(
+              contentPadding: const EdgeInsets.only(left: paddingSideBar),
+              leading: const Icon(Icons.event),
+              title: const Text('Kalender'),
+              onTap: () => model.navigateTo(
+                const AppointmentView(),
+              ),
+            )
         ],
       );
 
@@ -150,6 +183,18 @@ class NavigationMenu extends StatelessWidget {
               ),
             ),
           if (model.data != null &&
+              model.data.profile.accessControlList.canEditInternalNews)
+            ListTile(
+              contentPadding: const EdgeInsets.only(left: paddingSideBar),
+              leading: const Icon(Icons.campaign),
+              title: const Text('Aktuellesverwaltung'),
+              onTap: () => model.navigateTo(
+                const InternalNewsOverviewView(
+                  adminModeEnabled: true,
+                ),
+              ),
+            ),
+          if (model.data != null &&
               (model.data.profile.accessControlList.canEditDeploymentPlans ||
                   model.data.profile.accessControlList
                       .canEditDepartmentDeploymentPlans))
@@ -159,6 +204,30 @@ class NavigationMenu extends StatelessWidget {
               title: const Text('Einsatzplanverwaltung'),
               onTap: () => model.navigateTo(
                 const DeploymentPlanOverviewView(adminModeEnabled: true),
+              ),
+            ),
+          if (model.data != null &&
+              model.data.profile.accessControlList.canEditEducationalContent)
+            ListTile(
+              contentPadding: const EdgeInsets.only(left: paddingSideBar),
+              leading: const Icon(Icons.school),
+              title: const Text('Schulungsvideoverwaltung'),
+              onTap: () => model.navigateTo(
+                const EducationalContentOverviewView(
+                  adminModeEnabled: true,
+                ),
+              ),
+            ),
+          if (model.data != null &&
+              model.data.profile.accessControlList.canEditAppointment)
+            ListTile(
+              contentPadding: const EdgeInsets.only(left: paddingSideBar),
+              leading: const Icon(Icons.event),
+              title: const Text('Kalenderverwaltung'),
+              onTap: () => model.navigateTo(
+                const AppointmentView(
+                  adminModeEnabled: true,
+                ),
               ),
             ),
           if (model.data != null &&

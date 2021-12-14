@@ -5,6 +5,7 @@ import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/core/services/external_news_service.dart';
 import 'package:pronto_mia/ui/views/external_news/edit/external_news_edit_view.form.dart';
+import 'package:pronto_mia/ui/views/external_news/overview/external_news_overview_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -139,6 +140,12 @@ class ExternalNewsEditViewModel extends FormViewModel {
     }
 
     return null;
+  }
+
+  void cancelForm() {
+    _navigationService.replaceWithTransition(
+      const ExternalNewsOverviewView(adminModeEnabled: true),
+    );
   }
 
   Future<void> _completeFormAction(String actionKey) async {

@@ -128,15 +128,6 @@ class NavigationMenu extends StatelessWidget {
                 const ContactView(),
               ),
             ),
-          /*
-          const ListTile(
-            leading: Icon(Icons.beach_access),
-            title: Text('Ferien'),
-          ),
-          const ListTile(
-            leading: Icon(Icons.school),
-            title: Text('Schulungsunterlagen'),
-          ), */
         ],
       );
 
@@ -170,16 +161,6 @@ class NavigationMenu extends StatelessWidget {
                 const DeploymentPlanOverviewView(adminModeEnabled: true),
               ),
             ),
-          /*
-          const ListTile(
-            leading: Icon(Icons.beach_access),
-            title: Text('Ferienverwaltung'),
-          ),
-          const ListTile(
-            leading: Icon(Icons.school),
-            title: Text('Schulungsverwaltung'),
-          ), */
-
           if (model.data != null &&
               (model.data.profile.accessControlList.canViewUsers ||
                   model.data.profile.accessControlList.canViewDepartmentUsers))

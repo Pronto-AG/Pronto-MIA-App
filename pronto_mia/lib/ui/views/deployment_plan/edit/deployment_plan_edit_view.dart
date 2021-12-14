@@ -218,6 +218,15 @@ class DeploymentPlanEditView extends StatelessWidget
               );
             }
           })(),
+          cancelButton: (() {
+            if (deploymentPlan == null) {
+              return ButtonSpecification(
+                title: 'Abbrechen',
+                onTap: model.cancelForm,
+                isBusy: model.isBusy,
+              );
+            }
+          })(),
           validationMessage: model.validationMessage,
         ),
       );

@@ -208,6 +208,15 @@ class UserEditState extends State<UserEditView> {
                   isDestructive: true,
                 )
               : null,
+          cancelButton: (() {
+            if (widget.user == null) {
+              return ButtonSpecification(
+                title: 'Abbrechen',
+                onTap: model.cancelForm,
+                isBusy: model.isBusy,
+              );
+            }
+          })(),
           validationMessage: model.validationMessage,
         ),
       );

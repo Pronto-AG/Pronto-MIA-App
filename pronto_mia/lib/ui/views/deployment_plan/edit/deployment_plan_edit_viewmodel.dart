@@ -7,6 +7,7 @@ import 'package:pronto_mia/core/services/department_service.dart';
 import 'package:pronto_mia/core/services/deployment_plan_service.dart';
 import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/ui/views/deployment_plan/edit/deployment_plan_edit_view.form.dart';
+import 'package:pronto_mia/ui/views/deployment_plan/overview/deployment_plan_overview_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -189,6 +190,12 @@ class DeploymentPlanEditViewModel extends FormViewModel {
     }
 
     return null;
+  }
+
+  void cancelForm() {
+    _navigationService.replaceWithTransition(
+      const DeploymentPlanOverviewView(adminModeEnabled: true),
+    );
   }
 
   Future<void> _completeFormAction(String actionKey) async {

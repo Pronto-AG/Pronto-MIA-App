@@ -3,6 +3,7 @@ import 'package:pronto_mia/core/models/department.dart';
 import 'package:pronto_mia/core/services/department_service.dart';
 import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/ui/views/department/edit/department_edit_view.form.dart';
+import 'package:pronto_mia/ui/views/department/overview/department_overview_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -85,6 +86,12 @@ class DepartmentEditViewModel extends FormViewModel {
     }
 
     return null;
+  }
+
+  void cancelForm() {
+    _navigationService.replaceWithTransition(
+      const DepartmentOverviewView(),
+    );
   }
 
   Future<void> _completeFormAction(String actionKey) async {

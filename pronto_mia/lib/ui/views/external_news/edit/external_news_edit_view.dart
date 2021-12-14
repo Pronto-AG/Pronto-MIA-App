@@ -9,6 +9,7 @@ import 'package:pronto_mia/core/models/external_news.dart';
 import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/ui/components/form_layout.dart';
 import 'package:pronto_mia/ui/shared/custom_colors.dart';
+import 'package:pronto_mia/ui/shared/html_toolbar.dart';
 import 'package:pronto_mia/ui/views/external_news/edit/external_news_edit_view.form.dart';
 import 'package:pronto_mia/ui/views/external_news/edit/external_news_edit_viewmodel.dart';
 import 'package:stacked/stacked.dart';
@@ -17,7 +18,6 @@ import 'package:stacked/stacked.dart';
 class ExternalNewsEditView extends StatelessWidget with $ExternalNewsEditView {
   final _formKey = GlobalKey<FormState>();
   final ExternalNews externalNews;
-  // final bool isDialog;
 
   /// Initializes a new instance of [ExternalNewsEditView].
   ///
@@ -30,7 +30,6 @@ class ExternalNewsEditView extends StatelessWidget with $ExternalNewsEditView {
   }) : super(key: key) {
     if (externalNews != null) {
       titleController.text = externalNews.title;
-      // descriptionController.text = externalNews.description;
       availableFromController.text = externalNews.availableFrom.toString();
       imagePathController.text = "upload.png";
     }
@@ -114,16 +113,8 @@ class ExternalNewsEditView extends StatelessWidget with $ExternalNewsEditView {
             onEditingComplete: model.submitForm,
             decoration: const InputDecoration(labelText: 'Titel*'),
           ),
-          // TextFormField(
-          //   controller: descriptionController,
-          //   onEditingComplete: model.submitForm,
-          //   decoration: const InputDecoration(labelText: 'Inhalt*'),
-          //   keyboardType: TextInputType.multiline,
-          //   maxLines: 15,
-          //   minLines: 5,
-          // ),
           Container(
-            alignment: Alignment.centerRight,
+            alignment: Alignment.centerLeft,
             child: HtmlEditor(
               controller: htmlEditorController,
               callbacks: Callbacks(
@@ -137,29 +128,7 @@ class ExternalNewsEditView extends StatelessWidget with $ExternalNewsEditView {
               htmlEditorOptions: externalNews != null
                   ? _withcontent(externalNews)
                   : _withoutcontent(externalNews),
-              htmlToolbarOptions: const HtmlToolbarOptions(
-                dropdownMenuMaxHeight: 300,
-                defaultToolbarButtons: [
-                  StyleButtons(),
-                  FontSettingButtons(
-                    fontName: false,
-                  ),
-                  FontButtons(),
-                  ColorButtons(),
-                  ListButtons(listStyles: false),
-                  ParagraphButtons(
-                    caseConverter: false,
-                    lineHeight: false,
-                  ),
-                  InsertButtons(
-                    picture: false,
-                    video: false,
-                    audio: false,
-                    table: false,
-                    hr: false,
-                  ),
-                ],
-              ),
+              htmlToolbarOptions: htmlToolbarSettings(),
             ),
           ),
           DateTimePicker(
@@ -210,6 +179,15 @@ class ExternalNewsEditView extends StatelessWidget with $ExternalNewsEditView {
               onTap: model.removeExternalNews,
               isBusy: model.busy(ExternalNewsEditViewModel.removeActionKey),
               isDestructive: true,
+            );
+          }
+        })(),
+        cancelButton: (() {
+          if (externalNews == null) {
+            return ButtonSpecification(
+              title: 'Abbrechen',
+              onTap: model.cancelForm,
+              isBusy: model.isBusy,
             );
           }
         })(),

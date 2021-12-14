@@ -1,52 +1,54 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:pronto_mia/core/models/external_news.dart';
+import 'package:pronto_mia/core/models/educational_content.dart';
 import 'package:pronto_mia/ui/components/data_view_layout.dart';
 import 'package:pronto_mia/ui/components/navigation_layout.dart';
 import 'package:pronto_mia/ui/shared/custom_colors.dart';
-import 'package:pronto_mia/ui/views/external_news/overview/external_news_overview_viewmodel.dart';
+import 'package:pronto_mia/ui/views/educational_content/overview/educational_content_overview_viewmodel.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 
-/// A widget, representing the news.
-class ExternalNewsOverviewView extends StatefulWidget {
+/// A widget, representing the educational content.
+class EducationalContentOverviewView extends StatefulWidget {
   final bool adminModeEnabled;
 
-  /// Initializes a new instance of [ExternalNewsOverviewView].
+  /// Initializes a new instance of [EducationalContentOverviewView].
 
   /// Takes a [Key] to uniquely identify the widget in the widget tree and a
   /// [bool] wether to show admin level functionality as an input.
-  const ExternalNewsOverviewView({
+  const EducationalContentOverviewView({
     Key key,
     this.adminModeEnabled = false,
   }) : super(key: key);
 
   @override
-  ExternalNewsOverviewViewState createState() =>
-      ExternalNewsOverviewViewState();
+  EducationalContentOverviewViewState createState() =>
+      EducationalContentOverviewViewState();
 }
 
-class ExternalNewsOverviewViewState extends State<ExternalNewsOverviewView> {
+class EducationalContentOverviewViewState
+    extends State<EducationalContentOverviewView> {
   final _searchController = TextEditingController();
   final _scrollController = ScrollController();
-  List<ExternalNews> selectedToDelete = [];
-  List<ExternalNews> filteredNews = [];
+  List<EducationalContent> selectedToDelete = [];
+  List<EducationalContent> filteredNews = [];
   bool filtered = false;
   bool selectMultiple = false;
   bool selectAll = false;
 
-  /// Binds [ExternalNewsOverviewView] and builds the widget.
+  /// Binds [EducationalContentOverviewView] and builds the widget.
   ///
   /// Takes the current [BuildContext] as an input.
   /// Returns the built [Widget].
   @override
   Widget build(BuildContext context) =>
-      ViewModelBuilder<ExternalNewsOverviewViewModel>.reactive(
-        viewModelBuilder: () => ExternalNewsOverviewViewModel(
+      ViewModelBuilder<EducationalContentOverviewViewModel>.reactive(
+        viewModelBuilder: () => EducationalContentOverviewViewModel(
           adminModeEnabled: widget.adminModeEnabled,
         ),
         builder: (context, model, child) => NavigationLayout(
-          title: "News",
+          title: "Schulungsvideos",
           body: _buildDataView(context, model),
           actions: [
             if (selectMultiple && widget.adminModeEnabled)
@@ -62,9 +64,15 @@ class ExternalNewsOverviewViewState extends State<ExternalNewsOverviewView> {
               ),
             if (!selectMultiple && widget.adminModeEnabled)
               ActionSpecification(
-                tooltip: 'Neuigkeit erstellen',
+                tooltip: 'Schulungsvideo erstellen',
                 icon: const Icon(Icons.add),
-                onPressed: () => model.editExternalNews(),
+                onPressed: () => model.editEducationalContent(
+                  asDialog: getValueForScreenType<bool>(
+                    context: context,
+                    mobile: false,
+                    desktop: true,
+                  ),
+                ),
               ),
           ],
           actionsAppBar: [
@@ -98,20 +106,20 @@ class ExternalNewsOverviewViewState extends State<ExternalNewsOverviewView> {
 
   Widget _buildDataView(
     BuildContext context,
-    ExternalNewsOverviewViewModel model,
+    EducationalContentOverviewViewModel model,
   ) =>
       DataViewLayout(
         isBusy: model.isBusy,
         errorMessage: model.errorMessage,
         noDataMessage: (model.data == null || model.data.isEmpty)
-            ? 'Es sind keine News verfügbar.'
+            ? 'Es sind keine Schulungsvideos verfügbar.'
             : null,
         childBuilder: () => _buildFilter(context, model),
       );
 
   Widget _buildFilter(
     BuildContext context,
-    ExternalNewsOverviewViewModel model,
+    EducationalContentOverviewViewModel model,
   ) {
     if (widget.adminModeEnabled) {
       return Column(
@@ -120,7 +128,7 @@ class ExternalNewsOverviewViewState extends State<ExternalNewsOverviewView> {
             controller: _searchController,
             onChanged: (filter) => _applyFilter(model, filter),
             decoration: InputDecoration(
-              labelText: 'News suchen',
+              labelText: 'Schulungsvideo suchen',
               prefixIcon: const Icon(Icons.search),
               suffixIcon: IconButton(
                 icon: const Icon(Icons.clear),
@@ -165,33 +173,33 @@ class ExternalNewsOverviewViewState extends State<ExternalNewsOverviewView> {
 
   Widget _buildList(
     BuildContext context,
-    ExternalNewsOverviewViewModel model,
-    List<ExternalNews> externalNews,
+    EducationalContentOverviewViewModel model,
+    List<EducationalContent> educationalContent,
   ) =>
       RefreshIndicator(
         onRefresh: model.initialise,
         child: ListView.builder(
           shrinkWrap: true,
-          itemCount: externalNews.length,
+          itemCount: educationalContent.length,
           itemBuilder: (context, index) =>
-              _buildListItem(context, model, externalNews[index]),
+              _buildListItem(context, model, educationalContent[index]),
         ),
       );
 
   Widget _buildListItem(
     BuildContext context,
-    ExternalNewsOverviewViewModel model,
-    ExternalNews externalNews,
+    EducationalContentOverviewViewModel model,
+    EducationalContent educationalContent,
   ) {
     if (widget.adminModeEnabled) {
       return Dismissible(
-        key: Key(externalNews.id.toString()),
+        key: Key(educationalContent.id.toString()),
         direction: DismissDirection.endToStart,
         onDismissed: (_) {
           setState(() {
-            model.data.remove(externalNews);
+            model.data.remove(educationalContent);
           });
-          model.removeExternalNews(externalNews);
+          model.removeEducationalContent(educationalContent);
         },
         confirmDismiss: (DismissDirection direction) async {
           return showDialog(
@@ -200,7 +208,8 @@ class ExternalNewsOverviewViewState extends State<ExternalNewsOverviewView> {
               return AlertDialog(
                 title: const Text("Löschen bestätigen"),
                 content: Text(
-                  "Soll '${externalNews.title}' wirklich gelöscht werden?",
+                  "Soll '${educationalContent.title}' wirklich gelöscht"
+                  " werden?",
                 ),
                 actions: <Widget>[
                   TextButton(
@@ -228,20 +237,20 @@ class ExternalNewsOverviewViewState extends State<ExternalNewsOverviewView> {
             color: Colors.white,
           ),
         ),
-        child: _buildCardListItem(context, model, externalNews),
+        child: _buildCardListItem(context, model, educationalContent),
       );
     } else {
-      return _buildCardListItem(context, model, externalNews);
+      return _buildCardListItem(context, model, educationalContent);
     }
   }
 
   Widget _buildCardListItem(
     BuildContext context,
-    ExternalNewsOverviewViewModel model,
-    ExternalNews externalNews,
+    EducationalContentOverviewViewModel model,
+    EducationalContent educationalContent,
   ) =>
       Card(
-        color: selectedToDelete.map((e) => e.id).contains(externalNews.id)
+        color: selectedToDelete.map((e) => e.id).contains(educationalContent.id)
             ? Colors.grey[200]
             : null,
         child: Row(
@@ -255,9 +264,9 @@ class ExternalNewsOverviewViewState extends State<ExternalNewsOverviewView> {
                       activeColor: Colors.blue,
                       value: selectedToDelete
                           .map((e) => e.id)
-                          .contains(externalNews.id),
+                          .contains(educationalContent.id),
                       onChanged: (value) {
-                        _selectToDelete(externalNews);
+                        _selectToDelete(educationalContent);
                         _buildDeleteFab(model);
                       },
                     ),
@@ -266,69 +275,45 @@ class ExternalNewsOverviewViewState extends State<ExternalNewsOverviewView> {
               ),
             Expanded(
               child: ListTile(
-                title: Text(model.getExternalNewsTitle(externalNews)),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(model.getExternalNewsDate(externalNews)),
-                  ],
-                ),
+                title:
+                    Text(model.getEducationalContentTitle(educationalContent)),
                 onTap: () {
                   if (widget.adminModeEnabled) {
                     if (selectMultiple) {
-                      _selectToDelete(externalNews);
+                      _selectToDelete(educationalContent);
                     } else {
-                      model.editExternalNews(
-                        externalNews: externalNews,
+                      model.editEducationalContent(
+                        educationalContent: educationalContent,
+                        asDialog: getValueForScreenType<bool>(
+                          context: context,
+                          mobile: false,
+                          desktop: true,
+                        ),
                       );
                     }
                   } else {
-                    model.openExternalNews(externalNews);
+                    model.openEducationalContent(educationalContent);
                   }
                 },
                 onLongPress: () {
-                  if (widget.adminModeEnabled) {
-                    if (!selectMultiple) {
-                      selectMultiple = true;
-                    }
-                    _selectToDelete(externalNews);
-                    _buildDeleteFab(model);
+                  if (!selectMultiple) {
+                    selectMultiple = true;
                   }
+                  _selectToDelete(educationalContent);
+                  _buildDeleteFab(model);
                 },
-                leading: FutureBuilder(
-                  future: model.getExternalNewsImage(externalNews),
-                  builder: (BuildContext context, AsyncSnapshot<Image> image) {
-                    if (image.hasData) {
-                      return Container(
-                        width: kIsWeb
-                            ? MediaQuery.of(context).size.width * 0.05
-                            : MediaQuery.of(context).size.width * 0.2,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: image.data.image,
-                            fit: BoxFit.fitHeight,
-                          ),
-                        ),
-                      );
-                    } else {
-                      return Image.asset(
-                        'assets/images/pronto_icon.png',
-                      ); // placeholder
-                    }
-                  },
-                ),
               ),
             ),
             if (widget.adminModeEnabled)
-              _buildPublishToggle(context, model, externalNews)
+              _buildPublishToggle(context, model, educationalContent)
           ],
         ),
       );
 
   Widget _buildPublishToggle(
     BuildContext context,
-    ExternalNewsOverviewViewModel model,
-    ExternalNews externalNews,
+    EducationalContentOverviewViewModel model,
+    EducationalContent educationalContent,
   ) =>
       Container(
         padding: const EdgeInsets.all(12),
@@ -336,12 +321,12 @@ class ExternalNewsOverviewViewState extends State<ExternalNewsOverviewView> {
           children: [
             const Text("Veröffentlicht?"),
             Switch(
-              value: externalNews.published,
+              value: educationalContent.published,
               onChanged: (bool newValue) {
                 if (newValue) {
-                  model.publishExternalNews(externalNews);
+                  model.publishEducationalContent(educationalContent);
                 } else {
-                  model.hideExternalNews(externalNews);
+                  model.hideEducationalContent(educationalContent);
                 }
               },
               activeColor: CustomColors.secondary,
@@ -350,7 +335,7 @@ class ExternalNewsOverviewViewState extends State<ExternalNewsOverviewView> {
         ),
       );
 
-  Widget _buildDeleteFab(ExternalNewsOverviewViewModel model) {
+  Widget _buildDeleteFab(EducationalContentOverviewViewModel model) {
     return Visibility(
       visible: selectedToDelete.isNotEmpty,
       child: FloatingActionButton.extended(
@@ -363,7 +348,7 @@ class ExternalNewsOverviewViewState extends State<ExternalNewsOverviewView> {
               title: const Text("Löschen bestätigen"),
               content: Text(
                 "Sollen ${selectedToDelete.length} " +
-                    "News wirklich gelöscht werden?",
+                    "Schulungsvideo wirklich gelöscht werden?",
               ),
               actions: <Widget>[
                 TextButton(
@@ -393,23 +378,25 @@ class ExternalNewsOverviewViewState extends State<ExternalNewsOverviewView> {
     );
   }
 
-  void _selectToDelete(ExternalNews externalNews) {
+  void _selectToDelete(EducationalContent educationalContent) {
     setState(() {
-      if (!selectedToDelete.map((news) => news.id).contains(externalNews.id)) {
-        selectedToDelete.add(externalNews);
+      if (!selectedToDelete
+          .map((news) => news.id)
+          .contains(educationalContent.id)) {
+        selectedToDelete.add(educationalContent);
       } else if (selectedToDelete
           .map((news) => news.id)
-          .contains(externalNews.id)) {
+          .contains(educationalContent.id)) {
         selectedToDelete.removeWhere(
-          (news) => news.id == externalNews.id,
+          (news) => news.id == educationalContent.id,
         );
       }
     });
   }
 
-  void _applyFilter(ExternalNewsOverviewViewModel model, String filter) {
+  void _applyFilter(EducationalContentOverviewViewModel model, String filter) {
     filtered = true;
-    model.filterExternalNews(filter).then(
+    model.filterEducationalContent(filter).then(
       (value) {
         setState(() {
           filteredNews = [];

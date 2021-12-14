@@ -67,7 +67,7 @@ class DeploymentPlanOverviewViewState
             if (!selectMultiple && widget.adminModeEnabled)
               ActionSpecification(
                 tooltip: 'Einsatzplan erstellen',
-                icon: const Icon(Icons.post_add),
+                icon: const Icon(Icons.add),
                 onPressed: () => model.editDeploymentPlan(
                   asDialog: getValueForScreenType<bool>(
                     context: context,

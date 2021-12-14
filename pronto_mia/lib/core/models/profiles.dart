@@ -38,6 +38,7 @@ final profiles = {
     description: 'Leer',
     accessControlList: AccessControlList(
       canViewOwnDepartment: true,
+      canViewInternalNews: true,
     ),
   ),
   'cleaner': Profile(
@@ -45,6 +46,9 @@ final profiles = {
     accessControlList: AccessControlList(
       canViewDepartmentDeploymentPlans: true,
       canViewOwnDepartment: true,
+      canViewInternalNews: true,
+      canViewEducationalContent: true,
+      canViewAppointment: true,
     ),
   ),
   'department-manager': Profile(
@@ -56,6 +60,9 @@ final profiles = {
       canEditDepartmentUsers: true,
       canViewDepartments: true,
       canEditOwnDepartment: true,
+      canViewInternalNews: true,
+      canViewEducationalContent: true,
+      canViewAppointment: true,
     ),
   ),
   'administrator': Profile(
@@ -68,6 +75,12 @@ final profiles = {
       canViewDepartments: true,
       canEditDepartments: true,
       canEditExternalNews: true,
+      canViewInternalNews: true,
+      canEditInternalNews: true,
+      canViewEducationalContent: true,
+      canEditEducationalContent: true,
+      canViewAppointment: true,
+      canEditAppointment: true,
     ),
   ),
 };

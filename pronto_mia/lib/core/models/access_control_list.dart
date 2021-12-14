@@ -15,6 +15,12 @@ class AccessControlList {
   bool canEditDepartments;
   bool canEditOwnDepartment;
   bool canEditExternalNews;
+  bool canViewInternalNews;
+  bool canEditInternalNews;
+  bool canViewEducationalContent;
+  bool canEditEducationalContent;
+  bool canViewAppointment;
+  bool canEditAppointment;
 
   /// Initializes a new instance of [AccessControlList].
   ///
@@ -34,6 +40,12 @@ class AccessControlList {
     this.canEditDepartments = false,
     this.canEditOwnDepartment = false,
     this.canEditExternalNews = false,
+    this.canViewInternalNews = false,
+    this.canEditInternalNews = false,
+    this.canViewEducationalContent = false,
+    this.canEditEducationalContent = false,
+    this.canViewAppointment = false,
+    this.canEditAppointment = false,
   });
 
   /// Initializes a new [AccessControlList] from the values of another.
@@ -55,7 +67,13 @@ class AccessControlList {
         canViewOwnDepartment = toCopy.canViewOwnDepartment,
         canEditDepartments = toCopy.canEditDepartments,
         canEditOwnDepartment = toCopy.canEditOwnDepartment,
-        canEditExternalNews = toCopy.canEditExternalNews;
+        canEditExternalNews = toCopy.canEditExternalNews,
+        canViewInternalNews = toCopy.canViewInternalNews,
+        canEditInternalNews = toCopy.canEditInternalNews,
+        canViewEducationalContent = toCopy.canViewEducationalContent,
+        canEditEducationalContent = toCopy.canEditEducationalContent,
+        canViewAppointment = toCopy.canViewAppointment,
+        canEditAppointment = toCopy.canEditAppointment;
 
   /// Initializes a new [AccessControlList] from a JSON format object.
   ///
@@ -81,7 +99,15 @@ class AccessControlList {
         canViewOwnDepartment = json['canViewOwnDepartment'] as bool ?? false,
         canEditDepartments = json['canEditDepartments'] as bool ?? false,
         canEditOwnDepartment = json['canEditOwnDepartment'] as bool ?? false,
-        canEditExternalNews = json['canEditExternalNews'] as bool ?? false;
+        canEditExternalNews = json['canEditExternalNews'] as bool ?? false,
+        canViewInternalNews = json['canViewInternalNews'] as bool ?? false,
+        canEditInternalNews = json['canEditInternalNews'] as bool ?? false,
+        canViewEducationalContent =
+            json['canViewEducationalContent'] as bool ?? false,
+        canEditEducationalContent =
+            json['canEditEducationalContent'] as bool ?? false,
+        canViewAppointment = json['canViewAppointment'] as bool ?? false,
+        canEditAppointment = json['canEditAppointment'] as bool ?? false;
 
   /// Converts an [AccessControlList] to a JSON format object.
   ///
@@ -102,6 +128,12 @@ class AccessControlList {
       'canEditDepartments': canEditDepartments,
       'canEditOwnDepartment': canEditOwnDepartment,
       'canEditExternalNews': canEditExternalNews,
+      'canViewInternalNews': canViewInternalNews,
+      'canEditInternalNews': canEditInternalNews,
+      'canViewEducationalContent': canViewEducationalContent,
+      'canEditEducationalContent': canEditEducationalContent,
+      'canViewAppointment': canViewAppointment,
+      'canEditAppointment': canEditAppointment,
     };
   }
 
@@ -125,7 +157,13 @@ class AccessControlList {
         canViewOwnDepartment == other.canViewOwnDepartment &&
         canEditDepartments == other.canEditDepartments &&
         canEditOwnDepartment == other.canEditOwnDepartment &&
-        canEditExternalNews == other.canEditExternalNews) {
+        canEditExternalNews == other.canEditExternalNews &&
+        canViewInternalNews == other.canViewInternalNews &&
+        canEditInternalNews == other.canEditInternalNews &&
+        canViewEducationalContent == other.canViewEducationalContent &&
+        canEditEducationalContent == other.canEditEducationalContent &&
+        canViewAppointment == other.canViewAppointment &&
+        canEditAppointment == other.canEditAppointment) {
       return true;
     } else {
       return false;

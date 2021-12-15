@@ -10,9 +10,9 @@ const String ImagePathValueKey = 'upload.png';
 
 mixin $ExternalNewsEditView on StatelessWidget {
   final TextEditingController titleController = TextEditingController();
+  final HtmlEditorController htmlEditorController = HtmlEditorController();
   final TextEditingController availableFromController =
       TextEditingController(text: DateTime.now().toString());
-  final HtmlEditorController htmlEditorController = HtmlEditorController();
   final TextEditingController imagePathController = TextEditingController();
   final FocusNode titleFocusNode = FocusNode();
   final FocusNode descriptionFocusNode = FocusNode();
@@ -45,10 +45,8 @@ mixin $ExternalNewsEditView on StatelessWidget {
   /// Calls dispose on all the generated controllers and focus nodes
   void disposeForm() {
     titleController.dispose();
-    // descriptionController.dispose();
     availableFromController.dispose();
     imagePathController.dispose();
-    // htmlEditorController.disable();
   }
 }
 

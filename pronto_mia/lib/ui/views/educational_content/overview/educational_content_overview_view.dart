@@ -115,41 +115,41 @@ class EducationalContentOverviewViewState
     EducationalContentOverviewViewModel model,
   ) {
     // if (widget.adminModeEnabled) {
-      return Column(
-        children: [
-          TextField(
-            controller: _searchController,
-            onChanged: (filter) => _applyFilter(model, filter),
-            decoration: InputDecoration(
-              labelText: 'Schulungsvideo suchen',
-              prefixIcon: const Icon(Icons.search),
-              suffixIcon: IconButton(
-                icon: const Icon(Icons.clear),
-                onPressed: () => {
-                  _searchController.clear(),
-                  _applyFilter(model, ''),
-                  filtered = false,
-                },
-              ),
+    return Column(
+      children: [
+        TextField(
+          controller: _searchController,
+          onChanged: (filter) => _applyFilter(model, filter),
+          decoration: InputDecoration(
+            labelText: 'Schulungsvideo suchen',
+            prefixIcon: const Icon(Icons.search),
+            suffixIcon: IconButton(
+              icon: const Icon(Icons.clear),
+              onPressed: () => {
+                _searchController.clear(),
+                _applyFilter(model, ''),
+                filtered = false,
+              },
             ),
           ),
-          Expanded(
-            child: SingleChildScrollView(
-              controller: _scrollController,
-              child: filtered
-                  ? _buildList(context, model, filteredNews)
-                  : _buildList(context, model, model.data),
-            ),
+        ),
+        Expanded(
+          child: SingleChildScrollView(
+            controller: _scrollController,
+            child: filtered
+                ? _buildList(context, model, filteredNews)
+                : _buildList(context, model, model.data),
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 20.0),
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: _buildDeleteFab(model),
-            ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 20.0),
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: _buildDeleteFab(model),
           ),
-        ],
-      );
+        ),
+      ],
+    );
     // }
     // } else {
     //   return SingleChildScrollView(

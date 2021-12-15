@@ -77,7 +77,7 @@ class InternalNewsEditView extends StatelessWidget with $InternalNewsEditView {
           listenToFormUpdated(model);
         },
         builder: (context, model, child) {
-            return _buildStandaloneLayout(model);
+          return _buildStandaloneLayout(model);
         },
       );
 
@@ -194,7 +194,7 @@ class InternalNewsEditView extends StatelessWidget with $InternalNewsEditView {
               );
             }
           })(),
-           cancelButton: (() {
+          cancelButton: (() {
             if (internalNews == null) {
               return ButtonSpecification(
                 title: 'Abbrechen',

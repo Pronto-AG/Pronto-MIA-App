@@ -13,7 +13,7 @@ dependencies:
   date_time_picker: ^2.0.0
   file_picker: ^4.1.4
   firebase_core: ^1.1.0
-  firebase_messaging: ^10.0.8
+  firebase_messaging: ^11.2.3
   flutter:
     sdk: flutter
   flutter_cache_manager: ^3.1.2
@@ -51,14 +51,15 @@ dev_dependencies:
   lint: ^1.5.0
   mockito: ^5.0.16 # ^5.0.0 depends on http ^0.13.0
 
+dependency_overrides:
+  provider: ^6.0.0 # incompatibel with chewie ^1.2.2 (chewie needs ^5.0.0)
+  # https://github.com/brianegan/chewie/issues/580
+
 flutter_native_splash:
   color: "#ffffff"
   image: "assets/images/3.0x/pronto_icon.png"
   android: true
   ios: true
-
-dependency_overrides:
-  provider: ^6.0.0 # for chewie 1.2.2
 
 flutter:
   uses-material-design: true

@@ -2,9 +2,11 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:pronto_mia/core/models/educational_content.dart';
 import 'package:pronto_mia/ui/views/educational_content/view/educational_content_viewmodel.dart';
 import 'package:stacked/stacked.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 
 /// A widget, representing the news.
@@ -117,7 +119,10 @@ class _EducationalContentViewState extends State<EducationalContentView> {
             flex: 4,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Text(widget.educationalContent.description),
+              child: Html(
+                data: widget.educationalContent.description,
+                onLinkTap: (url, context, attributes, element) => launch(url),
+              ),
             ),
           ),
         ],

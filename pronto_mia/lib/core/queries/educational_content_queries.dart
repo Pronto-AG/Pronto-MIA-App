@@ -112,7 +112,10 @@ class EducationalContentQueries {
     query educationalContent(\$filter: String!) { 
       educationalContent(
         where: {
-            title: {contains: \$filter }
+          or: [
+            {title: {contains: \$filter}},
+            {description: {contains: \$filter}},
+          ]
          }
         ) {
             id

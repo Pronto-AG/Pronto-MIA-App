@@ -89,7 +89,6 @@ class ExternalNewsView extends StatelessWidget {
             flex: 4,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
-              // child: Text(externalNews.description),
               child: Html(
                 data: externalNews.description,
                 onLinkTap: (url, context, attributes, element) => launch(url),

@@ -10,7 +10,6 @@ const String ImagePathValueKey = 'upload.png';
 
 mixin $ExternalNewsEditView on StatelessWidget {
   final TextEditingController titleController = TextEditingController();
-  // final TextEditingController descriptionController = TextEditingController();
   final TextEditingController availableFromController =
       TextEditingController(text: DateTime.now().toString());
   final HtmlEditorController htmlEditorController = HtmlEditorController();

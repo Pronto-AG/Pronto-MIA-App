@@ -89,110 +89,107 @@ class ExternalNewsEditView extends StatelessWidget with $ExternalNewsEditView {
         externalNews == null ? 'Neuigkeit erstellen' : 'Neuigkeit bearbeiten',
       );
 
-  HtmlEditorOptions _withcontent(ExternalNews externalNews) {
+  HtmlEditorOptions _withcontent() {
     return HtmlEditorOptions(
       initialText: externalNews.description,
       autoAdjustHeight: false,
     );
   }
 
-  HtmlEditorOptions _withoutcontent(ExternalNews externalNews) {
+  HtmlEditorOptions _withoutcontent() {
     return const HtmlEditorOptions(
       hint: "Text eingeben",
       autoAdjustHeight: false,
     );
   }
 
-  Widget _buildForm(ExternalNewsEditViewModel model) {
-    return Form(
-      key: _formKey,
-      child: FormLayout(
-        textFields: [
-          TextFormField(
-            controller: titleController,
-            onEditingComplete: model.submitForm,
-            decoration: const InputDecoration(labelText: 'Titel*'),
-          ),
-          Container(
-            alignment: Alignment.centerLeft,
-            child: HtmlEditor(
-              controller: htmlEditorController,
-              callbacks: Callbacks(
-                onChangeContent: (String value) => {
-                  listenToFormUpdated(model),
-                },
-              ),
-              otherOptions: const OtherOptions(
-                height: 300,
-              ),
-              htmlEditorOptions: externalNews != null
-                  ? _withcontent(externalNews)
-                  : _withoutcontent(externalNews),
-              htmlToolbarOptions: htmlToolbarSettings(),
+  Widget _buildForm(ExternalNewsEditViewModel model) => Form(
+        key: _formKey,
+        child: FormLayout(
+          textFields: [
+            TextFormField(
+              controller: titleController,
+              onEditingComplete: model.submitForm,
+              decoration: const InputDecoration(labelText: 'Titel*'),
             ),
-          ),
-          DateTimePicker(
-            type: DateTimePickerType.dateTime,
-            controller: availableFromController,
-            onEditingComplete: model.submitForm,
-            firstDate: externalNews != null
-                ? externalNews.availableFrom
-                : DateTime.now(),
-            lastDate: DateTime.now().add(const Duration(days: 365)),
-            dateMask: 'dd.MM.yyyy HH:mm',
-            dateLabelText: 'Gültig ab*',
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.baseline,
-            textBaseline: TextBaseline.ideographic,
-            children: [
-              TextButton(
-                onPressed: () => _handleImageUpload(model),
-                child: const Text('Datei hochladen'),
-              ),
-              const SizedBox(width: 8.0),
-              Expanded(
-                child: TextFormField(
-                  controller: imagePathController,
-                  readOnly: true,
-                  onTap: imagePathController.text == null ||
-                          imagePathController.text.isEmpty
-                      ? () => _handleImageUpload(model)
-                      : model.openImage,
-                  decoration: const InputDecoration(labelText: 'Dateiname *'),
-                  style: const TextStyle(color: CustomColors.link),
+            Container(
+              alignment: Alignment.centerLeft,
+              child: HtmlEditor(
+                controller: htmlEditorController,
+                callbacks: Callbacks(
+                  onChangeContent: (String value) => {
+                    listenToFormUpdated(model),
+                  },
                 ),
+                otherOptions: const OtherOptions(
+                  height: 300,
+                ),
+                htmlEditorOptions:
+                    externalNews != null ? _withcontent() : _withoutcontent(),
+                htmlToolbarOptions: htmlToolbarSettings(),
               ),
-            ],
+            ),
+            DateTimePicker(
+              type: DateTimePickerType.dateTime,
+              controller: availableFromController,
+              onEditingComplete: model.submitForm,
+              firstDate: externalNews != null
+                  ? externalNews.availableFrom
+                  : DateTime.now(),
+              lastDate: DateTime.now().add(const Duration(days: 365)),
+              dateMask: 'dd.MM.yyyy HH:mm',
+              dateLabelText: 'Gültig ab*',
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.ideographic,
+              children: [
+                TextButton(
+                  onPressed: () => _handleImageUpload(model),
+                  child: const Text('Datei hochladen'),
+                ),
+                const SizedBox(width: 8.0),
+                Expanded(
+                  child: TextFormField(
+                    controller: imagePathController,
+                    readOnly: true,
+                    onTap: imagePathController.text == null ||
+                            imagePathController.text.isEmpty
+                        ? () => _handleImageUpload(model)
+                        : model.openImage,
+                    decoration: const InputDecoration(labelText: 'Dateiname *'),
+                    style: const TextStyle(color: CustomColors.link),
+                  ),
+                ),
+              ],
+            ),
+          ],
+          primaryButton: ButtonSpecification(
+            title: 'Speichern',
+            onTap: model.submitForm,
+            isBusy: model.busy(ExternalNewsEditViewModel.editActionKey),
           ),
-        ],
-        primaryButton: ButtonSpecification(
-          title: 'Speichern',
-          onTap: model.submitForm,
-          isBusy: model.busy(ExternalNewsEditViewModel.editActionKey),
+          secondaryButton: (() {
+            if (externalNews != null) {
+              return ButtonSpecification(
+                title: 'Löschen',
+                onTap: model.removeExternalNews,
+                isBusy: model.busy(ExternalNewsEditViewModel.removeActionKey),
+                isDestructive: true,
+              );
+            }
+          })(),
+          cancelButton: (() {
+            if (externalNews == null) {
+              return ButtonSpecification(
+                title: 'Abbrechen',
+                onTap: model.cancelForm,
+                isBusy: model.isBusy,
+              );
+            }
+          })(),
+          validationMessage: model.validationMessage,
         ),
-        secondaryButton: (() {
-          if (externalNews != null) {
-            return ButtonSpecification(
-              title: 'Löschen',
-              onTap: model.removeExternalNews,
-              isBusy: model.busy(ExternalNewsEditViewModel.removeActionKey),
-              isDestructive: true,
-            );
-          }
-        })(),
-        cancelButton: (() {
-          if (externalNews == null) {
-            return ButtonSpecification(
-              title: 'Abbrechen',
-              onTap: model.cancelForm,
-              isBusy: model.isBusy,
-            );
-          }
-        })(),
-        validationMessage: model.validationMessage,
-      ),
-    );
-  }
+      );
 }

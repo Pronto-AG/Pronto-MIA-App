@@ -4,10 +4,12 @@ import 'package:date_time_picker/date_time_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:pronto_mia/core/models/internal_news.dart';
 import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/ui/components/form_layout.dart';
 import 'package:pronto_mia/ui/shared/custom_colors.dart';
+import 'package:pronto_mia/ui/shared/html_toolbar.dart';
 import 'package:pronto_mia/ui/views/internal_news/edit/internal_news_edit_view.form.dart';
 import 'package:pronto_mia/ui/views/internal_news/edit/internal_news_edit_viewmodel.dart';
 import 'package:stacked/stacked.dart';
@@ -30,7 +32,6 @@ class InternalNewsEditView extends StatelessWidget with $InternalNewsEditView {
   }) : super(key: key) {
     if (internalNews != null) {
       titleController.text = internalNews.title;
-      descriptionController.text = internalNews.description;
       availableFromController.text = internalNews.availableFrom.toString();
       imagePathController.text = "upload.png";
     }
@@ -76,30 +77,13 @@ class InternalNewsEditView extends StatelessWidget with $InternalNewsEditView {
           listenToFormUpdated(model);
         },
         builder: (context, model, child) {
-          if (isDialog) {
-            return _buildDialogLayout(model);
-          } else {
-            return _buildStandaloneLayout(model);
-          }
+          return _buildStandaloneLayout(model);
         },
       );
 
   Widget _buildStandaloneLayout(InternalNewsEditViewModel model) => Scaffold(
         appBar: AppBar(title: _buildTitle()),
         body: _buildForm(model),
-      );
-
-  // ignore: sized_box_for_whitespace
-  Widget _buildDialogLayout(InternalNewsEditViewModel model) => Container(
-        width: 500.0,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildTitle(),
-            _buildForm(model),
-          ],
-        ),
       );
 
   Widget _buildTitle() {
@@ -119,6 +103,20 @@ class InternalNewsEditView extends StatelessWidget with $InternalNewsEditView {
     }
   }
 
+  HtmlEditorOptions _withcontent() {
+    return HtmlEditorOptions(
+      initialText: internalNews.description,
+      autoAdjustHeight: false,
+    );
+  }
+
+  HtmlEditorOptions _withoutcontent() {
+    return const HtmlEditorOptions(
+      hint: "Text eingeben",
+      autoAdjustHeight: false,
+    );
+  }
+
   Widget _buildForm(InternalNewsEditViewModel model) => Form(
         key: _formKey,
         child: FormLayout(
@@ -128,13 +126,22 @@ class InternalNewsEditView extends StatelessWidget with $InternalNewsEditView {
               onEditingComplete: model.submitForm,
               decoration: const InputDecoration(labelText: 'Titel*'),
             ),
-            TextFormField(
-              controller: descriptionController,
-              onEditingComplete: model.submitForm,
-              decoration: const InputDecoration(labelText: 'Inhalt*'),
-              keyboardType: TextInputType.multiline,
-              maxLines: 15,
-              minLines: 5,
+            Container(
+              alignment: Alignment.centerLeft,
+              child: HtmlEditor(
+                controller: htmlEditorController,
+                callbacks: Callbacks(
+                  onChangeContent: (String value) => {
+                    listenToFormUpdated(model),
+                  },
+                ),
+                otherOptions: const OtherOptions(
+                  height: 300,
+                ),
+                htmlEditorOptions:
+                    internalNews != null ? _withcontent() : _withoutcontent(),
+                htmlToolbarOptions: htmlToolbarSettings(),
+              ),
             ),
             DateTimePicker(
               type: DateTimePickerType.dateTime,
@@ -184,6 +191,15 @@ class InternalNewsEditView extends StatelessWidget with $InternalNewsEditView {
                 onTap: model.removeInternalNews,
                 isBusy: model.busy(InternalNewsEditViewModel.removeActionKey),
                 isDestructive: true,
+              );
+            }
+          })(),
+          cancelButton: (() {
+            if (internalNews == null) {
+              return ButtonSpecification(
+                title: 'Abbrechen',
+                onTap: model.cancelForm,
+                isBusy: model.isBusy,
               );
             }
           })(),

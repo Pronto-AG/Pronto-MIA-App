@@ -119,7 +119,10 @@ class InternalNewsQueries {
     query internalNews(\$filter: String!) { 
       internalNews(
         where: {
-            title: {contains: \$filter }
+          or: [
+            {title: {contains: \$filter}},
+            {description: {contains: \$filter}},
+          ]
          }
         ) {
             id

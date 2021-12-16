@@ -5,6 +5,7 @@ import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/core/services/educational_content_service.dart';
 import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/ui/views/educational_content/edit/educational_content_edit_view.form.dart';
+import 'package:pronto_mia/ui/views/educational_content/overview/educational_content_overview_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -133,6 +134,12 @@ class EducationalContentEditViewModel extends FormViewModel {
     }
 
     return null;
+  }
+
+  void cancelForm() {
+    _navigationService.replaceWithTransition(
+      const EducationalContentOverviewView(adminModeEnabled: true),
+    );
   }
 
   Future<void> _completeFormAction(String actionKey) async {

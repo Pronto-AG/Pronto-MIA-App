@@ -3,7 +3,6 @@ import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/models/external_news.dart';
 import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/core/services/external_news_service.dart';
-import 'package:pronto_mia/ui/shared/custom_dialogs.dart';
 import 'package:pronto_mia/ui/views/external_news/edit/external_news_edit_view.dart';
 import 'package:pronto_mia/ui/views/external_news/view/external_news_view.dart';
 import 'package:stacked/stacked.dart';
@@ -23,14 +22,12 @@ class ExternalNewsOverviewViewModel
   final bool adminModeEnabled;
   String get errorMessage => _errorMessage;
   String _errorMessage;
-  bool isDialog;
 
   /// Initializes a new instance of [ExternalNewsOverviewViewModel].
   ///
   /// Takes a [bool] wether to execute admin level functionality as an input.
   ExternalNewsOverviewViewModel({
     this.adminModeEnabled = false,
-    this.isDialog = false,
   }) {
     _externalNewsService.addListener(_notifyDataChanged);
   }
@@ -69,27 +66,13 @@ class ExternalNewsOverviewViewModel
   /// the [List] of deployment plans.
   Future<void> editExternalNews({
     ExternalNews externalNews,
-    bool asDialog = false,
   }) async {
     bool dataHasChanged;
-    if (asDialog) {
-      final dialogResponse = await _dialogService.showCustomDialog(
-        variant: DialogType.custom,
-        // ignore: deprecated_member_use
-        customData: ExternalNewsEditView(
-          externalNews: externalNews,
-          isDialog: true,
-        ),
-      );
-      dataHasChanged = dialogResponse?.confirmed ?? false;
-    } else {
-      final navigationResponse =
-          await _navigationService.navigateWithTransition(
-        ExternalNewsEditView(externalNews: externalNews),
-        transition: NavigationTransition.LeftToRight,
-      );
-      dataHasChanged = navigationResponse is bool && navigationResponse == true;
-    }
+    final navigationResponse = await _navigationService.navigateWithTransition(
+      ExternalNewsEditView(externalNews: externalNews),
+      transition: NavigationTransition.LeftToRight,
+    );
+    dataHasChanged = navigationResponse is bool && navigationResponse == true;
 
     if (dataHasChanged) {
       await initialise();

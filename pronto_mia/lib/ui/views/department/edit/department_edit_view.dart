@@ -105,6 +105,15 @@ class DepartmentEditView extends StatelessWidget with $DepartmentEditView {
                   isDestructive: true,
                 )
               : null,
+          cancelButton: (() {
+            if (department == null) {
+              return ButtonSpecification(
+                title: 'Abbrechen',
+                onTap: model.cancelForm,
+                isBusy: model.isBusy,
+              );
+            }
+          })(),
           validationMessage: model.validationMessage,
         ),
       );

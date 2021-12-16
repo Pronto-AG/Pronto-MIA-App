@@ -11,7 +11,7 @@ import 'package:stacked_services/stacked_services.dart';
 /// A view model, providing functionality for [EducationalContentView].
 class EducationalContentOverviewViewModel
     extends FutureViewModel<List<EducationalContent>> {
-  static String contextIdentifier = "EducationalContentViewModel";
+  static String contextIdentifier = "EducationalContentOverviewViewModel";
   // static const removeActionKey = 'RemoveActionKey';
 
   EducationalContentService get _educationalContentService =>

@@ -80,11 +80,11 @@ class EducationalContentEditViewModel extends FormViewModel {
       await runBusyFuture(
         _educationalContentService.updateEducationalContent(
           educationalContent.id,
-          educationalContent.title != titleValue ? titleValue : null,
-          educationalContent.description != descriptionValue
+          title: educationalContent.title != titleValue ? titleValue : null,
+          description: educationalContent.description != descriptionValue
               ? descriptionValue
               : null,
-          _videoFile,
+          video: _videoFile,
         ),
         busyObject: editActionKey,
       );

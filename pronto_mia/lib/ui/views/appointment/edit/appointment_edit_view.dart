@@ -12,6 +12,7 @@ class AppointmentEditView extends StatelessWidget with $AppointmentEditView {
   final _formKey = GlobalKey<FormState>();
   final Appointment appointment;
   final bool isDialog;
+  final DateTime selectedDate;
 
   /// Initializes a new instance of [AppointmentEditView].
   ///
@@ -22,6 +23,7 @@ class AppointmentEditView extends StatelessWidget with $AppointmentEditView {
     Key key,
     this.appointment,
     this.isDialog = false,
+    this.selectedDate,
   }) : super(key: key) {
     if (appointment != null) {
       titleController.text = appointment.title;
@@ -30,6 +32,11 @@ class AppointmentEditView extends StatelessWidget with $AppointmentEditView {
       toController.text = appointment.to.toString();
       isAllDayController.text = appointment.isAllDay.toString();
       isYearlyController.text = appointment.isYearly.toString();
+    } else if (selectedDate != null) {
+      fromController.text =
+          selectedDate.add(const Duration(hours: 18)).toString();
+      toController.text =
+          selectedDate.add(const Duration(hours: 19)).toString();
     }
   }
 
@@ -110,8 +117,10 @@ class AppointmentEditView extends StatelessWidget with $AppointmentEditView {
               type: DateTimePickerType.dateTime,
               controller: fromController,
               onEditingComplete: model.submitForm,
-              firstDate:
-                  appointment != null ? appointment.from : DateTime.now(),
+              firstDate: appointment != null
+                  ? appointment.from
+                  : selectedDate
+                      .subtract(Duration(minutes: DateTime.now().minute)),
               lastDate: DateTime.now().add(const Duration(days: 365)),
               dateMask: 'dd.MM.yyyy HH:mm',
               dateLabelText: 'Startzeit*',
@@ -122,7 +131,9 @@ class AppointmentEditView extends StatelessWidget with $AppointmentEditView {
               onEditingComplete: model.submitForm,
               firstDate: appointment != null
                   ? appointment.to
-                  : DateTime.now().add(const Duration(hours: 1)),
+                  : selectedDate
+                      .subtract(Duration(minutes: DateTime.now().minute))
+                      .add(const Duration(hours: 1)),
               lastDate: DateTime.now().add(const Duration(days: 365)),
               dateMask: 'dd.MM.yyyy HH:mm',
               dateLabelText: 'Endzeit*',

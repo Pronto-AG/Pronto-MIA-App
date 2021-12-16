@@ -83,14 +83,15 @@ class InternalNewsEditViewModel extends FormViewModel {
       await runBusyFuture(
         _internalNewsService.updateInternalNews(
           internalNews.id,
-          internalNews.title != titleValue ? titleValue : null,
-          internalNews.description != descriptionValue
+          title: internalNews.title != titleValue ? titleValue : null,
+          description: internalNews.description != descriptionValue
               ? descriptionValue
               : null,
-          !internalNews.availableFrom.isAtSameMomentAs(availableFrom)
-              ? availableFrom
-              : null,
-          _imageFile,
+          availableFrom:
+              !internalNews.availableFrom.isAtSameMomentAs(availableFrom)
+                  ? availableFrom
+                  : null,
+          image: _imageFile,
         ),
         busyObject: editActionKey,
       );

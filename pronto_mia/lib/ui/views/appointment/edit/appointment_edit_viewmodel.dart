@@ -103,6 +103,10 @@ class AppointmentEditViewModel extends FormViewModel {
   }
 
   String _validateForm() {
+    if (titleValue == null || titleValue.isEmpty) {
+      return 'Bitte Titel eingeben.';
+    }
+
     if (fromValue == null || fromValue.isEmpty) {
       return 'Bitte Startzeit eingeben.';
     }

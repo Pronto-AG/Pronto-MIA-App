@@ -6,7 +6,6 @@ import 'package:pronto_mia/ui/components/data_view_layout.dart';
 import 'package:pronto_mia/ui/components/navigation_layout.dart';
 import 'package:pronto_mia/ui/shared/custom_colors.dart';
 import 'package:pronto_mia/ui/views/internal_news/overview/internal_news_overview_viewmodel.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 
 /// A widget, representing the news.
@@ -65,13 +64,7 @@ class InternalNewsOverviewViewState extends State<InternalNewsOverviewView> {
               ActionSpecification(
                 tooltip: 'Neuigkeit erstellen',
                 icon: const Icon(Icons.add),
-                onPressed: () => model.editInternalNews(
-                  asDialog: getValueForScreenType<bool>(
-                    context: context,
-                    mobile: false,
-                    desktop: true,
-                  ),
-                ),
+                onPressed: () => model.editInternalNews(),
               ),
           ],
           actionsAppBar: [
@@ -120,54 +113,54 @@ class InternalNewsOverviewViewState extends State<InternalNewsOverviewView> {
     BuildContext context,
     InternalNewsOverviewViewModel model,
   ) {
-    if (widget.adminModeEnabled) {
-      return Column(
-        children: [
-          TextField(
-            controller: _searchController,
-            onChanged: (filter) => _applyFilter(model, filter),
-            decoration: InputDecoration(
-              labelText: 'News suchen',
-              prefixIcon: const Icon(Icons.search),
-              suffixIcon: IconButton(
-                icon: const Icon(Icons.clear),
-                onPressed: () => {
-                  _searchController.clear(),
-                  _applyFilter(model, ''),
-                  filtered = false,
-                },
-              ),
+    // if (widget.adminModeEnabled) {
+    return Column(
+      children: [
+        TextField(
+          controller: _searchController,
+          onChanged: (filter) => _applyFilter(model, filter),
+          decoration: InputDecoration(
+            labelText: 'News suchen',
+            prefixIcon: const Icon(Icons.search),
+            suffixIcon: IconButton(
+              icon: const Icon(Icons.clear),
+              onPressed: () => {
+                _searchController.clear(),
+                _applyFilter(model, ''),
+                filtered = false,
+              },
             ),
           ),
-          Expanded(
-            child: SingleChildScrollView(
-              controller: _scrollController,
-              child: filtered
-                  ? _buildList(context, model, filteredNews)
-                  : _buildList(context, model, model.data),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 20.0),
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: _buildDeleteFab(model),
-            ),
-          ),
-        ],
-      );
-    } else {
-      return SingleChildScrollView(
-        child: Column(
-          children: [
-            if (filtered)
-              _buildList(context, model, filteredNews)
-            else
-              _buildList(context, model, model.data)
-          ],
         ),
-      );
-    }
+        Expanded(
+          child: SingleChildScrollView(
+            controller: _scrollController,
+            child: filtered
+                ? _buildList(context, model, filteredNews)
+                : _buildList(context, model, model.data),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 20.0),
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: _buildDeleteFab(model),
+          ),
+        ),
+      ],
+    );
+    // } else {
+    //   return SingleChildScrollView(
+    //     child: Column(
+    //       children: [
+    //         if (filtered)
+    //           _buildList(context, model, filteredNews)
+    //         else
+    //           _buildList(context, model, model.data)
+    //       ],
+    //     ),
+    //   );
+    // }
   }
 
   Widget _buildList(
@@ -287,11 +280,6 @@ class InternalNewsOverviewViewState extends State<InternalNewsOverviewView> {
                     } else {
                       model.editInternalNews(
                         internalNews: internalNews,
-                        asDialog: getValueForScreenType<bool>(
-                          context: context,
-                          mobile: false,
-                          desktop: true,
-                        ),
                       );
                     }
                   } else {

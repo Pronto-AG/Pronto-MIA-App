@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import 'package:pronto_mia/core/models/simple_file.dart';
+import 'package:pronto_mia/core/queries/mail_queries.dart';
+import 'package:pronto_mia/core/services/inquiry_service.dart';
 import 'package:pronto_mia/ui/views/inquiry/inquiry_viewmodel.dart';
 import 'package:pronto_mia/ui/views/inquiry/inquiry_view.dart';
 
@@ -154,58 +154,26 @@ void main() {
       });
     });
 
-    group('sendMail', () {
-      test('generateMessage', () {
-        final recipient = 'app@pronto-ag.ch';
-        expect(inquiryViewModel.generateMessage(recipient),
-            isInstanceOf<Message>());
-      });
+    test('sendMail', () async {
+      final inquiryService = getAndRegisterMockInquiryService();
+      final navigationService = getAndRegisterMockNavigationService();
 
-      test('getSmtpRecipient', () async {
-        final inquiryService = getAndRegisterMockInquiryService();
-        await inquiryViewModel.getRecipient();
-        verify(inquiryService.getRecipient()).called(1);
-      });
+      when(inquiryService.sendMail("subject", "content")).thenAnswer(
+        (realInvocation) => Future.value({
+          'data': {
+            'sendMail': true,
+          }
+        }),
+      );
 
-      test('createSmtpServer', () async {
-        final inquiryService = getAndRegisterMockInquiryService();
-        await inquiryViewModel.createSmtpServer();
-        verify(inquiryService.createSmtpServer()).called(1);
-      });
+      await inquiryViewModel.sendMail();
 
-      test('sendMailToSmtpServer', () {
-        final inquiryService = getAndRegisterMockInquiryService();
-        final recipient = 'app@pronto-ag.ch';
-        final dateTime = DateTime.parse('2011-10-05T14:48:00.000Z');
-        final message = inquiryViewModel.generateMessage(recipient);
-        final smtpServer = SmtpServer('smtp.pronto-ag.ch');
-        when(inquiryService.sendMailToSmtpServer(message, smtpServer))
-            .thenAnswer((realInvocation) => Future.value(
-                SendReport(message, dateTime, dateTime, dateTime)));
-        expect(inquiryViewModel.sendMailToSmtpServer(message, smtpServer),
-            isInstanceOf<Future<SendReport>>());
-      });
-
-      test('sendMail', () async {
-        final inquiryService = getAndRegisterMockInquiryService();
-        final navigationService = getAndRegisterMockNavigationService();
-        final smtpServer = await inquiryViewModel.createSmtpServer();
-        final recipient = 'app@pronto-ag.ch';
-        final message = await inquiryViewModel.generateMessage(recipient);
-        final dateTime = DateTime.parse('2011-10-05T14:48:00.000Z');
-        when(inquiryService.sendMailToSmtpServer(message, smtpServer))
-            .thenAnswer((realInvocation) => Future.value(
-                SendReport(message, dateTime, dateTime, dateTime)));
-        await inquiryViewModel.sendEmail();
-        expect(inquiryService.sendMailToSmtpServer(message, smtpServer),
-            isInstanceOf<Future<SendReport>>());
-        verify(
-          navigationService.replaceWithTransition(
-            argThat(isA<InquiryView>()),
-            transition: NavigationTransition.UpToDown,
-          ),
-        );
-      });
+      verify(
+        navigationService.replaceWithTransition(
+          argThat(isA<InquiryView>()),
+          transition: NavigationTransition.UpToDown,
+        ),
+      ).called(1);
     });
   });
 }

@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-import 'package:pronto_mia/ui/views/settings/settings_viewmodel.dart';
+import 'package:pronto_mia/ui/views/settings/view/settings_viewmodel.dart';
 
 import '../setup/test_helpers.dart';
 

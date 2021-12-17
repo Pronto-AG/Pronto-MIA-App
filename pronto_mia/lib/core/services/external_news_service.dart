@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:intl/intl.dart';
-
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/models/external_news.dart';
 import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/core/queries/external_news_queries.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
 import 'package:pronto_mia/core/services/image_service.dart';
+import 'package:pronto_mia/ui/views/external_news/view/external_news_view.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 /// A service, responsible for accessing external news.
 ///
@@ -18,6 +19,7 @@ class ExternalNewsService with ChangeNotifier {
   Future<GraphQLService> get _graphQLService =>
       locator.getAsync<GraphQLService>();
   ImageService get _imageService => locator.get<ImageService>();
+  NavigationService get _navigationService => locator.get<NavigationService>();
 
   /// Gets the list of all external news.
   ///
@@ -219,6 +221,10 @@ class ExternalNewsService with ChangeNotifier {
   ///
   /// Takes a [ExternalNews].
   Future<void> openExternalNews(ExternalNews externalNews) async {
+    await _navigationService.navigateWithTransition(
+      ExternalNewsView(externalNews: externalNews),
+      transition: NavigationTransition.LeftToRight,
+    );
     return;
   }
 

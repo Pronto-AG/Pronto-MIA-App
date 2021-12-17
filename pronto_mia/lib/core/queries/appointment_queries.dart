@@ -19,6 +19,26 @@ class AppointmentQueries {
     }
   """;
 
+  static const appointmentById = """
+    query appointments(\$id: Int!) {
+      appointments (
+        where: { 
+          id: { 
+            eq: \$id
+          }
+        }
+      ) {
+        id
+        title
+        location
+        from
+        to
+        isAllDay
+        isYearly
+      }
+    }
+  """;
+
   static const createAppointment = """
     mutation createAppointment(
       \$title: String!,

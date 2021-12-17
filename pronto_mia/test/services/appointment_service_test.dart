@@ -53,6 +53,59 @@ void main() {
       });
     });
 
+    group('getAppointmentById', () {
+      test('returns appointments', () async {
+        final graphQLService = getAndRegisterMockGraphQLService();
+        when(
+          graphQLService.query(
+            captureAny,
+            variables: captureAnyNamed('variables'),
+            useCache: captureAnyNamed('useCache'),
+          ),
+        ).thenAnswer(
+          (realInvocation) => Future.value({
+            'appointments': [
+              {
+                'id': 1,
+                'title': 'test',
+                'location': 'test',
+                'from': DateTime.now().toIso8601String(),
+                'to': DateTime.now()
+                    .add(const Duration(hours: 2))
+                    .toIso8601String(),
+                'isAllDay': false,
+                'isYearly': false,
+              }
+            ]
+          }),
+        );
+
+        await appointmentService.getAppointmentById(1);
+        verify(
+            graphQLService.query(AppointmentQueries.appointments, variables: {
+          'id': 1,
+        })).called(1);
+      });
+    });
+
+    group('getAppointmentTitle', () {
+      test('returns title of appointment', () async {
+        expect(
+            appointmentService.getAppointmentTitle(
+              Appointment(
+                id: 1,
+                title: 'test',
+                location: 'location',
+                from: DateTime.now(),
+                to: DateTime.now(),
+                isAllDay: false,
+                isYearly: false,
+              ),
+            ),
+            equals('test'));
+      });
+    });
+
     group('createAppointment', () {
       test('creates appointment', () async {
         final graphQLService = getAndRegisterMockGraphQLService();
@@ -88,6 +141,8 @@ void main() {
         await appointmentService.updateAppointment(
           1,
           title: 'test',
+          from: DateTime.now(),
+          to: DateTime.now().add(const Duration(hours: 2)),
         );
         verify(
           graphQLService.mutate(
@@ -96,8 +151,8 @@ void main() {
               'id': 1,
               'title': 'test',
               'location': null,
-              'from': null,
-              'to': null,
+              'from': anything,
+              'to': anything,
               'isAllDay': null,
               'isYearly': null,
             },
@@ -138,6 +193,28 @@ void main() {
           graphQLService.mutate(
             AppointmentQueries.removeAppointment,
             variables: {'id': 1},
+          ),
+        ).called(1);
+      });
+    });
+
+    group('openCalendar', () {
+      test('opens calendar', () async {
+        final navigationService = getAndRegisterMockNavigationService();
+
+        await appointmentService.openAppointment(Appointment(
+          id: 1,
+          title: 'test',
+          location: 'test',
+          from: DateTime.now(),
+          to: DateTime.now(),
+          isAllDay: false,
+          isYearly: false,
+        ));
+        verify(
+          navigationService.navigateWithTransition(
+            argThat(anything),
+            transition: NavigationTransition.LeftToRight,
           ),
         ).called(1);
       });

@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter/material.dart';
 import 'package:mockito/mockito.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
@@ -116,6 +117,31 @@ void main() {
       });
     });
 
+    group('getExternalNewsImage', () {
+      test('returns external news image', () async {
+        final imageService = getAndRegisterMockImageService();
+
+        when(
+          imageService.downloadImage(captureAny),
+        ).thenAnswer(
+          (realInvocation) => Future.value(
+            SimpleFile(name: 'test.png', bytes: Uint8List(5)),
+          ),
+        );
+
+        await externalNewsService.getExternalNewsImage(ExternalNews(
+          id: 1,
+          title: 'test',
+          description: 'test',
+          availableFrom: DateTime.now(),
+          link: 'link',
+        ));
+        verify(
+          imageService.downloadImage('link'),
+        ).called(1);
+      });
+    });
+
     group('createExternalNews', () {
       test('creates external news', () async {
         final graphQLService = getAndRegisterMockGraphQLService();
@@ -175,6 +201,26 @@ void main() {
               'title': null,
               'description': 'test',
               'availableFrom': null,
+            },
+          ),
+        ).called(1);
+      });
+
+      test('updates external news available from', () async {
+        final graphQLService = getAndRegisterMockGraphQLService();
+
+        await externalNewsService.updateExternalNews(
+          1,
+          availableFrom: DateTime.now(),
+        );
+        verify(
+          graphQLService.mutate(
+            ExternalNewsQueries.updateExternalNews,
+            variables: {
+              'id': 1,
+              'title': null,
+              'description': null,
+              'availableFrom': anything,
             },
           ),
         ).called(1);
@@ -270,6 +316,60 @@ void main() {
               ),
             ),
             equals('1. Januar 2021 | 00:00'));
+      });
+    });
+
+    group('filterExternalNews', () {
+      test('returns correct result', () async {
+        final graphQLService = getAndRegisterMockGraphQLService();
+        when(
+          graphQLService.query(
+            captureAny,
+            variables: captureAnyNamed('variables'),
+            useCache: captureAnyNamed('useCache'),
+          ),
+        ).thenAnswer(
+          (realInvocation) => Future.value({
+            'externalNews': [
+              {
+                'id': 1,
+                'title': 'test',
+                'description': 'test',
+                'availableFrom': DateTime.now().toIso8601String(),
+              },
+            ],
+          }),
+        );
+
+        expect(
+          await externalNewsService.filterExternalNews('test'),
+          hasLength(1),
+        );
+        verify(
+          graphQLService.query(
+            ExternalNewsQueries.filterExternalNews,
+            variables: {'filter': anything},
+          ),
+        ).called(1);
+      });
+    });
+
+    group('openExternalNews', () {
+      test('opens external news', () async {
+        final navigationService = getAndRegisterMockNavigationService();
+
+        await externalNewsService.openExternalNews(ExternalNews(
+          id: 1,
+          title: 'test',
+          description: 'test',
+          availableFrom: DateTime.now(),
+        ));
+        verify(
+          navigationService.navigateWithTransition(
+            argThat(anything),
+            transition: NavigationTransition.LeftToRight,
+          ),
+        ).called(1);
       });
     });
   });

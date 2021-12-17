@@ -58,7 +58,7 @@ final profiles = {
       canEditDepartmentDeploymentPlans: true,
       canViewDepartmentUsers: true,
       canEditDepartmentUsers: true,
-      canViewDepartments: true,
+      canViewOwnDepartment: true,
       canEditOwnDepartment: true,
       canViewInternalNews: true,
       canViewEducationalContent: true,

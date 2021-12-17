@@ -32,7 +32,8 @@ class EducationalContentEditView extends StatelessWidget
   }) : super(key: key) {
     if (educationalContent != null) {
       titleController.text = educationalContent.title;
-      videoPathController.text = "upload.mp4";
+      videoPathController.text =
+          "upload.${educationalContent.link?.split('.')?.last}";
     }
   }
 
@@ -159,10 +160,6 @@ class EducationalContentEditView extends StatelessWidget
                   child: TextFormField(
                     controller: videoPathController,
                     readOnly: true,
-                    onTap: videoPathController.text == null ||
-                            videoPathController.text.isEmpty
-                        ? () => _handleVideoUpload(model)
-                        : model.openVideo,
                     decoration: const InputDecoration(labelText: 'Dateiname *'),
                     style: const TextStyle(color: CustomColors.link),
                   ),

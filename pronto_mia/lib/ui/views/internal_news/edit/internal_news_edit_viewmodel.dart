@@ -49,12 +49,6 @@ class InternalNewsEditViewModel extends FormViewModel {
     notifyListeners();
   }
 
-  /// Opens an image
-  Future<void> openImage() async {
-    /// TODO
-    return;
-  }
-
   /// Validates the form and either creates or updates a [InternalNews].
   ///
   /// After the form has been submitted successfully, it closes the dialog in

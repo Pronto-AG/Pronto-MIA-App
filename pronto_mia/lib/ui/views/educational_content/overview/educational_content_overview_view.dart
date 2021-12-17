@@ -281,7 +281,14 @@ class EducationalContentOverviewViewState
                       );
                     }
                   } else {
-                    model.openEducationalContent(educationalContent);
+                    if (model.getEducationalContentFileExtension(
+                          educationalContent,
+                        ) ==
+                        'pdf') {
+                      model.openPdf(educationalContent);
+                    } else {
+                      model.openEducationalContent(educationalContent);
+                    }
                   }
                 },
                 onLongPress: () {

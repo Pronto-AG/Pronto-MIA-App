@@ -22,8 +22,8 @@ class EducationalContentEditViewModel extends FormViewModel {
 
   final bool isDialog;
   final EducationalContent educationalContent;
-  SimpleFile get videoFile => _videoFile;
-  SimpleFile _videoFile;
+  SimpleFile get file => _file;
+  SimpleFile _file;
 
   /// Initializes a new instance of [EducationalContentEditViewModel]
   ///
@@ -44,7 +44,7 @@ class EducationalContentEditViewModel extends FormViewModel {
   ///
   /// Takes the [SimpleFile] video to set as an input.
   void setVideoUpload(SimpleFile fileUpload) {
-    _videoFile = fileUpload;
+    _file = fileUpload;
     notifyListeners();
   }
 
@@ -66,7 +66,7 @@ class EducationalContentEditViewModel extends FormViewModel {
         _educationalContentService.createEducationalContent(
           titleValue,
           descriptionValue,
-          _videoFile,
+          _file,
         ),
         busyObject: editActionKey,
       );
@@ -78,7 +78,7 @@ class EducationalContentEditViewModel extends FormViewModel {
           description: educationalContent.description != descriptionValue
               ? descriptionValue
               : null,
-          video: _videoFile,
+          file: _file,
         ),
         busyObject: editActionKey,
       );

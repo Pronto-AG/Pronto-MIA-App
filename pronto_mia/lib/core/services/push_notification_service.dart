@@ -297,6 +297,8 @@ class PushNotificationService {
 
     final educationalContentTitle = _educationalContentService
         .getEducationalContentTitle(educationalContent);
+    final educationalContentFileExtension = _educationalContentService
+        .getEducationalContentFileExtension(educationalContent);
 
     if (_pushDialogOpen) {
       _dialogService.completeDialog(DialogResponse());
@@ -311,8 +313,15 @@ class PushNotificationService {
         body: 'Das Schulungsvideo "$educationalContentTitle" '
             'wurde soeben veröffentlicht.',
         onViewPressed: () async => {
-          await _educationalContentService
-              .openEducationalContent(educationalContent)
+          if (educationalContentFileExtension == 'pdf')
+            {
+              await _educationalContentService.openPdf(educationalContent),
+            }
+          else
+            {
+              await _educationalContentService
+                  .openEducationalContent(educationalContent),
+            }
         },
       ),
     );

@@ -116,6 +116,31 @@ void main() {
       });
     });
 
+    group('getInternalNewsImage', () {
+      test('returns internal news image', () async {
+        final imageService = getAndRegisterMockImageService();
+
+        when(
+          imageService.downloadImage(captureAny),
+        ).thenAnswer(
+          (realInvocation) => Future.value(
+            SimpleFile(name: 'test.png', bytes: Uint8List(5)),
+          ),
+        );
+
+        await internalNewsService.getInternalNewsImage(InternalNews(
+          id: 1,
+          title: 'test',
+          description: 'test',
+          availableFrom: DateTime.now(),
+          link: 'link',
+        ));
+        verify(
+          imageService.downloadImage('link'),
+        ).called(1);
+      });
+    });
+
     group('createInternalNews', () {
       test('creates internal news', () async {
         final graphQLService = getAndRegisterMockGraphQLService();
@@ -175,6 +200,26 @@ void main() {
               'title': null,
               'description': 'test',
               'availableFrom': null,
+            },
+          ),
+        ).called(1);
+      });
+
+      test('updates internal news available from', () async {
+        final graphQLService = getAndRegisterMockGraphQLService();
+
+        await internalNewsService.updateInternalNews(
+          1,
+          availableFrom: DateTime.now(),
+        );
+        verify(
+          graphQLService.mutate(
+            InternalNewsQueries.updateInternalNews,
+            variables: {
+              'id': 1,
+              'title': null,
+              'description': null,
+              'availableFrom': anything,
             },
           ),
         ).called(1);
@@ -270,6 +315,60 @@ void main() {
               ),
             ),
             equals('1. Januar 2021 | 00:00'));
+      });
+    });
+
+    group('filterInternalNews', () {
+      test('returns correct result', () async {
+        final graphQLService = getAndRegisterMockGraphQLService();
+        when(
+          graphQLService.query(
+            captureAny,
+            variables: captureAnyNamed('variables'),
+            useCache: captureAnyNamed('useCache'),
+          ),
+        ).thenAnswer(
+          (realInvocation) => Future.value({
+            'internalNews': [
+              {
+                'id': 1,
+                'title': 'test',
+                'description': 'test',
+                'availableFrom': DateTime.now().toIso8601String(),
+              },
+            ],
+          }),
+        );
+
+        expect(
+          await internalNewsService.filterInternalNews('test'),
+          hasLength(1),
+        );
+        verify(
+          graphQLService.query(
+            InternalNewsQueries.filterInternalNews,
+            variables: {'filter': anything},
+          ),
+        ).called(1);
+      });
+    });
+
+    group('openInternalNews', () {
+      test('opens internal news', () async {
+        final navigationService = getAndRegisterMockNavigationService();
+
+        await internalNewsService.openInternalNews(InternalNews(
+          id: 1,
+          title: 'test',
+          description: 'test',
+          availableFrom: DateTime.now(),
+        ));
+        verify(
+          navigationService.navigateWithTransition(
+            argThat(anything),
+            transition: NavigationTransition.LeftToRight,
+          ),
+        ).called(1);
       });
     });
   });

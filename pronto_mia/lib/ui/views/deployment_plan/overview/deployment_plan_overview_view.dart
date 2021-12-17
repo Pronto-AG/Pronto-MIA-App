@@ -201,7 +201,7 @@ class DeploymentPlanOverviewViewState
           setState(() {
             model.data.remove(deploymentPlan);
           });
-          model.removeExternalNews(deploymentPlan);
+          model.removeDeploymentPlan(deploymentPlan);
         },
         confirmDismiss: (DismissDirection direction) async {
           return showDialog(

@@ -81,5 +81,38 @@ void main() {
         ).called(1);
       });
     });
+
+    group('filterDepartment', () {
+      test('returns correct result', () async {
+        final graphQLService = getAndRegisterMockGraphQLService();
+        when(
+          graphQLService.query(
+            captureAny,
+            variables: captureAnyNamed('variables'),
+            useCache: captureAnyNamed('useCache'),
+          ),
+        ).thenAnswer(
+          (realInvocation) => Future.value({
+            'departments': [
+              {
+                'id': 1,
+                'name': 'test',
+              }
+            ]
+          }),
+        );
+
+        expect(
+          await departmentService.filterDepartment('test'),
+          hasLength(1),
+        );
+        verify(
+          graphQLService.query(
+            DepartmentQueries.filterDepartment,
+            variables: {'filter': anything},
+          ),
+        ).called(1);
+      });
+    });
   });
 }

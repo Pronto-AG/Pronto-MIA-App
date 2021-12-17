@@ -178,7 +178,7 @@ void main() {
 
         await educationalContentService.updateEducationalContent(
           1,
-          video: SimpleFile(name: 'test.mp4', bytes: Uint8List(5)),
+          file: SimpleFile(name: 'test.mp4', bytes: Uint8List(5)),
         );
         verify(
           graphQLService.mutate(
@@ -250,6 +250,59 @@ void main() {
               description: 'test',
             )),
             equals('test'));
+      });
+    });
+
+    group('filterEducationalContent', () {
+      test('returns correct result', () async {
+        final graphQLService = getAndRegisterMockGraphQLService();
+        when(
+          graphQLService.query(
+            captureAny,
+            variables: captureAnyNamed('variables'),
+            useCache: captureAnyNamed('useCache'),
+          ),
+        ).thenAnswer(
+          (realInvocation) => Future.value({
+            'educationalContent': [
+              {
+                'id': 1,
+                'title': 'test',
+                'description': 'test',
+              }
+            ]
+          }),
+        );
+
+        expect(
+          await educationalContentService.filterEducationalContent('test'),
+          hasLength(1),
+        );
+        verify(
+          graphQLService.query(
+            EducationalContentQueries.filterEducationalContent,
+            variables: {'filter': anything},
+          ),
+        ).called(1);
+      });
+    });
+
+    group('openEducationalContent', () {
+      test('opens pdf with educational content', () async {
+        final navigationService = getAndRegisterMockNavigationService();
+
+        await educationalContentService
+            .openEducationalContent(EducationalContent(
+          id: 1,
+          title: 'test',
+          description: 'test',
+        ));
+        verify(
+          navigationService.navigateWithTransition(
+            argThat(anything),
+            transition: NavigationTransition.LeftToRight,
+          ),
+        ).called(1);
       });
     });
   });

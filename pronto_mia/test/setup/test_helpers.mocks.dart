@@ -23,6 +23,7 @@ import 'package:pronto_mia/core/services/internal_news_service.dart' as _i22;
 import 'package:pronto_mia/core/services/educational_content_service.dart'
     as _i23;
 import 'package:pronto_mia/core/services/appointment_service.dart' as _i24;
+import 'package:pronto_mia/core/services/image_service.dart' as _i25;
 
 /// A class which mocks [GraphQLService].
 ///
@@ -149,3 +150,8 @@ class MockEducationalContentService extends _i1.Mock
 /// See the documentation for Mockito's code generation for more information.
 class MockAppointmentService extends _i1.Mock
     implements _i24.AppointmentService {}
+
+/// A class which mocks [ImageService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockImageService extends _i1.Mock implements _i25.ImageService {}

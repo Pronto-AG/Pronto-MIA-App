@@ -8,6 +8,8 @@ import 'package:pronto_mia/core/models/educational_content.dart';
 import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/core/queries/educational_content_queries.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
+import 'package:pronto_mia/ui/views/educational_content/view/educational_content_view.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 /// A service, responsible for accessing educational content.
 ///
@@ -15,6 +17,7 @@ import 'package:pronto_mia/core/services/graphql_service.dart';
 class EducationalContentService with ChangeNotifier {
   Future<GraphQLService> get _graphQLService =>
       locator.getAsync<GraphQLService>();
+  NavigationService get _navigationService => locator.get<NavigationService>();
 
   /// Gets the list of all educational content.
   ///
@@ -69,15 +72,6 @@ class EducationalContentService with ChangeNotifier {
         .first;
 
     return educationalContent;
-  }
-
-  /// Gets the video of an educational content.
-  ///
-  /// Returns a [Video] of an educational content.
-  Future<void> getEducationalContentVideo(
-    EducationalContent educationalContent,
-  ) async {
-    return;
   }
 
   /// Creates a new educational content.
@@ -214,6 +208,10 @@ class EducationalContentService with ChangeNotifier {
   Future<void> openEducationalContent(
     EducationalContent educationalContent,
   ) async {
+    await _navigationService.navigateWithTransition(
+      EducationalContentView(educationalContent: educationalContent),
+      transition: NavigationTransition.LeftToRight,
+    );
     return;
   }
 

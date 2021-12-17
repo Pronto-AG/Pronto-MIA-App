@@ -161,10 +161,6 @@ class InternalNewsEditView extends StatelessWidget with $InternalNewsEditView {
                   child: TextFormField(
                     controller: imagePathController,
                     readOnly: true,
-                    onTap: imagePathController.text == null ||
-                            imagePathController.text.isEmpty
-                        ? () => _handleImageUpload(model)
-                        : model.openImage,
                     decoration: const InputDecoration(labelText: 'Dateiname *'),
                     style: const TextStyle(color: CustomColors.link),
                   ),

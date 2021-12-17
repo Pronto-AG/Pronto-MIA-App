@@ -222,7 +222,7 @@ class EducationalContentOverviewViewModel
   Future<void> removeItems(List<EducationalContent> selectedToDelete) async {
     for (var i = 0; i < selectedToDelete.length; i++) {
       removeEducationalContent(selectedToDelete[i]);
-      data.remove(selectedToDelete[i]);
+      data?.remove(selectedToDelete[i]);
     }
   }
 }

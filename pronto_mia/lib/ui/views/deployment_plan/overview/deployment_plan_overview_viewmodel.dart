@@ -202,7 +202,7 @@ class DeploymentPlanOverviewViewModel
   /// After the [DeploymentPlan] has been removed successfully, closes dialog
   /// when opened as a dialog or navigates to the previous view, when opened as
   /// standalone.
-  Future<void> removeExternalNews(DeploymentPlan deploymentPlan) async {
+  Future<void> removeDeploymentPlan(DeploymentPlan deploymentPlan) async {
     if (deploymentPlan != null) {
       await runBusyFuture(
         _deploymentPlanService.removeDeploymentPlan(deploymentPlan.id),
@@ -212,7 +212,7 @@ class DeploymentPlanOverviewViewModel
 
   Future<void> removeItems(List<DeploymentPlan> selectedToDelete) async {
     for (var i = 0; i < selectedToDelete.length; i++) {
-      removeExternalNews(selectedToDelete[i]);
+      removeDeploymentPlan(selectedToDelete[i]);
       data.remove(selectedToDelete[i]);
     }
   }

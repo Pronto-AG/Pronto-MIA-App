@@ -313,6 +313,64 @@ void main() {
       });
     });
 
+    group('filterExternalNews', () {
+      test('returns correct result', () async {
+        final externalNewsService = getAndRegisterMockExternalNewsService();
+        await externalNewsOverviewViewModel.filterExternalNews('test');
+        verify(
+          externalNewsService.filterExternalNews(
+            argThat(anything),
+          ),
+        ).called(1);
+      });
+    });
+
+    group('openExternalNews', () {
+      test('opens external news', () async {
+        final navigationService = getAndRegisterMockNavigationService();
+
+        await externalNewsOverviewViewModel.openExternalNews(ExternalNews(
+          id: 1,
+          title: 'test',
+          description: 'test',
+          availableFrom: DateTime.now(),
+        ));
+        verify(
+          navigationService.navigateWithTransition(
+            argThat(anything),
+          ),
+        ).called(1);
+      });
+    });
+
+    group('removeItems', () {
+      test('removes more than one external news', () async {
+        final externalNewsService = getAndRegisterMockExternalNewsService();
+
+        await externalNewsOverviewViewModel.removeItems(
+          <ExternalNews>[
+            ExternalNews(
+              id: 1,
+              title: 'test',
+              description: 'test',
+              availableFrom: DateTime.now(),
+            ),
+            ExternalNews(
+              id: 2,
+              title: 'test',
+              description: 'test',
+              availableFrom: DateTime.now(),
+            ),
+          ],
+        );
+        verify(
+          externalNewsService.removeExternalNews(
+            argThat(anything),
+          ),
+        ).called(2);
+      });
+    });
+
     group('dispose', () {
       test('removes listener from service', () {
         final externalNewsService = getAndRegisterMockExternalNewsService();

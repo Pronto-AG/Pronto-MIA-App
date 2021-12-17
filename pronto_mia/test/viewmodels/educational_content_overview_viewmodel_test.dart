@@ -257,6 +257,65 @@ void main() {
       });
     });
 
+    group('filterEducationalContent', () {
+      test('returns correct result', () async {
+        final educationalContentService =
+            getAndRegisterMockEducationalContentService();
+        await educationalContentOverviewViewModel
+            .filterEducationalContent('test');
+        verify(
+          educationalContentService.filterEducationalContent(
+            argThat(anything),
+          ),
+        ).called(1);
+      });
+    });
+
+    group('openEducationalContent', () {
+      test('opens pdf with educational content', () async {
+        final navigationService = getAndRegisterMockNavigationService();
+
+        await educationalContentOverviewViewModel
+            .openEducationalContent(EducationalContent(
+          id: 1,
+          title: 'test',
+          description: 'test',
+        ));
+        verify(
+          navigationService.navigateWithTransition(
+            argThat(anything),
+          ),
+        ).called(1);
+      });
+    });
+
+    group('removeItems', () {
+      test('removes more than one educational content', () async {
+        final educationalContentService =
+            getAndRegisterMockEducationalContentService();
+
+        await educationalContentOverviewViewModel.removeItems(
+          <EducationalContent>[
+            EducationalContent(
+              id: 1,
+              title: 'test',
+              description: 'test',
+            ),
+            EducationalContent(
+              id: 2,
+              title: 'test',
+              description: 'test',
+            ),
+          ],
+        );
+        verify(
+          educationalContentService.removeEducationalContent(
+            argThat(anything),
+          ),
+        ).called(2);
+      });
+    });
+
     group('dispose', () {
       test('removes listener from service', () {
         final educationalContentService =

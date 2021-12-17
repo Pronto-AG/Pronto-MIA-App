@@ -141,5 +141,35 @@ void main() {
         ).called(1);
       });
     });
+
+    group('filterUser', () {
+      test('returns correct result', () async {
+        final graphQLService = getAndRegisterMockGraphQLService();
+        when(
+          graphQLService.query(
+            captureAny,
+            variables: captureAnyNamed('variables'),
+            useCache: captureAnyNamed('useCache'),
+          ),
+        ).thenAnswer(
+          (realInvocation) => Future.value({
+            'users': [
+              {'id': 1, 'name': 'test', 'departments': []}
+            ],
+          }),
+        );
+
+        expect(
+          await userService.filterUser('test'),
+          hasLength(1),
+        );
+        verify(
+          graphQLService.query(
+            UserQueries.filterUser,
+            variables: {'filter': anything},
+          ),
+        ).called(1);
+      });
+    });
   });
 }

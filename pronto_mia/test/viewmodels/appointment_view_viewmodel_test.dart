@@ -51,6 +51,29 @@ void main() {
       });
     });
 
+    group('editAppointment', () {
+      test('opens edit page for appointment', () async {
+        final navigationService = getAndRegisterMockNavigationService();
+
+        await appointmentViewModel.editAppointment(
+            appointment: Appointment(
+          id: 1,
+          title: 'test',
+          location: 'test',
+          from: DateTime.now(),
+          to: DateTime.now(),
+          isAllDay: false,
+          isYearly: false,
+        ));
+        verify(
+          navigationService.navigateWithTransition(
+            argThat(anything),
+            transition: NavigationTransition.LeftToRight,
+          ),
+        ).called(1);
+      });
+    });
+
     group('dispose', () {
       test('removes listener from service', () {
         final appointmentService = getAndRegisterMockAppointmentService();

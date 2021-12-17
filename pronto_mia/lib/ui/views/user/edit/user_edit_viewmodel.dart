@@ -166,6 +166,24 @@ class UserEditViewModel extends FormViewModel {
       case 'canEditExternalNews':
         accessControlList.canEditExternalNews = value;
         break;
+      case 'canViewInternalNews':
+        accessControlList.canViewInternalNews = value;
+        break;
+      case 'canEditInternalNews':
+        accessControlList.canEditInternalNews = value;
+        break;
+      case 'canViewEducationalContent':
+        accessControlList.canViewEducationalContent = value;
+        break;
+      case 'canEditEducationalContent':
+        accessControlList.canEditEducationalContent = value;
+        break;
+      case 'canViewAppointment':
+        accessControlList.canViewAppointment = value;
+        break;
+      case 'canEditAppointment':
+        accessControlList.canEditAppointment = value;
+        break;
       default:
         throw AssertionError(
           'The provided access control list property is not supported.',

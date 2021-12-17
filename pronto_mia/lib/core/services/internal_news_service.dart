@@ -112,12 +112,12 @@ class InternalNewsService with ChangeNotifier {
   ///
   /// Takes different attributes of the internal news to be updated as an input.
   Future<void> updateInternalNews(
-    int id,
+    int id, {
     String title,
     String description,
     DateTime availableFrom,
     SimpleFile image,
-  ) async {
+  }) async {
     final Map<String, dynamic> queryVariables = {
       'id': id,
       'title': title,

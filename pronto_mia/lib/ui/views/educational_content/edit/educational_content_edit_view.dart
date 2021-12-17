@@ -3,10 +3,12 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:pronto_mia/core/models/educational_content.dart';
 import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/ui/components/form_layout.dart';
 import 'package:pronto_mia/ui/shared/custom_colors.dart';
+import 'package:pronto_mia/ui/shared/html_toolbar.dart';
 import 'package:pronto_mia/ui/views/educational_content/edit/educational_content_edit_view.form.dart';
 import 'package:pronto_mia/ui/views/educational_content/edit/educational_content_edit_viewmodel.dart';
 import 'package:stacked/stacked.dart';
@@ -30,7 +32,6 @@ class EducationalContentEditView extends StatelessWidget
   }) : super(key: key) {
     if (educationalContent != null) {
       titleController.text = educationalContent.title;
-      descriptionController.text = educationalContent.description;
       videoPathController.text =
           "upload.${educationalContent.link?.split('.')?.last}";
     }
@@ -76,11 +77,7 @@ class EducationalContentEditView extends StatelessWidget
           listenToFormUpdated(model);
         },
         builder: (context, model, child) {
-          if (isDialog) {
-            return _buildDialogLayout(model);
-          } else {
-            return _buildStandaloneLayout(model);
-          }
+          return _buildStandaloneLayout(model);
         },
       );
 
@@ -88,19 +85,6 @@ class EducationalContentEditView extends StatelessWidget
       Scaffold(
         appBar: AppBar(title: _buildTitle()),
         body: _buildForm(model),
-      );
-
-  // ignore: sized_box_for_whitespace
-  Widget _buildDialogLayout(EducationalContentEditViewModel model) => Container(
-        width: 500.0,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildTitle(),
-            _buildForm(model),
-          ],
-        ),
       );
 
   Widget _buildTitle() {
@@ -121,6 +105,20 @@ class EducationalContentEditView extends StatelessWidget
     }
   }
 
+  HtmlEditorOptions _withcontent() {
+    return HtmlEditorOptions(
+      initialText: educationalContent.description,
+      autoAdjustHeight: false,
+    );
+  }
+
+  HtmlEditorOptions _withoutcontent() {
+    return const HtmlEditorOptions(
+      hint: "Text eingeben",
+      autoAdjustHeight: false,
+    );
+  }
+
   Widget _buildForm(EducationalContentEditViewModel model) => Form(
         key: _formKey,
         child: FormLayout(
@@ -130,13 +128,23 @@ class EducationalContentEditView extends StatelessWidget
               onEditingComplete: model.submitForm,
               decoration: const InputDecoration(labelText: 'Titel*'),
             ),
-            TextFormField(
-              controller: descriptionController,
-              onEditingComplete: model.submitForm,
-              decoration: const InputDecoration(labelText: 'Inhalt*'),
-              keyboardType: TextInputType.multiline,
-              maxLines: 15,
-              minLines: 5,
+            Container(
+              alignment: Alignment.centerLeft,
+              child: HtmlEditor(
+                controller: htmlEditorController,
+                callbacks: Callbacks(
+                  onChangeContent: (String value) => {
+                    listenToFormUpdated(model),
+                  },
+                ),
+                otherOptions: const OtherOptions(
+                  height: 300,
+                ),
+                htmlEditorOptions: educationalContent != null
+                    ? _withcontent()
+                    : _withoutcontent(),
+                htmlToolbarOptions: htmlToolbarSettings(),
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -172,6 +180,15 @@ class EducationalContentEditView extends StatelessWidget
                 isBusy:
                     model.busy(EducationalContentEditViewModel.removeActionKey),
                 isDestructive: true,
+              );
+            }
+          })(),
+          cancelButton: (() {
+            if (educationalContent == null) {
+              return ButtonSpecification(
+                title: 'Abbrechen',
+                onTap: model.cancelForm,
+                isBusy: model.isBusy,
               );
             }
           })(),

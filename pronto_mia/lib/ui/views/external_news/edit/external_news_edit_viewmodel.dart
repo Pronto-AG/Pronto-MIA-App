@@ -5,6 +5,7 @@ import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/core/services/external_news_service.dart';
 import 'package:pronto_mia/ui/views/external_news/edit/external_news_edit_view.form.dart';
+import 'package:pronto_mia/ui/views/external_news/overview/external_news_overview_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -17,10 +18,8 @@ class ExternalNewsEditViewModel extends FormViewModel {
   ExternalNewsService get _externalNewsService =>
       locator.get<ExternalNewsService>();
   NavigationService get _navigationService => locator.get<NavigationService>();
-  DialogService get _dialogService => locator.get<DialogService>();
   ErrorService get _errorService => locator.get<ErrorService>();
 
-  final bool isDialog;
   final ExternalNews externalNews;
   SimpleFile get imageFile => _imageFile;
   SimpleFile _imageFile;
@@ -31,7 +30,7 @@ class ExternalNewsEditViewModel extends FormViewModel {
   /// displayed as a dialog or standalone as an input.
   ExternalNewsEditViewModel({
     @required this.externalNews,
-    this.isDialog = false,
+    // this.isDialog = false,
   });
 
   /// Resets errors and messages, as soon as form fields update.
@@ -138,6 +137,12 @@ class ExternalNewsEditViewModel extends FormViewModel {
     return null;
   }
 
+  void cancelForm() {
+    _navigationService.replaceWithTransition(
+      const ExternalNewsOverviewView(adminModeEnabled: true),
+    );
+  }
+
   Future<void> _completeFormAction(String actionKey) async {
     if (hasErrorForKey(actionKey)) {
       await _errorService.handleError(
@@ -147,8 +152,6 @@ class ExternalNewsEditViewModel extends FormViewModel {
       final errorMessage = _errorService.getErrorMessage(error(actionKey));
       setValidationMessage(errorMessage);
       notifyListeners();
-    } else if (isDialog) {
-      _dialogService.completeDialog(DialogResponse(confirmed: true));
     } else {
       _navigationService.back(result: true);
     }

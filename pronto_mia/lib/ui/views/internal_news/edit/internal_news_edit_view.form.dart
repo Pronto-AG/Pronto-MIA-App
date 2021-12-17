@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:stacked/stacked.dart';
+import 'package:html_editor_enhanced/html_editor.dart';
 
 const String TitleValueKey = 'title';
 const String DescriptionValueKey = 'description';
@@ -8,7 +10,7 @@ const String ImagePathValueKey = 'upload.png';
 
 mixin $InternalNewsEditView on StatelessWidget {
   final TextEditingController titleController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
+  final HtmlEditorController htmlEditorController = HtmlEditorController();
   final TextEditingController availableFromController =
       TextEditingController(text: DateTime.now().toString());
   final TextEditingController imagePathController = TextEditingController();
@@ -21,17 +23,20 @@ mixin $InternalNewsEditView on StatelessWidget {
   /// with the latest textController values
   void listenToFormUpdated(FormViewModel model) {
     titleController.addListener(() => _updateFormData(model));
-    descriptionController.addListener(() => _updateFormData(model));
     availableFromController.addListener(() => _updateFormData(model));
     imagePathController.addListener(() => _updateFormData(model));
     _updateFormData(model);
   }
 
   /// Updates the formData on the FormViewModel
-  void _updateFormData(FormViewModel model) => model.setData(
+  void _updateFormData(FormViewModel model) async => model.setData(
         {
           TitleValueKey: titleController.text,
-          DescriptionValueKey: descriptionController.text,
+          DescriptionValueKey: kIsWeb
+              ? await htmlEditorController.getText()
+              : (htmlEditorController.editorController != null
+                  ? await htmlEditorController.getText()
+                  : null),
           AvailableFromValueKey: availableFromController.text,
           ImagePathValueKey: imagePathController.text,
         },
@@ -40,7 +45,6 @@ mixin $InternalNewsEditView on StatelessWidget {
   /// Calls dispose on all the generated controllers and focus nodes
   void disposeForm() {
     titleController.dispose();
-    descriptionController.dispose();
     availableFromController.dispose();
     imagePathController.dispose();
   }

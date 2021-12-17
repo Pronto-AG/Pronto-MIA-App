@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jdenticon_dart/jdenticon_dart.dart';
 import 'package:pronto_mia/ui/components/form_layout.dart';
-import 'package:pronto_mia/ui/views/settings/settings_overview_viewmodel.dart';
-import 'package:pronto_mia/ui/views/settings/settings_view.form.dart';
-import 'package:pronto_mia/ui/views/settings/settings_viewmodel.dart';
+import 'package:pronto_mia/ui/views/settings/overview/settings_overview_viewmodel.dart';
+import 'package:pronto_mia/ui/views/settings/view/settings_view.form.dart';
+import 'package:pronto_mia/ui/views/settings/view/settings_viewmodel.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 

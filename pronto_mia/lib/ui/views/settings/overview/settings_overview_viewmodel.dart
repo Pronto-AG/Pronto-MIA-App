@@ -4,7 +4,7 @@ import 'package:pronto_mia/core/services/authentication_service.dart';
 import 'package:pronto_mia/core/services/user_service.dart';
 import 'package:pronto_mia/ui/shared/custom_dialogs.dart';
 import 'package:pronto_mia/ui/views/external_news/overview/external_news_overview_view.dart';
-import 'package:pronto_mia/ui/views/settings/settings_view.dart';
+import 'package:pronto_mia/ui/views/settings/view/settings_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 

@@ -1,5 +1,3 @@
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server.dart';
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/core/services/inquiry_service.dart';
@@ -43,12 +41,7 @@ class InquiryViewModel extends FormViewModel {
       notifyListeners();
       return;
     }
-
-    try {
-      await sendEmail();
-    } on MailerException catch (e) {
-      sendActionKey = e.problems.first.code;
-    }
+    await sendMail();
 
     _completeFormAction(sendActionKey);
   }
@@ -140,36 +133,14 @@ class InquiryViewModel extends FormViewModel {
     }
   }
 
-  Future<SmtpServer> createSmtpServer() async =>
-      _inquiryService.createSmtpServer();
-
-  Future<String> getRecipient() async => _inquiryService.getRecipient();
-
-  Message generateMessage(String recipient) {
-    return Message()
-      ..from = const Address('noreply@pronto-ag.ch', 'Kontaktanfrage App')
-      ..recipients.add(recipient)
-      ..subject = 'Anfrage von $firstNamneValue $lastnameValue'
-      ..html =
-          '<table><tr><td>Name</td><td>$_title $firstNamneValue $lastnameValue</td></tr><tr><td>Firma</td><td>$companyValue</td></tr><tr><td>Adresse</td><td>$streetValue</td></tr><tr><td>Ort</td><td>$plzValue $locationValue</td></tr><tr><td>Telefonnummer</td><td>$phoneValue</td></tr><tr><td>Mobiltelefon</td><td>$mobileValue</td></tr></td></tr><tr><td>Newsletter erwünscht</td><td>$_newsletterSubscription</td></tr></td></tr><tr><td>Dienstleistungen</td><td>${_services.join(", ")}</td></tr></tr><tr><td>Zusätzliches Interesse an</td><td>$additionalInterestsValue</td></tr><tr><td>Kontaktieren via</td><td>$_contactVia</td></tr><tr><td>Bemerkungen</td><td>$remarksValue</td></tr></table>';
-  }
-
-  Future<SendReport> sendMailToSmtpServer(
-    Message message,
-    SmtpServer smtpServer,
-  ) async =>
-      _inquiryService.sendMailToSmtpServer(message, smtpServer);
-
-  Future<void> sendEmail() async {
-    final smtpServer = await createSmtpServer();
-    final message = generateMessage(await getRecipient());
-    try {
-      await sendMailToSmtpServer(message, smtpServer);
-    } finally {
-      _navigationService.replaceWithTransition(
-        InquiryView(),
-        transition: NavigationTransition.UpToDown,
-      );
-    }
+  Future<void> sendMail() async {
+    final subject = 'Anfrage von $firstNamneValue $lastnameValue';
+    final content =
+        '<table><tr><td>Name:</td><td>$_title $firstNamneValue $lastnameValue</td></tr><tr><td>Firma:</td><td>$companyValue</td></tr><tr><td>Adresse:</td><td>$streetValue</td></tr><tr><td>Ort:</td><td>$plzValue $locationValue</td></tr><tr><td>Telefonnummer:</td><td>$phoneValue</td></tr><tr><td>Mobiltelefon:</td><td>$mobileValue</td></tr></td></tr><tr><td>Newsletter erwünscht:</td><td>$_newsletterSubscription</td></tr></td></tr><tr><td>Dienstleistungen:</td><td>${_services.join(", ")}</td></tr></tr><tr><td>Zusätzliches Interesse:</td><td>$additionalInterestsValue</td></tr><tr><td>Kontaktieren via: </td><td>$_contactVia</td></tr><tr><td>Bemerkungen: </td><td>$remarksValue</td></tr></table>';
+    await _inquiryService.sendMail(subject, content);
+    _navigationService.replaceWithTransition(
+      InquiryView(),
+      transition: NavigationTransition.UpToDown,
+    );
   }
 }

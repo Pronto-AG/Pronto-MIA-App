@@ -5,6 +5,7 @@ import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/core/services/internal_news_service.dart';
 import 'package:pronto_mia/ui/views/internal_news/edit/internal_news_edit_view.form.dart';
+import 'package:pronto_mia/ui/views/internal_news/overview/internal_news_overview_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -136,6 +137,12 @@ class InternalNewsEditViewModel extends FormViewModel {
     }
 
     return null;
+  }
+
+  void cancelForm() {
+    _navigationService.replaceWithTransition(
+      const InternalNewsOverviewView(adminModeEnabled: true),
+    );
   }
 
   Future<void> _completeFormAction(String actionKey) async {

@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:pronto_mia/core/models/internal_news.dart';
 import 'package:pronto_mia/ui/views/internal_news/view/internal_news_viewmodel.dart';
 import 'package:stacked/stacked.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// A widget, representing the news.
 class InternalNewsView extends StatelessWidget {
@@ -87,7 +89,10 @@ class InternalNewsView extends StatelessWidget {
             flex: 4,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
-              child: Text(internalNews.description),
+              child: Html(
+                data: internalNews.description,
+                onLinkTap: (url, context, attributes, element) => launch(url),
+              ),
             ),
           ),
         ],

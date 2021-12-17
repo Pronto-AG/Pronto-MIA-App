@@ -4,10 +4,12 @@ import 'package:date_time_picker/date_time_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:pronto_mia/core/models/external_news.dart';
 import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/ui/components/form_layout.dart';
 import 'package:pronto_mia/ui/shared/custom_colors.dart';
+import 'package:pronto_mia/ui/shared/html_toolbar.dart';
 import 'package:pronto_mia/ui/views/external_news/edit/external_news_edit_view.form.dart';
 import 'package:pronto_mia/ui/views/external_news/edit/external_news_edit_viewmodel.dart';
 import 'package:stacked/stacked.dart';
@@ -16,7 +18,6 @@ import 'package:stacked/stacked.dart';
 class ExternalNewsEditView extends StatelessWidget with $ExternalNewsEditView {
   final _formKey = GlobalKey<FormState>();
   final ExternalNews externalNews;
-  final bool isDialog;
 
   /// Initializes a new instance of [ExternalNewsEditView].
   ///
@@ -26,11 +27,9 @@ class ExternalNewsEditView extends StatelessWidget with $ExternalNewsEditView {
   ExternalNewsEditView({
     Key key,
     this.externalNews,
-    this.isDialog = false,
   }) : super(key: key) {
     if (externalNews != null) {
       titleController.text = externalNews.title;
-      descriptionController.text = externalNews.description;
       availableFromController.text = externalNews.availableFrom.toString();
       imagePathController.text = "upload.png";
     }
@@ -70,53 +69,38 @@ class ExternalNewsEditView extends StatelessWidget with $ExternalNewsEditView {
       ViewModelBuilder<ExternalNewsEditViewModel>.reactive(
         viewModelBuilder: () => ExternalNewsEditViewModel(
           externalNews: externalNews,
-          isDialog: isDialog,
         ),
         onModelReady: (model) {
           listenToFormUpdated(model);
         },
         builder: (context, model, child) {
-          if (isDialog) {
-            return _buildDialogLayout(model);
-          } else {
-            return _buildStandaloneLayout(model);
-          }
+          return _buildStandaloneLayout(model);
         },
       );
 
-  Widget _buildStandaloneLayout(ExternalNewsEditViewModel model) => Scaffold(
-        appBar: AppBar(title: _buildTitle()),
-        body: _buildForm(model),
+  Widget _buildStandaloneLayout(ExternalNewsEditViewModel model) {
+    return Scaffold(
+      appBar: AppBar(title: _buildTitle()),
+      body: _buildForm(model),
+    );
+  }
+
+  Widget _buildTitle() => Text(
+        externalNews == null ? 'Neuigkeit erstellen' : 'Neuigkeit bearbeiten',
       );
 
-  // ignore: sized_box_for_whitespace
-  Widget _buildDialogLayout(ExternalNewsEditViewModel model) => Container(
-        width: 500.0,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildTitle(),
-            _buildForm(model),
-          ],
-        ),
-      );
+  HtmlEditorOptions _withcontent() {
+    return HtmlEditorOptions(
+      initialText: externalNews.description,
+      autoAdjustHeight: false,
+    );
+  }
 
-  Widget _buildTitle() {
-    final title =
-        externalNews == null ? 'Neuigkeit erstellen' : 'Neuigkeit bearbeiten';
-
-    if (isDialog) {
-      return Container(
-        padding: const EdgeInsets.all(16.0),
-        child: Text(
-          title,
-          style: const TextStyle(fontSize: 20.0),
-        ),
-      );
-    } else {
-      return Text(title);
-    }
+  HtmlEditorOptions _withoutcontent() {
+    return const HtmlEditorOptions(
+      hint: "Text eingeben",
+      autoAdjustHeight: false,
+    );
   }
 
   Widget _buildForm(ExternalNewsEditViewModel model) => Form(
@@ -128,13 +112,22 @@ class ExternalNewsEditView extends StatelessWidget with $ExternalNewsEditView {
               onEditingComplete: model.submitForm,
               decoration: const InputDecoration(labelText: 'Titel*'),
             ),
-            TextFormField(
-              controller: descriptionController,
-              onEditingComplete: model.submitForm,
-              decoration: const InputDecoration(labelText: 'Inhalt*'),
-              keyboardType: TextInputType.multiline,
-              maxLines: 15,
-              minLines: 5,
+            Container(
+              alignment: Alignment.centerLeft,
+              child: HtmlEditor(
+                controller: htmlEditorController,
+                callbacks: Callbacks(
+                  onChangeContent: (String value) => {
+                    listenToFormUpdated(model),
+                  },
+                ),
+                otherOptions: const OtherOptions(
+                  height: 300,
+                ),
+                htmlEditorOptions:
+                    externalNews != null ? _withcontent() : _withoutcontent(),
+                htmlToolbarOptions: htmlToolbarSettings(),
+              ),
             ),
             DateTimePicker(
               type: DateTimePickerType.dateTime,
@@ -180,6 +173,15 @@ class ExternalNewsEditView extends StatelessWidget with $ExternalNewsEditView {
                 onTap: model.removeExternalNews,
                 isBusy: model.busy(ExternalNewsEditViewModel.removeActionKey),
                 isDestructive: true,
+              );
+            }
+          })(),
+          cancelButton: (() {
+            if (externalNews == null) {
+              return ButtonSpecification(
+                title: 'Abbrechen',
+                onTap: model.cancelForm,
+                isBusy: model.isBusy,
               );
             }
           })(),

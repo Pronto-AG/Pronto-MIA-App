@@ -111,11 +111,11 @@ class EducationalContentService with ChangeNotifier {
   /// Takes different attributes of the educational content
   /// to be updated as an input.
   Future<void> updateEducationalContent(
-    int id,
+    int id, {
     String title,
     String description,
     SimpleFile video,
-  ) async {
+  }) async {
     final Map<String, dynamic> queryVariables = {
       'id': id,
       'title': title,

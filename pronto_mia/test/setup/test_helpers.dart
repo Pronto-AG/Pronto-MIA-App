@@ -11,6 +11,9 @@ import 'package:pronto_mia/core/services/authentication_service.dart';
 import 'package:pronto_mia/core/services/department_service.dart';
 import 'package:pronto_mia/core/services/deployment_plan_service.dart';
 import 'package:pronto_mia/core/services/external_news_service.dart';
+import 'package:pronto_mia/core/services/internal_news_service.dart';
+import 'package:pronto_mia/core/services/educational_content_service.dart';
+import 'package:pronto_mia/core/services/appointment_service.dart';
 import 'package:pronto_mia/core/services/inquiry_service.dart';
 import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
@@ -37,6 +40,9 @@ import 'test_helpers.mocks.dart';
   MockSpec<DialogService>(returnNullOnMissingStub: true),
   MockSpec<DeploymentPlanService>(returnNullOnMissingStub: true),
   MockSpec<ExternalNewsService>(returnNullOnMissingStub: true),
+  MockSpec<InternalNewsService>(returnNullOnMissingStub: true),
+  MockSpec<EducationalContentService>(returnNullOnMissingStub: true),
+  MockSpec<AppointmentService>(returnNullOnMissingStub: true),
   MockSpec<InquiryService>(returnNullOnMissingStub: true),
   MockSpec<GraphQLClient>(returnNullOnMissingStub: true),
   MockSpec<SharedPreferences>(returnNullOnMissingStub: true),
@@ -138,6 +144,27 @@ ExternalNewsService getAndRegisterMockExternalNewsService() {
   return service;
 }
 
+InternalNewsService getAndRegisterMockInternalNewsService() {
+  _removeRegistrationIfExists<InternalNewsService>();
+  final service = MockInternalNewsService();
+  locator.registerSingleton<InternalNewsService>(service);
+  return service;
+}
+
+EducationalContentService getAndRegisterMockEducationalContentService() {
+  _removeRegistrationIfExists<EducationalContentService>();
+  final service = MockEducationalContentService();
+  locator.registerSingleton<EducationalContentService>(service);
+  return service;
+}
+
+AppointmentService getAndRegisterMockAppointmentService() {
+  _removeRegistrationIfExists<AppointmentService>();
+  final service = MockAppointmentService();
+  locator.registerSingleton<AppointmentService>(service);
+  return service;
+}
+
 InquiryService getAndRegisterMockInquiryService() {
   _removeRegistrationIfExists<InquiryService>();
   final service = MockInquiryService();
@@ -159,6 +186,9 @@ void registerServices() {
   getAndRegisterMockDialogService();
   getAndRegisterMockDeploymentPlanService();
   getAndRegisterMockExternalNewsService();
+  getAndRegisterMockInternalNewsService();
+  getAndRegisterMockEducationalContentService();
+  getAndRegisterMockAppointmentService();
   getAndRegisterMockInquiryService();
 }
 
@@ -176,6 +206,9 @@ void unregisterServices() {
   locator.unregister<DialogService>();
   locator.unregister<DeploymentPlanService>();
   locator.unregister<ExternalNewsService>();
+  locator.unregister<InternalNewsService>();
+  locator.unregister<EducationalContentService>();
+  locator.unregister<AppointmentService>();
   locator.unregister<InquiryService>();
 }
 

@@ -12,7 +12,7 @@ import 'package:stacked_services/stacked_services.dart';
 /// A view model, providing functionality for [InternalNewsView].
 class InternalNewsOverviewViewModel
     extends FutureViewModel<List<InternalNews>> {
-  static String contextIdentifier = "InternalNewsViewModel";
+  static String contextIdentifier = "InternalNewsOverviewViewModel";
   // static const removeActionKey = 'RemoveActionKey';
 
   InternalNewsService get _internalNewsService =>

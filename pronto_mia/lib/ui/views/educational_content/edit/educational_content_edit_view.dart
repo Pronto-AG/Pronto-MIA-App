@@ -31,7 +31,8 @@ class EducationalContentEditView extends StatelessWidget
     if (educationalContent != null) {
       titleController.text = educationalContent.title;
       descriptionController.text = educationalContent.description;
-      videoPathController.text = "upload.mp4";
+      videoPathController.text =
+          "upload.${educationalContent.link?.split('.')?.last}";
     }
   }
 

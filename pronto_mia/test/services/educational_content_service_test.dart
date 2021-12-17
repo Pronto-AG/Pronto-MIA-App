@@ -178,7 +178,7 @@ void main() {
 
         await educationalContentService.updateEducationalContent(
           1,
-          video: SimpleFile(name: 'test.mp4', bytes: Uint8List(5)),
+          file: SimpleFile(name: 'test.mp4', bytes: Uint8List(5)),
         );
         verify(
           graphQLService.mutate(

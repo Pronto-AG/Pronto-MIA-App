@@ -20,6 +20,7 @@ import 'package:pronto_mia/core/services/graphql_service.dart';
 import 'package:pronto_mia/core/services/jwt_token_service.dart';
 import 'package:pronto_mia/core/services/logging_service.dart';
 import 'package:pronto_mia/core/services/pdf_service.dart';
+import 'package:pronto_mia/core/services/image_service.dart';
 import 'package:pronto_mia/core/services/push_notification_service.dart';
 import 'package:pronto_mia/core/services/user_service.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -32,6 +33,7 @@ import 'test_helpers.mocks.dart';
   MockSpec<PushNotificationService>(returnNullOnMissingStub: true),
   MockSpec<LoggingService>(returnNullOnMissingStub: true),
   MockSpec<PdfService>(returnNullOnMissingStub: true),
+  MockSpec<ImageService>(returnNullOnMissingStub: true),
   MockSpec<NavigationService>(returnNullOnMissingStub: true),
   MockSpec<AuthenticationService>(returnNullOnMissingStub: true),
   MockSpec<ErrorService>(returnNullOnMissingStub: true),
@@ -85,6 +87,13 @@ PdfService getAndRegisterMockPdfService() {
   _removeRegistrationIfExists<PdfService>();
   final service = MockPdfService();
   locator.registerSingleton<PdfService>(service);
+  return service;
+}
+
+ImageService getAndRegisterMockImageService() {
+  _removeRegistrationIfExists<ImageService>();
+  final service = MockImageService();
+  locator.registerSingleton<ImageService>(service);
   return service;
 }
 
@@ -178,6 +187,7 @@ void registerServices() {
   getAndRegisterMockPushNotificationService();
   getAndRegisterMockLoggingService();
   getAndRegisterMockPdfService();
+  getAndRegisterMockImageService();
   getAndRegisterMockNavigationService();
   getAndRegisterMockAuthenticationService();
   getAndRegisterMockErrorService();
@@ -198,6 +208,7 @@ void unregisterServices() {
   locator.unregister<PushNotificationService>();
   locator.unregister<LoggingService>();
   locator.unregister<PdfService>();
+  locator.unregister<ImageService>();
   locator.unregister<NavigationService>();
   locator.unregister<AuthenticationService>();
   locator.unregister<ErrorService>();

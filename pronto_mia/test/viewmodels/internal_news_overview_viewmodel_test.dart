@@ -313,6 +313,64 @@ void main() {
       });
     });
 
+    group('filterInternalNews', () {
+      test('returns correct result', () async {
+        final internalNewsService = getAndRegisterMockInternalNewsService();
+        await internalNewsOverviewViewModel.filterInternalNews('test');
+        verify(
+          internalNewsService.filterInternalNews(
+            argThat(anything),
+          ),
+        ).called(1);
+      });
+    });
+
+    group('openInternalNews', () {
+      test('opens internal news', () async {
+        final navigationService = getAndRegisterMockNavigationService();
+
+        await internalNewsOverviewViewModel.openInternalNews(InternalNews(
+          id: 1,
+          title: 'test',
+          description: 'test',
+          availableFrom: DateTime.now(),
+        ));
+        verify(
+          navigationService.navigateWithTransition(
+            argThat(anything),
+          ),
+        ).called(1);
+      });
+    });
+
+    group('removeItems', () {
+      test('removes more than one internal news', () async {
+        final internalNewsService = getAndRegisterMockInternalNewsService();
+
+        await internalNewsOverviewViewModel.removeItems(
+          <InternalNews>[
+            InternalNews(
+              id: 1,
+              title: 'test',
+              description: 'test',
+              availableFrom: DateTime.now(),
+            ),
+            InternalNews(
+              id: 2,
+              title: 'test',
+              description: 'test',
+              availableFrom: DateTime.now(),
+            ),
+          ],
+        );
+        verify(
+          internalNewsService.removeInternalNews(
+            argThat(anything),
+          ),
+        ).called(2);
+      });
+    });
+
     group('dispose', () {
       test('removes listener from service', () {
         final internalNewsService = getAndRegisterMockInternalNewsService();

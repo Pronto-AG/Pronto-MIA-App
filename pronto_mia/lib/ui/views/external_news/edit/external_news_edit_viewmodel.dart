@@ -48,11 +48,6 @@ class ExternalNewsEditViewModel extends FormViewModel {
     notifyListeners();
   }
 
-  /// Opens a external news view
-  Future<void> openImage() async {
-    return;
-  }
-
   /// Validates the form and either creates or updates a [ExternalNews].
   ///
   /// After the form has been submitted successfully, it closes the dialog in

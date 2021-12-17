@@ -151,10 +151,6 @@ class EducationalContentEditView extends StatelessWidget
                   child: TextFormField(
                     controller: videoPathController,
                     readOnly: true,
-                    onTap: videoPathController.text == null ||
-                            videoPathController.text.isEmpty
-                        ? () => _handleVideoUpload(model)
-                        : model.openVideo,
                     decoration: const InputDecoration(labelText: 'Dateiname *'),
                     style: const TextStyle(color: CustomColors.link),
                   ),

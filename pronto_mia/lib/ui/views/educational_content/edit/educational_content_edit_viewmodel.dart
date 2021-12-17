@@ -48,12 +48,6 @@ class EducationalContentEditViewModel extends FormViewModel {
     notifyListeners();
   }
 
-  /// Opens a pdf view, either from the file picker or deployment plan.
-  Future<void> openVideo() async {
-    /// TODO
-    return;
-  }
-
   /// Validates the form and either creates or updates a [EducationalContent].
   ///
   /// After the form has been submitted successfully, it closes the dialog in

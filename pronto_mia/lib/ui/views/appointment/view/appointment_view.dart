@@ -9,6 +9,7 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class AppointmentView extends StatefulWidget {
   final bool adminModeEnabled;
+  final DateTime initalSelectedDate;
 
   /// Initializes a new instance of [AppointmentView].
   ///
@@ -17,6 +18,7 @@ class AppointmentView extends StatefulWidget {
   const AppointmentView({
     Key key,
     this.adminModeEnabled = false,
+    this.initalSelectedDate,
   }) : super(key: key);
 
   @override
@@ -25,6 +27,7 @@ class AppointmentView extends StatefulWidget {
 
 class AppointmentViewState extends State<AppointmentView> {
   final CalendarController _calendarController = CalendarController();
+
   @override
   Widget build(BuildContext context) =>
       ViewModelBuilder<AppointmentViewModel>.reactive(
@@ -33,6 +36,7 @@ class AppointmentViewState extends State<AppointmentView> {
           title: "Kalender",
           body: SfCalendar(
             controller: _calendarController,
+            initialSelectedDate: widget.initalSelectedDate,
             view: CalendarView.month,
             allowedViews: const [
               CalendarView.day,

@@ -218,7 +218,7 @@ class ExternalNewsOverviewViewModel
   Future<void> removeItems(List<ExternalNews> selectedToDelete) async {
     for (var i = 0; i < selectedToDelete.length; i++) {
       removeExternalNews(selectedToDelete[i]);
-      data.remove(selectedToDelete[i]);
+      data?.remove(selectedToDelete[i]);
     }
   }
 }

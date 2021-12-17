@@ -3,6 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:logging/logging.dart';
 import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/queries/fcm_token_queries.dart';
+import 'package:pronto_mia/core/services/appointment_service.dart';
 import 'package:pronto_mia/core/services/configuration_service.dart';
 import 'package:pronto_mia/core/services/deployment_plan_service.dart';
 import 'package:pronto_mia/core/services/educational_content_service.dart';
@@ -33,6 +34,8 @@ class PushNotificationService {
       locator.get<InternalNewsService>();
   EducationalContentService get _educationalContentService =>
       locator.get<EducationalContentService>();
+  AppointmentService get _appointmentService =>
+      locator.get<AppointmentService>();
   DialogService get _dialogService => locator.get<DialogService>();
   Future<ConfigurationService> get _configurationService =>
       locator.getAsync<ConfigurationService>();
@@ -181,6 +184,14 @@ class PushNotificationService {
         );
         await _handleEducationalContentPublish(message);
         break;
+      case "appointment":
+        (await _loggingService).log(
+          "PushNotificationService",
+          Level.INFO,
+          'Message is an appointment',
+        );
+        await _handleAppointmentPublish(message);
+        break;
       default:
         (await _loggingService).log(
           "PushNotificationService",
@@ -303,6 +314,34 @@ class PushNotificationService {
           await _educationalContentService
               .openEducationalContent(educationalContent)
         },
+      ),
+    );
+    _pushDialogOpen = false;
+  }
+
+  Future<void> _handleAppointmentPublish(RemoteMessage message) async {
+    _appointmentService.notifyDataChanged();
+
+    final targetId = int.parse(message.data['TargetId'].toString());
+    final appointment = await _appointmentService.getAppointmentById(targetId);
+
+    final appointmentTitle =
+        _appointmentService.getAppointmentTitle(appointment);
+
+    if (_pushDialogOpen) {
+      _dialogService.completeDialog(DialogResponse());
+    }
+
+    _pushDialogOpen = true;
+    await _dialogService.showCustomDialog(
+      variant: DialogType.custom,
+      // ignore: deprecated_member_use
+      customData: DeploymentPlanNotification(
+        title: "Kalendereintrag erstellt",
+        body: 'Der Kalendereintrag "$appointmentTitle" '
+            'wurde soeben erstellt.',
+        onViewPressed: () async =>
+            {await _appointmentService.openAppointment(appointment)},
       ),
     );
     _pushDialogOpen = false;

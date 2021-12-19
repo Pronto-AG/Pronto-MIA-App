@@ -213,7 +213,7 @@ class DeploymentPlanOverviewViewModel
   Future<void> removeItems(List<DeploymentPlan> selectedToDelete) async {
     for (var i = 0; i < selectedToDelete.length; i++) {
       removeDeploymentPlan(selectedToDelete[i]);
-      data.remove(selectedToDelete[i]);
+      data?.remove(selectedToDelete[i]);
     }
   }
 }

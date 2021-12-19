@@ -125,5 +125,17 @@ void main() {
         ).called(1);
       });
     });
+
+    group('cancelForm', () {
+      test('replaces view', () async {
+        final navigationService = getAndRegisterMockNavigationService();
+        educationalContentEditViewModel.cancelForm();
+        verify(
+          navigationService.replaceWithTransition(
+            argThat(anything),
+          ),
+        ).called(1);
+      });
+    });
   });
 }

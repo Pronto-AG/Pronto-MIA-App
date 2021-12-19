@@ -114,13 +114,33 @@ void main() {
     });
 
     group('createEducationalContent', () {
-      test('creates educational content', () async {
+      test('creates educational content with mp4', () async {
         final graphQLService = getAndRegisterMockGraphQLService();
 
         await educationalContentService.createEducationalContent(
           'test',
           'test',
           SimpleFile(name: 'test.mp4', bytes: Uint8List(5)),
+        );
+        verify(
+          graphQLService.mutate(
+            EducationalContentQueries.createEducationalContent,
+            variables: {
+              'title': 'test',
+              'description': 'test',
+              'file': anything,
+            },
+          ),
+        ).called(1);
+      });
+
+      test('creates educational content with pdf', () async {
+        final graphQLService = getAndRegisterMockGraphQLService();
+
+        await educationalContentService.createEducationalContent(
+          'test',
+          'test',
+          SimpleFile(name: 'test.pdf', bytes: Uint8List(5)),
         );
         verify(
           graphQLService.mutate(
@@ -192,6 +212,26 @@ void main() {
           ),
         ).called(1);
       });
+
+      test('updates educational content pdf', () async {
+        final graphQLService = getAndRegisterMockGraphQLService();
+
+        await educationalContentService.updateEducationalContent(
+          1,
+          file: SimpleFile(name: 'test.pdf', bytes: Uint8List(5)),
+        );
+        verify(
+          graphQLService.mutate(
+            EducationalContentQueries.updateEducationalContent,
+            variables: {
+              'id': 1,
+              'title': null,
+              'file': isNotNull,
+              'description': null,
+            },
+          ),
+        ).called(1);
+      });
     });
 
     group('removeEducationalContent', () {
@@ -250,6 +290,34 @@ void main() {
               description: 'test',
             )),
             equals('test'));
+      });
+    });
+
+    group('getEducationalContentFileExtension', () {
+      test('returns file extension', () {
+        expect(
+            educationalContentService.getEducationalContentFileExtension(
+                EducationalContent(
+                    title: "test",
+                    description: 'test',
+                    link: "https://localhost/test.mp4")),
+            equals('mp4'));
+      });
+    });
+
+    group('openPdf', () {
+      test('opens a view containing a pdf', () {
+        final navigationService = getAndRegisterMockNavigationService();
+        educationalContentService.openPdf(EducationalContent(
+            title: "test",
+            description: 'test',
+            link: "https://localhost/test.mp4"));
+        verify(
+          navigationService.navigateWithTransition(
+            argThat(anything),
+            transition: NavigationTransition.LeftToRight,
+          ),
+        ).called(1);
       });
     });
 

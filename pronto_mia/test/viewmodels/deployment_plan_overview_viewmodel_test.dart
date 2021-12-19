@@ -309,6 +309,43 @@ void main() {
       });
     });
 
+    group('removeItems', () {
+      test('removes more than one deployment plan', () async {
+        final deploymentPlanService = getAndRegisterMockDeploymentPlanService();
+
+        await deploymentPlanOverviewViewModel.removeItems(
+          <DeploymentPlan>[
+            DeploymentPlan(
+              id: 1,
+            ),
+            DeploymentPlan(
+              id: 2,
+            ),
+          ],
+        );
+        verify(
+          deploymentPlanService.removeDeploymentPlan(
+            argThat(anything),
+          ),
+        ).called(2);
+      });
+    });
+
+    group('filterDeploymentPlans', () {
+      test('filters a deployment plan', () async {
+        final deploymentPlanService = getAndRegisterMockDeploymentPlanService();
+
+        await deploymentPlanOverviewViewModel.filterDeploymentPlans(
+          'test',
+        );
+        verify(
+          deploymentPlanService.filterDeploymentPlan(
+            argThat(anything),
+          ),
+        ).called(1);
+      });
+    });
+
     group('dispose', () {
       test('removes listener from service', () {
         final deploymentPlanService = getAndRegisterMockDeploymentPlanService();

@@ -153,6 +153,28 @@ void main() {
       });
     });
 
+    group('removeItems', () {
+      test('removes more than one department', () async {
+        final departmentService = getAndRegisterMockDepartmentService();
+
+        await departmentOverviewViewModel.removeItems(
+          <Department>[
+            Department(
+              id: 1,
+            ),
+            Department(
+              id: 2,
+            ),
+          ],
+        );
+        verify(
+          departmentService.removeDepartment(
+            argThat(anything),
+          ),
+        ).called(2);
+      });
+    });
+
     group('filterDepartments', () {
       test('filters departments', () async {
         final departmentService = getAndRegisterMockDepartmentService();

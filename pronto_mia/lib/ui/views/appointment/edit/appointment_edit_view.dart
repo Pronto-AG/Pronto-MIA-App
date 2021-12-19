@@ -33,10 +33,13 @@ class AppointmentEditView extends StatelessWidget with $AppointmentEditView {
       isAllDayController.text = appointment.isAllDay.toString();
       isYearlyController.text = appointment.isYearly.toString();
     } else if (selectedDate != null) {
-      fromController.text =
-          selectedDate.add(const Duration(hours: 18)).toString();
-      toController.text =
-          selectedDate.add(const Duration(hours: 19)).toString();
+      fromController.text = selectedDate
+          .subtract(Duration(minutes: selectedDate.minute))
+          .toString();
+      toController.text = selectedDate
+          .subtract(Duration(minutes: selectedDate.minute))
+          .add(const Duration(hours: 1))
+          .toString();
     }
   }
 

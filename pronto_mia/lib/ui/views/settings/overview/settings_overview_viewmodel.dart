@@ -3,7 +3,6 @@ import 'package:pronto_mia/core/models/user.dart';
 import 'package:pronto_mia/core/services/authentication_service.dart';
 import 'package:pronto_mia/core/services/user_service.dart';
 import 'package:pronto_mia/ui/shared/custom_dialogs.dart';
-import 'package:pronto_mia/ui/views/external_news/overview/external_news_overview_view.dart';
 import 'package:pronto_mia/ui/views/settings/view/settings_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -38,10 +37,7 @@ class SettingsOverviewViewModel extends FutureViewModel<User> {
       _authenticationService.logout(),
       busyObject: logoutActionKey,
     );
-    _navigationService.replaceWithTransition(
-      const ExternalNewsOverviewView(),
-      transition: NavigationTransition.UpToDown,
-    );
+    _navigationService.clearStackAndShow('/');
   }
 
   /// Opens the settings view.

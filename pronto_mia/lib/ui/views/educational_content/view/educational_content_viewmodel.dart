@@ -49,12 +49,6 @@ class EducationalContentViewModel extends FutureViewModel<EducationalContent> {
     notifyListeners();
   }
 
-  // Future<Video> getEducationalContentImage(
-  //     EducationalContent educationalContent) async {
-  //   return _educationalContentService
-  //       .getEducationalContentVideo(educationalContent);
-  // }
-
   /// Generates a title for an educational content
   ///
   /// Takes the [EducationalContent] to generate the title for as an input.

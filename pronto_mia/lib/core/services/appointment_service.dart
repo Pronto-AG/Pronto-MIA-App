@@ -6,9 +6,9 @@ import 'package:pronto_mia/core/models/appointment.dart';
 import 'package:pronto_mia/core/queries/appointment_queries.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
 
-/// A service, responsible for accessing external news.
+/// A service, responsible for accessing appointments.
 ///
-/// Contains methods to modify and access external news information.
+/// Contains methods to modify and access appointment information.
 class AppointmentService with ChangeNotifier {
   Future<GraphQLService> get _graphQLService =>
       locator.getAsync<GraphQLService>();
@@ -83,7 +83,7 @@ class AppointmentService with ChangeNotifier {
     );
   }
 
-  /// Removes an existing deployment plan.
+  /// Removes an existing appointment.
   ///
   /// Takes the [int] id of the appointment to be removed as an input.
   Future<void> removeAppointment(int id) async {

@@ -13,7 +13,6 @@ import 'package:stacked_services/stacked_services.dart';
 class InternalNewsOverviewViewModel
     extends FutureViewModel<List<InternalNews>> {
   static String contextIdentifier = "InternalNewsViewModel";
-  // static const removeActionKey = 'RemoveActionKey';
 
   InternalNewsService get _internalNewsService =>
       locator.get<InternalNewsService>();

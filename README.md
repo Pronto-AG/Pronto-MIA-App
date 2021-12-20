@@ -12,8 +12,6 @@ All available settings for the application can be defined within four JSON files
   - Contains settings relevant for the development context. These settings will not be loaded if the application is run in production mode.
 - `app_settings_prod.json`
   - Contains settings relevant for the production context. These settings will not be loaded if the application is run in development mode.
-- `mailer_credentials.json`
-  - Contains settings relevant for the contact form mail server.
 
 ### Available Options
 

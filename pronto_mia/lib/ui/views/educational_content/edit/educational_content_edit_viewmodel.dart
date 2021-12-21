@@ -23,8 +23,8 @@ class EducationalContentEditViewModel extends FormViewModel {
 
   final bool isDialog;
   final EducationalContent educationalContent;
-  SimpleFile get videoFile => _videoFile;
-  SimpleFile _videoFile;
+  SimpleFile get file => _file;
+  SimpleFile _file;
 
   /// Initializes a new instance of [EducationalContentEditViewModel]
   ///
@@ -45,14 +45,8 @@ class EducationalContentEditViewModel extends FormViewModel {
   ///
   /// Takes the [SimpleFile] video to set as an input.
   void setVideoUpload(SimpleFile fileUpload) {
-    _videoFile = fileUpload;
+    _file = fileUpload;
     notifyListeners();
-  }
-
-  /// Opens a pdf view, either from the file picker or deployment plan.
-  Future<void> openVideo() async {
-    /// TODO
-    return;
   }
 
   /// Validates the form and either creates or updates a [EducationalContent].
@@ -73,7 +67,7 @@ class EducationalContentEditViewModel extends FormViewModel {
         _educationalContentService.createEducationalContent(
           titleValue,
           descriptionValue,
-          _videoFile,
+          _file,
         ),
         busyObject: editActionKey,
       );
@@ -81,11 +75,11 @@ class EducationalContentEditViewModel extends FormViewModel {
       await runBusyFuture(
         _educationalContentService.updateEducationalContent(
           educationalContent.id,
-          educationalContent.title != titleValue ? titleValue : null,
-          educationalContent.description != descriptionValue
+          title: educationalContent.title != titleValue ? titleValue : null,
+          description: educationalContent.description != descriptionValue
               ? descriptionValue
               : null,
-          _videoFile,
+          file: _file,
         ),
         busyObject: editActionKey,
       );

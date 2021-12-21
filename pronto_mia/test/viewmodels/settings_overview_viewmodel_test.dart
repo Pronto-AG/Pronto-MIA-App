@@ -45,9 +45,8 @@ void main() {
           await settingsOverviewViewModel.logout();
           verify(authenticationService.logout()).called(1);
           verify(
-            navigationService.replaceWithTransition(
+            navigationService.clearStackAndShow(
               argThat(anything),
-              transition: NavigationTransition.UpToDown,
             ),
           );
         });

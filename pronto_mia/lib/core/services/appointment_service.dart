@@ -5,6 +5,8 @@ import 'package:pronto_mia/app/service_locator.dart';
 import 'package:pronto_mia/core/models/appointment.dart';
 import 'package:pronto_mia/core/queries/appointment_queries.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
+import 'package:pronto_mia/ui/views/appointment/view/appointment_view.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 /// A service, responsible for accessing appointments.
 ///
@@ -12,6 +14,7 @@ import 'package:pronto_mia/core/services/graphql_service.dart';
 class AppointmentService with ChangeNotifier {
   Future<GraphQLService> get _graphQLService =>
       locator.getAsync<GraphQLService>();
+  NavigationService get _navigationService => locator.get<NavigationService>();
 
   /// Gets the list of all appointments.
   ///
@@ -27,6 +30,35 @@ class AppointmentService with ChangeNotifier {
         .toList();
 
     return appointmentList;
+  }
+
+  /// Gets an appointment.
+  ///
+  /// Returns a [Appointment].
+  Future<Appointment> getAppointmentById(int id) async {
+    final Map<String, dynamic> queryVariables = {
+      'id': id,
+    };
+
+    final data = await (await _graphQLService).query(
+      AppointmentQueries.appointments,
+      variables: queryVariables,
+    );
+
+    final dtoList = data['appointments'] as List<Object>;
+    final educationalContent = dtoList
+        .map((dto) => Appointment.fromJson(dto as Map<String, dynamic>))
+        .first;
+
+    return educationalContent;
+  }
+
+  /// Gets the news title from an appointment.
+  ///
+  /// Takes the [Appointment] to get the title from as an input.
+  /// Returns a [String] representation of the title.
+  String getAppointmentTitle(Appointment appointment) {
+    return appointment.title;
   }
 
   /// Creates a new appointments.
@@ -92,6 +124,19 @@ class AppointmentService with ChangeNotifier {
       AppointmentQueries.removeAppointment,
       variables: queryVariables,
     );
+  }
+
+  /// Opens a view, containing [Appointment].
+  ///
+  /// Takes a [Appointment].
+  Future<void> openAppointment(Appointment appointment) async {
+    await _navigationService.navigateWithTransition(
+      AppointmentView(
+        initalSelectedDate: appointment.from,
+      ),
+      transition: NavigationTransition.LeftToRight,
+    );
+    return;
   }
 
   /// Notifies this objects listeners.

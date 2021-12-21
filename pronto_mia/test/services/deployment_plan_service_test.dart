@@ -148,6 +148,8 @@ void main() {
         await deploymentPlanService.updateDeploymentPlan(
           1,
           description: 'test',
+          availableFrom: DateTime.now(),
+          availableUntil: DateTime.now(),
         );
         verify(
           graphQLService.mutate(
@@ -155,8 +157,8 @@ void main() {
             variables: {
               'id': 1,
               'description': 'test',
-              'availableFrom': null,
-              'availableUntil': null,
+              'availableFrom': anything,
+              'availableUntil': anything,
               'departmentId': null,
             },
           ),
@@ -315,6 +317,41 @@ void main() {
               ),
             ),
             equals('01.01.2021 00:00 - 01.01.2022 00:00'));
+      });
+    });
+
+    group('filterDeploymentPlan', () {
+      test('returns correct result', () async {
+        final graphQLService = getAndRegisterMockGraphQLService();
+        when(
+          graphQLService.query(
+            captureAny,
+            variables: captureAnyNamed('variables'),
+            useCache: captureAnyNamed('useCache'),
+          ),
+        ).thenAnswer(
+          (realInvocation) => Future.value({
+            'deploymentPlans': [
+              {
+                'id': 1,
+                'description': 'test',
+                'availableFrom': DateTime.now().toIso8601String(),
+                'availableUntil': DateTime.now().toIso8601String(),
+              }
+            ]
+          }),
+        );
+
+        expect(
+          await deploymentPlanService.filterDeploymentPlan('test'),
+          hasLength(1),
+        );
+        verify(
+          graphQLService.query(
+            DeploymentPlanQueries.filterDeploymentPlan,
+            variables: {'filter': anything},
+          ),
+        ).called(1);
       });
     });
   });

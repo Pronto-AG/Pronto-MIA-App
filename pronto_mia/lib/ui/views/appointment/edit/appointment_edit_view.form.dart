@@ -11,10 +11,15 @@ const String IsYearlyValueKey = 'isYearly';
 mixin $AppointmentEditView on StatelessWidget {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController locationController = TextEditingController();
-  final TextEditingController fromController =
-      TextEditingController(text: DateTime.now().toString());
+  final TextEditingController fromController = TextEditingController(
+      text: DateTime.now()
+          .subtract(Duration(minutes: DateTime.now().minute))
+          .toString());
   final TextEditingController toController = TextEditingController(
-      text: DateTime.now().add(const Duration(hours: 1)).toString());
+      text: DateTime.now()
+          .add(const Duration(hours: 1))
+          .subtract(Duration(minutes: DateTime.now().minute))
+          .toString());
   final TextEditingController isAllDayController = TextEditingController();
   final TextEditingController isYearlyController = TextEditingController();
   final FocusNode titleFocusNode = FocusNode();

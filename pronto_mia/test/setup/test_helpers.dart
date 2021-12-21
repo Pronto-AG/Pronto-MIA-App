@@ -11,12 +11,16 @@ import 'package:pronto_mia/core/services/authentication_service.dart';
 import 'package:pronto_mia/core/services/department_service.dart';
 import 'package:pronto_mia/core/services/deployment_plan_service.dart';
 import 'package:pronto_mia/core/services/external_news_service.dart';
+import 'package:pronto_mia/core/services/internal_news_service.dart';
+import 'package:pronto_mia/core/services/educational_content_service.dart';
+import 'package:pronto_mia/core/services/appointment_service.dart';
 import 'package:pronto_mia/core/services/inquiry_service.dart';
 import 'package:pronto_mia/core/services/error_service.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
 import 'package:pronto_mia/core/services/jwt_token_service.dart';
 import 'package:pronto_mia/core/services/logging_service.dart';
 import 'package:pronto_mia/core/services/pdf_service.dart';
+import 'package:pronto_mia/core/services/image_service.dart';
 import 'package:pronto_mia/core/services/push_notification_service.dart';
 import 'package:pronto_mia/core/services/user_service.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -29,6 +33,7 @@ import 'test_helpers.mocks.dart';
   MockSpec<PushNotificationService>(returnNullOnMissingStub: true),
   MockSpec<LoggingService>(returnNullOnMissingStub: true),
   MockSpec<PdfService>(returnNullOnMissingStub: true),
+  MockSpec<ImageService>(returnNullOnMissingStub: true),
   MockSpec<NavigationService>(returnNullOnMissingStub: true),
   MockSpec<AuthenticationService>(returnNullOnMissingStub: true),
   MockSpec<ErrorService>(returnNullOnMissingStub: true),
@@ -37,6 +42,9 @@ import 'test_helpers.mocks.dart';
   MockSpec<DialogService>(returnNullOnMissingStub: true),
   MockSpec<DeploymentPlanService>(returnNullOnMissingStub: true),
   MockSpec<ExternalNewsService>(returnNullOnMissingStub: true),
+  MockSpec<InternalNewsService>(returnNullOnMissingStub: true),
+  MockSpec<EducationalContentService>(returnNullOnMissingStub: true),
+  MockSpec<AppointmentService>(returnNullOnMissingStub: true),
   MockSpec<InquiryService>(returnNullOnMissingStub: true),
   MockSpec<GraphQLClient>(returnNullOnMissingStub: true),
   MockSpec<SharedPreferences>(returnNullOnMissingStub: true),
@@ -79,6 +87,13 @@ PdfService getAndRegisterMockPdfService() {
   _removeRegistrationIfExists<PdfService>();
   final service = MockPdfService();
   locator.registerSingleton<PdfService>(service);
+  return service;
+}
+
+ImageService getAndRegisterMockImageService() {
+  _removeRegistrationIfExists<ImageService>();
+  final service = MockImageService();
+  locator.registerSingleton<ImageService>(service);
   return service;
 }
 
@@ -138,6 +153,27 @@ ExternalNewsService getAndRegisterMockExternalNewsService() {
   return service;
 }
 
+InternalNewsService getAndRegisterMockInternalNewsService() {
+  _removeRegistrationIfExists<InternalNewsService>();
+  final service = MockInternalNewsService();
+  locator.registerSingleton<InternalNewsService>(service);
+  return service;
+}
+
+EducationalContentService getAndRegisterMockEducationalContentService() {
+  _removeRegistrationIfExists<EducationalContentService>();
+  final service = MockEducationalContentService();
+  locator.registerSingleton<EducationalContentService>(service);
+  return service;
+}
+
+AppointmentService getAndRegisterMockAppointmentService() {
+  _removeRegistrationIfExists<AppointmentService>();
+  final service = MockAppointmentService();
+  locator.registerSingleton<AppointmentService>(service);
+  return service;
+}
+
 InquiryService getAndRegisterMockInquiryService() {
   _removeRegistrationIfExists<InquiryService>();
   final service = MockInquiryService();
@@ -151,6 +187,7 @@ void registerServices() {
   getAndRegisterMockPushNotificationService();
   getAndRegisterMockLoggingService();
   getAndRegisterMockPdfService();
+  getAndRegisterMockImageService();
   getAndRegisterMockNavigationService();
   getAndRegisterMockAuthenticationService();
   getAndRegisterMockErrorService();
@@ -159,6 +196,9 @@ void registerServices() {
   getAndRegisterMockDialogService();
   getAndRegisterMockDeploymentPlanService();
   getAndRegisterMockExternalNewsService();
+  getAndRegisterMockInternalNewsService();
+  getAndRegisterMockEducationalContentService();
+  getAndRegisterMockAppointmentService();
   getAndRegisterMockInquiryService();
 }
 
@@ -168,6 +208,7 @@ void unregisterServices() {
   locator.unregister<PushNotificationService>();
   locator.unregister<LoggingService>();
   locator.unregister<PdfService>();
+  locator.unregister<ImageService>();
   locator.unregister<NavigationService>();
   locator.unregister<AuthenticationService>();
   locator.unregister<ErrorService>();
@@ -176,6 +217,9 @@ void unregisterServices() {
   locator.unregister<DialogService>();
   locator.unregister<DeploymentPlanService>();
   locator.unregister<ExternalNewsService>();
+  locator.unregister<InternalNewsService>();
+  locator.unregister<EducationalContentService>();
+  locator.unregister<AppointmentService>();
   locator.unregister<InquiryService>();
 }
 

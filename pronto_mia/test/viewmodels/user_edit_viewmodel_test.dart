@@ -243,6 +243,83 @@ void main() {
         );
       });
 
+      test('correctly modifies canEditExternalNews', () {
+        userEditViewModel.modifyAccessControlList(
+          'canEditExternalNews',
+          true,
+        );
+        expect(
+          userEditViewModel.accessControlList.canEditExternalNews,
+          isTrue,
+        );
+      });
+
+      test('correctly modifies canViewInternalNews', () {
+        userEditViewModel.modifyAccessControlList(
+          'canViewInternalNews',
+          true,
+        );
+        expect(
+          userEditViewModel.accessControlList.canViewInternalNews,
+          isTrue,
+        );
+      });
+
+      test('correctly modifies canEditInternalNews', () {
+        userEditViewModel.modifyAccessControlList(
+          'canEditInternalNews',
+          true,
+        );
+        expect(
+          userEditViewModel.accessControlList.canEditInternalNews,
+          isTrue,
+        );
+      });
+
+      test('correctly modifies canViewEducationalContent', () {
+        userEditViewModel.modifyAccessControlList(
+          'canViewEducationalContent',
+          true,
+        );
+        expect(
+          userEditViewModel.accessControlList.canViewEducationalContent,
+          isTrue,
+        );
+      });
+
+      test('correctly modifies canEditEducationalContent', () {
+        userEditViewModel.modifyAccessControlList(
+          'canEditEducationalContent',
+          true,
+        );
+        expect(
+          userEditViewModel.accessControlList.canEditEducationalContent,
+          isTrue,
+        );
+      });
+
+      test('correctly modifies canViewAppointment', () {
+        userEditViewModel.modifyAccessControlList(
+          'canViewAppointment',
+          true,
+        );
+        expect(
+          userEditViewModel.accessControlList.canViewAppointment,
+          isTrue,
+        );
+      });
+
+      test('correctly modifies canEditAppointment', () {
+        userEditViewModel.modifyAccessControlList(
+          'canEditAppointment',
+          true,
+        );
+        expect(
+          userEditViewModel.accessControlList.canEditAppointment,
+          isTrue,
+        );
+      });
+
       test('throws error on unknown modification', () {
         expect(
           () => userEditViewModel.modifyAccessControlList('test', true),
@@ -411,6 +488,18 @@ void main() {
         expect(userEditViewModel.validationMessage, isNull);
         verify(userService.removeUser(1)).called(1);
         verify(dialogService.completeDialog(argThat(anything)));
+      });
+    });
+
+    group('cancelForm', () {
+      test('replaces view', () async {
+        final navigationService = getAndRegisterMockNavigationService();
+        userEditViewModel.cancelForm();
+        verify(
+          navigationService.replaceWithTransition(
+            argThat(anything),
+          ),
+        ).called(1);
       });
     });
   });

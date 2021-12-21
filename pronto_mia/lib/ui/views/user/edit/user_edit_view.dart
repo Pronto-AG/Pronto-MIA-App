@@ -311,6 +311,42 @@ class UserEditState extends State<UserEditView> {
             'canEditExternalNews',
             model.accessControlList.canEditExternalNews,
           ),
+          _buildLabeledSwitch(
+            model,
+            'Aktuelles ansehen',
+            'canViewInternalNews',
+            model.accessControlList.canViewInternalNews,
+          ),
+          _buildLabeledSwitch(
+            model,
+            'Aktuelles verwalten',
+            'canEditInternalNews',
+            model.accessControlList.canEditInternalNews,
+          ),
+          _buildLabeledSwitch(
+            model,
+            'Schulungsvideo ansehen',
+            'canViewEducationalContent',
+            model.accessControlList.canViewEducationalContent,
+          ),
+          _buildLabeledSwitch(
+            model,
+            'Schulungsvideo verwalten',
+            'canEditEducationalContent',
+            model.accessControlList.canEditEducationalContent,
+          ),
+          _buildLabeledSwitch(
+            model,
+            'Kalender ansehen',
+            'canViewAppointment',
+            model.accessControlList.canViewAppointment,
+          ),
+          _buildLabeledSwitch(
+            model,
+            'Kalender verwalten',
+            'canEditAppointment',
+            model.accessControlList.canEditAppointment,
+          ),
         ],
       );
 

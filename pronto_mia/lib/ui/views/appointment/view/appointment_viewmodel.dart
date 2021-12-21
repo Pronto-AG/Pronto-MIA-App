@@ -65,6 +65,7 @@ class AppointmentViewModel extends FutureViewModel<List<Appointment>> {
   Future<void> editAppointment({
     Appointment appointment,
     bool asDialog = false,
+    DateTime selectedDate,
   }) async {
     bool dataHasChanged;
     if (asDialog) {
@@ -74,13 +75,17 @@ class AppointmentViewModel extends FutureViewModel<List<Appointment>> {
         customData: AppointmentEditView(
           appointment: appointment,
           isDialog: true,
+          selectedDate: selectedDate,
         ),
       );
       dataHasChanged = dialogResponse?.confirmed ?? false;
     } else {
       final navigationResponse =
           await _navigationService.navigateWithTransition(
-        AppointmentEditView(appointment: appointment),
+        AppointmentEditView(
+          appointment: appointment,
+          selectedDate: selectedDate,
+        ),
         transition: NavigationTransition.LeftToRight,
       );
       dataHasChanged = navigationResponse is bool && navigationResponse == true;

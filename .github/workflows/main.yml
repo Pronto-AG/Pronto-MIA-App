@@ -66,6 +66,8 @@ jobs:
           "*lib/ui/shared/*"
           "*lib/ui/views/*/*_view.dart"
           "*lib/ui/views/*/*_view.form.dart"
+          "*lib/core/services/push_notification_service.dart"
+          "*lib/core/factories/*"
     
     - name: Generate test coverage
       run: genhtml coverage/lcov-filtered.info -o coverage/html

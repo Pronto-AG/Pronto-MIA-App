@@ -1,50 +1,50 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:pronto_mia/core/models/external_news.dart';
+import 'package:pronto_mia/core/models/internal_news.dart';
 import 'package:pronto_mia/ui/shared/custom_dialogs.dart';
 
-import 'package:pronto_mia/ui/views/external_news/overview/external_news_overview_viewmodel.dart';
+import 'package:pronto_mia/ui/views/internal_news/overview/internal_news_overview_viewmodel.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import '../setup/test_helpers.dart';
 
 void main() {
-  group('ExternalNewsOverviewViewModel', () {
-    ExternalNewsOverviewViewModel externalNewsOverviewViewModel;
+  group('InternalNewsOverviewViewModel', () {
+    InternalNewsOverviewViewModel internalNewsOverviewViewModel;
     setUp(() {
       registerServices();
-      externalNewsOverviewViewModel = ExternalNewsOverviewViewModel();
+      internalNewsOverviewViewModel = InternalNewsOverviewViewModel();
     });
     tearDown(() => unregisterServices());
 
     group('futureToRun', () {
-      test('returns available external news on default mode', () async {
-        final externalNewsService = getAndRegisterMockExternalNewsService();
-        when(externalNewsService.getAvailableExternalNews()).thenAnswer(
-          (realInvocation) => Future.value([ExternalNews()]),
+      test('returns available internal news on default mode', () async {
+        final internalNewsService = getAndRegisterMockInternalNewsService();
+        when(internalNewsService.getAvailableInternalNews()).thenAnswer(
+          (realInvocation) => Future.value([InternalNews()]),
         );
 
         expect(
-          await externalNewsOverviewViewModel.futureToRun(),
+          await internalNewsOverviewViewModel.futureToRun(),
           hasLength(1),
         );
-        verify(externalNewsService.getAvailableExternalNews()).called(1);
+        verify(internalNewsService.getAvailableInternalNews()).called(1);
       });
 
-      test('returns all external news on admin mode', () async {
-        externalNewsOverviewViewModel = ExternalNewsOverviewViewModel(
+      test('returns all internal news on admin mode', () async {
+        internalNewsOverviewViewModel = InternalNewsOverviewViewModel(
           adminModeEnabled: true,
         );
-        final externalNewsService = getAndRegisterMockExternalNewsService();
-        when(externalNewsService.getExternalNews()).thenAnswer(
-          (realInvocation) => Future.value([ExternalNews()]),
+        final internalNewsService = getAndRegisterMockInternalNewsService();
+        when(internalNewsService.getInternalNews()).thenAnswer(
+          (realInvocation) => Future.value([InternalNews()]),
         );
 
         expect(
-          await externalNewsOverviewViewModel.futureToRun(),
+          await internalNewsOverviewViewModel.futureToRun(),
           hasLength(1),
         );
-        verify(externalNewsService.getExternalNews()).called(1);
+        verify(internalNewsService.getInternalNews()).called(1);
       });
     });
 
@@ -53,11 +53,11 @@ void main() {
         final errorService = getAndRegisterMockErrorService();
         when(errorService.getErrorMessage(captureAny)).thenReturn('test');
 
-        await externalNewsOverviewViewModel.onError(Exception());
-        expect(externalNewsOverviewViewModel.errorMessage, equals('test'));
+        await internalNewsOverviewViewModel.onError(Exception());
+        expect(internalNewsOverviewViewModel.errorMessage, equals('test'));
         verify(
           errorService.handleError(
-            'ExternalNewsOverviewViewModel',
+            'InternalNewsOverviewViewModel',
             argThat(isException),
           ),
         ).called(1);
@@ -65,12 +65,12 @@ void main() {
       });
     });
 
-    group('editExternalNews', () {
+    group('editInternalNews', () {
       test('opens form as standalone without data change', () async {
         final navigationService = getAndRegisterMockNavigationService();
 
-        await externalNewsOverviewViewModel.editExternalNews(
-          externalNews: ExternalNews(),
+        await internalNewsOverviewViewModel.editInternalNews(
+          internalNews: InternalNews(),
         );
         verify(
           navigationService.navigateWithTransition(
@@ -83,8 +83,8 @@ void main() {
       // test('opens form as dialog without data change', () async {
       //   final dialogService = getAndRegisterMockDialogService();
 
-      //   await externalNewsOverviewViewModel.editExternalNews(
-      //     externalNews: ExternalNews(),
+      //   await internalNewsOverviewViewModel.editInternalNews(
+      //     internalNews: InternalNews(),
       //     asDialog: true,
       //   );
       //   verifyNever(
@@ -98,7 +98,7 @@ void main() {
 
       test('opens form as standalone with data change', () async {
         final navigationService = getAndRegisterMockNavigationService();
-        final externalNewsService = getAndRegisterMockExternalNewsService();
+        final internalNewsService = getAndRegisterMockInternalNewsService();
         when(
           navigationService.navigateWithTransition(
             captureAny,
@@ -108,8 +108,8 @@ void main() {
           (realInvocation) => Future.value(true),
         );
 
-        await externalNewsOverviewViewModel.editExternalNews(
-          externalNews: ExternalNews(),
+        await internalNewsOverviewViewModel.editInternalNews(
+          internalNews: InternalNews(),
         );
         verify(
           navigationService.navigateWithTransition(
@@ -117,12 +117,12 @@ void main() {
             transition: NavigationTransition.LeftToRight,
           ),
         ).called(1);
-        verify(externalNewsService.getAvailableExternalNews()).called(1);
+        verify(internalNewsService.getAvailableInternalNews()).called(1);
       });
 
       // test('opens form as dialog with data change', () async {
       //   final dialogService = getAndRegisterMockDialogService();
-      //   final externalNewsService = getAndRegisterMockExternalNewsService();
+      //   final internalNewsService = getAndRegisterMockInternalNewsService();
       //   when(
       //     dialogService.showCustomDialog(
       //       variant: captureAnyNamed('variant'),
@@ -133,8 +133,8 @@ void main() {
       //     (realInvocation) => Future.value(DialogResponse(confirmed: true)),
       //   );
 
-      //   await externalNewsOverviewViewModel.editExternalNews(
-      //     externalNews: ExternalNews(),
+      //   await internalNewsOverviewViewModel.editInternalNews(
+      //     internalNews: InternalNews(),
       //     asDialog: true,
       //   );
       //   verifyNever(
@@ -144,14 +144,14 @@ void main() {
       //       customData: anyNamed('customData'),
       //     ),
       //   );
-      //   verifyNever(externalNewsService.getAvailableExternalNews());
+      //   verifyNever(internalNewsService.getAvailableInternalNews());
       // });
     });
 
-    group('publishExternalNews', () {
-      test('publishes external news on dialog confirmed', () async {
+    group('publishInternalNews', () {
+      test('publishes internal news on dialog confirmed', () async {
         final dialogService = getAndRegisterMockDialogService();
-        final externalNewsService = getAndRegisterMockExternalNewsService();
+        final internalNewsService = getAndRegisterMockInternalNewsService();
         when(
           dialogService.showConfirmationDialog(
             title: captureAnyNamed('title'),
@@ -165,8 +165,8 @@ void main() {
           (realInvocation) => Future.value(DialogResponse(confirmed: true)),
         );
 
-        await externalNewsOverviewViewModel.publishExternalNews(
-          ExternalNews(id: 1),
+        await internalNewsOverviewViewModel.publishInternalNews(
+          InternalNews(id: 1),
         );
         verify(
           dialogService.showConfirmationDialog(
@@ -180,7 +180,7 @@ void main() {
           ),
         ).called(1);
         verify(
-          externalNewsService.publishExternalNews(
+          internalNewsService.publishInternalNews(
             1,
             argThat(anything),
             argThat(anything),
@@ -190,10 +190,10 @@ void main() {
 
       test('does not publish on dialog cancel', () async {
         final dialogService = getAndRegisterMockDialogService();
-        final externalNewsService = getAndRegisterMockExternalNewsService();
+        final internalNewsService = getAndRegisterMockInternalNewsService();
 
-        await externalNewsOverviewViewModel.publishExternalNews(
-          ExternalNews(id: 1),
+        await internalNewsOverviewViewModel.publishInternalNews(
+          InternalNews(id: 1),
         );
         verify(
           dialogService.showConfirmationDialog(
@@ -207,7 +207,7 @@ void main() {
           ),
         ).called(1);
         verifyNever(
-          externalNewsService.publishExternalNews(
+          internalNewsService.publishInternalNews(
             argThat(anything),
             argThat(anything),
             argThat(anything),
@@ -216,10 +216,10 @@ void main() {
       });
     });
 
-    group('hideExternalNews', () {
-      test('hides external news on dialog confirmed', () async {
+    group('hideInternalNews', () {
+      test('hides internal news on dialog confirmed', () async {
         final dialogService = getAndRegisterMockDialogService();
-        final externalNewsService = getAndRegisterMockExternalNewsService();
+        final internalNewsService = getAndRegisterMockInternalNewsService();
         when(
           dialogService.showConfirmationDialog(
             title: captureAnyNamed('title'),
@@ -233,8 +233,8 @@ void main() {
           (realInvocation) => Future.value(DialogResponse(confirmed: true)),
         );
 
-        await externalNewsOverviewViewModel.hideExternalNews(
-          ExternalNews(id: 1),
+        await internalNewsOverviewViewModel.hideInternalNews(
+          InternalNews(id: 1),
         );
         verify(
           dialogService.showConfirmationDialog(
@@ -246,15 +246,15 @@ void main() {
             dialogPlatform: DialogPlatform.Material,
           ),
         ).called(1);
-        verify(externalNewsService.hideExternalNews(1)).called(1);
+        verify(internalNewsService.hideInternalNews(1)).called(1);
       });
 
       test('does not hide on dialog cancel', () async {
         final dialogService = getAndRegisterMockDialogService();
-        final externalNewsService = getAndRegisterMockExternalNewsService();
+        final internalNewsService = getAndRegisterMockInternalNewsService();
 
-        await externalNewsOverviewViewModel.hideExternalNews(
-          ExternalNews(id: 1),
+        await internalNewsOverviewViewModel.hideInternalNews(
+          InternalNews(id: 1),
         );
         verify(
           dialogService.showConfirmationDialog(
@@ -267,69 +267,69 @@ void main() {
           ),
         ).called(1);
         verifyNever(
-          externalNewsService.hideExternalNews(argThat(anything)),
+          internalNewsService.hideInternalNews(argThat(anything)),
         );
       });
     });
 
-    group('getExternalNewsTitle', () {
+    group('getInternalNewsTitle', () {
       test('returns title', () {
-        final externalNewsService = getAndRegisterMockExternalNewsService();
+        final internalNewsService = getAndRegisterMockInternalNewsService();
 
-        externalNewsOverviewViewModel.getExternalNewsTitle(
-          ExternalNews(),
+        internalNewsOverviewViewModel.getInternalNewsTitle(
+          InternalNews(),
         );
-        verify(externalNewsService.getExternalNewsTitle(argThat(anything)));
+        verify(internalNewsService.getInternalNewsTitle(argThat(anything)));
       });
     });
 
-    group('getExternalNewsDate', () {
+    group('getInternalNewsDate', () {
       test('returns date', () {
-        final externalNewsService = getAndRegisterMockExternalNewsService();
+        final internalNewsService = getAndRegisterMockInternalNewsService();
 
-        externalNewsOverviewViewModel.getExternalNewsDate(
-          ExternalNews(),
+        internalNewsOverviewViewModel.getInternalNewsDate(
+          InternalNews(),
         );
         verify(
-          externalNewsService.getExternalNewsDate(
+          internalNewsService.getInternalNewsDate(
             argThat(anything),
           ),
         );
       });
     });
 
-    group('getExternalNewsImage', () {
+    group('getInternalNewsImage', () {
       test('returns image', () {
-        final externalNewsService = getAndRegisterMockExternalNewsService();
+        final internalNewsService = getAndRegisterMockInternalNewsService();
 
-        externalNewsOverviewViewModel.getExternalNewsImage(
-          ExternalNews(),
+        internalNewsOverviewViewModel.getInternalNewsImage(
+          InternalNews(),
         );
         verify(
-          externalNewsService.getExternalNewsImage(
+          internalNewsService.getInternalNewsImage(
             argThat(anything),
           ),
         );
       });
     });
 
-    group('filterExternalNews', () {
+    group('filterInternalNews', () {
       test('returns correct result', () async {
-        final externalNewsService = getAndRegisterMockExternalNewsService();
-        await externalNewsOverviewViewModel.filterExternalNews('test');
+        final internalNewsService = getAndRegisterMockInternalNewsService();
+        await internalNewsOverviewViewModel.filterInternalNews('test');
         verify(
-          externalNewsService.filterExternalNews(
+          internalNewsService.filterInternalNews(
             argThat(anything),
           ),
         ).called(1);
       });
     });
 
-    group('openExternalNews', () {
-      test('opens external news', () async {
+    group('openInternalNews', () {
+      test('opens internal news', () async {
         final navigationService = getAndRegisterMockNavigationService();
 
-        await externalNewsOverviewViewModel.openExternalNews(ExternalNews(
+        await internalNewsOverviewViewModel.openInternalNews(InternalNews(
           id: 1,
           title: 'test',
           description: 'test',
@@ -344,18 +344,18 @@ void main() {
     });
 
     group('removeItems', () {
-      test('removes more than one external news', () async {
-        final externalNewsService = getAndRegisterMockExternalNewsService();
+      test('removes more than one internal news', () async {
+        final internalNewsService = getAndRegisterMockInternalNewsService();
 
-        await externalNewsOverviewViewModel.removeItems(
-          <ExternalNews>[
-            ExternalNews(
+        await internalNewsOverviewViewModel.removeItems(
+          <InternalNews>[
+            InternalNews(
               id: 1,
               title: 'test',
               description: 'test',
               availableFrom: DateTime.now(),
             ),
-            ExternalNews(
+            InternalNews(
               id: 2,
               title: 'test',
               description: 'test',
@@ -364,7 +364,7 @@ void main() {
           ],
         );
         verify(
-          externalNewsService.removeExternalNews(
+          internalNewsService.removeInternalNews(
             argThat(anything),
           ),
         ).called(2);
@@ -373,11 +373,11 @@ void main() {
 
     group('dispose', () {
       test('removes listener from service', () {
-        final externalNewsService = getAndRegisterMockExternalNewsService();
+        final internalNewsService = getAndRegisterMockInternalNewsService();
 
-        externalNewsOverviewViewModel.dispose();
+        internalNewsOverviewViewModel.dispose();
         verify(
-          externalNewsService.removeListener(argThat(anything)),
+          internalNewsService.removeListener(argThat(anything)),
         ).called(1);
       });
     });

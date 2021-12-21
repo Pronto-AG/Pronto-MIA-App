@@ -19,6 +19,11 @@ import 'package:flutter_cache_manager/src/cache_manager.dart' as _i18;
 import 'package:firebase_messaging/firebase_messaging.dart' as _i19;
 import 'package:pronto_mia/core/services/external_news_service.dart' as _i20;
 import 'package:pronto_mia/core/services/inquiry_service.dart' as _i21;
+import 'package:pronto_mia/core/services/internal_news_service.dart' as _i22;
+import 'package:pronto_mia/core/services/educational_content_service.dart'
+    as _i23;
+import 'package:pronto_mia/core/services/appointment_service.dart' as _i24;
+import 'package:pronto_mia/core/services/image_service.dart' as _i25;
 
 /// A class which mocks [GraphQLService].
 ///
@@ -127,3 +132,26 @@ class MockExternalNewsService extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockInquiryService extends _i1.Mock implements _i21.InquiryService {}
+
+/// A class which mocks [InternalNewsService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockInternalNewsService extends _i1.Mock
+    implements _i22.InternalNewsService {}
+
+/// A class which mocks [EducationalContentService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockEducationalContentService extends _i1.Mock
+    implements _i23.EducationalContentService {}
+
+/// A class which mocks [AppointmentService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockAppointmentService extends _i1.Mock
+    implements _i24.AppointmentService {}
+
+/// A class which mocks [ImageService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockImageService extends _i1.Mock implements _i25.ImageService {}

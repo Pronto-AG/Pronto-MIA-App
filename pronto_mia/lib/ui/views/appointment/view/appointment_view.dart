@@ -9,6 +9,7 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class AppointmentView extends StatefulWidget {
   final bool adminModeEnabled;
+  final DateTime initalSelectedDate;
 
   /// Initializes a new instance of [AppointmentView].
   ///
@@ -17,6 +18,7 @@ class AppointmentView extends StatefulWidget {
   const AppointmentView({
     Key key,
     this.adminModeEnabled = false,
+    this.initalSelectedDate,
   }) : super(key: key);
 
   @override
@@ -24,6 +26,8 @@ class AppointmentView extends StatefulWidget {
 }
 
 class AppointmentViewState extends State<AppointmentView> {
+  final CalendarController _calendarController = CalendarController();
+
   @override
   Widget build(BuildContext context) =>
       ViewModelBuilder<AppointmentViewModel>.reactive(
@@ -31,6 +35,8 @@ class AppointmentViewState extends State<AppointmentView> {
         builder: (context, model, child) => NavigationLayout(
           title: "Kalender",
           body: SfCalendar(
+            controller: _calendarController,
+            initialSelectedDate: widget.initalSelectedDate,
             view: CalendarView.month,
             allowedViews: const [
               CalendarView.day,
@@ -40,8 +46,14 @@ class AppointmentViewState extends State<AppointmentView> {
             ],
             monthViewSettings: const MonthViewSettings(showAgenda: true),
             firstDayOfWeek: 1,
+            showNavigationArrow: true,
+            showWeekNumber: true,
             showDatePickerButton: true,
             dataSource: AppointmentDataSource(model.data),
+            allowViewNavigation: true,
+            timeSlotViewSettings: const TimeSlotViewSettings(
+              timeFormat: 'HH:mm',
+            ),
             onTap: (CalendarTapDetails details) {
               calendarTapped(model, details);
             },
@@ -57,6 +69,9 @@ class AppointmentViewState extends State<AppointmentView> {
                     mobile: false,
                     desktop: true,
                   ),
+                  selectedDate: _calendarController.selectedDate
+                          ?.add(const Duration(hours: 18)) ??
+                      DateTime.now(),
                 ),
               ),
           ],
@@ -98,9 +113,9 @@ class AppointmentViewState extends State<AppointmentView> {
         final String _dateText =
             DateFormat.yMMMMd('de_CH').format(appointmentDetails.from);
         final String _startTimeText =
-            DateFormat('hh:mm').format(appointmentDetails.from);
+            DateFormat('HH:mm').format(appointmentDetails.from);
         final String _endTimeText =
-            DateFormat('hh:mm').format(appointmentDetails.to);
+            DateFormat('HH:mm').format(appointmentDetails.to);
         String _timeDetails;
         if (appointmentDetails.isAllDay) {
           _timeDetails = 'Ganzer Tag';
@@ -170,7 +185,7 @@ class AppointmentViewState extends State<AppointmentView> {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: const Text('close'),
+                  child: const Text('schliessen'),
                 )
               ],
             );
@@ -200,6 +215,8 @@ class AppointmentDataSource extends CalendarDataSource {
       appointment.from.year,
       appointment.from.month,
       appointment.from.day,
+      appointment.from.hour,
+      appointment.from.minute,
     );
   }
 
@@ -212,6 +229,8 @@ class AppointmentDataSource extends CalendarDataSource {
       appointment.to.year,
       appointment.to.month,
       appointment.to.day,
+      appointment.to.hour,
+      appointment.to.minute,
     );
   }
 

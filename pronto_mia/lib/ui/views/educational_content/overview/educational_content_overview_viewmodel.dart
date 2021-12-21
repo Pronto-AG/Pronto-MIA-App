@@ -11,7 +11,7 @@ import 'package:stacked_services/stacked_services.dart';
 /// A view model, providing functionality for [EducationalContentView].
 class EducationalContentOverviewViewModel
     extends FutureViewModel<List<EducationalContent>> {
-  static String contextIdentifier = "EducationalContentViewModel";
+  static String contextIdentifier = "EducationalContentOverviewViewModel";
 
   EducationalContentService get _educationalContentService =>
       locator.get<EducationalContentService>();
@@ -184,6 +184,25 @@ class EducationalContentOverviewViewModel
     return _educationalContentService.getEducationalContentTitle(eN);
   }
 
+  /// Generates a file extension for an educational content
+  ///
+  /// Takes the [EducationalContent] to generate the file extension for
+  /// as an input.
+  /// Returns the generated [String] file extension.
+  String getEducationalContentFileExtension(
+    EducationalContent educationalContent,
+  ) {
+    return _educationalContentService
+        .getEducationalContentFileExtension(educationalContent);
+  }
+
+  /// Opens a view, containing a pdf file from a [EducationalContent].
+  ///
+  /// Takes a [EducationalContent], containing a pdf file as an input.
+  Future<void> openPdf(EducationalContent educationalContent) async {
+    _educationalContentService.openPdf(educationalContent);
+  }
+
   /// Refetches the [List] of deployment plans.
   void _notifyDataChanged() {
     initialise();
@@ -221,7 +240,7 @@ class EducationalContentOverviewViewModel
   Future<void> removeItems(List<EducationalContent> selectedToDelete) async {
     for (var i = 0; i < selectedToDelete.length; i++) {
       removeEducationalContent(selectedToDelete[i]);
-      data.remove(selectedToDelete[i]);
+      data?.remove(selectedToDelete[i]);
     }
   }
 }

@@ -49,12 +49,6 @@ class InternalNewsEditViewModel extends FormViewModel {
     notifyListeners();
   }
 
-  /// Opens an image
-  Future<void> openImage() async {
-    /// TODO
-    return;
-  }
-
   /// Validates the form and either creates or updates a [InternalNews].
   ///
   /// After the form has been submitted successfully, it closes the dialog in
@@ -84,14 +78,15 @@ class InternalNewsEditViewModel extends FormViewModel {
       await runBusyFuture(
         _internalNewsService.updateInternalNews(
           internalNews.id,
-          internalNews.title != titleValue ? titleValue : null,
-          internalNews.description != descriptionValue
+          title: internalNews.title != titleValue ? titleValue : null,
+          description: internalNews.description != descriptionValue
               ? descriptionValue
               : null,
-          !internalNews.availableFrom.isAtSameMomentAs(availableFrom)
-              ? availableFrom
-              : null,
-          _imageFile,
+          availableFrom:
+              !internalNews.availableFrom.isAtSameMomentAs(availableFrom)
+                  ? availableFrom
+                  : null,
+          image: _imageFile,
         ),
         busyObject: editActionKey,
       );

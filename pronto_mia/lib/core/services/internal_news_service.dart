@@ -10,6 +10,8 @@ import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/core/queries/internal_news_queries.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
 import 'package:pronto_mia/core/services/image_service.dart';
+import 'package:pronto_mia/ui/views/internal_news/view/internal_news_view.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 /// A service, responsible for accessing internal news.
 ///
@@ -18,6 +20,7 @@ class InternalNewsService with ChangeNotifier {
   Future<GraphQLService> get _graphQLService =>
       locator.getAsync<GraphQLService>();
   ImageService get _imageService => locator.get<ImageService>();
+  NavigationService get _navigationService => locator.get<NavigationService>();
 
   /// Gets the list of all internal news.
   ///
@@ -112,12 +115,12 @@ class InternalNewsService with ChangeNotifier {
   ///
   /// Takes different attributes of the internal news to be updated as an input.
   Future<void> updateInternalNews(
-    int id,
+    int id, {
     String title,
     String description,
     DateTime availableFrom,
     SimpleFile image,
-  ) async {
+  }) async {
     final Map<String, dynamic> queryVariables = {
       'id': id,
       'title': title,
@@ -219,6 +222,10 @@ class InternalNewsService with ChangeNotifier {
   ///
   /// Takes a [InternalNews].
   Future<void> openInternalNews(InternalNews internalNews) async {
+    await _navigationService.navigateWithTransition(
+      InternalNewsView(internalNews: internalNews),
+      transition: NavigationTransition.LeftToRight,
+    );
     return;
   }
 

@@ -12,7 +12,7 @@ import 'package:stacked_services/stacked_services.dart';
 /// A view model, providing functionality for [InternalNewsView].
 class InternalNewsOverviewViewModel
     extends FutureViewModel<List<InternalNews>> {
-  static String contextIdentifier = "InternalNewsViewModel";
+  static String contextIdentifier = "InternalNewsOverviewViewModel";
 
   InternalNewsService get _internalNewsService =>
       locator.get<InternalNewsService>();
@@ -220,7 +220,7 @@ class InternalNewsOverviewViewModel
   Future<void> removeItems(List<InternalNews> selectedToDelete) async {
     for (var i = 0; i < selectedToDelete.length; i++) {
       removeInternalNews(selectedToDelete[i]);
-      data.remove(selectedToDelete[i]);
+      data?.remove(selectedToDelete[i]);
     }
   }
 }

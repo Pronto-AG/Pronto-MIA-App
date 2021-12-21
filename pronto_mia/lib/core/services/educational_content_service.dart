@@ -8,6 +8,10 @@ import 'package:pronto_mia/core/models/educational_content.dart';
 import 'package:pronto_mia/core/models/simple_file.dart';
 import 'package:pronto_mia/core/queries/educational_content_queries.dart';
 import 'package:pronto_mia/core/services/graphql_service.dart';
+import 'package:pronto_mia/core/services/pdf_service.dart';
+import 'package:pronto_mia/ui/views/educational_content/view/educational_content_view.dart';
+import 'package:pronto_mia/ui/views/pdf/pdf_view.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 /// A service, responsible for accessing educational content.
 ///
@@ -15,6 +19,8 @@ import 'package:pronto_mia/core/services/graphql_service.dart';
 class EducationalContentService with ChangeNotifier {
   Future<GraphQLService> get _graphQLService =>
       locator.getAsync<GraphQLService>();
+  NavigationService get _navigationService => locator.get<NavigationService>();
+  PdfService get _pdfService => locator.get<PdfService>();
 
   /// Gets the list of all educational content.
   ///
@@ -71,34 +77,34 @@ class EducationalContentService with ChangeNotifier {
     return educationalContent;
   }
 
-  /// Gets the video of an educational content.
-  ///
-  /// Returns a [Video] of an educational content.
-  Future<void> getEducationalContentVideo(
-    EducationalContent educationalContent,
-  ) async {
-    return;
-  }
-
   /// Creates a new educational content.
   ///
   /// Takes different attributes of an educational content as an input.
   Future<void> createEducationalContent(
     String title,
     String description,
-    SimpleFile videoFile,
+    SimpleFile file,
   ) async {
     final Map<String, dynamic> queryVariables = {
       'title': title,
       'description': description,
     };
 
-    queryVariables['file'] = http.MultipartFile.fromBytes(
-      'file',
-      videoFile.bytes,
-      filename: videoFile.name,
-      contentType: MediaType('video', 'mp4'),
-    );
+    if (file.name.split('.').last != 'pdf') {
+      queryVariables['file'] = http.MultipartFile.fromBytes(
+        'video',
+        file.bytes,
+        filename: file.name,
+        contentType: MediaType('video', 'mp4'),
+      );
+    } else {
+      queryVariables['file'] = http.MultipartFile.fromBytes(
+        'file',
+        file.bytes,
+        filename: file.name,
+        contentType: MediaType('application', 'pdf'),
+      );
+    }
 
     await (await _graphQLService).mutate(
       EducationalContentQueries.createEducationalContent,
@@ -111,24 +117,33 @@ class EducationalContentService with ChangeNotifier {
   /// Takes different attributes of the educational content
   /// to be updated as an input.
   Future<void> updateEducationalContent(
-    int id,
+    int id, {
     String title,
     String description,
-    SimpleFile video,
-  ) async {
+    SimpleFile file,
+  }) async {
     final Map<String, dynamic> queryVariables = {
       'id': id,
       'title': title,
       'description': description,
     };
 
-    if (video != null) {
-      queryVariables['file'] = http.MultipartFile.fromBytes(
-        'video',
-        video.bytes,
-        filename: video.name,
-        contentType: MediaType('video', 'mp4'),
-      );
+    if (file != null) {
+      if (file.name.split('.').last != 'pdf') {
+        queryVariables['file'] = http.MultipartFile.fromBytes(
+          'video',
+          file.bytes,
+          filename: file.name,
+          contentType: MediaType('video', 'mp4'),
+        );
+      } else {
+        queryVariables['file'] = http.MultipartFile.fromBytes(
+          'file',
+          file.bytes,
+          filename: file.name,
+          contentType: MediaType('application', 'pdf'),
+        );
+      }
     }
 
     await (await _graphQLService).mutate(
@@ -189,6 +204,38 @@ class EducationalContentService with ChangeNotifier {
     return educationalContent.title;
   }
 
+  /// Gets the file extension from an educational content.
+  ///
+  /// Takes the [EducationalContent] to get the file extension from as an input.
+  /// Returns a [String] representation of the file extension.
+  String getEducationalContentFileExtension(
+    EducationalContent educationalContent,
+  ) {
+    return educationalContent.link.split('.').last;
+  }
+
+  /// Opens a view, containing a pdf file from a [EducationalContent].
+  ///
+  /// Takes a [EducationalContent], containing a pdf file as an input.
+  Future<void> openPdf(EducationalContent educationalContent) async {
+    if (kIsWeb) {
+      final _pdfFile = await _pdfService.downloadPdf(educationalContent.link);
+      _pdfService.openPdfWeb(_pdfFile);
+    } else {
+      _navigationService.navigateWithTransition(
+        _getPdfView(educationalContent),
+        transition: NavigationTransition.LeftToRight,
+      );
+    }
+  }
+
+  PdfView _getPdfView(EducationalContent educationalContent) {
+    return PdfView(
+      pdfFile: educationalContent.link,
+      title: getEducationalContentTitle(educationalContent),
+    );
+  }
+
   /// Returns educational content based on a filter
   ///
   /// Takes the [String] name of the educational content
@@ -214,6 +261,10 @@ class EducationalContentService with ChangeNotifier {
   Future<void> openEducationalContent(
     EducationalContent educationalContent,
   ) async {
+    await _navigationService.navigateWithTransition(
+      EducationalContentView(educationalContent: educationalContent),
+      transition: NavigationTransition.LeftToRight,
+    );
     return;
   }
 

@@ -7,7 +7,7 @@ import 'package:pronto_mia/ui/views/settings/view/settings_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-/// A view model, providing functionality for [SettingsView].
+/// A view model, providing functionality for [SettingsOverviewView].
 class SettingsOverviewViewModel extends FutureViewModel<User> {
   static const contextIdentifier = 'ProfileViewModel';
   static const logoutActionKey = 'LogoutActionKey';
@@ -26,7 +26,7 @@ class SettingsOverviewViewModel extends FutureViewModel<User> {
   @override
   Future<User> futureToRun() => _getUser();
 
-  /// Initializes a new instance of [SettingsViewModel]
+  /// Initializes a new instance of [SettingsOverviewViewModel]
   ///
   /// Takes a[bool] wether the form should be displayed as a dialog or
   /// standalone as an input.

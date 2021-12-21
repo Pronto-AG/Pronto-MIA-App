@@ -34,7 +34,7 @@ class UserEditViewModel extends FormViewModel {
   AccessControlList _accessControlList =
       AccessControlList.copy(profiles['empty'].accessControlList);
 
-  /// Initializes a new instance of [DeploymentPlanEditViewModel]
+  /// Initializes a new instance of [UserEditViewModel]
   ///
   /// Takes the [User] to edit and a [bool] wether the form should be
   /// displayed as a dialog or standalone as an input.

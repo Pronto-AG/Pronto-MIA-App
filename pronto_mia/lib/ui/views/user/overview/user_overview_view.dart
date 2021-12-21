@@ -9,7 +9,7 @@ import 'package:pronto_mia/ui/views/user/overview/user_overview_viewmodel.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 
-/// A widget, representing the deployment plan overview.
+/// A widget, representing the user overview view.
 class UserOverviewView extends StatefulWidget {
   /// Initializes a new instance of [UserOverviewView].
   ///

@@ -113,7 +113,6 @@ class InternalNewsOverviewViewState extends State<InternalNewsOverviewView> {
     BuildContext context,
     InternalNewsOverviewViewModel model,
   ) {
-    // if (widget.adminModeEnabled) {
     return Column(
       children: [
         TextField(
@@ -149,18 +148,6 @@ class InternalNewsOverviewViewState extends State<InternalNewsOverviewView> {
         ),
       ],
     );
-    // } else {
-    //   return SingleChildScrollView(
-    //     child: Column(
-    //       children: [
-    //         if (filtered)
-    //           _buildList(context, model, filteredNews)
-    //         else
-    //           _buildList(context, model, model.data)
-    //       ],
-    //     ),
-    //   );
-    // }
   }
 
   Widget _buildList(

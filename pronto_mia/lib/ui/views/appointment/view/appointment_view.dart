@@ -69,7 +69,9 @@ class AppointmentViewState extends State<AppointmentView> {
                     mobile: false,
                     desktop: true,
                   ),
-                  selectedDate: _calendarController.selectedDate,
+                  selectedDate: _calendarController.selectedDate
+                          ?.add(const Duration(hours: 18)) ??
+                      DateTime.now(),
                 ),
               ),
           ],

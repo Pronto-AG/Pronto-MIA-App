@@ -196,5 +196,17 @@ void main() {
         ).called(1);
       });
     });
+
+    group('cancelForm', () {
+      test('replaces view', () async {
+        final navigationService = getAndRegisterMockNavigationService();
+        internalNewsEditViewModel.cancelForm();
+        verify(
+          navigationService.replaceWithTransition(
+            argThat(anything),
+          ),
+        ).called(1);
+      });
+    });
   });
 }

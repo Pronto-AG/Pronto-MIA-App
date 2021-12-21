@@ -87,6 +87,39 @@ void main() {
         ).called(1);
       });
 
+      group('getEducationalContentFileExtension', () {
+        test('calls service', () {
+          final educationalContentService =
+              getAndRegisterMockEducationalContentService();
+          educationalContentOverviewViewModel
+              .getEducationalContentFileExtension(EducationalContent(
+                  title: "test",
+                  description: 'test',
+                  link: "https://localhost/test.mp4"));
+          verify(
+            educationalContentService.getEducationalContentFileExtension(
+              argThat(anything),
+            ),
+          ).called(1);
+        });
+      });
+
+      group('openPdf', () {
+        test('opens a view containing a pdf', () {
+          final educationalContentService =
+              getAndRegisterMockEducationalContentService();
+          educationalContentOverviewViewModel.openPdf(EducationalContent(
+              title: "test",
+              description: 'test',
+              link: "https://localhost/test.mp4"));
+          verify(
+            educationalContentService.openPdf(
+              argThat(anything),
+            ),
+          ).called(1);
+        });
+      });
+
       test('opens form as standalone with data change', () async {
         final navigationService = getAndRegisterMockNavigationService();
         final educationalContentService =

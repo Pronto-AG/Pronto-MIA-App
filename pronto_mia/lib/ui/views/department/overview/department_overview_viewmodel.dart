@@ -107,7 +107,7 @@ class DepartmentOverviewViewModel extends FutureViewModel<List<Department>> {
   Future<void> removeItems(List<Department> selectedToDelete) async {
     for (var i = 0; i < selectedToDelete.length; i++) {
       removeDepartment(selectedToDelete[i]);
-      data.remove(selectedToDelete[i]);
+      data?.remove(selectedToDelete[i]);
     }
   }
 }

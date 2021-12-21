@@ -105,5 +105,17 @@ void main() {
         verify(dialogService.completeDialog(argThat(anything)));
       });
     });
+
+    group('cancelForm', () {
+      test('replaces view', () async {
+        final navigationService = getAndRegisterMockNavigationService();
+        departmentEditViewModel.cancelForm();
+        verify(
+          navigationService.replaceWithTransition(
+            argThat(anything),
+          ),
+        ).called(1);
+      });
+    });
   });
 }

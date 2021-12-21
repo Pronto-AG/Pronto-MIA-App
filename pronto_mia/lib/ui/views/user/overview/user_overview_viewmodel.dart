@@ -111,7 +111,7 @@ class UserOverviewViewModel extends FutureViewModel<List<User>> {
   Future<void> removeItems(List<User> selectedToDelete) async {
     for (var i = 0; i < selectedToDelete.length; i++) {
       removeUser(selectedToDelete[i]);
-      data.remove(selectedToDelete[i]);
+      data?.remove(selectedToDelete[i]);
     }
   }
 }

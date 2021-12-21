@@ -152,6 +152,28 @@ void main() {
       });
     });
 
+    group('removeItems', () {
+      test('removes more than one user', () async {
+        final userService = getAndRegisterMockUserService();
+
+        await userOverviewViewModel.removeItems(
+          <User>[
+            User(
+              id: 1,
+            ),
+            User(
+              id: 2,
+            ),
+          ],
+        );
+        verify(
+          userService.removeUser(
+            argThat(anything),
+          ),
+        ).called(2);
+      });
+    });
+
     group('filterUsers', () {
       test('filters users', () async {
         final userService = getAndRegisterMockUserService();

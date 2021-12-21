@@ -12,7 +12,6 @@ import 'package:stacked_services/stacked_services.dart';
 class EducationalContentOverviewViewModel
     extends FutureViewModel<List<EducationalContent>> {
   static String contextIdentifier = "EducationalContentOverviewViewModel";
-  // static const removeActionKey = 'RemoveActionKey';
 
   EducationalContentService get _educationalContentService =>
       locator.get<EducationalContentService>();

@@ -150,19 +150,6 @@ class EducationalContentOverviewViewState
         ),
       ],
     );
-    // }
-    // } else {
-    //   return SingleChildScrollView(
-    //     child: Column(
-    //       children: [
-    //         if (filtered)
-    //           _buildList(context, model, filteredNews)
-    //         else
-    //           _buildList(context, model, model.data)
-    //       ],
-    //     ),
-    //   );
-    // }
   }
 
   Widget _buildList(

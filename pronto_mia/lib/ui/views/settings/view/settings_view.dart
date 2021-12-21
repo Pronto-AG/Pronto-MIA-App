@@ -12,7 +12,7 @@ class SettingsView extends StatelessWidget with $SettingsView {
   final _formKey = GlobalKey<FormState>();
   final bool isDialog;
 
-  /// Initializes a new instance of [DeploymentPlanEditView].
+  /// Initializes a new instance of [UserSettingsView].
   ///
   /// Takes a [Key] to uniquely identify the widget in the widget tree and a
   /// [bool] wether to open it as a dialog or standalone as an input.

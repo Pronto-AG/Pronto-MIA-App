@@ -9,13 +9,13 @@ import 'package:pronto_mia/ui/views/settings/view/settings_viewmodel.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 
-/// A widget, representing the settings view with options to logout and change
-/// the users password.
+/// A widget, representing the settings overview view with options to logout
+/// and change the users password.
 class SettingsOverviewView extends StatelessWidget with $SettingsView {
   final _formKey = GlobalKey<FormState>();
   final bool isDialog;
 
-  /// Initializes a new instance of [DeploymentPlanEditView].
+  /// Initializes a new instance of [SettingsOverviewView].
   ///
   /// Takes a [Key] to uniquely identify the widget in the widget tree and a
   /// [bool] wether to open it as a dialog or standalone as an input.

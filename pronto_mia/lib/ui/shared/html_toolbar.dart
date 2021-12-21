@@ -1,5 +1,6 @@
 import 'package:html_editor_enhanced/html_editor.dart';
 
+/// Groups all htmlToolbarSettings together.
 HtmlToolbarOptions htmlToolbarSettings() => const HtmlToolbarOptions(
       dropdownMenuMaxHeight: 300,
       defaultToolbarButtons: [

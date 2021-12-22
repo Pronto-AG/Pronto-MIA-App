@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pronto_mia/core/models/educational_content.dart';
 import 'package:pronto_mia/ui/components/data_view_layout.dart';

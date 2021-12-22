@@ -8,7 +8,7 @@ import 'package:stacked/stacked.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// A widget, representing the news.
-class ExternalNewsView extends StatelessWidget {
+class ExternalNewsView extends StatefulWidget {
   final bool adminModeEnabled;
   final ExternalNews externalNews;
 
@@ -22,6 +22,13 @@ class ExternalNewsView extends StatelessWidget {
     this.adminModeEnabled = false,
   }) : super(key: key);
 
+  @override
+  ExternalNewsViewState createState() => ExternalNewsViewState();
+}
+
+class ExternalNewsViewState extends State<ExternalNewsView> {
+  final _scrollController = ScrollController();
+
   /// Binds [ExternalNewsView] and builds the widget.
   ///
   /// Takes the current [BuildContext] as an input.
@@ -30,7 +37,7 @@ class ExternalNewsView extends StatelessWidget {
   Widget build(BuildContext context) =>
       ViewModelBuilder<ExternalNewsViewModel>.reactive(
         viewModelBuilder: () =>
-            ExternalNewsViewModel(externalNews: externalNews),
+            ExternalNewsViewModel(externalNews: widget.externalNews),
         builder: (context, model, child) {
           return _buildDataView(model);
         },
@@ -45,16 +52,16 @@ class ExternalNewsView extends StatelessWidget {
       );
 
   Widget _buildTitle() {
-    if (externalNews != null) {
+    if (widget.externalNews != null) {
       return Container(
         padding: const EdgeInsets.all(16.0),
         child: Text(
-          externalNews.title,
+          widget.externalNews.title,
           style: const TextStyle(fontSize: 20.0),
         ),
       );
     } else {
-      return Text(externalNews.title);
+      return Text(widget.externalNews.title);
     }
   }
 
@@ -66,7 +73,7 @@ class ExternalNewsView extends StatelessWidget {
           Expanded(
             flex: 5,
             child: FutureBuilder(
-              future: model.getExternalNewsImage(externalNews),
+              future: model.getExternalNewsImage(widget.externalNews),
               builder: (BuildContext context, AsyncSnapshot<Image> image) {
                 if (image.hasData) {
                   return image.data;
@@ -80,18 +87,21 @@ class ExternalNewsView extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                model.getExternalNewsDate(externalNews),
+                model.getExternalNewsDate(widget.externalNews),
                 style: const TextStyle(fontStyle: FontStyle.italic),
               ),
             ),
           ),
           Expanded(
             flex: 4,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
-              child: Html(
-                data: externalNews.description,
-                onLinkTap: (url, context, attributes, element) => launch(url),
+            child: SingleChildScrollView(
+              controller: _scrollController,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+                child: Html(
+                  data: widget.externalNews.description,
+                  onLinkTap: (url, context, attributes, element) => launch(url),
+                ),
               ),
             ),
           ),

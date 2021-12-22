@@ -32,6 +32,7 @@ class _EducationalContentViewState extends State<EducationalContentView> {
   VideoPlayerController _controller;
   ChewieController chewieController;
   Future<void> _initializeVideoPlayerFuture;
+  final _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -117,11 +118,14 @@ class _EducationalContentViewState extends State<EducationalContentView> {
           ),
           Expanded(
             flex: 4,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Html(
-                data: widget.educationalContent.description,
-                onLinkTap: (url, context, attributes, element) => launch(url),
+            child: SingleChildScrollView(
+              controller: _scrollController,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Html(
+                  data: widget.educationalContent.description,
+                  onLinkTap: (url, context, attributes, element) => launch(url),
+                ),
               ),
             ),
           ),

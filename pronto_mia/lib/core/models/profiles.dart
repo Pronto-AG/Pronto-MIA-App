@@ -42,7 +42,7 @@ final profiles = {
     ),
   ),
   'cleaner': Profile(
-    description: 'Reinigungskraft',
+    description: 'Mitarbeiter',
     accessControlList: AccessControlList(
       canViewDepartmentDeploymentPlans: true,
       canViewOwnDepartment: true,
